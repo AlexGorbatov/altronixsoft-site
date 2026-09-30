@@ -8,14 +8,14 @@ import { ProjectVisual } from "./ProjectVisual";
 
 function ProjectFacts({ project }: { project: CommercialProject }) {
   const facts = [
-    ["Role", project.role],
+    ["Our contribution", project.contribution],
     ["Environment", project.environment],
     ["Focus", project.focus],
   ];
   return (
     <dl className="mt-5 grid gap-[10px] border-t border-line pt-4 text-[13px]">
       {facts.map(([term, detail]) => (
-        <div key={term} className="grid grid-cols-[86px_1fr] gap-3">
+        <div key={term} className="grid grid-cols-[128px_1fr] gap-3">
           <dt className="font-mono text-[11px] leading-[1.7] font-medium tracking-[0.1em] text-[#8492a8] uppercase">
             {term}
           </dt>
@@ -32,8 +32,8 @@ export function SelectedWork() {
       <SectionHeading
         id="work-title"
         eyebrow="Selected work"
-        title="Enterprise delivery. AI reference builds."
-        description="Commercial delivery experience in complex business systems, plus internal reference solutions for modern AI patterns."
+        title="Delivery experience. Reference builds."
+        description="Commercial delivery experience in complex business systems, plus internal reference solutions for modern engineering and AI patterns."
       />
 
       <CardRow label="Commercial project experience">

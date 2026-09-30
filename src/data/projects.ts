@@ -7,14 +7,14 @@ export interface CommercialProject {
   /** Shown as the mono label above the title. */
   category: string;
   description: string;
-  role: string;
+  contribution: string;
   environment: string;
   focus: string;
 }
 
 /**
  * Commercial delivery experience. Presented anonymously — no client names,
- * no invented metrics. Confirm role / environment wording before launch.
+ * no invented metrics. Confirm contribution / environment wording before launch.
  */
 export const commercialProjects: CommercialProject[] = [
   {
@@ -22,7 +22,7 @@ export const commercialProjects: CommercialProject[] = [
     visual: "commerce",
     category: "Client work · E-commerce",
     description: "Large-scale commerce backend, production support and complex integrations.",
-    role: "Backend & integration engineering",
+    contribution: "Backend & integration engineering",
     environment: "Java, Spring, enterprise APIs",
     focus: "Reliability and integrations in production",
   },
@@ -31,7 +31,7 @@ export const commercialProjects: CommercialProject[] = [
     visual: "data",
     category: "Client work · Product data",
     description: "Centralized product information, integrations and enterprise workflows.",
-    role: "Backend & integration engineering",
+    contribution: "Backend & integration engineering",
     environment: "Java, Spring, enterprise APIs",
     focus: "Data flows and workflow integrity",
   },
@@ -40,7 +40,7 @@ export const commercialProjects: CommercialProject[] = [
     visual: "logistics",
     category: "Client work · Logistics",
     description: "Backend systems for logistics workflows, APIs and day-to-day operations.",
-    role: "Backend engineering",
+    contribution: "Backend engineering",
     environment: "Java, Spring, cloud",
     focus: "Operational workflows and API design",
   },
@@ -54,7 +54,7 @@ export interface LabsProject {
 export const labs = {
   name: "Altronix Labs",
   description:
-    "Altronix Labs is used to validate architecture, integration patterns and emerging AI capabilities hands-on.",
+    "Altronix Labs is where we validate architecture, integration patterns and emerging technologies, AI included, hands-on.",
   note: "Internal reference implementations — not customer case studies.",
   projects: [
     { title: "Enterprise Knowledge Assistant", tag: "RAG" },

@@ -14,7 +14,7 @@ export function Services() {
       <SectionHeading
         id="services-title"
         eyebrow="Services"
-        title="AI, custom software, modernization."
+        title="Custom software, modernization, AI."
         description="We start with the business problem, then choose the simplest technology that can solve it reliably."
       />
 

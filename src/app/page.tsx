@@ -1,6 +1,8 @@
 import { Company } from "@/components/home/Company";
+import { EngagementModels } from "@/components/home/EngagementModels";
 import { FinalCTA } from "@/components/home/FinalCTA";
 import { Hero } from "@/components/home/Hero";
+import { Industries } from "@/components/home/Industries";
 import { ProcessJourney } from "@/components/home/ProcessJourney";
 import { SelectedWork } from "@/components/home/SelectedWork";
 import { Services } from "@/components/home/Services";
@@ -13,8 +15,10 @@ export default function HomePage() {
       <Hero />
       <TrustStrip />
       <Services />
+      <Industries />
       <SelectedWork />
       <ProcessJourney />
+      <EngagementModels />
       <Company />
       <FinalCTA />
       <JsonLd />

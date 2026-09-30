@@ -9,22 +9,8 @@ export interface Service {
 
 export const services: Service[] = [
   {
-    id: "ai",
-    number: "01",
-    title: "AI Solutions & Automation",
-    description: "Practical AI integrated into real workflows and business systems.",
-    capabilities: [
-      "AI Agents",
-      "RAG & Knowledge Systems",
-      "Document Automation",
-      "Workflow Automation",
-      "LLM Integrations",
-    ],
-    cta: { label: "Discuss AI solutions", subject: "AI solutions" },
-  },
-  {
     id: "software",
-    number: "02",
+    number: "01",
     title: "Custom Software Development",
     description: "Reliable software built around real business processes.",
     capabilities: [
@@ -39,7 +25,7 @@ export const services: Service[] = [
   },
   {
     id: "modernization",
-    number: "03",
+    number: "02",
     title: "Modernization & Integrations",
     description: "Improve existing systems without unnecessary rewrites.",
     capabilities: [
@@ -50,6 +36,20 @@ export const services: Service[] = [
       "AI enablement",
     ],
     cta: { label: "Discuss modernization", subject: "Modernization" },
+  },
+  {
+    id: "ai",
+    number: "03",
+    title: "AI Solutions & Automation",
+    description: "Practical AI integrated into real workflows and business systems.",
+    capabilities: [
+      "AI Agents",
+      "RAG & Knowledge Systems",
+      "Document Automation",
+      "Workflow Automation",
+      "LLM Integrations",
+    ],
+    cta: { label: "Discuss AI solutions", subject: "AI solutions" },
   },
 ];
 

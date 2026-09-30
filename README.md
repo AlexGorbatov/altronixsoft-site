@@ -10,9 +10,9 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
-**The corporate website of [Altronix Software](https://altronixsoft.com) — a focused, senior-led engineering studio.**
+**The corporate website of [Altronix Software](https://altronixsoft.com) — an engineering partner for custom software, integrations and practical AI.**
 <br />
-AI solutions & automation · custom software · modernization & integrations.
+Custom software · modernization & integrations · AI solutions & automation.
 
 [Screens](#-screens) · [Highlights](#-highlights) · [Design system](#-design-system) · [Stack](#-stack) · [Structure](#-project-structure) · [Getting started](#-getting-started) · [Before launch](#-before-launch)
 
@@ -31,7 +31,7 @@ AI solutions & automation · custom software · modernization & integrations.
 
 <div align="center">
   <img src="docs/screenshots/services.jpg" alt="Three service areas and compact AI use cases" width="100%" />
-  <sub><b>Services</b> — AI, custom software and modernization, with a deliberately quiet AI use-case strip.</sub>
+  <sub><b>Services</b> — custom software, modernization and AI, with a deliberately quiet AI use-case strip.</sub>
 </div>
 
 <br />
@@ -55,7 +55,7 @@ AI solutions & automation · custom software · modernization & integrations.
 
 - **Scroll-driven process journey.** A sticky section where scroll position drives four phases — *Understand → Design → Build & prove → Launch & improve*. The progress line (blue → cyan → violet), the phase states and the workflow map all follow one value, so scrolling back up reverses everything naturally. Isolated in a single component: [`ProcessJourney.tsx`](src/components/home/ProcessJourney.tsx).
 - **Enterprise-architecture hero visual.** Animated connectors, staggered node reveals, status pulses and a barely-there pointer tilt — restrained on purpose.
-- **Commercial work and Labs kept apart.** Anonymous client projects (role · environment · focus) versus a clearly labelled *Altronix Labs* block. No invented customers, metrics or testimonials.
+- **Commercial work and Labs kept apart.** Anonymous client projects (contribution · environment · focus) versus a clearly labelled *Altronix Labs* block. No invented customers, metrics or testimonials.
 - **Premium but quiet motion.** Section reveals, pointer-following card glow, a subtle capability marquee, and a slight parallax on the large background glows only. Everything respects `prefers-reduced-motion`.
 - **Built for every screen.** Desktop, laptop-height viewports (the process section adapts so nothing is clipped), tablet, and phone — with horizontal snap-scrolling rows instead of endless card stacks.
 - **Accessible by default.** Semantic landmarks, a keyboard-operable mobile drawer (focus trap, `Esc`, focus return), visible focus rings, `aria-current` on the active phase, skip link, 44px tap targets.
@@ -102,13 +102,13 @@ src/
 ├─ app/                    layout, page, metadata, robots, sitemap, icon / apple-icon / opengraph-image, globals.css (tokens)
 ├─ components/
 │  ├─ layout/              Header (sticky + accessible drawer), Footer, Logo
-│  ├─ home/                Hero, TrustStrip, Services, AiUseCases, SelectedWork,
-│  │                       ProcessJourney, Company, FinalCTA
+│  ├─ home/                Hero, TrustStrip, Services, AiUseCases, Industries, SelectedWork,
+│  │                       ProcessJourney, EngagementModels, Company, FinalCTA
 │  ├─ ui/                  Button, Container, Section, SectionHeading, Tag,
-│  │                       AnimatedReveal, SpotlightCard, CardRow, ImagePlaceholder
+│  │                       AnimatedReveal, SpotlightCard, CardRow
 │  └─ JsonLd.tsx           structured data
 ├─ data/                   all copy & content as typed arrays
-│                          (services, projects, process, company, navigation, site)
+│                          (services, industries, projects, process, engagement, company, navigation, site)
 └─ lib/utils.ts
 docs/                      README assets (banner, logo, screenshots)
 reference/                 the approved HTML prototype, kept for visual comparison
@@ -136,8 +136,7 @@ Requires Node.js 20+.
 ## ✅ Before launch
 
 - [ ] Set `NEXT_PUBLIC_SITE_URL` (canonical / Open Graph base — defaults to `https://altronixsoft.com`).
-- [ ] Add the founder photo: pass `src` to `<ImagePlaceholder>` in [`Company.tsx`](src/components/home/Company.tsx) and drop the file into `public/`.
-- [ ] Confirm the role / environment / focus wording of the commercial projects in [`src/data/projects.ts`](src/data/projects.ts).
+- [ ] Confirm the contribution / environment / focus wording of the commercial projects in [`src/data/projects.ts`](src/data/projects.ts).
 
 All calls to action are `mailto:` links to `info@altronixsoft.com` until a contact backend exists.
 

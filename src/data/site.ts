@@ -2,18 +2,15 @@ export const siteConfig = {
   name: "Altronix Software",
   legalName: "Altronixsoft OÜ",
   tagline: "Practical AI. Serious engineering.",
-  title: "Altronix Software — Practical AI & Software Engineering",
+  title: "Altronix Software — Software Engineering & Practical AI",
   description:
-    "Altronix Software builds practical AI solutions, reliable custom software and modern integrations for real business systems.",
+    "Altronix Software designs and builds custom software, modern integrations and practical AI solutions for real business systems.",
   // Canonical placeholder — replace once the production domain is confirmed.
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://altronixsoft.com",
   email: "info@altronixsoft.com",
+  // Used only for structured data (JSON-LD); not shown on the page.
   founder: {
     name: "Oleksandr Gorbatov",
-    role: "Founder, Altronix Software",
-    // Drop the photo into /public and set the path, e.g. "/team/oleksandr.jpg".
-    // While undefined, a neutral monogram placeholder is shown.
-    photo: undefined as string | undefined,
   },
 } as const;
 

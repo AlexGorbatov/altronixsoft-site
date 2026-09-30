@@ -1,8 +1,7 @@
-import { principles } from "@/data/company";
-import { siteConfig } from "@/data/site";
+import { principles, teamModel } from "@/data/company";
 import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
-import { ImagePlaceholder } from "@/components/ui/ImagePlaceholder";
 import { Section } from "@/components/ui/Section";
+import { Tag } from "@/components/ui/Tag";
 
 export function Company() {
   return (
@@ -15,30 +14,34 @@ export function Company() {
               id="company-title"
               className="mt-[14px] mb-[18px] text-[34px] leading-[1.08] font-bold tracking-[-0.045em] sm:text-[40px]"
             >
-              Senior-led. Focused by design.
+              Senior engineers. Focused by design.
             </h2>
             <p className="text-[15px] leading-[1.72] text-muted">
-              Altronix Software is a focused engineering studio. We stay close to architecture,
-              implementation and client decisions, bringing in trusted specialists when a project
-              requires additional expertise.
+              Altronix Software is an engineering company built around a small senior core team. We own
+              architecture, implementation and client decisions, and bring in trusted specialists when a
+              project requires additional expertise.
             </p>
             <p className="mt-4 text-[15px] leading-[1.72] text-ink">
               Clients work directly with the people responsible for the result.
             </p>
 
-            <figure className="mt-7 flex items-start gap-4 border-t border-line pt-6">
-              <ImagePlaceholder src={siteConfig.founder.photo} alt={siteConfig.founder.name} initials="OG" />
-              <div>
-                <blockquote className="text-sm leading-[1.65] text-[#9ba8bb]">
-                  I&apos;ve spent 16+ years building enterprise software, integrations and backend
-                  systems. Today I apply that experience to modern software and practical AI solutions.
-                </blockquote>
-                <figcaption className="mt-3 text-[13px]">
-                  <strong className="font-bold text-white">{siteConfig.founder.name}</strong>
-                  <span className="text-subtle"> · {siteConfig.founder.role}</span>
-                </figcaption>
-              </div>
-            </figure>
+            <dl className="mt-7 grid gap-5 border-t border-line pt-6">
+              {teamModel.map((group) => (
+                <div key={group.title}>
+                  <dt className="text-[15px] font-bold text-white">{group.title}</dt>
+                  <dd className="mt-1 text-[13px] leading-[1.6] text-[#9ba8bb]">{group.description}</dd>
+                  <dd>
+                    <ul className="mt-3 flex flex-wrap gap-[7px]" aria-label={`${group.title} roles`}>
+                      {group.roles.map((role) => (
+                        <li key={role}>
+                          <Tag>{role}</Tag>
+                        </li>
+                      ))}
+                    </ul>
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
           <ol className="relative z-[1] grid content-start gap-3">

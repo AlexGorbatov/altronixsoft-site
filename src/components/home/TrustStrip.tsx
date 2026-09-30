@@ -8,7 +8,7 @@ export function TrustStrip() {
     <section aria-label="Experience and technologies" className="overflow-hidden border-b border-line bg-[#0a1324]">
       <Container className="flex flex-col items-start gap-[18px] py-6 lg:h-[88px] lg:flex-row lg:items-center lg:gap-[34px] lg:py-0">
         <p className="min-w-max text-[15px] font-extrabold">
-          <span className="text-[#8de6f1]">16+ years</span> of enterprise engineering
+          <span className="text-[#8de6f1]">Enterprise-grade</span> engineering
         </p>
         <div className="w-full flex-1 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_7%,#000_93%,transparent)]">
           <ul className="flex w-max animate-[marquee_26s_linear_infinite] gap-[18px]">
