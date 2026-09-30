@@ -27,8 +27,7 @@ export function Company() {
             </p>
 
             <figure className="mt-7 flex items-start gap-4 border-t border-line pt-6">
-              {/* Replace with a real photo: <ImagePlaceholder src="/team/oleksandr.jpg" … /> */}
-              <ImagePlaceholder alt={siteConfig.founder.name} initials="OG" />
+              <ImagePlaceholder src={siteConfig.founder.photo} alt={siteConfig.founder.name} initials="OG" />
               <div>
                 <blockquote className="text-sm leading-[1.65] text-[#9ba8bb]">
                   I&apos;ve spent 16+ years building enterprise software, integrations and backend

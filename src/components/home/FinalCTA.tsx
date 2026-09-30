@@ -1,6 +1,7 @@
-import { CONTACT_HREF, mailto } from "@/data/site";
+import { CONTACT_HREF, mailto, siteConfig } from "@/data/site";
 import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
 import { Button } from "@/components/ui/Button";
+import { CopyEmail } from "@/components/ui/CopyEmail";
 import { Section } from "@/components/ui/Section";
 
 export function FinalCTA() {
@@ -22,13 +23,18 @@ export function FinalCTA() {
               Bring us a workflow, system or product challenge. We&apos;ll help you find the smallest
               sensible path from problem to production.
             </p>
-            <div className="flex flex-wrap gap-[10px]">
-              <Button href={CONTACT_HREF}>Discuss your project →</Button>
-              <Button href={mailto("Technical review")} variant="secondary">
+            <div className="flex max-w-[320px] flex-col gap-[10px]">
+              <Button href={CONTACT_HREF} className="w-full">
+                Discuss your project →
+              </Button>
+              <Button href={mailto("Technical review")} variant="secondary" className="w-full">
                 Book a technical review
               </Button>
             </div>
-            <p className="mt-[14px] text-xs text-[#98a4b8]">
+            <p className="mt-5 text-sm text-[#b4bfd0]">
+              Or write directly: <CopyEmail email={siteConfig.email} />
+            </p>
+            <p className="mt-1 text-xs text-[#98a4b8]">
               Typical first steps: a Technical Review, then a focused Proof of Value.
             </p>
           </div>

@@ -23,6 +23,11 @@
   --violet-soft: #a98ef5;
   --success: #52d8ae;
 
+  /* Primary button gradient: white label stays >= 4.5:1 across the whole gradient
+     (#1a62dc = 5.5:1, #0f7ba0 = 4.8:1). The brand cyan (#25c8dd) is only 2:1 with white. */
+  --btn-from: #1a62dc;
+  --btn-to: #0f7ba0;
+
   --container-max: 1200px;
   --header-h: 76px;
   --ease-out: cubic-bezier(0.2, 0.75, 0.2, 1);
@@ -76,6 +81,13 @@ body {
   outline: 2px solid var(--cyan);
   outline-offset: 3px;
   border-radius: 6px;
+}
+
+/* Avoid one-word last lines in headings */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
 }
 
 ::selection {
@@ -162,19 +174,11 @@ body {
   }
   .btn-primary {
     color: #fff;
-    background: linear-gradient(110deg, var(--blue), var(--cyan));
+    background: linear-gradient(110deg, var(--btn-from), var(--btn-to));
     box-shadow: 0 12px 34px rgba(22, 112, 239, 0.24);
   }
   .btn-primary:hover {
     box-shadow: 0 16px 42px rgba(22, 112, 239, 0.34);
-  }
-  .btn-primary::after {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    transform: translateX(-120%);
-    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.28), transparent);
-    animation: shine 5s ease-in-out infinite;
   }
   .btn-secondary {
     border-color: rgba(255, 255, 255, 0.16);
@@ -247,17 +251,6 @@ body {
   }
   .spotlight > * {
     position: relative;
-  }
-}
-
-@keyframes shine {
-  0%,
-  72% {
-    transform: translateX(-120%);
-  }
-  86%,
-  100% {
-    transform: translateX(120%);
   }
 }
 

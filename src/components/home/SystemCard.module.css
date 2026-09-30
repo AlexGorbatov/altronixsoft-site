@@ -113,8 +113,9 @@
   width: 54px;
   height: 54px;
   border-radius: 14px;
-  background: linear-gradient(135deg, var(--blue), var(--cyan));
+  background: linear-gradient(135deg, var(--btn-from), var(--btn-to));
   font-weight: 800;
+  color: #fff;
 }
 .core b {
   font-size: 15px;

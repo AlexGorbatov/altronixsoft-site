@@ -1,5 +1,9 @@
+export type ProjectVisual = "commerce" | "data" | "logistics";
+
 export interface CommercialProject {
   title: string;
+  /** Which abstract diagram is drawn on the card (no real screenshots or client data). */
+  visual: ProjectVisual;
   /** Shown as the mono label above the title. */
   category: string;
   description: string;
@@ -15,6 +19,7 @@ export interface CommercialProject {
 export const commercialProjects: CommercialProject[] = [
   {
     title: "Enterprise E-commerce Platform",
+    visual: "commerce",
     category: "Client work · E-commerce",
     description: "Large-scale commerce backend, production support and complex integrations.",
     role: "Backend & integration engineering",
@@ -23,6 +28,7 @@ export const commercialProjects: CommercialProject[] = [
   },
   {
     title: "Product Information Platform",
+    visual: "data",
     category: "Client work · Product data",
     description: "Centralized product information, integrations and enterprise workflows.",
     role: "Backend & integration engineering",
@@ -31,6 +37,7 @@ export const commercialProjects: CommercialProject[] = [
   },
   {
     title: "Logistics Operations Platform",
+    visual: "logistics",
     category: "Client work · Logistics",
     description: "Backend systems for logistics workflows, APIs and day-to-day operations.",
     role: "Backend engineering",

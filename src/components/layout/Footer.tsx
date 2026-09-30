@@ -1,6 +1,7 @@
 import { navigation } from "@/data/navigation";
-import { CONTACT_HREF, siteConfig } from "@/data/site";
+import { siteConfig } from "@/data/site";
 import { Container } from "@/components/ui/Container";
+import { CopyEmail } from "@/components/ui/CopyEmail";
 import { Logo } from "./Logo";
 
 export function Footer() {
@@ -17,12 +18,13 @@ export function Footer() {
                 {item.label}
               </a>
             ))}
-            <a href={CONTACT_HREF} className="inline-flex min-h-11 items-center transition-colors hover:text-white">
-              Contact
-            </a>
           </nav>
         </div>
-        <div className="mt-[26px] flex flex-col justify-between gap-2 border-t border-white/[.06] pt-5 text-xs text-[#6c798d] sm:flex-row sm:gap-5">
+        <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-white/[.06] pt-4 text-[13px] text-muted">
+          <span>Contact:</span>
+          <CopyEmail email={siteConfig.email} />
+        </div>
+        <div className="mt-2 flex flex-col justify-between gap-2 pt-3 text-xs text-subtle sm:flex-row sm:gap-5">
           <span>
             © {new Date().getFullYear()} {siteConfig.name} · {siteConfig.legalName}
           </span>

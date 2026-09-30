@@ -116,11 +116,8 @@
   position: relative;
   min-width: 0;
   padding: 14px 6px 0;
-  opacity: 0.42;
   transform: translateY(4px);
-  transition:
-    opacity 0.32s ease,
-    transform 0.35s var(--ease-out);
+  transition: transform 0.35s var(--ease-out);
 }
 .dot {
   position: absolute;
@@ -146,35 +143,50 @@
   color: #8291a7;
   transition: all 0.32s ease;
 }
+/* Upcoming phases: dimmed by colour so text stays >= 4.5:1 on the shell background. */
 .phase h3 {
   margin: 13px 0 6px;
   font-size: 17px;
   font-weight: 700;
   line-height: 1.25;
+  color: #8d9bb0;
+  transition: color 0.32s ease;
 }
 .phase p {
   margin: 0;
   font-size: 13px;
   line-height: 1.55;
-  color: #8a99ad;
+  color: #8291a7;
   transition: color 0.32s ease;
+}
+.phase .dot {
+  opacity: 0.7;
 }
 
 .completed {
-  opacity: 0.72;
   transform: none;
 }
+.completed h3 {
+  color: #c3cede;
+}
+.completed p {
+  color: #97a5b9;
+}
+.completed .kicker {
+  color: #9fb0c6;
+}
 .completed .dot {
+  opacity: 1;
   border-color: #2dd3ea;
   background: #2dd3ea;
   box-shadow: 0 0 0 5px rgba(45, 211, 234, 0.07);
 }
 
 .active {
-  opacity: 1;
   transform: translateY(-2px);
 }
 .active .dot {
+  opacity: 1;
   top: -31.5px;
   left: -1.5px;
   width: 16px;
@@ -300,7 +312,7 @@
 .coreArrow {
   text-align: center;
   font-size: 17px;
-  color: #5377aa;
+  color: #6f8fc8;
 }
 
 .outputZone {
@@ -345,19 +357,22 @@
   padding: 13px 16px;
   border: 1px solid rgba(116, 103, 241, 0.2);
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(44, 55, 104, 0.42), rgba(67, 46, 117, 0.35));
-  opacity: 0.38;
+  background: linear-gradient(135deg, rgba(44, 55, 104, 0.16), rgba(67, 46, 117, 0.14));
   transform: translateY(8px);
   transition: all 0.35s ease;
 }
+/* Before phase 4 the badge is "ghosted" through its box, not its text (text stays >= 4.5:1). */
 .badge b {
   display: block;
   margin-bottom: 3px;
   font-size: 12.5px;
+  color: #a3aec2;
+  transition: color 0.35s ease;
 }
 .badge span {
   font-size: 11px;
-  color: #9ba8bb;
+  color: #8d9ab0;
+  transition: color 0.35s ease;
 }
 
 .wires {
@@ -430,9 +445,15 @@
   border-color: rgba(72, 184, 255, 0.18);
   background: linear-gradient(145deg, rgba(36, 96, 168, 0.08), rgba(85, 63, 160, 0.08));
 }
+.scroll[data-active="3"] .badge b {
+  color: #fff;
+}
+.scroll[data-active="3"] .badge span {
+  color: #a9b5c8;
+}
 .scroll[data-active="3"] .badge {
-  opacity: 1;
   transform: none;
+  background: linear-gradient(135deg, rgba(44, 55, 104, 0.42), rgba(67, 46, 117, 0.35));
   border-color: rgba(116, 103, 241, 0.36);
   box-shadow: 0 14px 40px rgba(67, 46, 117, 0.18);
 }
@@ -466,15 +487,19 @@
   left: 50%;
   bottom: 22px;
   transform: translateX(-50%);
-  opacity: 0.28;
+  opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   transition:
     opacity 0.35s ease,
-    transform 0.35s ease;
+    transform 0.35s ease,
+    visibility 0s linear 0.35s;
 }
 .scroll[data-active="3"] .cta {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
+  transition-delay: 0s;
   transform: translateX(-50%) translateY(-3px);
 }
 .cta :global(.btn) {
@@ -512,7 +537,7 @@
   align-items: center;
   gap: 9px;
   font-size: 12px;
-  color: #7c8ba1;
+  color: #8493a9;
 }
 .hint i {
   width: 28px;
@@ -703,7 +728,7 @@
   }
   .kicker {
     min-height: 22px;
-    font-size: 10px;
+    font-size: 11px;
   }
   .phase h3 {
     display: inline-block;

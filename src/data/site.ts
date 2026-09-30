@@ -11,6 +11,9 @@ export const siteConfig = {
   founder: {
     name: "Oleksandr Gorbatov",
     role: "Founder, Altronix Software",
+    // Drop the photo into /public and set the path, e.g. "/team/oleksandr.jpg".
+    // While undefined, a neutral monogram placeholder is shown.
+    photo: undefined as string | undefined,
   },
 } as const;
 
