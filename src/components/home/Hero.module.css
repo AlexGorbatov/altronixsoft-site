@@ -3,7 +3,8 @@
   position: relative;
   display: flex;
   align-items: center;
-  min-height: 730px;
+  /* Hero + trust strip (89px) fill exactly one screen; never shorter than 640px. */
+  min-height: max(640px, calc(100svh - var(--header-h) - 89px));
   overflow: hidden;
   background:
     radial-gradient(800px 520px at 84% 12%, rgba(143, 93, 211, 0.3), transparent 68%),
@@ -80,16 +81,18 @@
   margin: 26px 0 24px;
   font-size: 72px;
   font-weight: 800;
-  line-height: 1.01;
+  line-height: 0.98;
   letter-spacing: -0.057em;
 }
+/* One light sweep on load, then the gradient rests (no perpetual motion on the biggest text). */
 .title span {
   background: linear-gradient(90deg, #fff 0%, #90e9f3 30%, #8cbcff 64%, #b29cf5 100%);
   background-size: 200% auto;
+  background-position: 35% 50%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: gradientShift 7s ease-in-out infinite alternate;
+  animation: gradientSweep 1.8s 0.45s var(--ease-out) both;
 }
 
 .lead {
@@ -135,9 +138,9 @@
     transform: none;
   }
 }
-@keyframes gradientShift {
-  from { background-position: 0 50%; }
-  to { background-position: 100% 50%; }
+@keyframes gradientSweep {
+  from { background-position: 100% 50%; }
+  to { background-position: 35% 50%; }
 }
 
 @media (max-width: 1023px) {

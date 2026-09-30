@@ -14,8 +14,8 @@ export function AiUseCases() {
         className="grid grid-cols-2 border-y border-line max-sm:-mr-4 max-sm:flex max-sm:snap-x max-sm:snap-mandatory max-sm:overflow-x-auto max-sm:pr-4 max-sm:[scrollbar-width:none] lg:grid-cols-[1.2fr_repeat(4,1fr)] [&::-webkit-scrollbar]:hidden"
       >
         <div className="col-span-2 border-b border-line py-6 pr-[18px] max-sm:min-w-[80vw] max-sm:border-b-0 max-sm:border-r lg:col-span-1 lg:border-r lg:border-b-0">
-          <div className="mono-label text-[#83dfe9]">AI use cases</div>
-          <h3 className="mt-[10px] text-base font-bold">Where AI can create practical value.</h3>
+          <div className="mono-label text-[#83dfe9]">Solutions</div>
+          <h3 className="mt-[10px] text-base font-bold">Where we apply AI.</h3>
         </div>
         {aiUseCases.map((useCase, i) => (
           <div

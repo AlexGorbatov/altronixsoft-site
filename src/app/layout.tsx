@@ -49,7 +49,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${manrope.variable} ${jetbrainsMono.variable}`}>
-      <body>
+      {/* Browser extensions (e.g. ColorZilla's cz-shortcut-listen) inject attributes onto <body>
+          before hydration; suppress only that element's attribute mismatch, not its children. */}
+      <body suppressHydrationWarning>
         {/* Reveal-on-scroll hides content until JS runs; keep it visible without JS. */}
         <noscript>
           <style>{`.reveal{opacity:1!important;transform:none!important}`}</style>

@@ -9,7 +9,16 @@ const sources = [
   { name: "APIs", detail: "integrations" },
 ];
 
-const controls = ["Business rules", "Human approval", "Actions", "Audit / monitoring"];
+/**
+ * The control chain a request passes through. Each step lights up in turn and the
+ * trace line below names what just happened — generic events only, no invented data.
+ */
+const controls = [
+  { name: "Business rules", trace: "rule check passed" },
+  { name: "Human approval", trace: "awaiting approval" },
+  { name: "Actions", trace: "action executed" },
+  { name: "Audit / monitoring", trace: "event written to audit log" },
+];
 
 const index = (i: number) => ({ "--i": i }) as CSSProperties;
 
@@ -30,7 +39,7 @@ export function SystemCard() {
           {sources.map((source, i) => (
             <div key={source.name} className={styles.source} style={index(i)}>
               <b>{source.name}</b>
-              {source.detail}
+              <span className={styles.detail}>{source.detail}</span>
             </div>
           ))}
         </div>
@@ -57,10 +66,20 @@ export function SystemCard() {
 
         <div className={styles.actions}>
           {controls.map((control, i) => (
-            <div key={control} className={styles.action} style={index(i)}>
+            <div key={control.name} className={styles.action} style={index(i)}>
               <i />
-              {control}
+              {control.name}
             </div>
+          ))}
+        </div>
+
+        {/* Decorative: the same steps are already listed above. */}
+        <div className={styles.log} aria-hidden="true">
+          <span className={styles.prompt}>›</span>
+          {controls.map((control, i) => (
+            <span key={control.name} className={styles.logLine} style={index(i)}>
+              {control.trace}
+            </span>
           ))}
         </div>
       </TiltCard>

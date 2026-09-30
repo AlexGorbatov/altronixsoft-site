@@ -24,3 +24,6 @@ export function mailto(subject?: string): string {
 }
 
 export const CONTACT_HREF = mailto("Project discussion");
+
+/** The single label for the primary action, used by every primary CTA. */
+export const CTA_LABEL = "Discuss your project →";

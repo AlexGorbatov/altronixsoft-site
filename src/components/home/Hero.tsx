@@ -1,15 +1,16 @@
-import { CONTACT_HREF } from "@/data/site";
+import { CONTACT_HREF, CTA_LABEL } from "@/data/site";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { HeroGlows } from "./HeroGlows";
 import { SystemCard } from "./SystemCard";
 import styles from "./Hero.module.css";
 
-const focusAreas = ["AI & automation", "Custom software", "Modernization & integrations"];
+// Facts that are already true elsewhere on the site; the services themselves are listed right below.
+const facts = ["Founder-led studio", "EU company · Estonia", "Direct access to the engineers"];
 
 export function Hero() {
   return (
-    <section className={styles.hero} aria-labelledby="hero-title">
+    <section id="hero" className={styles.hero} aria-labelledby="hero-title">
       <HeroGlows />
       <Container className={styles.grid}>
         <div className={styles.copy}>
@@ -24,16 +25,16 @@ export function Hero() {
             systems — with senior engineers accountable from architecture to production.
           </p>
           <div className={styles.actions}>
-            <Button href={CONTACT_HREF}>Discuss your project →</Button>
+            <Button href={CONTACT_HREF}>{CTA_LABEL}</Button>
             <Button href="#work" variant="secondary">
               View our work
             </Button>
           </div>
-          <ul className={styles.meta} aria-label="Focus areas">
-            {focusAreas.map((area) => (
-              <li key={area}>
+          <ul className={styles.meta} aria-label="About the studio">
+            {facts.map((fact) => (
+              <li key={fact}>
                 <i aria-hidden="true" />
-                {area}
+                {fact}
               </li>
             ))}
           </ul>

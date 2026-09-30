@@ -24,14 +24,14 @@ AI solutions & automation · custom software · modernization & integrations.
 
 <div align="center">
   <img src="docs/screenshots/hero.jpg" alt="Hero with the business-systems → AI layer → controlled actions architecture visual" width="100%" />
-  <sub><b>Hero</b> — business systems, an AI / automation layer, and controlled actions (rules · approval · actions · audit).</sub>
+  <sub><b>Hero</b> — business systems → AI / automation layer → controlled actions. The four controls light up in turn (rules · approval · action · audit) with a live trace line.</sub>
 </div>
 
 <br />
 
 <div align="center">
   <img src="docs/screenshots/services.jpg" alt="Three service areas and compact AI use cases" width="100%" />
-  <sub><b>Services</b> — three areas, one engineering standard, with a deliberately quiet AI use-case strip.</sub>
+  <sub><b>Services</b> — AI, custom software and modernization, with a deliberately quiet AI use-case strip.</sub>
 </div>
 
 <br />

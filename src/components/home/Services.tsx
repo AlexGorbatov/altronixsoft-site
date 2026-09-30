@@ -13,8 +13,8 @@ export function Services() {
     <Section id="services" tone="alt" labelledBy="services-title">
       <SectionHeading
         id="services-title"
-        eyebrow="What we do"
-        title="Three areas. One engineering standard."
+        eyebrow="Services"
+        title="AI, custom software, modernization."
         description="We start with the business problem, then choose the simplest technology that can solve it reliably."
       />
 

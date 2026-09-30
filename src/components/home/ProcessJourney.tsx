@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { processPhases } from "@/data/process";
-import { CONTACT_HREF } from "@/data/site";
+import { CONTACT_HREF, CTA_LABEL } from "@/data/site";
 import { clamp, cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -158,7 +158,7 @@ export function ProcessJourney() {
                 {/* Outside the aria-hidden map so it stays reachable; focusable only once revealed. */}
                 <div className={styles.cta} aria-hidden={!ctaVisible || undefined}>
                   <Button href={CONTACT_HREF} tabIndex={ctaVisible ? 0 : -1}>
-                    Discuss a project →
+                    {CTA_LABEL}
                   </Button>
                 </div>
               </div>

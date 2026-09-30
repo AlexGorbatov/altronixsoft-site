@@ -32,7 +32,7 @@ export function SelectedWork() {
       <SectionHeading
         id="work-title"
         eyebrow="Selected work"
-        title="Enterprise experience. Hands-on AI engineering."
+        title="Enterprise delivery. AI reference builds."
         description="Commercial delivery experience in complex business systems, plus internal reference solutions for modern AI patterns."
       />
 

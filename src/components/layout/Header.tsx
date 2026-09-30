@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { Menu, X } from "lucide-react";
 import { navigation } from "@/data/navigation";
-import { CONTACT_HREF } from "@/data/site";
+import { CONTACT_HREF, CTA_LABEL } from "@/data/site";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -13,6 +13,7 @@ const DRAWER_ID = "mobile-navigation";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [heroInView, setHeroInView] = useState(true);
   const [open, setOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -28,6 +29,17 @@ export function Header() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // While the hero (with its own primary CTA) is on screen, the header CTA steps back.
+  useEffect(() => {
+    const hero = document.getElementById("hero");
+    if (!hero) return;
+    const observer = new IntersectionObserver(([entry]) => setHeroInView(entry.isIntersecting), {
+      rootMargin: "-76px 0px 0px 0px",
+    });
+    observer.observe(hero);
+    return () => observer.disconnect();
   }, []);
 
   // Drawer: lock page scroll, close on Escape, close when the viewport grows to desktop.
@@ -93,8 +105,8 @@ export function Header() {
           ))}
         </nav>
 
-        <Button href={CONTACT_HREF} className="hidden lg:inline-flex">
-          Discuss a project →
+        <Button href={CONTACT_HREF} data-quiet={heroInView} className="hidden lg:inline-flex">
+          {CTA_LABEL}
         </Button>
 
         <button
@@ -129,7 +141,7 @@ export function Header() {
             </a>
           ))}
           <Button href={CONTACT_HREF} onClick={() => close(false)} className="mt-6 min-h-[52px] w-full">
-            Discuss a project →
+            {CTA_LABEL}
           </Button>
         </nav>
       </div>

@@ -20,7 +20,7 @@ export const services: Service[] = [
       "Workflow Automation",
       "LLM Integrations",
     ],
-    cta: { label: "Explore AI solutions", subject: "AI solutions" },
+    cta: { label: "Discuss AI solutions", subject: "AI solutions" },
   },
   {
     id: "software",
@@ -35,7 +35,7 @@ export const services: Service[] = [
       "Integrations",
       "MVP to production",
     ],
-    cta: { label: "Explore software development", subject: "Custom software" },
+    cta: { label: "Discuss software development", subject: "Custom software" },
   },
   {
     id: "modernization",
@@ -49,7 +49,7 @@ export const services: Service[] = [
       "API architecture",
       "AI enablement",
     ],
-    cta: { label: "Explore modernization", subject: "Modernization" },
+    cta: { label: "Discuss modernization", subject: "Modernization" },
   },
 ];
 
