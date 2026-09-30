@@ -2,8 +2,8 @@ import type { ProjectVisual as Variant } from "@/data/projects";
 
 const LINE = "#263957";
 const TILE = "#1a2b48";
-const CYAN = "#25c8dd";
-const VIOLET = "#a98ef5";
+const CYAN = "#22d6f4";
+const VIOLET = "#b79bfd";
 
 /** One abstract scene per project theme. Illustrative only — no real UI, data or client marks. */
 function Scene({ variant }: { variant: Variant }) {
@@ -84,7 +84,7 @@ export function ProjectVisual({ variant }: { variant: Variant }) {
   return (
     <div
       aria-hidden="true"
-      className="relative h-[180px] overflow-hidden bg-[linear-gradient(135deg,#111d35,#0c1426)] p-[18px] after:absolute after:-right-[70px] after:-bottom-20 after:size-[180px] after:animate-[float_8s_ease-in-out_infinite_alternate] after:rounded-full after:bg-[rgba(125,103,217,.16)] after:blur-[32px] after:content-['']"
+      className="relative h-[180px] overflow-hidden bg-[linear-gradient(135deg,#111d35,#0c1426)] p-[18px] after:absolute after:-right-[70px] after:-bottom-20 after:size-[180px] after:animate-[float_8s_ease-in-out_infinite_alternate] after:rounded-full after:bg-[rgba(139, 92, 246,.16)] after:blur-[32px] after:content-['']"
     >
       <div className="flex h-full flex-col rounded-xl border border-white/10 bg-[#101b31] p-[14px]">
         <div className="mb-3 flex gap-[6px]">

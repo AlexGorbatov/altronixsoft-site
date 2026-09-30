@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/banner.svg" alt="Altronix Software — Practical AI. Serious software engineering." width="100%" />
+<img src="docs/banner.svg" alt="Altronix Software — Practical AI. Serious engineering." width="100%" />
 
 <br />
 
@@ -99,7 +99,7 @@ Client components are limited to what genuinely needs the browser: `Header` (dra
 
 ```text
 src/
-├─ app/                    layout, page, metadata, robots, sitemap, icon, globals.css (tokens)
+├─ app/                    layout, page, metadata, robots, sitemap, icon / apple-icon / opengraph-image, globals.css (tokens)
 ├─ components/
 │  ├─ layout/              Header (sticky + accessible drawer), Footer, Logo
 │  ├─ home/                Hero, TrustStrip, Services, AiUseCases, SelectedWork,
@@ -138,14 +138,13 @@ Requires Node.js 20+.
 - [ ] Set `NEXT_PUBLIC_SITE_URL` (canonical / Open Graph base — defaults to `https://altronixsoft.com`).
 - [ ] Add the founder photo: pass `src` to `<ImagePlaceholder>` in [`Company.tsx`](src/components/home/Company.tsx) and drop the file into `public/`.
 - [ ] Confirm the role / environment / focus wording of the commercial projects in [`src/data/projects.ts`](src/data/projects.ts).
-- [ ] Optional: add an `opengraph-image` for richer link previews.
 
 All calls to action are `mailto:` links to `info@altronixsoft.com` until a contact backend exists.
 
 <br />
 
 <div align="center">
-  <img src="docs/logo.svg" alt="Altronix Software" width="88" />
+  <img src="docs/logo.svg" alt="Altronix Software" width="96" />
   <br />
-  <sub>© Altronixsoft OÜ · <i>Practical AI. Serious software engineering.</i></sub>
+  <sub>© Altronixsoft OÜ · <i>Practical AI. Serious engineering.</i></sub>
 </div>

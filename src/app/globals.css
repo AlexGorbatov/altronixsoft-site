@@ -16,17 +16,17 @@
 
   --border: rgba(255, 255, 255, 0.1);
 
-  --blue: #1670ef;
-  --cyan: #25c8dd;
+  --blue: #1a7cfb;
+  --cyan: #22d6f4;
   --indigo: #4548a8;
-  --violet: #7d67d9;
-  --violet-soft: #a98ef5;
+  --violet: #8b5cf6;
+  --violet-soft: #b79bfd;
   --success: #52d8ae;
 
   /* Primary button gradient: white label stays >= 4.5:1 across the whole gradient
-     (#1a62dc = 5.5:1, #0f7ba0 = 4.8:1). The brand cyan (#25c8dd) is only 2:1 with white. */
+     (#1a62dc = 5.5:1, #0f7ba0 = 4.8:1). The brand cyan (#22d6f4) is only 2:1 with white. */
   --btn-from: #1a62dc;
-  --btn-to: #0f7ba0;
+  --btn-to: #5a40e0;
 
   --container-max: 1200px;
   --header-h: 76px;
@@ -91,7 +91,7 @@ h3 {
 }
 
 ::selection {
-  background: rgba(37, 200, 221, 0.28);
+  background: rgba(34, 214, 244, 0.28);
 }
 
 /* --------------------------------------------------- shared components */
@@ -139,13 +139,13 @@ h3 {
   }
   .section-alt::before {
     background:
-      radial-gradient(720px 420px at 100% 8%, rgba(125, 103, 217, 0.14), transparent 68%),
+      radial-gradient(720px 420px at 100% 8%, rgba(139, 92, 246, 0.14), transparent 68%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.012), transparent);
   }
   .section-deep::before {
     background:
-      radial-gradient(760px 480px at 0% 30%, rgba(22, 112, 239, 0.1), transparent 70%),
-      radial-gradient(680px 400px at 96% 64%, rgba(125, 103, 217, 0.12), transparent 72%);
+      radial-gradient(760px 480px at 0% 30%, rgba(26, 124, 251, 0.1), transparent 70%),
+      radial-gradient(680px 400px at 96% 64%, rgba(139, 92, 246, 0.12), transparent 72%);
   }
 
   /* Buttons */
@@ -176,7 +176,7 @@ h3 {
   .btn-primary {
     color: #fff;
     background: rgba(255, 255, 255, 0);
-    box-shadow: 0 12px 34px rgba(22, 112, 239, 0.24);
+    box-shadow: 0 12px 34px rgba(26, 124, 251, 0.24);
   }
   /* The gradient lives on a layer so it can fade (gradients themselves don't transition). */
   .btn-primary::before {
@@ -188,7 +188,7 @@ h3 {
     transition: opacity 0.35s ease;
   }
   .btn-primary:hover {
-    box-shadow: 0 16px 42px rgba(22, 112, 239, 0.34);
+    box-shadow: 0 16px 42px rgba(26, 124, 251, 0.34);
   }
   /* "Quiet" state: one primary action per screen — the header CTA steps back while the hero's is visible. */
   .btn-primary[data-quiet="true"] {
@@ -261,7 +261,7 @@ h3 {
     pointer-events: none;
     background: radial-gradient(
       420px 220px at var(--mx, 100%) var(--my, 0%),
-      rgba(125, 103, 217, 0.16),
+      rgba(139, 92, 246, 0.16),
       transparent 70%
     );
     opacity: 0;

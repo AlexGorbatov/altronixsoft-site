@@ -33,7 +33,7 @@ export function ImagePlaceholder({ src, alt, initials, className }: ImagePlaceho
       aria-label={`${alt} (photo placeholder)`}
       className={cn(
         frame,
-        "grid place-items-center bg-[linear-gradient(135deg,rgba(22,112,239,.18),rgba(125,103,217,.22))]",
+        "grid place-items-center bg-[linear-gradient(135deg,rgba(26, 124, 251,.18),rgba(139, 92, 246,.22))]",
       )}
     >
       <span className="font-mono text-sm font-medium tracking-[0.08em] text-[#cfe9ff]">{initials}</span>

@@ -8,7 +8,7 @@ export function FinalCTA() {
   return (
     <Section id="contact" tone="alt" labelledBy="cta-title">
       <AnimatedReveal>
-        <div className="relative grid items-center gap-8 overflow-hidden rounded-3xl border border-white/[.12] bg-[radial-gradient(600px_300px_at_100%_0%,rgba(125,103,217,.22),transparent_70%),linear-gradient(120deg,#0d1b35,#161838_65%,#2d1f47)] p-[30px] sm:p-[42px] lg:grid-cols-[1.2fr_.8fr] lg:gap-12 lg:p-[60px]">
+        <div className="relative grid items-center gap-8 overflow-hidden rounded-3xl border border-white/[.12] bg-[radial-gradient(600px_300px_at_100%_0%,rgba(139, 92, 246,.22),transparent_70%),linear-gradient(120deg,#0d1b35,#161838_65%,#2d1f47)] p-[30px] sm:p-[42px] lg:grid-cols-[1.2fr_.8fr] lg:gap-12 lg:p-[60px]">
           <div>
             <div className="eyebrow">Contact</div>
             <h2

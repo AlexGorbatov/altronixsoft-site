@@ -39,7 +39,7 @@ export function SelectedWork() {
       <CardRow label="Commercial project experience">
         {commercialProjects.map((project, i) => (
           <AnimatedReveal key={project.title} delay={(i + 1) as 1 | 2 | 3} className={CARD_ITEM}>
-            <SpotlightCard className="flex h-full flex-col rounded-[18px] border border-line bg-[#0d182c] hover:border-[rgba(125,103,217,.34)]">
+            <SpotlightCard className="flex h-full flex-col rounded-[18px] border border-line bg-[#0d182c] hover:border-[rgba(139, 92, 246,.34)]">
               <ProjectVisual variant={project.visual} />
               <div className="flex flex-1 flex-col p-[22px]">
                 <div className="font-mono text-[11px] leading-[1.2] font-medium tracking-[0.1em] text-[#8492a8] uppercase">
@@ -56,11 +56,11 @@ export function SelectedWork() {
 
       {/* Labs: visually distinct from customer work — dashed border, cyan tint, explicit disclaimer. */}
       <AnimatedReveal className="relative z-[1] mt-[18px]">
-        <div className="grid gap-6 rounded-2xl border border-dashed border-[rgba(37,200,221,.3)] bg-[linear-gradient(110deg,rgba(22,112,239,.08),rgba(125,103,217,.08))] p-[22px] sm:p-7 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:gap-10">
+        <div className="grid gap-6 rounded-2xl border border-dashed border-[rgba(34, 214, 244,.3)] bg-[linear-gradient(110deg,rgba(26, 124, 251,.08),rgba(139, 92, 246,.08))] p-[22px] sm:p-7 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:gap-10">
           <div>
             <div className="flex flex-wrap items-center gap-3">
               <h3 className="text-base font-extrabold">{labs.name}</h3>
-              <span className="mono-label rounded-md border border-[rgba(37,200,221,.3)] px-2 py-[5px] text-[11px] text-[#8fdde8]">
+              <span className="mono-label rounded-md border border-[rgba(34, 214, 244,.3)] px-2 py-[5px] text-[11px] text-[#8fdde8]">
                 Internal · Not client work
               </span>
             </div>

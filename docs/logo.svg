@@ -1,11 +1,71 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 64" width="240" height="128" role="img" aria-label="Altronix Software logo">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="115 159 1042 902" width="231" height="200" role="img" aria-label="Altronix Software logo">
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#1368E8"/>
-      <stop offset="1" stop-color="#21C6D9"/>
-    </linearGradient>
+  <linearGradient id="gFadeX" gradientUnits="userSpaceOnUse" x1="400" y1="0" x2="600" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff"/></linearGradient>
+  <mask id="mRidge" maskUnits="userSpaceOnUse" x="115" y="159" width="1042" height="902"><rect x="115" y="159" width="1042" height="902" fill="url(#gFadeX)"/></mask>
+  <linearGradient id="gBack" gradientUnits="userSpaceOnUse" x1="500" y1="230" x2="180" y2="780">
+  <stop offset="0" stop-color="#42f2fc"/>
+  <stop offset=".45" stop-color="#2fbffb"/>
+  <stop offset=".75" stop-color="#1f98fb"/>
+  <stop offset="1" stop-color="#1078fb"/>
+  </linearGradient>
+  <linearGradient id="gBackR" gradientUnits="userSpaceOnUse" x1="600" y1="0" x2="860" y2="0">
+  <stop offset="0" stop-color="#1aa0fd" stop-opacity="0"/>
+  <stop offset="1" stop-color="#0c8ef7" stop-opacity=".95"/>
+  </linearGradient>
+  <linearGradient id="gRight" gradientUnits="userSpaceOnUse" x1="720" y1="305" x2="760" y2="520">
+  <stop offset="0" stop-color="#0553c6"/>
+  <stop offset=".45" stop-color="#1588fb"/>
+  <stop offset="1" stop-color="#3cb8fb"/>
+  </linearGradient>
+  <linearGradient id="gRightH" gradientUnits="userSpaceOnUse" x1="780" y1="560" x2="1100" y2="760">
+  <stop offset="0" stop-color="#3ab0fb" stop-opacity="0"/>
+  <stop offset=".5" stop-color="#3072fc" stop-opacity=".9"/>
+  <stop offset="1" stop-color="#3a4af8"/>
+  </linearGradient>
+  <linearGradient id="gStrip" gradientUnits="userSpaceOnUse" x1="610" y1="380" x2="330" y2="872">
+  <stop offset="0" stop-color="#2a5192"/>
+  <stop offset=".35" stop-color="#173f8e"/>
+  <stop offset=".7" stop-color="#0a37a3"/>
+  <stop offset="1" stop-color="#021545"/>
+  </linearGradient>
+  <linearGradient id="gWave" gradientUnits="userSpaceOnUse" x1="115" y1="0" x2="1130" y2="0">
+  <stop offset="0" stop-color="#55f2fb"/>
+  <stop offset=".133" stop-color="#42d9fc"/>
+  <stop offset=".231" stop-color="#34bbfb"/>
+  <stop offset=".33" stop-color="#2b95fc"/>
+  <stop offset=".43" stop-color="#296ffb"/>
+  <stop offset=".527" stop-color="#324ffb"/>
+  <stop offset=".675" stop-color="#4148fb"/>
+  <stop offset=".82" stop-color="#5a45fc"/>
+  <stop offset="1" stop-color="#6a40fd"/>
+  </linearGradient>
+  <linearGradient id="gRidge" gradientUnits="userSpaceOnUse" x1="650" y1="690" x2="740" y2="875">
+  <stop offset="0" stop-color="#5fb6fc" stop-opacity=".9"/>
+  <stop offset="1" stop-color="#5fb6fc" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="gStripShade" gradientUnits="userSpaceOnUse" x1="483" y1="600" x2="573" y2="652">
+  <stop offset="0" stop-color="#041440" stop-opacity="0"/>
+  <stop offset="1" stop-color="#041440" stop-opacity=".55"/>
+  </linearGradient>
+  <linearGradient id="gUnder" gradientUnits="userSpaceOnUse" x1="720" y1="870" x2="1060" y2="1040">
+  <stop offset="0" stop-color="#1c2b85"/>
+  <stop offset=".3" stop-color="#3037d0"/>
+  <stop offset=".6" stop-color="#4b36fa"/>
+  <stop offset="1" stop-color="#9327fb"/>
+  </linearGradient>
+  <linearGradient id="gShade" gradientUnits="userSpaceOnUse" x1="690" y1="900" x2="970" y2="960">
+  <stop offset="0" stop-color="#101c66" stop-opacity=".75"/>
+  <stop offset="1" stop-color="#101c66" stop-opacity="0"/>
+  </linearGradient>
   </defs>
-  <rect x="17.8" y="16.8" width="30.4" height="30.4" rx="2.4" transform="rotate(45 33 32)" fill="none" stroke="url(#g)" stroke-width="7.8"/>
-  <rect x="71.8" y="16.8" width="30.4" height="30.4" rx="2.4" transform="rotate(45 87 32)" fill="none" stroke="url(#g)" stroke-width="7.8"/>
-  <rect x="44.8" y="16.8" width="30.4" height="30.4" rx="2.4" transform="rotate(45 60 32)" fill="none" stroke="#21C6D9" stroke-width="7.8"/>
+  <path fill-rule="evenodd" fill="url(#gBack)" d="M500 232C535 180 585 160 640 160C700 160 752 185 782 232L1112 772L1125 815L690 900L590 985L300 1060C195 1060 115 985 115 890C115 850 135 815 160 765Z M685 462L775 622C730 632 690 650 650 680C590 722 545 765 490 792Z"/>
+  <path fill-rule="evenodd" fill="url(#gBackR)" d="M500 232C535 180 585 160 640 160C700 160 752 185 782 232L1112 772L1125 815L690 900L590 985L300 1060C195 1060 115 985 115 890C115 850 135 815 160 765Z M685 462L775 622C730 632 690 650 650 680C590 722 545 765 490 792Z"/>
+  <path fill="url(#gRight)" d="M610 375C640 325 685 303 725 303C790 303 850 345 892 412L1112 772L775 625L685 465C660 435 640 410 610 375Z"/>
+  <path fill="url(#gRightH)" d="M610 375C640 325 685 303 725 303C790 303 850 345 892 412L1112 772L775 625L685 465C660 435 640 410 610 375Z"/>
+  <path fill="url(#gStrip)" d="M610 375C640 410 665 435 685 465L490 792C440 835 370 868 297 873Z"/>
+  <path fill="url(#gStripShade)" d="M610 375C640 410 665 435 685 465L490 792C440 835 370 868 297 873Z"/>
+  <path fill="url(#gWave)" d="M152 800C160 840 200 872 290 874C370 872 440 840 490 792C560 740 620 690 690 650C740 625 800 615 850 615C960 615 1050 660 1112 772C1120 785 1124 800 1125 815C1090 800 1040 785 960 785C900 785 860 797 820 815C780 835 730 870 690 900L590 985C530 1030 470 1060 400 1060L300 1060C195 1060 115 985 115 890C115 850 130 825 152 800Z"/>
+  <path mask="url(#mRidge)" fill="url(#gRidge)" d="M152 800C160 840 200 872 290 874C370 872 440 840 490 792C560 740 620 690 690 650C740 625 800 615 850 615C960 615 1050 660 1112 772C1120 785 1124 800 1125 815C1090 800 1040 785 960 785C900 785 860 797 820 815C780 835 730 870 690 900L590 985C530 1030 470 1060 400 1060L300 1060C195 1060 115 985 115 890C115 850 130 825 152 800Z"/>
+  <path fill="url(#gUnder)" d="M690 900C730 870 780 835 820 815C860 797 900 785 960 785C1040 785 1090 800 1125 815C1150 850 1160 880 1157 905C1150 985 1080 1060 990 1060C950 1060 920 1045 895 1030Z"/>
+  <path fill="url(#gShade)" d="M860 797C910 860 950 930 965 1000L965 1052C940 1050 915 1040 895 1028L690 900C750 850 810 815 860 797Z"/>
 </svg>

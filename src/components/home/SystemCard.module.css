@@ -22,7 +22,7 @@
   position: absolute;
   inset: 25% -16% -14% 25%;
   z-index: -1;
-  background: radial-gradient(circle, rgba(125, 103, 217, 0.24), transparent 68%);
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.24), transparent 68%);
   filter: blur(20px);
 }
 
@@ -89,7 +89,7 @@
 }
 .connector path {
   fill: none;
-  stroke: rgba(37, 200, 221, 0.5);
+  stroke: rgba(34, 214, 244, 0.5);
   stroke-width: 1.2;
   stroke-dasharray: 4 5;
   vector-effect: non-scaling-stroke;
@@ -105,10 +105,10 @@
   align-items: center;
   gap: 14px;
   padding: 20px;
-  border: 1px solid rgba(37, 200, 221, 0.35);
+  border: 1px solid rgba(34, 214, 244, 0.35);
   border-radius: 16px;
-  background: linear-gradient(135deg, rgba(22, 112, 239, 0.14), rgba(125, 103, 217, 0.1));
-  box-shadow: 0 0 40px rgba(37, 200, 221, 0.06);
+  background: linear-gradient(135deg, rgba(26, 124, 251, 0.14), rgba(139, 92, 246, 0.1));
+  box-shadow: 0 0 40px rgba(34, 214, 244, 0.06);
 }
 .mark {
   display: grid;
@@ -198,8 +198,8 @@
   }
   4%,
   20% {
-    border-color: rgba(37, 200, 221, 0.55);
-    background: rgba(37, 200, 221, 0.1);
+    border-color: rgba(34, 214, 244, 0.55);
+    background: rgba(34, 214, 244, 0.1);
     color: #e8f4ff;
   }
   26%,

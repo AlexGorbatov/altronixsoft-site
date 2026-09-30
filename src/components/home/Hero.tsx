@@ -18,7 +18,7 @@ export function Hero() {
           <h1 id="hero-title" className={styles.title}>
             Practical AI.
             <br />
-            <span>Serious software engineering.</span>
+            <span>Serious engineering.</span>
           </h1>
           <p className={styles.lead}>
             We help companies automate real workflows, build reliable software and modernize existing

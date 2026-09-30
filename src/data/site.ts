@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "Altronix Software",
   legalName: "Altronixsoft OÜ",
-  tagline: "Practical AI. Serious software engineering.",
+  tagline: "Practical AI. Serious engineering.",
   title: "Altronix Software — Practical AI & Software Engineering",
   description:
     "Altronix Software builds practical AI solutions, reliable custom software and modern integrations for real business systems.",

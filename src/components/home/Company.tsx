@@ -8,7 +8,7 @@ export function Company() {
   return (
     <Section id="company" tone="deep" labelledBy="company-title">
       <AnimatedReveal>
-        <div className="relative grid gap-10 overflow-hidden rounded-[22px] border border-line bg-[linear-gradient(135deg,rgba(17,29,53,.92),rgba(17,24,52,.8))] p-6 after:pointer-events-none after:absolute after:-top-[120px] after:-right-[100px] after:size-[360px] after:rounded-full after:bg-[rgba(125,103,217,.12)] after:blur-[40px] after:content-[''] sm:p-[38px] lg:grid-cols-[1.05fr_.95fr] lg:gap-14">
+        <div className="relative grid gap-10 overflow-hidden rounded-[22px] border border-line bg-[linear-gradient(135deg,rgba(17,29,53,.92),rgba(17,24,52,.8))] p-6 after:pointer-events-none after:absolute after:-top-[120px] after:-right-[100px] after:size-[360px] after:rounded-full after:bg-[rgba(139, 92, 246,.12)] after:blur-[40px] after:content-[''] sm:p-[38px] lg:grid-cols-[1.05fr_.95fr] lg:gap-14">
           <div className="relative z-[1]">
             <div className="eyebrow">Company</div>
             <h2
