@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 440" width="1280" height="440" role="img" aria-label="Altronix Software — Practical AI. Serious software engineering.">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07101f"/>
+      <stop offset=".55" stop-color="#0b1730"/>
+      <stop offset="1" stop-color="#241a44"/>
+    </linearGradient>
+    <radialGradient id="violet" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#8f5dd3" stop-opacity=".42"/>
+      <stop offset="1" stop-color="#8f5dd3" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blue" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#1670ef" stop-opacity=".30"/>
+      <stop offset="1" stop-color="#1670ef" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cyan" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#25c8dd" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#25c8dd" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1368E8"/>
+      <stop offset="1" stop-color="#21C6D9"/>
+    </linearGradient>
+    <linearGradient id="tag" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".35" stop-color="#90e9f3"/>
+      <stop offset=".7" stop-color="#8cbcff"/>
+      <stop offset="1" stop-color="#b29cf5"/>
+    </linearGradient>
+    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2f85ff" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#2dd3ea"/>
+      <stop offset="1" stop-color="#7368f1" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#ffffff" stroke-opacity=".05"/>
+    </pattern>
+    <radialGradient id="fade" cx="50%" cy="45%" r="60%">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#000"/>
+    </radialGradient>
+    <mask id="gridMask"><rect width="1280" height="440" fill="url(#fade)"/></mask>
+    <clipPath id="card"><rect width="1280" height="440" rx="24"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#card)">
+    <rect width="1280" height="440" fill="url(#bg)"/>
+    <rect width="1280" height="440" fill="url(#grid)" mask="url(#gridMask)"/>
+
+    <circle cx="1080" cy="60" r="330" fill="url(#violet)">
+      <animate attributeName="opacity" values=".75;1;.75" dur="7s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="140" cy="380" r="300" fill="url(#blue)">
+      <animate attributeName="opacity" values="1;.7;1" dur="9s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="640" cy="120" r="220" fill="url(#cyan)"/>
+
+    <!-- logo mark -->
+    <g transform="translate(547 66) scale(1.55)">
+      <rect x="17.8" y="16.8" width="30.4" height="30.4" rx="2.4" transform="rotate(45 33 32)" fill="none" stroke="url(#mark)" stroke-width="7.8"/>
+      <rect x="71.8" y="16.8" width="30.4" height="30.4" rx="2.4" transform="rotate(45 87 32)" fill="none" stroke="url(#mark)" stroke-width="7.8"/>
+      <rect x="44.8" y="16.8" width="30.4" height="30.4" rx="2.4" transform="rotate(45 60 32)" fill="none" stroke="#21C6D9" stroke-width="7.8"/>
+    </g>
+
+    <text x="640" y="238" text-anchor="middle" font-family="Manrope, 'Segoe UI', -apple-system, Helvetica, Arial, sans-serif" font-size="52" font-weight="800" letter-spacing="-1.5" fill="#f7f9fc">Altronix <tspan font-weight="500" fill="#cdd6e5">Software</tspan></text>
+
+    <rect x="480" y="262" width="320" height="2" fill="url(#rule)"/>
+
+    <text x="640" y="316" text-anchor="middle" font-family="Manrope, 'Segoe UI', -apple-system, Helvetica, Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="-.6" fill="url(#tag)">Practical AI. Serious software engineering.</text>
+
+    <text x="640" y="372" text-anchor="middle" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="500" letter-spacing="3.6" fill="#8fdde8">SOFTWARE ENGINEERING &amp; APPLIED AI</text>
+  </g>
+  <rect x=".5" y=".5" width="1279" height="439" rx="23.5" fill="none" stroke="#ffffff" stroke-opacity=".10"/>
+</svg>

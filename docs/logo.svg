@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 64" width="240" height="128" role="img" aria-label="Altronix Software logo">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1368E8"/>
+      <stop offset="1" stop-color="#21C6D9"/>
+    </linearGradient>
+  </defs>
+  <rect x="17.8" y="16.8" width="30.4" height="30.4" rx="2.4" transform="rotate(45 33 32)" fill="none" stroke="url(#g)" stroke-width="7.8"/>
+  <rect x="71.8" y="16.8" width="30.4" height="30.4" rx="2.4" transform="rotate(45 87 32)" fill="none" stroke="url(#g)" stroke-width="7.8"/>
+  <rect x="44.8" y="16.8" width="30.4" height="30.4" rx="2.4" transform="rotate(45 60 32)" fill="none" stroke="#21C6D9" stroke-width="7.8"/>
+</svg>
