@@ -1,0 +1,218 @@
+/* Business systems → AI / automation layer → controlled actions */
+.intro {
+  opacity: 0;
+  animation: cardIntro 0.9s 0.28s var(--ease-out) forwards;
+}
+
+.card {
+  position: relative;
+  padding: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 22px;
+  background: rgba(9, 18, 36, 0.62);
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  transform: perspective(1100px) rotateY(-2deg);
+  transition: transform 0.35s var(--ease-out);
+}
+
+/* Localized violet glow behind the card */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 25% -16% -14% 25%;
+  z-index: -1;
+  background: radial-gradient(circle, rgba(125, 103, 217, 0.24), transparent 68%);
+  filter: blur(20px);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  font-size: 12px;
+  color: #c5cede;
+}
+.live {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #93e1cc;
+}
+.live i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--success);
+  animation: pulse 2s infinite;
+}
+
+.sources {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.source {
+  padding: 12px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  background: #101b31;
+  text-align: center;
+  font-size: 11px;
+  color: #aeb9ca;
+  opacity: 0;
+  animation: nodeIn 0.6s var(--ease-out) forwards;
+  animation-delay: calc(0.55s + var(--i) * 0.09s);
+}
+.source b {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 12px;
+  color: #dfe5ef;
+}
+
+/* Connectors: dashed lines that drift toward the AI layer */
+.connector {
+  display: block;
+  width: 100%;
+  height: 62px;
+}
+.stub {
+  height: 22px;
+}
+.center {
+  display: none;
+}
+.connector path {
+  fill: none;
+  stroke: rgba(37, 200, 221, 0.5);
+  stroke-width: 1.2;
+  stroke-dasharray: 4 5;
+  vector-effect: non-scaling-stroke;
+  animation: dash 1.6s linear infinite;
+}
+.stub path {
+  stroke: rgba(169, 142, 245, 0.55);
+}
+
+.core {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid rgba(37, 200, 221, 0.35);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(22, 112, 239, 0.14), rgba(125, 103, 217, 0.1));
+  box-shadow: 0 0 40px rgba(37, 200, 221, 0.06);
+}
+.mark {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--blue), var(--cyan));
+  font-weight: 800;
+}
+.core b {
+  font-size: 15px;
+}
+.core small {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #94a2b7;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  background: #101b31;
+  font-size: 11.5px;
+  color: #b9c3d2;
+}
+.action i {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cyan);
+  animation: pulse 2.6s infinite;
+  animation-delay: calc(var(--i) * 0.5s);
+}
+.action:nth-child(3) i {
+  background: var(--violet-soft);
+}
+
+@keyframes cardIntro {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes nodeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes dash {
+  to {
+    stroke-dashoffset: -18;
+  }
+}
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(82, 216, 174, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(82, 216, 174, 0.1);
+  }
+}
+
+@media (max-width: 1023px) {
+  .intro {
+    max-width: 680px;
+  }
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 18px;
+    transform: none;
+  }
+  .sources {
+    grid-template-columns: 1fr 1fr;
+  }
+  .actions {
+    grid-template-columns: 1fr;
+  }
+  /* Fan-in lines assume a single row of four sources; use one center line instead */
+  .fan {
+    display: none;
+  }
+  .center {
+    display: block;
+  }
+}

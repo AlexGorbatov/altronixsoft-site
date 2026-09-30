@@ -1,0 +1,64 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# next.js build output
+.next/
+out/
+build/
+dist/
+
+# generated / cache
+*.tsbuildinfo
+next-env.d.ts
+.eslintcache
+.turbo/
+.cache/
+
+# testing
+coverage/
+.nyc_output/
+
+# environment files (keep the example committed)
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# deployment
+.vercel/
+
+# OS files
+.DS_Store
+**/.DS_Store
+Thumbs.db
+Desktop.ini
+
+# editors / IDEs
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+*.swo
+
+# AI assistant tooling (local, machine-specific)
+.claude/
+CLAUDE.md
+AGENTS.md
+
+# secrets / misc
+*.pem
+*.key
+*.tmp

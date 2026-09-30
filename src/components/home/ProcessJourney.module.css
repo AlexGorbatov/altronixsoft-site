@@ -1,0 +1,751 @@
+/*
+ * Scroll-driven client journey.
+ * State model: ProcessJourney.tsx sets `data-active` (0–3) on .scroll and writes
+ * --process-progress (0–1). Everything visual below is keyed off those two, so
+ * scrolling back up reverses the whole diagram with no extra logic.
+ */
+.scroll {
+  --map-h: 390px;
+  position: relative;
+  min-height: 310vh;
+  background:
+    radial-gradient(900px 560px at 50% 44%, rgba(92, 72, 190, 0.14), transparent 72%),
+    radial-gradient(700px 420px at 8% 68%, rgba(22, 112, 239, 0.08), transparent 74%);
+}
+
+.sticky {
+  position: sticky;
+  top: var(--header-h);
+  display: flex;
+  align-items: center;
+  min-height: calc(100vh - var(--header-h));
+  padding: 42px 0;
+  overflow: hidden;
+}
+
+.shell {
+  position: relative;
+  padding: 44px 44px 30px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(12, 20, 39, 0.96), rgba(8, 14, 28, 0.98));
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  overflow: hidden;
+}
+/* Dot grid */
+.shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.45;
+  background-image: radial-gradient(circle at 1px 1px, rgba(128, 151, 255, 0.18) 1px, transparent 1px);
+  background-size: 16px 16px;
+  mask-image: linear-gradient(to bottom, transparent 0, #000 18%, #000 82%, transparent 100%);
+}
+/* Ambient glow under the shell */
+.shell::after {
+  content: "";
+  position: absolute;
+  left: 17%;
+  right: 17%;
+  bottom: -150px;
+  height: 390px;
+  pointer-events: none;
+  background: radial-gradient(ellipse, rgba(74, 71, 208, 0.3), rgba(17, 84, 195, 0.12) 42%, transparent 72%);
+  filter: blur(16px);
+}
+
+.head {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+  margin: 0 auto 34px;
+  text-align: center;
+}
+.head h2 {
+  margin: 12px 0 10px;
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+.head p {
+  max-width: 590px;
+  margin: 0 auto;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #9ba8bc;
+}
+
+/* ---------------------------------------------------------- phase timeline */
+.track {
+  position: relative;
+  z-index: 3;
+  padding-top: 32px;
+}
+.line {
+  position: absolute;
+  left: 2%;
+  right: 2%;
+  top: 8px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.progress {
+  position: absolute;
+  inset: 0;
+  transform: scaleX(var(--process-progress, 0));
+  transform-origin: left center;
+  background: linear-gradient(90deg, #2f85ff 0%, #2dd3ea 48%, #7368f1 100%);
+  box-shadow: 0 0 22px rgba(45, 211, 234, 0.28);
+}
+
+.phases {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.phase {
+  position: relative;
+  min-width: 0;
+  padding: 14px 6px 0;
+  opacity: 0.42;
+  transform: translateY(4px);
+  transition:
+    opacity 0.32s ease,
+    transform 0.35s var(--ease-out);
+}
+.dot {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  width: 13px;
+  height: 13px;
+  border: 2px solid #63728a;
+  border-radius: 50%;
+  background: #0a1325;
+  transition: all 0.32s ease;
+}
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.025);
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.05em;
+  color: #8291a7;
+  transition: all 0.32s ease;
+}
+.phase h3 {
+  margin: 13px 0 6px;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.phase p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #8a99ad;
+  transition: color 0.32s ease;
+}
+
+.completed {
+  opacity: 0.72;
+  transform: none;
+}
+.completed .dot {
+  border-color: #2dd3ea;
+  background: #2dd3ea;
+  box-shadow: 0 0 0 5px rgba(45, 211, 234, 0.07);
+}
+
+.active {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+.active .dot {
+  top: -31.5px;
+  left: -1.5px;
+  width: 16px;
+  height: 16px;
+  border-color: #88f1fb;
+  background: #fff;
+  box-shadow:
+    0 0 0 7px rgba(45, 211, 234, 0.12),
+    0 0 28px rgba(70, 157, 255, 0.75);
+}
+.active .kicker {
+  color: #a6f4fb;
+  border-color: rgba(74, 181, 255, 0.28);
+  background: linear-gradient(180deg, rgba(42, 101, 184, 0.18), rgba(53, 62, 136, 0.1));
+  box-shadow: 0 0 24px rgba(47, 133, 255, 0.07) inset;
+}
+.active h3 {
+  color: #fff;
+}
+.active p {
+  color: #b2bfd1;
+}
+
+/* ------------------------------------------------------------ workflow map */
+.mapArea {
+  position: relative;
+  z-index: 2;
+  height: var(--map-h);
+  margin-top: 34px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.map {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.map::before {
+  content: "";
+  position: absolute;
+  inset: 36px 5% 14px;
+  background-image:
+    linear-gradient(rgba(99, 115, 160, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 115, 160, 0.035) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse at center, #000 24%, transparent 76%);
+}
+
+.zone {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(16, 26, 47, 0.86), rgba(10, 18, 34, 0.76));
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.2);
+  transition:
+    opacity 0.32s ease,
+    transform 0.38s var(--ease-out),
+    border-color 0.32s ease,
+    box-shadow 0.32s ease;
+}
+.zoneLabel {
+  padding: 10px 12px 9px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+  font: 500 10px/1 var(--font-mono);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #8a99af;
+}
+
+/* Zones use % top/height so they scale with the map and stay aligned with the wires. */
+.sourceZone {
+  left: 4%;
+  top: 22%;
+  width: 23%;
+  height: 56%;
+  display: flex;
+  flex-direction: column;
+}
+.sourceList {
+  flex: 1;
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  gap: 7px;
+  padding: 10px;
+}
+.chip {
+  display: flex;
+  align-items: center;
+  padding: 0 11px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.018);
+  font-size: 12px;
+  color: #9aa8bb;
+  transition: all 0.28s ease;
+}
+
+.coreZone {
+  left: 36%;
+  top: 38.5%;
+  width: 29%;
+  height: 29%;
+  min-height: 92px;
+  display: grid;
+  grid-template-columns: 1fr 28px 1fr;
+  align-items: center;
+  gap: 8px;
+  padding: 15px;
+}
+.coreNode {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 62px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.025);
+  text-align: center;
+  font-size: 12px;
+  color: #9aa8bb;
+  transition: all 0.32s ease;
+}
+.coreArrow {
+  text-align: center;
+  font-size: 17px;
+  color: #5377aa;
+}
+
+.outputZone {
+  right: 4%;
+  top: 13.3%;
+  width: 23%;
+  height: 51%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+}
+.outputCard {
+  flex: 1;
+  min-height: 0;
+  margin: 10px 10px 0;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.02);
+  transition: all 0.32s ease;
+}
+.outputCard + .outputCard {
+  margin-top: 10px;
+}
+.outputCard b {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12.5px;
+}
+.outputCard span {
+  display: block;
+  font-size: 11px;
+  line-height: 1.45;
+  color: #8d9ab0;
+}
+
+.badge {
+  position: absolute;
+  right: 7%;
+  bottom: 16px;
+  min-width: 190px;
+  padding: 13px 16px;
+  border: 1px solid rgba(116, 103, 241, 0.2);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(44, 55, 104, 0.42), rgba(67, 46, 117, 0.35));
+  opacity: 0.38;
+  transform: translateY(8px);
+  transition: all 0.35s ease;
+}
+.badge b {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 12.5px;
+}
+.badge span {
+  font-size: 11px;
+  color: #9ba8bb;
+}
+
+.wires {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.wires path {
+  fill: none;
+  stroke: rgba(81, 118, 173, 0.23);
+  stroke-width: 1.4;
+  stroke-dasharray: 7 7;
+  animation: journeyFlow 1.5s linear infinite;
+  transition:
+    stroke 0.35s ease,
+    opacity 0.35s ease,
+    filter 0.35s ease;
+}
+@keyframes journeyFlow {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+/* Map states per active phase */
+.scroll[data-active="0"] .sourceZone,
+.scroll[data-active="0"] .chip {
+  border-color: rgba(47, 133, 255, 0.24);
+}
+.scroll[data-active="0"] .sourceZone {
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.22),
+    0 0 40px rgba(47, 133, 255, 0.06);
+  transform: translateY(-2px);
+}
+.scroll[data-active="0"] .chip {
+  color: #d9e5f3;
+  background: rgba(47, 133, 255, 0.05);
+}
+
+.scroll[data-active="1"] .coreZone,
+.scroll[data-active="2"] .coreZone {
+  border-color: rgba(62, 165, 255, 0.26);
+  box-shadow:
+    0 20px 56px rgba(0, 0, 0, 0.23),
+    0 0 48px rgba(68, 102, 238, 0.08);
+  transform: translateY(-3px);
+}
+.scroll[data-active="1"] .coreNode:first-child,
+.scroll[data-active="2"] .coreNode {
+  color: #e7f2ff;
+  border-color: rgba(45, 211, 234, 0.24);
+  background: linear-gradient(145deg, rgba(42, 115, 205, 0.11), rgba(93, 74, 190, 0.08));
+}
+.scroll[data-active="2"] .coreNode:last-child {
+  box-shadow: 0 0 30px rgba(116, 103, 241, 0.1) inset;
+}
+
+.scroll[data-active="3"] .outputZone {
+  border-color: rgba(116, 103, 241, 0.3);
+  box-shadow:
+    0 20px 56px rgba(0, 0, 0, 0.23),
+    0 0 50px rgba(116, 103, 241, 0.1);
+  transform: translateY(-3px);
+}
+.scroll[data-active="3"] .outputCard {
+  border-color: rgba(72, 184, 255, 0.18);
+  background: linear-gradient(145deg, rgba(36, 96, 168, 0.08), rgba(85, 63, 160, 0.08));
+}
+.scroll[data-active="3"] .badge {
+  opacity: 1;
+  transform: none;
+  border-color: rgba(116, 103, 241, 0.36);
+  box-shadow: 0 14px 40px rgba(67, 46, 117, 0.18);
+}
+
+/* Wires light up progressively (each stays lit once reached) */
+.scroll:is([data-active="0"], [data-active="1"], [data-active="2"], [data-active="3"]) .wireA {
+  stroke: #3f9dff;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 5px rgba(47, 133, 255, 0.45));
+}
+.scroll:is([data-active="1"], [data-active="2"], [data-active="3"]) .wireB {
+  stroke: #2dd3ea;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 6px rgba(45, 211, 234, 0.45));
+}
+.scroll:is([data-active="2"], [data-active="3"]) .wireC {
+  stroke: #7167f1;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 6px rgba(113, 103, 241, 0.5));
+}
+.scroll[data-active="3"] .wireD {
+  stroke: #806cf6;
+  opacity: 1;
+  filter: drop-shadow(0 0 7px rgba(128, 108, 246, 0.55));
+}
+
+/* CTA appears at phase 4 */
+.cta {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  opacity: 0.28;
+  pointer-events: none;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+}
+.scroll[data-active="3"] .cta {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(-3px);
+}
+.cta :global(.btn) {
+  box-shadow:
+    0 12px 38px rgba(34, 99, 236, 0.2),
+    0 0 30px rgba(116, 103, 241, 0.1);
+}
+
+/* ------------------------------------------------------------------ footer */
+.footer {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.055);
+}
+.status {
+  font: 500 11px/1.35 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8291a7;
+}
+.status strong {
+  font-weight: 500;
+  color: #dbe5f4;
+}
+.status .current {
+  color: #92edf6;
+}
+.hint {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  color: #7c8ba1;
+}
+.hint i {
+  width: 28px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--cyan), transparent);
+  animation: hintPulse 1.8s ease-in-out infinite;
+}
+@keyframes hintPulse {
+  50% {
+    width: 40px;
+    opacity: 0.45;
+  }
+}
+
+/* Reduced motion: keep the phase changes (they follow the user's own scroll)
+   but drop the flowing dashes, pulses and eased transitions. */
+@media (prefers-reduced-motion: reduce) {
+  .wires path,
+  .hint i {
+    animation: none;
+  }
+}
+
+/* Short desktop viewports (e.g. 1440×900 laptops): the full-size shell is taller than the
+   pinned area, which clips the map and status line. Tighten vertical spacing and let the
+   map height flex with the viewport. Tall screens keep the original proportions. */
+@media (min-width: 1024px) and (max-height: 999px) {
+  .scroll {
+    --map-h: clamp(330px, calc(100vh - 545px), 390px);
+  }
+  .sticky {
+    padding: 16px 0;
+  }
+  .shell {
+    padding: 30px 44px 22px;
+  }
+  .head {
+    margin-bottom: 22px;
+  }
+  .mapArea {
+    margin-top: 22px;
+  }
+}
+
+/* Very short desktop windows: drop the subtitle so the diagram and status still fit. */
+@media (min-width: 1024px) and (max-height: 800px) {
+  .scroll {
+    --map-h: 316px;
+  }
+  .sticky {
+    padding: 8px 0;
+  }
+  .shell {
+    padding: 22px 44px 16px;
+  }
+  .head {
+    margin-bottom: 16px;
+  }
+  .head h2 {
+    font-size: 36px;
+  }
+  .head p {
+    display: none;
+  }
+  .mapArea {
+    margin-top: 14px;
+  }
+}
+
+/* ------------------------------------------------------------------ tablet */
+@media (max-width: 1023px) {
+  .scroll {
+    --map-h: 360px;
+  }
+  .sticky {
+    padding: 16px 0;
+  }
+  .shell {
+    padding: 32px 28px 22px;
+  }
+  .head {
+    margin-bottom: 22px;
+  }
+  .mapArea {
+    margin-top: 22px;
+  }
+  .sourceZone {
+    left: 2%;
+    width: 26%;
+  }
+  .coreZone {
+    left: 34%;
+    width: 32%;
+  }
+  .outputZone {
+    right: 2%;
+    width: 26%;
+  }
+  .coreZone {
+    grid-template-columns: 1fr 18px 1fr;
+    gap: 4px;
+    padding: 10px;
+  }
+  .coreNode {
+    min-width: 0;
+    padding: 8px 4px;
+    font-size: 11px;
+  }
+  /* Narrow zones can't fit the descriptions without spilling; keep titles only. */
+  .outputCard {
+    display: flex;
+    align-items: center;
+  }
+  .outputCard span {
+    display: none;
+  }
+  .badge {
+    right: 2%;
+    width: 170px;
+    min-width: 0;
+  }
+  .badge span {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------- phone
+   Vertical timeline. The wide workflow map is dropped (its text would fall below
+   readable size); only the active phase shows its description, and the CTA
+   moves into the flow and appears at phase 4. */
+@media (max-width: 640px) {
+  .scroll {
+    min-height: 330vh;
+  }
+  .sticky {
+    padding: 16px 0;
+  }
+  .shell {
+    padding: 24px 16px 18px;
+    border-radius: 18px;
+  }
+  .head {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  .head h2 {
+    font-size: 29px;
+  }
+  .head p {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .track {
+    padding: 0 0 0 28px;
+  }
+  .line {
+    left: 7px;
+    right: auto;
+    top: 5px;
+    bottom: 5px;
+    width: 2px;
+    height: auto;
+  }
+  .progress {
+    width: 2px;
+    height: 100%;
+    transform: scaleY(var(--process-progress, 0));
+    transform-origin: top center;
+  }
+  .phases {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .phase {
+    padding: 10px 12px 10px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.055);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.014);
+  }
+  .dot {
+    left: -27px;
+    top: 17px;
+  }
+  .active .dot {
+    left: -28.5px;
+    top: 15.5px;
+  }
+  .kicker {
+    min-height: 22px;
+    font-size: 10px;
+  }
+  .phase h3 {
+    display: inline-block;
+    margin: 0 0 0 10px;
+    font-size: 15px;
+  }
+  .phase p {
+    display: none;
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .active p {
+    display: block;
+  }
+
+  .mapArea {
+    height: 60px;
+    margin-top: 16px;
+    border-top: 0;
+  }
+  .map {
+    display: none;
+  }
+  .cta {
+    bottom: auto;
+    top: 8px;
+    width: 100%;
+    text-align: center;
+  }
+  .cta :global(.btn) {
+    width: 100%;
+    min-height: 46px;
+  }
+
+  .footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+    padding-top: 12px;
+  }
+  .hint {
+    font-size: 12px;
+  }
+}

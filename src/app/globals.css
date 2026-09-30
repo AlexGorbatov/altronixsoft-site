@@ -1,0 +1,294 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Design tokens — values taken from the approved v6 prototype.
+   Balance: ~70% deep navy, ~20% indigo surfaces, ~10% cyan/violet light.
+   ------------------------------------------------------------------ */
+:root {
+  --background: #07101f;
+  --background-alt: #0b1428;
+  --surface: #0f1a30;
+  --surface-raised: #121f39;
+
+  --text-primary: #f7f9fc;
+  --text-secondary: #a7b2c5;
+  --text-muted: #8290a6;
+
+  --border: rgba(255, 255, 255, 0.1);
+
+  --blue: #1670ef;
+  --cyan: #25c8dd;
+  --indigo: #4548a8;
+  --violet: #7d67d9;
+  --violet-soft: #a98ef5;
+  --success: #52d8ae;
+
+  --container-max: 1200px;
+  --header-h: 76px;
+  --ease-out: cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+
+@media (max-width: 640px) {
+  :root {
+    --header-h: 70px;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-background-alt: var(--background-alt);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-ink: var(--text-primary);
+  --color-muted: var(--text-secondary);
+  --color-subtle: var(--text-muted);
+  --color-line: var(--border);
+  --color-blue: var(--blue);
+  --color-cyan: var(--cyan);
+  --color-indigo: var(--indigo);
+  --color-violet: var(--violet);
+  --color-violet-soft: var(--violet-soft);
+  --color-success: var(--success);
+
+  --font-sans: var(--font-manrope), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", monospace;
+
+  --breakpoint-xs: 400px;
+}
+
+/* ------------------------------------------------------------------ base */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-h);
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  /* `clip` (not `hidden`) so position: sticky keeps working in the process section */
+  overflow-x: clip;
+}
+
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: rgba(37, 200, 221, 0.28);
+}
+
+/* --------------------------------------------------- shared components */
+@layer components {
+  /* Mono technical label: numbers, status, eyebrows */
+  .mono-label {
+    font: 500 11px/1.2 var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #8fdde8;
+    font: 500 11px/1.2 var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 20px;
+    height: 1px;
+    background: currentColor;
+  }
+
+  /* Section shell + localized ambient light */
+  .section {
+    position: relative;
+    padding: 78px 0;
+    overflow: hidden;
+  }
+  @media (min-width: 641px) {
+    .section {
+      padding: 104px 0;
+    }
+  }
+  .section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.75;
+  }
+  .section-alt::before {
+    background:
+      radial-gradient(720px 420px at 100% 8%, rgba(125, 103, 217, 0.14), transparent 68%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.012), transparent);
+  }
+  .section-deep::before {
+    background:
+      radial-gradient(760px 480px at 0% 30%, rgba(22, 112, 239, 0.1), transparent 70%),
+      radial-gradient(680px 400px at 96% 64%, rgba(125, 103, 217, 0.12), transparent 72%);
+  }
+
+  /* Buttons */
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 0 22px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    overflow: hidden;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition:
+      transform 0.25s ease,
+      border-color 0.25s ease,
+      background 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+  .btn-primary {
+    color: #fff;
+    background: linear-gradient(110deg, var(--blue), var(--cyan));
+    box-shadow: 0 12px 34px rgba(22, 112, 239, 0.24);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 16px 42px rgba(22, 112, 239, 0.34);
+  }
+  .btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    transform: translateX(-120%);
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+    animation: shine 5s ease-in-out infinite;
+  }
+  .btn-secondary {
+    border-color: rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .btn-secondary:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #70d9e8;
+    font-size: 14px;
+    font-weight: 800;
+  }
+  .text-link > span {
+    transition: transform 0.2s;
+  }
+  .text-link:hover > span {
+    transform: translateX(4px);
+  }
+
+  /* Reveal on scroll (toggled by AnimatedReveal) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition:
+      opacity 0.7s var(--ease-out),
+      transform 0.7s var(--ease-out);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal[data-delay="1"] { transition-delay: 0.08s; }
+  .reveal[data-delay="2"] { transition-delay: 0.16s; }
+  .reveal[data-delay="3"] { transition-delay: 0.24s; }
+  .reveal[data-delay="4"] { transition-delay: 0.32s; }
+
+  /* Card with pointer-following ambient glow (see SpotlightCard) */
+  .spotlight {
+    position: relative;
+    overflow: hidden;
+    transition:
+      transform 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      420px 220px at var(--mx, 100%) var(--my, 0%),
+      rgba(125, 103, 217, 0.16),
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .spotlight:hover {
+    transform: translateY(-5px);
+  }
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+  .spotlight > * {
+    position: relative;
+  }
+}
+
+@keyframes shine {
+  0%,
+  72% {
+    transform: translateX(-120%);
+  }
+  86%,
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes float {
+  from {
+    transform: translate3d(0, -10px, 0) scale(0.96);
+  }
+  to {
+    transform: translate3d(-24px, 18px, 0) scale(1.08);
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* -------------------------------------------------- reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
