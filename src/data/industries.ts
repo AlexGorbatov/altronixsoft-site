@@ -1,32 +1,25 @@
 export interface Industry {
   id: string;
-  number: string;
   title: string;
-  description: string;
-  focus: string[];
+  /** One line only. The detail lives in the matching case study. */
+  line: string;
 }
 
-/** Only industries with real delivery experience behind them (see `commercialProjects`). */
+/** Only industries with real delivery experience behind them (see `caseStudies`). */
 export const industries: Industry[] = [
   {
     id: "ecommerce",
-    number: "01",
     title: "E-commerce",
-    description: "Large-scale commerce backends, production support and complex integrations.",
-    focus: ["Commerce backends", "Integrations", "Production support"],
+    line: "Commerce platforms, SAP Commerce Cloud and the integrations around them.",
   },
   {
     id: "pim",
-    number: "02",
     title: "Product information (PIM)",
-    description: "Centralized product information, integrations and enterprise workflows.",
-    focus: ["Product data", "Integrations", "Enterprise workflows"],
+    line: "Product data platforms and the workflows that feed them.",
   },
   {
     id: "logistics",
-    number: "03",
     title: "Logistics",
-    description: "Backend systems for logistics workflows, APIs and day-to-day operations.",
-    focus: ["Operational workflows", "API design", "Cloud"],
+    line: "Operational backends, APIs and workflow integration.",
   },
 ];

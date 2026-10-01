@@ -1,9 +1,20 @@
 import { services } from "@/data/services";
 import { siteConfig } from "@/data/site";
+import { filled } from "@/lib/todo";
+import { JsonLdScript } from "./JsonLdScript";
+
+/** "Kaupmehe tn 7-120, 10114 Tallinn" → PostalAddress, only when the legal address is filled in. */
+function postalAddress() {
+  const { address, country } = siteConfig.legal;
+  if (!filled(address)) return undefined;
+  const [street, rest = ""] = address.split(",").map((part) => part.trim());
+  const [postalCode, ...city] = rest.split(" ");
+  return { "@type": "PostalAddress", streetAddress: street, postalCode, addressLocality: city.join(" "), addressCountry: country === "Estonia" ? "EE" : country };
+}
 
 /**
- * Structured data for search engines. Only facts already on the site:
- * no address, ratings or reviews.
+ * Structured data for search engines. Only facts already on the site: the registered address appears
+ * once it is filled in; no ratings or reviews.
  */
 export function JsonLd() {
   const organization = {
@@ -14,7 +25,18 @@ export function JsonLd() {
     url: siteConfig.url,
     email: siteConfig.email,
     slogan: siteConfig.tagline,
-    founder: { "@type": "Person", name: siteConfig.founder.name, jobTitle: "Founder" },
+    logo: `${siteConfig.url}/apple-icon.png`,
+    sameAs: [siteConfig.social.linkedin],
+    address: postalAddress(),
+    contactPoint: { "@type": "ContactPoint", contactType: "sales", email: siteConfig.email, availableLanguage: "English" },
+  };
+
+  const website = {
+    "@type": "WebSite",
+    "@id": `${siteConfig.url}/#website`,
+    url: siteConfig.url,
+    name: siteConfig.name,
+    publisher: { "@id": `${siteConfig.url}/#organization` },
   };
 
   const professionalService = {
@@ -24,18 +46,11 @@ export function JsonLd() {
     url: siteConfig.url,
     description: siteConfig.description,
     email: siteConfig.email,
+    areaServed: "Europe",
     parentOrganization: { "@id": `${siteConfig.url}/#organization` },
     knowsAbout: services.flatMap((service) => service.capabilities),
     serviceType: services.map((service) => service.title),
   };
 
-  const data = { "@context": "https://schema.org", "@graph": [organization, professionalService] };
-
-  return (
-    <script
-      type="application/ld+json"
-      // Escape "<" so the payload can never close the script tag.
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }}
-    />
-  );
+  return <JsonLdScript graph={[organization, website, professionalService]} />;
 }

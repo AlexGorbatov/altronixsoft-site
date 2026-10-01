@@ -17,12 +17,12 @@ export const processPhases: ProcessPhase[] = [
   },
   {
     number: "03",
-    title: "Build & prove",
-    description: "Working software with real data, real users and measurable feedback.",
+    title: "Build and prove",
+    description: "Working software tested on your data and users.",
   },
   {
     number: "04",
-    title: "Launch & improve",
-    description: "Production launch, monitoring, support and the next improvement cycle.",
+    title: "Launch and improve",
+    description: "Launch, monitoring, support and the next iteration.",
   },
 ];

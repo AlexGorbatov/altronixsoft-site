@@ -1,14 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { copy } from "@/data/copy";
 import { processPhases } from "@/data/process";
-import { CONTACT_HREF, CTA_LABEL } from "@/data/site";
-import { clamp, cn } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
+import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/Container";
 import styles from "./ProcessJourney.module.css";
-
-const sourceItems = ["Business goal", "Current stack", "Workflow", "Constraints"];
 
 /**
  * Wire paths in the map's 1100×390 coordinate space, grouped by the phase that
@@ -21,164 +18,153 @@ const wires = [
   { id: "d", className: styles.wireD, paths: ["M958 126 C1002 126 1005 306 970 322", "M958 236 C997 236 1008 300 970 322"] },
 ];
 
+/** Time each step stays lit while the intro plays. */
+const AUTOPLAY_STEP_MS = 1700;
+
+/**
+ * "How we work": a plain stepper. All four steps are visible at once (columns on desktop, a vertical
+ * list on phones); clicking a step highlights it and lights the matching part of the diagram.
+ * When the section first scrolls into view the steps light up one by one (01 → 04) and stop on the
+ * finished diagram; any click ends the intro. Reduced motion skips it. It never captures page scrolling.
+ */
 export function ProcessJourney() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const stickyRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+  const userChose = useRef(false);
+  const [interacted, setInteracted] = useState(false);
 
-  /*
-   * Scroll progress: the tall track scrolls while the sticky shell stays pinned.
-   * progress = distance scrolled inside the pinned range / total pinned range.
-   * The bar is driven straight through a CSS variable (no re-render per frame);
-   * React state only changes when the active phase changes.
-   */
   useEffect(() => {
-    const track = scrollRef.current;
-    const sticky = stickyRef.current;
-    if (!track || !sticky) return;
+    const section = sectionRef.current;
+    if (!section || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    let frame = 0;
-    let lastActive = -1;
+    let timer: number | undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        let step = 0;
+        timer = window.setInterval(() => {
+          if (userChose.current || step >= processPhases.length - 1) {
+            window.clearInterval(timer);
+            return;
+          }
+          step += 1;
+          setActive(step);
+        }, AUTOPLAY_STEP_MS);
+      },
+      { threshold: 0.3 },
+    );
+    observer.observe(section);
 
-    const update = () => {
-      frame = 0;
-      const pinnedTop = parseFloat(getComputedStyle(sticky).top) || 0;
-      const travel = Math.max(1, track.offsetHeight - window.innerHeight);
-      const progress = clamp((pinnedTop - track.getBoundingClientRect().top) / travel, 0, 1);
-
-      track.style.setProperty("--process-progress", progress.toFixed(4));
-
-      // Four equal scroll zones; the last phase stays active through the end.
-      const index = Math.floor(Math.min(0.9999, progress) * processPhases.length);
-      if (index !== lastActive) {
-        lastActive = index;
-        setActive(index);
-      }
-    };
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-
-    schedule();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
     return () => {
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      if (frame) cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.clearInterval(timer);
     };
   }, []);
 
+  function choose(index: number) {
+    userChose.current = true;
+    setInteracted(true);
+    setActive(index);
+  }
+
   const current = processPhases[active];
-  const ctaVisible = active === processPhases.length - 1;
+  const progress = active / (processPhases.length - 1);
 
   return (
-    <section id="approach" aria-labelledby="process-title" className="section section-alt overflow-visible p-0">
-      <div ref={scrollRef} className={styles.scroll} data-active={active}>
-        <div ref={stickyRef} className={styles.sticky}>
-          <Container className="relative z-[2]">
-            <div className={styles.shell}>
-              <div className={styles.head}>
-                <div className="eyebrow max-sm:justify-start sm:justify-center">How we work</div>
-                <h2 id="process-title">Start small. Prove the value. Then scale.</h2>
-                <p>
-                  A clear path from one real business problem to production — with each phase reducing
-                  risk before the next investment.
-                </p>
-              </div>
+    <section ref={sectionRef} id="approach" aria-labelledby="process-title" className="section section-alt">
+      <div className={styles.scroll} data-active={active} style={{ "--process-progress": progress } as CSSProperties}>
+        <Container className="relative z-[2]">
+          <div className={styles.shell}>
+            <div className={styles.head}>
+              <div className="eyebrow max-sm:justify-start sm:justify-center">{copy.process.eyebrow}</div>
+              <h2 id="process-title">{copy.process.title}</h2>
+              <p>{copy.process.description}</p>
+            </div>
 
-              <div className={styles.track}>
-                <div className={styles.line} aria-hidden="true">
-                  <div className={styles.progress} />
+            <div className={styles.track}>
+              <div className={styles.line} aria-hidden="true">
+                <div className={styles.progress} />
+              </div>
+              <ol className={styles.phases}>
+                {processPhases.map((phase, index) => (
+                  <li
+                    key={phase.title}
+                    className={cn(styles.phase, index === active && styles.active, index < active && styles.completed)}
+                  >
+                    <span className={styles.dot} aria-hidden="true" />
+                    <span className={styles.kicker}>{copy.process.stepLabel} {phase.number}</span>
+                    <h3>
+                      <button
+                        type="button"
+                        className={styles.stepButton}
+                        aria-pressed={index === active}
+                        onClick={() => choose(index)}
+                      >
+                        {phase.title}
+                      </button>
+                    </h3>
+                    <p>{phase.description}</p>
+                  </li>
+                ))}
+              </ol>
+              <p className={styles.hint}>{copy.process.hint}</p>
+            </div>
+
+            <div className={styles.mapArea}>
+              {/* Decorative workflow diagram — the same information is in the list above. */}
+              <div className={styles.map} aria-hidden="true">
+                <svg className={styles.wires} viewBox="0 0 1100 390" preserveAspectRatio="none">
+                  {wires.map((group) =>
+                    group.paths.map((d) => <path key={d} className={group.className} d={d} />),
+                  )}
+                </svg>
+
+                <div className={cn(styles.zone, styles.sourceZone)}>
+                  <div className={styles.zoneLabel}>{copy.process.diagram.sourceZone}</div>
+                  <div className={styles.sourceList}>
+                    {copy.process.diagram.sourceItems.map((item) => (
+                      <div key={item} className={styles.chip}>
+                        {item}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <ol className={styles.phases}>
-                  {processPhases.map((phase, index) => (
-                    <li
-                      key={phase.title}
-                      aria-current={index === active ? "step" : undefined}
-                      className={cn(
-                        styles.phase,
-                        index === active && styles.active,
-                        index < active && styles.completed,
-                      )}
-                    >
-                      <span className={styles.dot} aria-hidden="true" />
-                      <span className={styles.kicker}>Step {phase.number}</span>
-                      <h3>{phase.title}</h3>
-                      <p>{phase.description}</p>
-                    </li>
+
+                <div className={cn(styles.zone, styles.coreZone)}>
+                  <div className={styles.coreNode}>{copy.process.diagram.coreNodes[0]}</div>
+                  <div className={styles.coreArrow}>→</div>
+                  <div className={styles.coreNode}>{copy.process.diagram.coreNodes[1]}</div>
+                </div>
+
+                <div className={cn(styles.zone, styles.outputZone)}>
+                  <div className={styles.zoneLabel}>{copy.process.diagram.outputZone}</div>
+                  {copy.process.diagram.outputs.map((output) => (
+                    <div key={output.title} className={styles.outputCard}>
+                      <b>{output.title}</b>
+                      <span>{output.text}</span>
+                    </div>
                   ))}
-                </ol>
-              </div>
-
-              <div className={styles.mapArea}>
-                {/* Decorative workflow diagram — the same information is in the list above. */}
-                <div className={styles.map} aria-hidden="true">
-                  <svg className={styles.wires} viewBox="0 0 1100 390" preserveAspectRatio="none">
-                    {wires.map((group) =>
-                      group.paths.map((d) => <path key={d} className={group.className} d={d} />),
-                    )}
-                  </svg>
-
-                  <div className={cn(styles.zone, styles.sourceZone)}>
-                    <div className={styles.zoneLabel}>Your reality</div>
-                    <div className={styles.sourceList}>
-                      {sourceItems.map((item) => (
-                        <div key={item} className={styles.chip}>
-                          {item}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className={cn(styles.zone, styles.coreZone)}>
-                    <div className={styles.coreNode}>Problem map</div>
-                    <div className={styles.coreArrow}>→</div>
-                    <div className={styles.coreNode}>Solution architecture</div>
-                  </div>
-
-                  <div className={cn(styles.zone, styles.outputZone)}>
-                    <div className={styles.zoneLabel}>What we deliver</div>
-                    <div className={styles.outputCard}>
-                      <b>Proof of Value</b>
-                      <span>Focused scope, working software, real feedback.</span>
-                    </div>
-                    <div className={styles.outputCard}>
-                      <b>Production system</b>
-                      <span>Reliable implementation, monitoring and support.</span>
-                    </div>
-                  </div>
-
-                  <div className={styles.badge}>
-                    <b>Measure → improve</b>
-                    <span>Keep what works. Iterate where value is proven.</span>
-                  </div>
                 </div>
 
-                {/* Outside the aria-hidden map so it stays reachable; focusable only once revealed. */}
-                <div className={styles.cta} aria-hidden={!ctaVisible || undefined}>
-                  <Button href={CONTACT_HREF} tabIndex={ctaVisible ? 0 : -1}>
-                    {CTA_LABEL}
-                  </Button>
-                </div>
-              </div>
-
-              <div className={styles.footer}>
-                <div className={styles.status}>
-                  <span className={styles.current}>
-                    Phase <strong>{current.number}</strong> / {String(processPhases.length).padStart(2, "0")}
-                  </span>
-                  &nbsp;·&nbsp;
-                  <strong>{current.title}</strong>
-                </div>
-                <div className={styles.hint}>
-                  <i />
-                  <span>Scroll down to move forward · up to move back</span>
+                <div className={styles.badge}>
+                  <b>{copy.process.diagram.badge.title}</b>
+                  <span>{copy.process.diagram.badge.text}</span>
                 </div>
               </div>
             </div>
-          </Container>
-        </div>
+
+            <div className={styles.footer}>
+              <div className={styles.status} aria-live={interacted ? "polite" : "off"}>
+                <span className={styles.current}>
+                  {copy.process.stepLabel} <strong>{current.number}</strong> / {String(processPhases.length).padStart(2, "0")}
+                </span>
+                &nbsp;·&nbsp;
+                <strong>{current.title}</strong>
+              </div>
+            </div>
+          </div>
+        </Container>
       </div>
     </section>
   );

@@ -6,8 +6,11 @@ import { Industries } from "@/components/home/Industries";
 import { ProcessJourney } from "@/components/home/ProcessJourney";
 import { SelectedWork } from "@/components/home/SelectedWork";
 import { Services } from "@/components/home/Services";
+import { TrustBlocks } from "@/components/home/TrustBlocks";
 import { TrustStrip } from "@/components/home/TrustStrip";
 import { JsonLd } from "@/components/JsonLd";
+
+export const metadata = { alternates: { canonical: "/" } };
 
 export default function HomePage() {
   return (
@@ -20,6 +23,7 @@ export default function HomePage() {
       <ProcessJourney />
       <EngagementModels />
       <Company />
+      <TrustBlocks />
       <FinalCTA />
       <JsonLd />
     </main>

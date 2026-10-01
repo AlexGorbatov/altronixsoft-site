@@ -1,43 +1,64 @@
+import type { RequestType } from "@/data/site";
+
 export interface EngagementModel {
   id: string;
-  number: string;
   title: string;
   description: string;
   outcome: string;
-  cta: { label: string; subject: string };
+  /** Package facts. `TODO(owner)` values are hidden until the owner fills them in (see `filled()`). */
+  priceFrom: string;
+  duration: string;
+  deliverable: string;
+  /** Extra "what is included" bullets, rendered only for packages that define them. */
+  includes?: string[];
+  /** Kept only for the unused data/faq.ts; remove together with it. */
+  entryPackage?: boolean;
+  cta: { label: string; type: RequestType };
 }
 
 export const engagementModels: EngagementModel[] = [
   {
     id: "review",
-    number: "01",
-    title: "Technical Review",
-    description: "A short, focused look at your architecture, codebase or idea.",
-    outcome: "Clear findings and recommendations.",
-    cta: { label: "Request a review", subject: "Technical review" },
+    title: "Technical review",
+    description: "A short, focused review of your architecture, codebase or idea. The first paid step.",
+    outcome: "Clear findings, a written report and a walkthrough call.",
+    priceFrom: "TODO(owner): price, e.g. from €X",
+    duration: "TODO(owner): duration, e.g. N working days",
+    deliverable: "TODO(owner): deliverable, e.g. written report and walkthrough call",
+    includes: ["TODO(owner): what the review covers, e.g. architecture, code, integrations, risks"],
+    cta: { label: "Request a review", type: "technical-review" },
   },
   {
     id: "proof",
-    number: "02",
-    title: "Proof of Value",
-    description: "A small working prototype on your real data, before a larger investment.",
-    outcome: "Evidence the approach works.",
-    cta: { label: "Discuss a proof of value", subject: "Proof of value" },
+    title: "Proof of value",
+    description: "A small working prototype on your own data, before a larger investment.",
+    outcome: "A working prototype and a go / no-go recommendation.",
+    priceFrom: "TODO(owner): price, e.g. from €X",
+    duration: "TODO(owner): duration",
+    deliverable: "TODO(owner): deliverable, e.g. working prototype and findings",
+    cta: { label: "Discuss a proof of value", type: "proof-of-value" },
   },
   {
     id: "fixed",
-    number: "03",
     title: "Fixed-scope project",
-    description: "A defined scope, timeline and result, delivered end to end.",
-    outcome: "A production-ready deliverable.",
-    cta: { label: "Discuss a project", subject: "Fixed-scope project" },
+    description: "Agreed scope, timeline and result.",
+    outcome: "A release running in production.",
+    priceFrom: "TODO(owner): price, e.g. from €X",
+    duration: "TODO(owner): duration",
+    deliverable: "TODO(owner): deliverable",
+    cta: { label: "Discuss a project", type: "project" },
   },
   {
     id: "team",
-    number: "04",
     title: "Dedicated team",
     description: "Senior engineers embedded in your product team, long-term or for a defined period.",
-    outcome: "Ongoing engineering capacity.",
-    cta: { label: "Discuss a team", subject: "Dedicated team" },
+    outcome: "Engineers working inside your team.",
+    priceFrom: "TODO(owner): rate, e.g. from €X per month",
+    duration: "TODO(owner): minimum term",
+    deliverable: "TODO(owner): deliverable",
+    cta: { label: "Discuss a dedicated team", type: "team" },
   },
 ];
+
+/** The entry package of the engagement path. */
+export const entryPackage = engagementModels.find((model) => model.entryPackage) ?? engagementModels[0];

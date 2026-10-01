@@ -1,7 +1,6 @@
 /* Business systems → AI / automation layer → controlled actions */
 .intro {
-  opacity: 0;
-  animation: cardIntro 0.9s 0.28s var(--ease-out) forwards;
+  animation: cardIntro 0.4s 0.1s var(--ease-out) backwards;
 }
 
 .card {
@@ -31,21 +30,8 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 18px;
-  font-size: 13px;
-  color: #c5cede;
-}
-.live {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  color: #93e1cc;
-}
-.live i {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--success);
-  animation: pulse 2s infinite;
+  font-size: 14px;
+  color: var(--text-strong);
 }
 
 .sources {
@@ -60,15 +46,14 @@
   background: #101b31;
   text-align: center;
   font-size: 12px;
-  color: #aeb9ca;
-  opacity: 0;
-  animation: nodeIn 0.6s var(--ease-out) forwards;
-  animation-delay: calc(0.55s + var(--i) * 0.09s);
+  color: var(--text-strong);
+  animation: nodeIn 0.4s var(--ease-out) backwards;
+  animation-delay: calc(0.2s + var(--i) * 0.04s);
 }
 .source b {
   display: block;
   margin-bottom: 3px;
-  font-size: 13px;
+  font-size: 14px;
   color: #dfe5ef;
 }
 .detail {
@@ -126,9 +111,9 @@
 .core small {
   display: block;
   margin-top: 5px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.5;
-  color: #94a2b7;
+  color: var(--text-secondary);
 }
 
 .actions {
@@ -144,8 +129,8 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 10px;
   background: #101b31;
-  font-size: 13px;
-  color: #b9c3d2;
+  font-size: 14px;
+  color: var(--text-strong);
   animation: step 8s ease-in-out infinite;
   animation-delay: calc(var(--i) * 2s);
 }
@@ -163,38 +148,12 @@
 }
 
 /* Trace line under the controls: one event per step, in sync with .action */
-.log {
-  position: relative;
-  height: 34px;
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px dashed rgba(255, 255, 255, 0.1);
-  font: 500 12px/1 var(--font-mono);
-  letter-spacing: 0.02em;
-  color: #86d6e2;
-}
-.prompt {
-  position: absolute;
-  left: 0;
-  color: var(--cyan);
-}
-.logLine {
-  position: absolute;
-  left: 16px;
-  opacity: 0;
-  animation: logCycle 8s ease-in-out infinite;
-  animation-delay: calc(var(--i) * 2s);
-}
-/* Static fallback (reduced motion): show the first event only */
-.logLine:nth-child(2) {
-  opacity: 1;
-}
 
 @keyframes step {
   0% {
     border-color: rgba(255, 255, 255, 0.08);
     background: #101b31;
-    color: #b9c3d2;
+    color: var(--text-strong);
   }
   4%,
   20% {
@@ -206,43 +165,20 @@
   100% {
     border-color: rgba(255, 255, 255, 0.08);
     background: #101b31;
-    color: #b9c3d2;
-  }
-}
-@keyframes logCycle {
-  0% {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  4%,
-  22% {
-    opacity: 1;
-    transform: none;
-  }
-  26%,
-  100% {
-    opacity: 0;
+    color: var(--text-strong);
   }
 }
 
 @keyframes cardIntro {
   from {
     opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
+    transform: translateX(20px);
   }
 }
 @keyframes nodeIn {
   from {
     opacity: 0;
     transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
   }
 }
 @keyframes dash {
@@ -293,5 +229,15 @@
   }
   .center {
     display: block;
+  }
+}
+
+/* Phones: keep the diagram's message (systems → layer → controls) but drop the decorative extras. */
+@media (max-width: 640px) {
+  .connector:not(.stub) {
+    display: none;
+  }
+  .core {
+    margin-top: 12px;
   }
 }

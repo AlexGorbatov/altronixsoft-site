@@ -65,15 +65,14 @@
   gap: 72px;
 }
 
+/* Visible by default (SSR, no JS, reduced motion); the entrance only exists inside the animation. */
 .copy > * {
-  opacity: 0;
-  transform: translateY(18px);
-  animation: intro 0.75s var(--ease-out) forwards;
+  animation: intro 0.4s var(--ease-out) backwards;
 }
-.copy > :nth-child(1) { animation-delay: 0.08s; }
-.copy > :nth-child(2) { animation-delay: 0.16s; }
-.copy > :nth-child(3) { animation-delay: 0.24s; }
-.copy > :nth-child(4) { animation-delay: 0.32s; }
+.copy > :nth-child(1) { animation-delay: 0.02s; }
+.copy > :nth-child(2) { animation-delay: 0.06s; }
+.copy > :nth-child(3) { animation-delay: 0.1s; }
+.copy > :nth-child(4) { animation-delay: 0.14s; }
 .copy > :nth-child(5) { animation-delay: 0.4s; }
 
 .title {
@@ -86,13 +85,10 @@
 }
 /* One light sweep on load, then the gradient rests (no perpetual motion on the biggest text). */
 .title span {
-  background: linear-gradient(90deg, #fff 0%, #90e9f3 30%, #8cbcff 64%, #b29cf5 100%);
-  background-size: 200% auto;
-  background-position: 35% 50%;
+  background: var(--brand-gradient);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: gradientSweep 1.8s 0.45s var(--ease-out) both;
 }
 
 .lead {
@@ -100,7 +96,7 @@
   margin: 0 0 30px;
   font-size: 18px;
   line-height: 1.72;
-  color: #b5c0d1;
+  color: var(--text-strong);
 }
 
 .actions {
@@ -116,8 +112,8 @@
   margin: 28px 0 0;
   padding: 0;
   list-style: none;
-  font-size: 13px;
-  color: #aab6c7;
+  font-size: 14px;
+  color: var(--text-strong);
 }
 .meta li {
   display: flex;
@@ -133,9 +129,9 @@
 }
 
 @keyframes intro {
-  to {
-    opacity: 1;
-    transform: none;
+  from {
+    opacity: 0;
+    transform: translateY(12px);
   }
 }
 @keyframes gradientSweep {

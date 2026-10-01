@@ -1,12 +1,11 @@
 import type { CSSProperties } from "react";
-import { TiltCard } from "./TiltCard";
 import styles from "./SystemCard.module.css";
 
 const sources = [
+  { name: "Commerce", detail: "storefront and backend" },
   { name: "ERP / CRM", detail: "systems" },
-  { name: "Documents", detail: "knowledge" },
-  { name: "Databases", detail: "business data" },
-  { name: "APIs", detail: "integrations" },
+  { name: "Product data", detail: "PIM" },
+  { name: "Partners", detail: "APIs and integrations" },
 ];
 
 /**
@@ -22,17 +21,13 @@ const controls = [
 
 const index = (i: number) => ({ "--i": i }) as CSSProperties;
 
-/** Hero architecture visual: business systems → AI / automation layer → controlled actions. */
+/** Hero architecture visual: business systems → platform & integration layer (AI is one capability of it) → controlled actions. */
 export function SystemCard() {
   return (
     <div className={styles.intro}>
-      <TiltCard className={styles.card} label="Controlled AI workflow example">
+      <div className={styles.card} role="group" aria-label="Enterprise integration workflow example">
         <div className={styles.head}>
           <span>Business systems</span>
-          <span className={styles.live}>
-            <i />
-            controlled workflow
-          </span>
         </div>
 
         <div className={styles.sources}>
@@ -53,10 +48,10 @@ export function SystemCard() {
         </svg>
 
         <div className={styles.core}>
-          <div className={styles.mark}>AI</div>
+          <div className={styles.mark} aria-hidden="true">⇄</div>
           <div>
-            <b>AI / automation layer</b>
-            <small>Retrieval · rules · permissions · integrations · observability</small>
+            <b>Platform and integration layer</b>
+            <small>APIs · events · permissions · observability · AI assist</small>
           </div>
         </div>
 
@@ -72,17 +67,7 @@ export function SystemCard() {
             </div>
           ))}
         </div>
-
-        {/* Decorative: the same steps are already listed above. */}
-        <div className={styles.log} aria-hidden="true">
-          <span className={styles.prompt}>›</span>
-          {controls.map((control, i) => (
-            <span key={control.name} className={styles.logLine} style={index(i)}>
-              {control.trace}
-            </span>
-          ))}
-        </div>
-      </TiltCard>
+      </div>
     </div>
   );
 }

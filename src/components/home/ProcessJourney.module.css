@@ -1,26 +1,16 @@
 /*
- * Scroll-driven client journey.
+ * "How we work" stepper. All four steps are always visible; clicking a step highlights it.
  * State model: ProcessJourney.tsx sets `data-active` (0–3) on .scroll and writes
  * --process-progress (0–1). Everything visual below is keyed off those two, so
- * scrolling back up reverses the whole diagram with no extra logic.
+ * switching steps back and forth reverses the whole diagram with no extra logic.
+ * Nothing here hijacks page scrolling.
  */
 .scroll {
   --map-h: 390px;
   position: relative;
-  min-height: 310vh;
   background:
     radial-gradient(900px 560px at 50% 44%, rgba(92, 72, 190, 0.14), transparent 72%),
     radial-gradient(700px 420px at 8% 68%, rgba(26, 124, 251, 0.08), transparent 74%);
-}
-
-.sticky {
-  position: sticky;
-  top: var(--header-h);
-  display: flex;
-  align-items: center;
-  min-height: calc(100vh - var(--header-h));
-  padding: 42px 0;
-  overflow: hidden;
 }
 
 .shell {
@@ -67,17 +57,17 @@
 }
 .head h2 {
   margin: 12px 0 10px;
-  font-size: 42px;
+  font-size: 44px;
   font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: -0.045em;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
 }
 .head p {
   max-width: 590px;
   margin: 0 auto;
   font-size: 15px;
   line-height: 1.65;
-  color: #9ba8bc;
+  color: var(--text-secondary);
 }
 
 /* ---------------------------------------------------------- phase timeline */
@@ -125,7 +115,7 @@
   left: 0;
   width: 13px;
   height: 13px;
-  border: 2px solid #63728a;
+  border: 2px solid var(--text-muted);
   border-radius: 50%;
   background: #0a1325;
   transition: all 0.32s ease;
@@ -138,9 +128,9 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 7px;
   background: rgba(255, 255, 255, 0.025);
-  font: 500 11px/1 var(--font-mono);
+  font: 500 12px/1 var(--font-mono);
   letter-spacing: 0.05em;
-  color: #8291a7;
+  color: #8c9bb2;
   transition: all 0.32s ease;
 }
 /* Upcoming phases: dimmed by colour so text stays >= 4.5:1 on the shell background. */
@@ -149,31 +139,54 @@
   font-size: 17px;
   font-weight: 700;
   line-height: 1.25;
-  color: #8d9bb0;
+  color: #8c9bb2;
   transition: color 0.32s ease;
 }
 .phase p {
   margin: 0;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.55;
-  color: #8291a7;
+  color: #7f8ea5;
   transition: color 0.32s ease;
 }
 .phase .dot {
   opacity: 0.7;
+}
+/* The title is a real button (keyboard + screen readers); ::after stretches its click area over the whole step. */
+.stepButton {
+  /* Taller hit area without moving the layout. */
+  padding: 12px 0;
+  margin: -12px 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.stepButton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+}
+.stepButton:focus-visible::after {
+  outline: 2px solid #88f1fb;
+  outline-offset: 2px;
 }
 
 .completed {
   transform: none;
 }
 .completed h3 {
-  color: #c3cede;
+  color: #c3ccda;
 }
 .completed p {
   color: #97a5b9;
 }
 .completed .kicker {
-  color: #9fb0c6;
+  color: var(--text-secondary);
 }
 .completed .dot {
   opacity: 1;
@@ -207,7 +220,13 @@
   color: #fff;
 }
 .active p {
-  color: #b2bfd1;
+  color: #c9d3e1;
+}
+
+.hint {
+  margin: 22px 0 0;
+  font-size: 12px;
+  color: #8c9bb2;
 }
 
 /* ------------------------------------------------------------ workflow map */
@@ -249,10 +268,10 @@
 .zoneLabel {
   padding: 10px 12px 9px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.055);
-  font: 500 10px/1 var(--font-mono);
+  font: 500 11px/1 var(--font-mono);
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: #8a99af;
+  color: var(--text-secondary);
 }
 
 /* Zones use % top/height so they scale with the map and stay aligned with the wires. */
@@ -279,7 +298,7 @@
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.018);
   font-size: 12px;
-  color: #9aa8bb;
+  color: var(--text-secondary);
   transition: all 0.28s ease;
 }
 
@@ -306,7 +325,7 @@
   background: rgba(255, 255, 255, 0.025);
   text-align: center;
   font-size: 12px;
-  color: #9aa8bb;
+  color: var(--text-secondary);
   transition: all 0.32s ease;
 }
 .coreArrow {
@@ -317,9 +336,9 @@
 
 .outputZone {
   right: 4%;
-  top: 13.3%;
+  top: 11%;
   width: 23%;
-  height: 51%;
+  height: 59%;
   display: flex;
   flex-direction: column;
   padding-bottom: 10px;
@@ -328,7 +347,7 @@
   flex: 1;
   min-height: 0;
   margin: 10px 10px 0;
-  padding: 12px;
+  padding: 10px 12px;
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 9px;
   background: rgba(255, 255, 255, 0.02);
@@ -344,9 +363,9 @@
 }
 .outputCard span {
   display: block;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.45;
-  color: #8d9ab0;
+  color: var(--text-secondary);
 }
 
 .badge {
@@ -366,12 +385,12 @@
   display: block;
   margin-bottom: 3px;
   font-size: 12.5px;
-  color: #a3aec2;
+  color: var(--text-secondary);
   transition: color 0.35s ease;
 }
 .badge span {
-  font-size: 11px;
-  color: #8d9ab0;
+  font-size: 12px;
+  color: var(--text-secondary);
   transition: color 0.35s ease;
 }
 
@@ -449,7 +468,7 @@
   color: #fff;
 }
 .scroll[data-active="3"] .badge span {
-  color: #a9b5c8;
+  color: var(--text-strong);
 }
 .scroll[data-active="3"] .badge {
   transform: none;
@@ -480,34 +499,6 @@
   filter: drop-shadow(0 0 7px rgba(128, 108, 246, 0.55));
 }
 
-/* CTA appears at phase 4 */
-.cta {
-  position: absolute;
-  z-index: 4;
-  left: 50%;
-  bottom: 22px;
-  transform: translateX(-50%);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition:
-    opacity 0.35s ease,
-    transform 0.35s ease,
-    visibility 0s linear 0.35s;
-}
-.scroll[data-active="3"] .cta {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transition-delay: 0s;
-  transform: translateX(-50%) translateY(-3px);
-}
-.cta :global(.btn) {
-  box-shadow:
-    0 12px 38px rgba(34, 99, 236, 0.2),
-    0 0 30px rgba(116, 103, 241, 0.1);
-}
-
 /* ------------------------------------------------------------------ footer */
 .footer {
   position: relative;
@@ -520,90 +511,23 @@
   border-top: 1px solid rgba(255, 255, 255, 0.055);
 }
 .status {
-  font: 500 11px/1.35 var(--font-mono);
+  font: 500 12px/1.35 var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #8291a7;
+  color: var(--text-muted);
 }
 .status strong {
   font-weight: 500;
   color: #dbe5f4;
 }
 .status .current {
-  color: #92edf6;
+  color: var(--label);
 }
-.hint {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 12px;
-  color: #8493a9;
-}
-.hint i {
-  width: 28px;
-  height: 1px;
-  background: linear-gradient(90deg, var(--cyan), transparent);
-  animation: hintPulse 1.8s ease-in-out infinite;
-}
-@keyframes hintPulse {
-  50% {
-    width: 40px;
-    opacity: 0.45;
-  }
-}
-
-/* Reduced motion: keep the phase changes (they follow the user's own scroll)
-   but drop the flowing dashes, pulses and eased transitions. */
+/* Reduced motion: keep the step changes (they follow the user's own click)
+   but drop the flowing dashes and pulses. */
 @media (prefers-reduced-motion: reduce) {
-  .wires path,
-  .hint i {
+  .wires path {
     animation: none;
-  }
-}
-
-/* Short desktop viewports (e.g. 1440×900 laptops): the full-size shell is taller than the
-   pinned area, which clips the map and status line. Tighten vertical spacing and let the
-   map height flex with the viewport. Tall screens keep the original proportions. */
-@media (min-width: 1024px) and (max-height: 999px) {
-  .scroll {
-    --map-h: clamp(330px, calc(100vh - 545px), 390px);
-  }
-  .sticky {
-    padding: 16px 0;
-  }
-  .shell {
-    padding: 30px 44px 22px;
-  }
-  .head {
-    margin-bottom: 22px;
-  }
-  .mapArea {
-    margin-top: 22px;
-  }
-}
-
-/* Very short desktop windows: drop the subtitle so the diagram and status still fit. */
-@media (min-width: 1024px) and (max-height: 800px) {
-  .scroll {
-    --map-h: 316px;
-  }
-  .sticky {
-    padding: 8px 0;
-  }
-  .shell {
-    padding: 22px 44px 16px;
-  }
-  .head {
-    margin-bottom: 16px;
-  }
-  .head h2 {
-    font-size: 36px;
-  }
-  .head p {
-    display: none;
-  }
-  .mapArea {
-    margin-top: 14px;
   }
 }
 
@@ -611,9 +535,6 @@
 @media (max-width: 1023px) {
   .scroll {
     --map-h: 360px;
-  }
-  .sticky {
-    padding: 16px 0;
   }
   .shell {
     padding: 32px 28px 22px;
@@ -644,7 +565,7 @@
   .coreNode {
     min-width: 0;
     padding: 8px 4px;
-    font-size: 11px;
+    font-size: 12px;
   }
   /* Narrow zones can't fit the descriptions without spilling; keep titles only. */
   .outputCard {
@@ -669,12 +590,6 @@
    readable size); only the active phase shows its description, and the CTA
    moves into the flow and appears at phase 4. */
 @media (max-width: 640px) {
-  .scroll {
-    min-height: 330vh;
-  }
-  .sticky {
-    padding: 16px 0;
-  }
   .shell {
     padding: 24px 16px 18px;
     border-radius: 18px;
@@ -684,7 +599,7 @@
     text-align: left;
   }
   .head h2 {
-    font-size: 29px;
+    font-size: 32px;
   }
   .head p {
     font-size: 14px;
@@ -728,7 +643,7 @@
   }
   .kicker {
     min-height: 22px;
-    font-size: 11px;
+    font-size: 12px;
   }
   .phase h3 {
     display: inline-block;
@@ -736,41 +651,28 @@
     font-size: 15px;
   }
   .phase p {
-    display: none;
     margin-top: 8px;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.5;
-  }
-  .active p {
-    display: block;
   }
 
   .mapArea {
-    height: 60px;
-    margin-top: 16px;
+    height: 0;
+    margin-top: 8px;
     border-top: 0;
   }
   .map {
     display: none;
   }
-  .cta {
-    bottom: auto;
-    top: 8px;
-    width: 100%;
-    text-align: center;
-  }
-  .cta :global(.btn) {
-    width: 100%;
-    min-height: 46px;
-  }
 
   .footer {
-    align-items: flex-start;
+    align-items: stretch;
     flex-direction: column;
-    gap: 6px;
+    gap: 12px;
     padding-top: 12px;
   }
-  .hint {
-    font-size: 12px;
+  .footer :global(.btn) {
+    width: 100%;
+    min-height: 46px;
   }
 }

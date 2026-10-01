@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { Menu, X } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { navigation } from "@/data/navigation";
 import { CONTACT_HREF, CTA_LABEL } from "@/data/site";
 import { cn } from "@/lib/utils";
@@ -13,6 +15,7 @@ const DRAWER_ID = "mobile-navigation";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const onHome = usePathname() === "/";
   const [heroInView, setHeroInView] = useState(true);
   const [open, setOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -34,7 +37,7 @@ export function Header() {
   // While the hero (with its own primary CTA) is on screen, the header CTA steps back.
   useEffect(() => {
     const hero = document.getElementById("hero");
-    if (!hero) return;
+    if (!hero) return; // Pages without a hero (case studies, privacy, ...) keep the header CTA at full strength.
     const observer = new IntersectionObserver(([entry]) => setHeroInView(entry.isIntersecting), {
       rootMargin: "-76px 0px 0px 0px",
     });
@@ -93,19 +96,20 @@ export function Header() {
       )}
     >
       <Container className="flex h-full items-center justify-between gap-[26px]">
-        <a href="#top" aria-label="Altronix Software — home" className="rounded-md py-2">
+        <Link href="/" className="rounded-md py-2">
           <Logo />
-        </a>
+          <span className="sr-only"> — home</span>
+        </Link>
 
-        <nav aria-label="Primary" className="hidden gap-[30px] text-sm font-semibold text-[#b7c1d1] lg:flex">
+        <nav aria-label="Primary" className="hidden gap-[30px] text-sm font-semibold text-strong lg:flex">
           {navigation.map((item) => (
-            <a key={item.href} href={item.href} className="transition-colors hover:text-white">
+            <Link key={item.href} href={item.href} className="inline-flex min-h-11 items-center transition-colors hover:text-white">
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
-        <Button href={CONTACT_HREF} data-quiet={heroInView} className="hidden lg:inline-flex">
+        <Button href={CONTACT_HREF} data-quiet={onHome && heroInView} className="hidden lg:inline-flex">
           {CTA_LABEL}
         </Button>
 
@@ -131,14 +135,14 @@ export function Header() {
       >
         <nav aria-label="Mobile" className="mx-auto flex w-[min(calc(100%-32px),var(--container-max))] flex-col py-3 sm:w-[min(calc(100%-48px),var(--container-max))]">
           {navigation.map((item) => (
-            <a
+            <Link
               key={item.href}
               href={item.href}
               onClick={() => close(false)}
               className="flex min-h-14 items-center border-b border-line text-lg font-semibold text-[#d5deea]"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
           <Button href={CONTACT_HREF} onClick={() => close(false)} className="mt-6 min-h-[52px] w-full">
             {CTA_LABEL}

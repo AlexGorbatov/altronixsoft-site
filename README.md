@@ -1,8 +1,6 @@
 <div align="center">
 
-<img src="docs/banner.svg" alt="Altronix Software — Practical AI. Serious engineering." width="100%" />
-
-<br />
+# Altronix Software
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-149ECA?style=for-the-badge&logo=react&logoColor=white)
@@ -14,52 +12,22 @@
 <br />
 Custom software · modernization & integrations · AI solutions & automation.
 
-[Screens](#-screens) · [Highlights](#-highlights) · [Design system](#-design-system) · [Stack](#-stack) · [Structure](#-project-structure) · [Getting started](#-getting-started) · [Before launch](#-before-launch)
+[Highlights](#-highlights) · [Design system](#-design-system) · [Stack](#-stack) · [Structure](#-project-structure) · [Getting started](#-getting-started) · [Before launch](#-before-launch)
 
 </div>
-
-<br />
-
-## 🖥 Screens
-
-<div align="center">
-  <img src="docs/screenshots/hero.jpg" alt="Hero with the business-systems → AI layer → controlled actions architecture visual" width="100%" />
-  <sub><b>Hero</b> — business systems → AI / automation layer → controlled actions. The four controls light up in turn (rules · approval · action · audit) with a live trace line.</sub>
-</div>
-
-<br />
-
-<div align="center">
-  <img src="docs/screenshots/services.jpg" alt="Three service areas and compact AI use cases" width="100%" />
-  <sub><b>Services</b> — custom software, modernization and AI, with a deliberately quiet AI use-case strip.</sub>
-</div>
-
-<br />
-
-<table>
-  <tr>
-    <td width="68%" valign="top" align="center">
-      <img src="docs/screenshots/process.jpg" alt="Scroll-driven process journey, phase 4" width="100%" />
-      <sub><b>Process journey</b> — scroll-driven, fully reversible. Shown at phase 4 · Launch &amp; improve.</sub>
-    </td>
-    <td width="32%" valign="top" align="center">
-      <img src="docs/screenshots/mobile-process.jpg" alt="Process journey on mobile, vertical timeline" width="100%" />
-      <sub><b>Mobile</b> — vertical timeline.</sub>
-    </td>
-  </tr>
-</table>
 
 <br />
 
 ## ✨ Highlights
 
-- **Scroll-driven process journey.** A sticky section where scroll position drives four phases — *Understand → Design → Build & prove → Launch & improve*. The progress line (blue → cyan → violet), the phase states and the workflow map all follow one value, so scrolling back up reverses everything naturally. Isolated in a single component: [`ProcessJourney.tsx`](src/components/home/ProcessJourney.tsx).
+- **"How we work" stepper.** Four steps visible at once (columns on desktop, a vertical list on phones); clicking a step lights the matching part of the workflow diagram. It never captures page scrolling. Isolated in [`ProcessJourney.tsx`](src/components/home/ProcessJourney.tsx).
 - **Enterprise-architecture hero visual.** Animated connectors, staggered node reveals, status pulses and a barely-there pointer tilt — restrained on purpose.
-- **Commercial work and Labs kept apart.** Anonymous client projects (contribution · environment · focus) versus a clearly labelled *Altronix Labs* block. No invented customers, metrics or testimonials.
-- **Premium but quiet motion.** Section reveals, pointer-following card glow, a subtle capability marquee, and a slight parallax on the large background glows only. Everything respects `prefers-reduced-motion`.
-- **Built for every screen.** Desktop, laptop-height viewports (the process section adapts so nothing is clipped), tablet, and phone — with horizontal snap-scrolling rows instead of endless card stacks.
-- **Accessible by default.** Semantic landmarks, a keyboard-operable mobile drawer (focus trap, `Esc`, focus return), visible focus rings, `aria-current` on the active phase, skip link, 44px tap targets.
-- **SEO ready.** Metadata API, Open Graph & Twitter tags, canonical, `robots` + `sitemap`, and JSON-LD (`Organization`, `ProfessionalService`) with no made-up addresses or ratings.
+- **Case studies, not slogans.** Each anonymous client engagement has its own page (`/work/[slug]`) with context, challenge, what we did, result, stack, duration and role. Fields still waiting for real facts are `TODO(owner)` placeholders that never reach production. *Altronix Labs* shows up only when a demo or repository exists.
+- **A real contact path.** A validated form (zod) with a honeypot, rate limit and Resend/SMTP delivery, an optional booking link, and a prefilled-`mailto:` fallback when no provider is configured.
+- **Premium but quiet motion.** Short section reveals that are visible without JS and never hide content on fast scrolling, pointer-following card glow, a subtle capability marquee. Everything respects `prefers-reduced-motion`.
+- **Built for every screen.** Desktop, tablet and phone, with horizontal snap-scrolling rows instead of endless card stacks.
+- **Accessible by default.** Semantic landmarks, a keyboard-operable mobile drawer (focus trap, `Esc`, focus return), visible focus rings, `aria-pressed` on the active step, skip link, 44px tap targets.
+- **SEO ready.** Per-page metadata, canonical, Open Graph & Twitter tags (1200×630), `robots` + `sitemap`, and JSON-LD (`Organization` with `sameAs`, `ProfessionalService`) with no made-up addresses or ratings.
 
 <br />
 
@@ -89,7 +57,7 @@ Deep navy (~70%), indigo surfaces (~20%), cyan / violet ambient light (~10%) —
 | **Styling** | Tailwind CSS v4 + CSS variables; CSS Modules for the two bespoke visuals |
 | **Icons** | `lucide-react` |
 | **Animation** | CSS-first — no animation library |
-| **Hosting** | Static output, deployable to Vercel as-is — no backend |
+| **Hosting** | Next.js runtime (Vercel or any Node host): static pages plus one route handler for the contact form |
 
 Client components are limited to what genuinely needs the browser: `Header` (drawer), `AnimatedReveal`, `SpotlightCard`, `TiltCard`, `HeroGlows`, `ProcessJourney`.
 
@@ -99,19 +67,21 @@ Client components are limited to what genuinely needs the browser: `Header` (dra
 
 ```text
 src/
-├─ app/                    layout, page, metadata, robots, sitemap, icon / apple-icon / opengraph-image, globals.css (tokens)
+├─ app/                    layout, home page, /work/[slug], /services/[slug], /privacy, api/contact,
+│                          metadata, robots, sitemap, icon / apple-icon / opengraph-image, globals.css (tokens)
 ├─ components/
-│  ├─ layout/              Header (sticky + accessible drawer), Footer, Logo
-│  ├─ home/                Hero, TrustStrip, Services, AiUseCases, Industries, SelectedWork,
-│  │                       ProcessJourney, EngagementModels, Company, FinalCTA
-│  ├─ ui/                  Button, Container, Section, SectionHeading, Tag,
+│  ├─ layout/              Header (sticky + accessible drawer), Footer (legal line), Logo, PageShell
+│  ├─ home/                Hero, TrustStrip, Services, AiUseCases, Industries, SelectedWork, Labs,
+│  │                       ProcessJourney, EngagementModels, Company ("Who we are"), FinalCTA
+│  ├─ contact/             ContactForm
+│  ├─ ui/                  Button, Container, Section, SectionHeading, Tag, Avatar,
 │  │                       AnimatedReveal, SpotlightCard, CardRow
 │  └─ JsonLd.tsx           structured data
-├─ data/                   all copy & content as typed arrays
-│                          (services, industries, projects, process, engagement, company, navigation, site)
-└─ lib/utils.ts
-docs/                      README assets (banner, logo, screenshots)
-reference/                 the approved HTML prototype, kept for visual comparison
+├─ data/                   all copy & content as typed data
+│                          (hero, services, industries, projects, process, engagement, company,
+│                           contact, privacy, navigation, site)
+└─ lib/                    utils, todo (TODO(owner) helpers), cases, metadata, contact-schema
+docs/superpowers/          design specs and implementation plans
 ```
 
 <br />
@@ -124,9 +94,11 @@ npm run dev       # http://localhost:3000
 ```
 
 ```bash
-npm run build     # production build
-npm run start     # serve the production build
+npm run build      # production build
+npm run start      # serve the production build
 npm run lint
+npm run typecheck
+npm test           # unit tests (vitest): contact schema, API route, TODO helpers
 ```
 
 Requires Node.js 20+.
@@ -135,15 +107,34 @@ Requires Node.js 20+.
 
 ## ✅ Before launch
 
-- [ ] Set `NEXT_PUBLIC_SITE_URL` (canonical / Open Graph base — defaults to `https://altronixsoft.com`).
-- [ ] Confirm the contribution / environment / focus wording of the commercial projects in [`src/data/projects.ts`](src/data/projects.ts).
+Content that only the owner can provide is written as `TODO(owner): ...` in `src/data/*` and `site.ts`. Components render a value only once it is real, so placeholders never reach production; in development they show as dashed notes. List everything still open:
 
-All calls to action are `mailto:` links to `info@altronixsoft.com` until a contact backend exists.
+```bash
+npm run todo     # every open placeholder with file:line, grouped by file
+```
+
+| Area | File | What to provide |
+|---|---|---|
+| Case studies (×3) | `src/data/projects.ts` | context, challenge, what we did, result, duration |
+| Labs | `src/data/projects.ts` | demo URL, repository, screenshot (block stays hidden without them) |
+| Engagement packages | `src/data/engagement.ts` | price, duration, deliverable per format |
+| Company | `src/data/company.ts` | production-systems count, industries and countries, check of "Since 2019" |
+| Legal | `src/data/site.ts` | registry code, VAT number |
+| Contact person | `src/data/checkup.ts` | name, role, LinkedIn |
+| Support and Security | `src/data/trust.ts` | real conditions (the whole section stays hidden until filled) |
+| SAP Commerce page | `src/data/sap-commerce.ts` | versions and storefronts, certifications, typical engagement |
+| Privacy policy | `src/data/privacy.ts` | last updated, retention period, email provider |
+
+- [ ] Fill the `TODO(owner)` values: legal details, company numbers, case-study facts, package prices, privacy-policy specifics.
+- [ ] Configure the environment (see [`.env.example`](.env.example)): `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_BOOKING_URL`, and a mail provider (`RESEND_API_KEY` or `SMTP_*`, plus `CONTACT_TO` / `CONTACT_FROM`). Without a provider the form falls back to a prefilled `mailto:` link.
+- [ ] Hero headline is in [`src/data/hero.ts`](src/data/hero.ts); currently "Serious engineering. Practical AI."
+- [ ] Review the privacy policy template in [`src/data/privacy.ts`](src/data/privacy.ts) (not legal advice: have it reviewed).
+- [ ] Case studies without a filled `result` are `noindex` and stay out of the sitemap until they have one.
+
+The contact form needs a server runtime (it posts to `/api/contact`), so deploy on a platform that runs Next.js route handlers (Vercel, Node, containers), not a static export.
 
 <br />
 
 <div align="center">
-  <img src="docs/logo.svg" alt="Altronix Software" width="96" />
-  <br />
-  <sub>© Altronixsoft OÜ · <i>Practical AI. Serious engineering.</i></sub>
+  <sub>© Altronixsoft OÜ · <i>Serious engineering. Practical AI.</i></sub>
 </div>
