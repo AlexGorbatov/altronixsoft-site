@@ -77,7 +77,7 @@ export function ProcessJourney() {
         <Container className="relative z-[2]">
           <div className={styles.shell}>
             <div className={styles.head}>
-              <div className="eyebrow max-sm:justify-start sm:justify-center">{copy.process.eyebrow}</div>
+              <div className="eyebrow">{copy.process.eyebrow}</div>
               <h2 id="process-title">{copy.process.title}</h2>
               <p>{copy.process.description}</p>
             </div>

@@ -5,13 +5,13 @@ import { engagementModels, type EngagementModel } from "@/data/engagement";
 import { contactHref, siteConfig } from "@/data/site";
 import { filled, filledItems } from "@/lib/todo";
 import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
-import { CARD_ITEM, CardRow } from "@/components/ui/CardRow";
+import { CardRow } from "@/components/ui/CardRow";
+import { CARD_ITEM } from "@/components/ui/cardItem";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
+import { FACT_LABEL } from "@/components/ui/factLabel";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
-
-const factLabel = "font-mono text-caption leading-[1.4] font-medium tracking-[0.1em] text-subtle uppercase";
 
 /** Package facts: shown only once the owner has filled them in (see `filled()`). Label above value, never cramped. */
 function PackageFacts({ model }: { model: EngagementModel }) {
@@ -29,7 +29,7 @@ function PackageFacts({ model }: { model: EngagementModel }) {
         <dl className="grid gap-3">
           {facts.map(([term, detail]) => (
             <div key={term}>
-              <dt className={factLabel}>{term}</dt>
+              <dt className={FACT_LABEL}>{term}</dt>
               <dd className="mt-1 leading-[1.5] text-strong">{detail}</dd>
             </div>
           ))}
@@ -66,7 +66,7 @@ export function EngagementModels() {
           <AnimatedReveal key={model.id} delay={((i % 4) + 1) as 1 | 2 | 3 | 4} className={CARD_ITEM}>
             <SpotlightCard className="card flex h-full flex-col">
               <h3 className="mb-3 text-[22px] leading-[1.2] font-bold tracking-[-0.03em]">{model.title}</h3>
-              <p className="text-body leading-[1.65] text-muted lg:min-h-[6.3rem]">{model.description}</p>
+              <p className="text-body leading-[1.65] text-muted lg:min-h-[4.95rem]">{model.description}</p>
               <p className="mt-4 border-t border-line pt-4 text-small leading-[1.55] text-strong">{model.outcome}</p>
               <PackageFacts model={model} />
               <Link href={contactHref(model.cta.type)} className="link-quiet mt-auto self-start pt-3">

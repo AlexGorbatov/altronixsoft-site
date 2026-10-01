@@ -52,8 +52,7 @@
   position: relative;
   z-index: 2;
   max-width: 760px;
-  margin: 0 auto 34px;
-  text-align: center;
+  margin: 0 0 34px;
 }
 .head h2 {
   margin: 12px 0 10px;
@@ -63,9 +62,9 @@
   letter-spacing: -0.04em;
 }
 .head p {
-  max-width: 590px;
-  margin: 0 auto;
-  font-size: 15px;
+  max-width: 58ch;
+  margin: 0;
+  font-size: 16px;
   line-height: 1.65;
   color: var(--text-secondary);
 }
@@ -139,14 +138,14 @@
   font-size: 17px;
   font-weight: 700;
   line-height: 1.25;
-  color: #8c9bb2;
+  color: var(--text-muted);
   transition: color 0.32s ease;
 }
 .phase p {
   margin: 0;
   font-size: 14px;
   line-height: 1.55;
-  color: #7f8ea5;
+  color: var(--text-muted);
   transition: color 0.32s ease;
 }
 .phase .dot {
@@ -225,8 +224,8 @@
 
 .hint {
   margin: 22px 0 0;
-  font-size: 12px;
-  color: #8c9bb2;
+  font-size: 13px;
+  color: var(--text-muted);
 }
 
 /* ------------------------------------------------------------ workflow map */
@@ -600,6 +599,9 @@
   }
   .head h2 {
     font-size: 32px;
+  }
+  .hint {
+    display: none;
   }
   .head p {
     font-size: 14px;

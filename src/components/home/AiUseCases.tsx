@@ -27,10 +27,10 @@ export function AiUseCases() {
               i === aiUseCases.length - 1 && "max-sm:border-r-0",
             )}
           >
-            <h4 className="mb-[7px] text-sm font-bold transition-colors group-hover:text-label">
+            <h4 className="text-base font-bold transition-colors group-hover:text-label">
               {useCase.title}
             </h4>
-            <p className="text-small leading-[1.55] text-subtle">{useCase.description}</p>
+            <p className="mt-2 text-small leading-[1.6] text-muted">{useCase.description}</p>
           </div>
         ))}
       </div>

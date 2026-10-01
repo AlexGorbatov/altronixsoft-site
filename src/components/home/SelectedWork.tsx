@@ -4,9 +4,11 @@ import { caseStudies, type CaseStudy } from "@/data/projects";
 import { hasResult, warnIfIncomplete } from "@/lib/cases";
 import { filled } from "@/lib/todo";
 import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
-import { CARD_ITEM, CardRow } from "@/components/ui/CardRow";
+import { CardRow } from "@/components/ui/CardRow";
+import { CARD_ITEM } from "@/components/ui/cardItem";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { FACT_LABEL } from "@/components/ui/factLabel";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { Tag } from "@/components/ui/Tag";
 import { Labs } from "./Labs";
@@ -19,20 +21,16 @@ function CaseFacts({ study }: { study: CaseStudy }) {
   if (hasResult(study)) facts.push([copy.work.resultLabel, study.result]);
 
   return (
-    <dl className="mt-5 grid gap-[10px] border-t border-line pt-4 text-small">
+    <dl className="mt-5 grid gap-3 border-t border-line pt-4 text-small">
       {facts.map(([term, detail]) => (
-        <div key={term} className="grid grid-cols-[84px_1fr] gap-3">
-          <dt className="font-mono text-caption leading-[1.7] font-medium tracking-[0.1em] text-subtle uppercase">
-            {term}
-          </dt>
-          <dd className="leading-[1.5] text-strong">{detail}</dd>
+        <div key={term}>
+          <dt className={FACT_LABEL}>{term}</dt>
+          <dd className="mt-1 leading-[1.5] text-strong">{detail}</dd>
         </div>
       ))}
-      <div className="grid grid-cols-[84px_1fr] gap-3">
-        <dt className="font-mono text-caption leading-[1.7] font-medium tracking-[0.1em] text-subtle uppercase">
-          {copy.work.stackLabel}
-        </dt>
-        <dd>
+      <div>
+        <dt className={FACT_LABEL}>{copy.work.stackLabel}</dt>
+        <dd className="mt-2">
           <ul className="flex flex-wrap gap-[6px]" aria-label={copy.work.stackAria}>
             {study.stack.map((item) => (
               <li key={item}>

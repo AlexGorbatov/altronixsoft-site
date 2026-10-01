@@ -41,7 +41,7 @@ export const engagementModels: EngagementModel[] = [
   {
     id: "fixed",
     title: "Fixed-scope project",
-    description: "Agreed scope, timeline and result.",
+    description: "Agreed scope, timeline and result. Code and documentation are handed over at the end.",
     outcome: "A release running in production.",
     priceFrom: "TODO(owner): price, e.g. from €X",
     duration: "TODO(owner): duration",

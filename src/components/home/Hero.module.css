@@ -6,6 +6,9 @@
   /* Hero + trust strip (89px) fill exactly one screen; never shorter than 640px. */
   min-height: max(640px, calc(100svh - var(--header-h) - 89px));
   overflow: hidden;
+  /* Nothing in the hero (e.g. the workflow scene) may widen the page: paint is clipped to the section. */
+  contain: paint;
+  max-width: 100%;
   background:
     radial-gradient(800px 520px at 84% 12%, rgba(143, 93, 211, 0.3), transparent 68%),
     radial-gradient(700px 430px at 62% 78%, rgba(41, 88, 188, 0.18), transparent 70%),
@@ -60,9 +63,8 @@
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  align-items: center;
-  gap: 72px;
+  grid-template-columns: 1fr;
+  gap: 0;
 }
 
 /* Visible by default (SSR, no JS, reduced motion); the entrance only exists inside the animation. */
@@ -139,10 +141,22 @@
   to { background-position: 35% 50%; }
 }
 
+@media (min-width: 1024px) {
+  /* Three-line title, as in the original hero. */
+  .title {
+    max-width: 600px;
+  }
+  .lead {
+    max-width: 590px;
+  }
+}
+
 @media (max-width: 1023px) {
   .hero {
+    flex-direction: column;
+    align-items: stretch;
     min-height: auto;
-    padding: 84px 0;
+    padding: 84px 0 40px;
   }
   .grid {
     grid-template-columns: 1fr;

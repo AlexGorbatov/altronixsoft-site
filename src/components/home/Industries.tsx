@@ -13,7 +13,7 @@ export function Industries() {
         <div className="grid border-y border-line lg:grid-cols-[1.1fr_repeat(3,1fr)]">
           <div className="py-6 lg:border-r lg:border-line lg:pr-6">
             <div className="eyebrow">Industries</div>
-            <h2 id="industries-title" className="mt-3 text-lg font-bold tracking-[-0.02em]">
+            <h2 id="industries-title" className="mt-3 text-base font-bold">
               Industries we work in.
             </h2>
           </div>

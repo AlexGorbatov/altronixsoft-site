@@ -3,7 +3,7 @@ import { CONTACT_HREF, CTA_LABEL } from "@/data/site";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { HeroGlows } from "./HeroGlows";
-import { SystemCard } from "./SystemCard";
+import { WorkflowFlow } from "./WorkflowFlow";
 import styles from "./Hero.module.css";
 
 export function Hero() {
@@ -36,8 +36,8 @@ export function Hero() {
             ))}
           </ul>
         </div>
-        <SystemCard />
       </Container>
+      <WorkflowFlow animated />
     </section>
   );
 }

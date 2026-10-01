@@ -75,6 +75,7 @@
 
 /* ------------------------------------------------------------------ base */
 html {
+  overflow-x: clip; /* belt and braces with body: the page never scrolls sideways */
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-h);
 }
@@ -135,24 +136,21 @@ h3 {
   }
 
   /* Section shell + localized ambient light */
+  /* One vertical rhythm for every section: 78px on phones, 104px from 641px up; compact bands use 60%. */
   .section {
+    --section-y: 78px;
     position: relative;
-    padding: 78px 0;
+    padding: var(--section-y) 0;
     overflow: hidden;
   }
   @media (min-width: 641px) {
     .section {
-      padding: 104px 0;
+      --section-y: 104px;
     }
   }
   /* Slim band for supporting content (e.g. Industries): same rhythm, much less air. */
   .section-compact {
-    padding: 48px 0;
-  }
-  @media (min-width: 641px) {
-    .section-compact {
-      padding: 64px 0;
-    }
+    padding: calc(var(--section-y) * 0.6) 0;
   }
   .section-alt {
     background: var(--background-alt);
