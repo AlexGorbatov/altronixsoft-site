@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { navigation } from "@/data/navigation";
-import { services } from "@/data/services";
+import { serviceCards } from "@/data/services";
 import { siteConfig } from "@/data/site";
 import { filled } from "@/lib/todo";
 import { Container } from "@/components/ui/Container";
@@ -37,14 +37,11 @@ export function Footer() {
         </div>
         <nav aria-label="Services" className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-1 border-t border-white/[.06] pt-4 text-[13px] text-subtle">
           <span className="text-subtle">Services:</span>
-          {services.map((service) => (
-            <Link key={service.id} href={`/services/${service.id}`} className={linkClass}>
+          {serviceCards.map((service) => (
+            <Link key={service.id} href={service.href} className={linkClass}>
               {service.title}
             </Link>
           ))}
-          <Link href="/services/sap-commerce" className={linkClass}>
-            SAP Commerce Cloud
-          </Link>
         </nav>
         <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-white/[.06] pt-4 text-small text-muted">
           <span>Contact:</span>

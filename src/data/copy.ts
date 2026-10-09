@@ -12,12 +12,15 @@ export const copy = {
   },
   services: {
     eyebrow: "Services",
-    title: "Custom software, modernization, AI.",
+    title: "Integrations, modernization, practical AI.",
     description: "We start with the problem and pick the simplest technology that solves it.",
     rowLabel: "Services",
-    capabilitiesLabel: "Capabilities",
     detailsLink: "Service details",
-    sapLink: "SAP Commerce Cloud development and support",
+  },
+  aiBlock: {
+    title: "Where AI fits in your operations",
+    diagramCaption:
+      "Every AI action is checked against your systems and policies, approved by a person where it matters, and logged.",
   },
   work: {
     eyebrow: "Selected work",

@@ -5,7 +5,7 @@ export interface Service {
   id: string;
   number: string;
   title: string;
-  /** One-line title for cards, so the three cards align. */
+  /** Title on the home page card. */
   shortTitle: string;
   description: string;
   /** Opening paragraph of the service page. */
@@ -18,31 +18,12 @@ export interface Service {
 
 export const services: Service[] = [
   {
-    id: "software",
-    number: "01",
-    title: "Custom software development",
-    shortTitle: "Custom software",
-    description: "Software built around your business processes.",
-    intro:
-      "We design and build custom software around your business processes, from the first MVP to production: web applications, internal platforms, APIs and integrations.",
-    metaDescription:
-      "Custom software built around your business processes, from MVP to production: web applications, internal platforms, APIs and integrations.",
-    capabilities: [
-      "SaaS products",
-      "Web applications",
-      "Internal platforms",
-      "APIs",
-      "Integrations",
-      "MVP to production",
-    ],
-    cta: { label: "Discuss software development", type: "project" },
-  },
-  {
     id: "modernization",
-    number: "02",
+    number: "01",
     title: "Modernization and integrations",
     shortTitle: "Modernization and integrations",
-    description: "Modernize existing systems without full rewrites.",
+    description:
+      "Connect ERP, PIM, commerce, payments and logistics systems — and modernize what already runs your business, without unnecessary rewrites.",
     intro:
       "We improve the systems that already run your business, without unnecessary rewrites: Java / Spring modernization, SAP Commerce Cloud development and support, cloud migration and enterprise integrations.",
     metaDescription:
@@ -59,10 +40,11 @@ export const services: Service[] = [
   },
   {
     id: "ai",
-    number: "03",
+    number: "02",
     title: "AI solutions and automation",
-    shortTitle: "AI and automation",
-    description: "AI agents, search and document automation inside your systems.",
+    shortTitle: "AI solutions and automation",
+    description:
+      "AI for product data, documents, order exceptions and customer service — with access control, audit trails and human approval.",
     intro:
       "We add AI where it measurably helps and connect it to your existing systems with proper controls: agents, retrieval over internal knowledge, and document and workflow automation.",
     metaDescription:
@@ -76,11 +58,54 @@ export const services: Service[] = [
     ],
     cta: { label: "Discuss AI solutions", type: "project" },
   },
+  {
+    id: "software",
+    number: "03",
+    title: "Custom software development",
+    shortTitle: "Custom software development",
+    description:
+      "Web applications, internal platforms and APIs around your business processes — from first version to production.",
+    intro:
+      "We design and build custom software around your business processes, from the first MVP to production: web applications, internal platforms, APIs and integrations.",
+    metaDescription:
+      "Custom software built around your business processes, from MVP to production: web applications, internal platforms, APIs and integrations.",
+    capabilities: [
+      "SaaS products",
+      "Web applications",
+      "Internal platforms",
+      "APIs",
+      "Integrations",
+      "MVP to production",
+    ],
+    cta: { label: "Discuss software development", type: "project" },
+  },
 ];
 
 export function getService(slug: string): Service | undefined {
   return services.find((service) => service.id === slug);
 }
+
+/** A service as listed on the home page, in the footer and in "Other services": same order everywhere. */
+export interface ServiceCard {
+  id: string;
+  title: string;
+  description: string;
+  href: string;
+}
+
+/**
+ * The four services in display order. SAP Commerce Cloud has its own static route
+ * (`/services/sap-commerce`), so it is listed here but is not part of `services` / `[slug]`.
+ */
+export const serviceCards: ServiceCard[] = [
+  ...services.map(({ id, title, description }) => ({ id, title, description, href: `/services/${id}` })),
+  {
+    id: "sap-commerce",
+    title: "SAP Commerce Cloud",
+    description: "Development, upgrades and support for existing SAP Commerce Cloud (Hybris) platforms.",
+    href: "/services/sap-commerce",
+  },
+];
 
 export interface UseCase {
   title: string;

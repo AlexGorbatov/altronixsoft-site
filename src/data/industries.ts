@@ -10,7 +10,7 @@ export const industries: Industry[] = [
   {
     id: "ecommerce",
     title: "E-commerce",
-    line: "Commerce platforms, SAP Commerce Cloud and the integrations around them.",
+    line: "Commerce platforms and the integrations around them.",
   },
   {
     id: "pim",
