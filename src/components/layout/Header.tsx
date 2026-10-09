@@ -5,7 +5,7 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navigation } from "@/data/navigation";
-import { CONTACT_HREF, CTA_LABEL } from "@/data/site";
+import { CONTACT_HREF, CTA_LABEL, siteConfig } from "@/data/site";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -96,9 +96,8 @@ export function Header() {
       )}
     >
       <Container className="flex h-full items-center justify-between gap-[26px]">
-        <Link href="/" className="rounded-md py-2">
+        <Link href="/" className="rounded-md py-2" aria-label={`${siteConfig.name} — home`}>
           <Logo />
-          <span className="sr-only"> — home</span>
         </Link>
 
         <nav aria-label="Primary" className="hidden gap-[30px] text-sm font-semibold text-strong lg:flex">

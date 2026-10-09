@@ -1,5 +1,5 @@
 import { hero } from "@/data/hero";
-import { CONTACT_HREF, CTA_LABEL } from "@/data/site";
+import { CONTACT_HREF, CTA_LABEL, siteConfig } from "@/data/site";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { HeroGlows } from "./HeroGlows";
@@ -27,7 +27,7 @@ export function Hero() {
               See our work
             </Button>
           </div>
-          <ul className={styles.meta} aria-label="About Altronix Software">
+          <ul className={styles.meta} aria-label={`About ${siteConfig.name}`}>
             {hero.facts.map((fact) => (
               <li key={fact}>
                 <i aria-hidden="true" />

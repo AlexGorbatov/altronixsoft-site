@@ -84,9 +84,9 @@ export function LogoMark({ className }: { className?: string }) {
 }
 
 /**
- * Mark + stacked wordmark: ALTRONIX over SOFTWARE of the same width.
- * SOFTWARE is one text node stretched with letter-spacing (0.924em makes it as wide as ALTRONIX at these sizes),
- * not eight separate letter elements, so assistive tech and link-name checks read "Altronix Software".
+ * Mark + stacked wordmark: ALTRONIX over SOFT.
+ * SOFT is one text node spaced with letter-spacing, not separate letter elements.
+ * The links that wrap the logo carry the accessible name ("Altronixsoft — home").
  * The trailing negative margin cancels the spacing that CSS adds after the last letter.
  */
 export function Logo({ className }: { className?: string }) {
@@ -96,7 +96,7 @@ export function Logo({ className }: { className?: string }) {
       <span className="flex flex-col gap-[5px] leading-none">
         <b className="text-[19px] font-extrabold tracking-[0.05em] text-white">ALTRONIX</b>
         <span className="mr-[-0.924em] block text-[8.5px] font-semibold tracking-[0.924em] text-[#bcd2f7]">
-          SOFTWARE
+          SOFT
         </span>
       </span>
     </span>

@@ -24,9 +24,8 @@ export function Footer() {
     <footer className="border-t border-line bg-[#060c17] pt-11 pb-[26px]">
       <Container>
         <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center lg:gap-[30px]">
-          <Link href="/" className="rounded-md py-2">
+          <Link href="/" className="rounded-md py-2" aria-label={`${siteConfig.name} — back to top`}>
             <Logo />
-            <span className="sr-only"> — back to top</span>
           </Link>
           <nav aria-label="Footer" className="flex flex-wrap gap-x-5 gap-y-1 text-small text-muted">
             {navigation.map((item) => (
@@ -53,7 +52,7 @@ export function Footer() {
         </div>
         <div className="mt-2 flex flex-col justify-between gap-2 pt-3 text-xs text-subtle lg:flex-row lg:gap-5">
           <span>
-            © {new Date().getFullYear()} {siteConfig.name} · {legalLine()}
+            © {new Date().getFullYear()} {legalLine()}
           </span>
           <span className="flex flex-wrap gap-x-5 gap-y-1">
             <Link href="/privacy" className={linkClass}>
@@ -64,7 +63,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               className={linkClass}
-              aria-label="Altronix Software on LinkedIn (opens in a new tab)"
+              aria-label={`${siteConfig.name} on LinkedIn (opens in a new tab)`}
             >
               LinkedIn
             </a>

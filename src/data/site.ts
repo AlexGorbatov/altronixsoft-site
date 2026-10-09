@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "Altronix Software",
+  name: "Altronixsoft",
   legalName: "Altronixsoft OÜ",
   tagline: "Serious engineering. Practical AI.",
   title: "SAP Commerce, Java and AI engineering | Altronix Software",

@@ -1,6 +1,6 @@
 <div align="center">
 
-# Altronix Software
+# Altronixsoft
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-149ECA?style=for-the-badge&logo=react&logoColor=white)
@@ -8,7 +8,7 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
-**The corporate website of [Altronix Software](https://altronixsoft.com) — an engineering partner for custom software, integrations and practical AI.**
+**The corporate website of [Altronixsoft](https://altronixsoft.com) — an engineering partner for custom software, integrations and practical AI.**
 <br />
 Custom software · modernization & integrations · AI solutions & automation.
 
@@ -127,7 +127,7 @@ npm run todo     # every open placeholder with file:line, grouped by file
 
 - [ ] Fill the `TODO(owner)` values: legal details, company numbers, case-study facts, package prices, privacy-policy specifics.
 - [ ] Configure the environment (see [`.env.example`](.env.example)): `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_BOOKING_URL`, and a mail provider (`RESEND_API_KEY` or `SMTP_*`, plus `CONTACT_TO` / `CONTACT_FROM`). Without a provider the form falls back to a prefilled `mailto:` link.
-- [ ] Hero headline is in [`src/data/hero.ts`](src/data/hero.ts); currently "Serious engineering. Practical AI."
+- [ ] Hero headline is in [`src/data/hero.ts`](src/data/hero.ts); currently "Senior engineering for commerce and operations systems."
 - [ ] Review the privacy policy template in [`src/data/privacy.ts`](src/data/privacy.ts) (not legal advice: have it reviewed).
 - [ ] Case studies without a filled `result` are `noindex` and stay out of the sitemap until they have one.
 

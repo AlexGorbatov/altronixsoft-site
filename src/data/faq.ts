@@ -56,6 +56,6 @@ export const faqs: FaqItem[] = [
   },
   {
     question: "Where are you based?",
-    answer: "Altronix Software is operated by Altronixsoft OÜ, a company registered in Estonia (EU).",
+    answer: "Altronixsoft OÜ is a company registered in Estonia (EU).",
   },
 ];
