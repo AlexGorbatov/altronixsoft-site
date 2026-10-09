@@ -1,6 +1,6 @@
 /**
  * Diagram canvases drawn by WorkflowFlow. A scene is one segment (`segmentW` wide): nodes joined by wires.
- * Two scenes exist: `commerceScene` (hero, panning) and `aiScene` (AI block, static). Generic and
+ * `aiScene` is the AI-agent flow shown in the hero (panning) and in the AI block (static). Generic and
  * illustrative only: no client names, no real data.
  */
 export type NodeKind = "square" | "card";
@@ -15,20 +15,11 @@ export interface FlowNode {
     | "people"
     | "docs"
     | "rules"
-    | "action"
-    | "storefront"
-    | "platform"
-    | "integration"
-    | "payments"
-    | "logistics";
+    | "action";
   x: number; // left edge
   cy: number; // vertical centre
   label: string;
   sub: string;
-  /** Caption split over several lines (used when one line would run into a wire). Replaces `sub`. */
-  subLines?: string[];
-  /** Put the caption above a card instead of below it (keeps it clear of a wire that leaves downwards). */
-  subAbove?: boolean;
 }
 
 export interface FlowLink {
@@ -97,58 +88,6 @@ export const aiScene: FlowScene = {
   staticView: { x: 14, y: 50, w: 1022, h: 470 },
   label:
     "Diagram: a request goes to an AI agent, which checks the ERP, the CRM and policy documents. Business rules and human approval come next; only then is the action executed and written to an audit log.",
-};
-
-const TARGETS = [84, 212, 340, 468] as const;
-const targets = [
-  { id: "erp", icon: "data", label: "ERP", sub: "Orders and stock" },
-  { id: "pim", icon: "docs", label: "PIM", sub: "Product data" },
-  { id: "payments", icon: "payments", label: "Payments", sub: "Transactions" },
-  { id: "logistics", icon: "logistics", label: "Logistics", sub: "Shipping and tracking" },
-] as const;
-
-const commerceNodes: FlowNode[] = [
-  { id: "channels", kind: "square", icon: "storefront", x: 68, cy: 276, label: "Storefront & channels", sub: "Web · mobile · B2B" },
-  { id: "platform", kind: "square", icon: "platform", x: 310, cy: 276, label: "Commerce platform", sub: "Catalog · cart · orders" },
-  { id: "integration", kind: "square", icon: "integration", x: 560, cy: 276, label: "Integration layer", sub: "queues · retries · monitoring" },
-  // Directly above the integration layer, so it stays on screen as long as the layer does.
-  {
-    id: "ai",
-    kind: "card",
-    icon: "ai",
-    x: 526,
-    cy: 150,
-    label: "AI assistant",
-    sub: "access control · audit log · human approval",
-    subLines: ["access control", "audit log", "human approval"],
-    subAbove: true,
-  },
-  ...TARGETS.map((cy, i): FlowNode => ({ id: targets[i].id, kind: "square", icon: targets[i].icon, x: 900, cy, label: targets[i].label, sub: targets[i].sub })),
-];
-
-/**
- * Same continuous chain as the original hero canvas: the results flow back into the start of the next
- * segment (`M0 276 H68` picks up where the fan-in ends), so the pan never shows a gap.
- */
-const commerceLinks: FlowLink[] = [
-  { d: "M0 276 H68", srcX: 0, to: "channels" },
-  { d: "M132 276 H310", srcX: 132, to: "platform" },
-  { d: "M374 276 H560", srcX: 374, to: "integration" },
-  // The AI assistant hangs off the integration layer: same governed access as every other consumer.
-  { d: "M592 244 V182", srcX: 592, to: "ai" },
-  ...TARGETS.map((cy, i): FlowLink => ({ d: `M624 276 C 760 276, 780 ${cy}, 900 ${cy}`, srcX: 624, to: targets[i].id })),
-  ...TARGETS.map((cy): FlowLink => ({ d: `M964 ${cy} C 1060 ${cy}, 1100 276, 1200 276`, srcX: 964, to: "channels" })),
-];
-
-/** Hero scene: how the commerce, data and logistics systems are connected, with AI as one governed consumer. */
-export const commerceScene: FlowScene = {
-  segmentW: 1200,
-  nodes: commerceNodes,
-  links: commerceLinks,
-  staticStages: { 0: 0, 132: 1, 374: 2, 592: 3, 624: 3, 964: 4 },
-  staticView: { x: 14, y: 30, w: 1022, h: 520 },
-  label:
-    "Diagram: storefront and channels connect to the commerce platform, then to an integration layer with queues, retries and monitoring, which links ERP, PIM, payments and logistics systems. An AI assistant attached to the integration layer works under access control, an audit log and human approval.",
 };
 
 /** Delay (s) at which a pulse leaving `srcX` should start so it runs while that node is inside the frame. */

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { commerceScene } from "@/data/flow";
+import { aiScene } from "@/data/flow";
 import { hero } from "@/data/hero";
 import { contactHref, siteConfig } from "@/data/site";
 import { Button } from "@/components/ui/Button";
@@ -43,7 +43,7 @@ export function Hero() {
           </ul>
         </div>
       </Container>
-      <WorkflowFlow scene={commerceScene} animated />
+      <WorkflowFlow scene={aiScene} animated />
     </section>
   );
 }

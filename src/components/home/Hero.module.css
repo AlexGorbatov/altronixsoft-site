@@ -3,8 +3,8 @@
   position: relative;
   display: flex;
   align-items: center;
-  /* The hero fills exactly one screen below the header; never shorter than 640px. */
-  min-height: max(640px, calc(100svh - var(--header-h)));
+  /* Hero + trust strip (89px) fill exactly one screen; never shorter than 640px. */
+  min-height: max(640px, calc(100svh - var(--header-h) - 89px));
   overflow: hidden;
   /* Nothing in the hero (e.g. the workflow scene) may widen the page: paint is clipped to the section. */
   contain: paint;

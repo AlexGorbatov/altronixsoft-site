@@ -26,16 +26,6 @@ const icons: Record<FlowNode["icon"], ReactNode> = {
       <path d="m8 12.3 2.8 2.8L16.2 9.5" />
     </>
   ),
-  storefront: <path d="M4 9l1.5-5h13L20 9M4 9v11h16V9M4 9h16M9 20v-6h6v6" />,
-  platform: <path d="m12 3 9 5-9 5-9-5zM3 13l9 5 9-5" />,
-  integration: <path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4" />,
-  payments: (
-    <>
-      <rect x="3" y="6" width="18" height="12" rx="2" />
-      <path d="M3 10.5h18M7 15h3" />
-    </>
-  ),
-  logistics: <path d="m12 3 8 4.5v9L12 21l-8-4.5v-9zM4 7.5l8 4.5 8-4.5M12 12v9" />,
 };
 
 const glowDelay = (scene: FlowScene, nodeId: string) => {
@@ -121,18 +111,11 @@ function Segment({ copy, scene }: { copy: number; scene: FlowScene }) {
                 </text>
               </>
             )}
-            {node.kind === "card" &&
-              (node.subLines ?? [node.sub]).map((line, n, lines) => (
-                <text
-                  key={line}
-                  x={cx}
-                  y={node.subAbove ? top - 14 - (lines.length - 1 - n) * 18 : top + 84 + n * 18}
-                  textAnchor="middle"
-                  className={styles.sub}
-                >
-                  {line}
-                </text>
-              ))}
+            {node.kind === "card" && (
+              <text x={cx} y={top + 84} textAnchor="middle" className={styles.sub}>
+                {node.sub}
+              </text>
+            )}
             {/* Position and animation live on separate groups: a CSS transform would replace the SVG one. */}
             <g transform={`translate(${node.x + w - 4} ${top + 4})`}>
               <g className={styles.badge}>
