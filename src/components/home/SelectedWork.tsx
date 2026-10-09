@@ -16,7 +16,7 @@ import { ProjectVisual } from "./ProjectVisual";
 
 /** Only facts that are filled in are listed; placeholders never reach the page. */
 function CaseFacts({ study }: { study: CaseStudy }) {
-  const facts: [string, string][] = [[copy.work.roleLabel, study.role]];
+  const facts: [string, string][] = [[copy.work.scopeLabel, study.role]];
   if (filled(study.duration)) facts.push([copy.work.durationLabel, study.duration]);
   if (hasResult(study)) facts.push([copy.work.resultLabel, study.result]);
 
@@ -62,10 +62,16 @@ export function SelectedWork() {
             <SpotlightCard className="card flex h-full flex-col p-0">
               <ProjectVisual variant={study.visual} />
               <div className="flex flex-1 flex-col p-6">
-                <div className="font-mono text-caption leading-[1.2] font-medium tracking-[0.1em] text-subtle uppercase">
-                  {study.industry}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="font-mono text-caption leading-[1.2] font-medium tracking-[0.1em] text-subtle uppercase">
+                    {study.industry}
+                  </div>
+                  <Tag>{copy.work.ndaBadge}</Tag>
                 </div>
                 <h3 className="mt-3 mb-2 text-[19px] font-bold">{study.title}</h3>
+                <p className="mb-2 text-small leading-[1.5] text-strong">
+                  {copy.work.roleLabel}: {study.leadRole}
+                </p>
                 <p className="text-sm leading-[1.6] text-muted">{study.summary}</p>
                 <CaseFacts study={study} />
                 {hasResult(study) && (

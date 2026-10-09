@@ -18,7 +18,10 @@ export interface CaseStudy {
   result: string;
   stack: string[];
   duration: string;
+  /** What the engagement covered technically (card "Scope", case page "Role"). */
   role: string;
+  /** The founder's role on the project, shown on the card as "Role: …". Bracketed until confirmed. */
+  leadRole: string;
   /** What the engagement concentrated on. Known today, shown as highlights on the case page. */
   focus: string;
 }
@@ -42,6 +45,8 @@ export const caseStudies: CaseStudy[] = [
     stack: ["Java", "Spring", "Enterprise APIs"],
     duration: "TODO(owner): duration, e.g. N months",
     role: "Backend and integration engineering",
+    // TODO(owner): confirm role per project
+    leadRole: "[architect / lead engineer]",
     focus: "Reliability and integrations in production",
   },
   {
@@ -57,6 +62,8 @@ export const caseStudies: CaseStudy[] = [
     stack: ["Java", "Spring", "Enterprise APIs"],
     duration: "TODO(owner): duration, e.g. N months",
     role: "Backend and integration engineering",
+    // TODO(owner): confirm role per project
+    leadRole: "[architect / lead engineer]",
     focus: "Data flows and workflow integrity",
   },
   {
@@ -72,6 +79,8 @@ export const caseStudies: CaseStudy[] = [
     stack: ["Java", "Spring", "Cloud"],
     duration: "TODO(owner): duration, e.g. N months",
     role: "Backend engineering",
+    // TODO(owner): confirm role per project
+    leadRole: "[architect / lead engineer]",
     focus: "Operational workflows and API design",
   },
 ];
