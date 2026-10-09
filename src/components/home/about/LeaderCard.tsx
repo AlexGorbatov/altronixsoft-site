@@ -39,7 +39,7 @@ function Portrait({ person, className }: { person: AboutPerson; className?: stri
   );
 }
 
-function bioText({ intro, clientType, outro }: AboutPerson["bio"]): string {
+function bioText({ intro, clientType, outro }: NonNullable<AboutPerson["bio"]>): string {
   const forClients = filled(clientType) ? ` for ${clientType}` : "";
   return `${intro}${forClients}. ${outro}`;
 }
@@ -52,7 +52,7 @@ interface LeaderCardProps {
 
 export function LeaderCard({ person, compact = false }: LeaderCardProps) {
   const highlights = filledItems(person.highlights);
-  const openTodos = [person.photo, person.linkedinUrl, person.bio.clientType, ...person.highlights].filter(
+  const openTodos = [person.photo, person.linkedinUrl, person.bio?.clientType, ...(person.highlights ?? [])].filter(
     (value) => todoLabel(value),
   );
 
@@ -72,9 +72,11 @@ export function LeaderCard({ person, compact = false }: LeaderCardProps) {
         </h3>
         <p className="mt-1 text-sm text-subtle">{person.role}</p>
 
-        <p className={cn("max-w-[68ch] text-muted", compact ? "mt-3 text-small leading-[1.6]" : "mt-4 text-body leading-[1.75]")}>
-          {bioText(person.bio)}
-        </p>
+        {person.bio && (
+          <p className={cn("max-w-[68ch] text-muted", compact ? "mt-3 text-small leading-[1.6]" : "mt-4 text-body leading-[1.75]")}>
+            {bioText(person.bio)}
+          </p>
+        )}
 
         {highlights.length > 0 && (
           <ul className="mt-4 flex flex-wrap gap-[7px]" aria-label={`${person.name}: expertise`}>

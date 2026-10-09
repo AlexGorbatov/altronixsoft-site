@@ -1,13 +1,14 @@
-import { about } from "@/data/company";
+import { about, founder } from "@/data/company";
 import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
 import { Section } from "@/components/ui/Section";
 import { AboutStats } from "./about/AboutStats";
+import { LeaderCard } from "./about/LeaderCard";
 
 const subtitle = "mono-label text-label";
 
 /**
- * "Who we are": one gradient card in two columns. Left: who we are and key numbers.
- * Right: how we operate. About the company, not about one person.
+ * "Who we are": one gradient card in two columns. Left: who we are, key numbers and the founder.
+ * Right: how we operate.
  */
 export function Company() {
   return (
@@ -27,6 +28,7 @@ export function Company() {
             </div>
 
             <AboutStats />
+            <LeaderCard person={founder} compact />
           </div>
 
           <div className="relative z-[1] grid content-center gap-7">
