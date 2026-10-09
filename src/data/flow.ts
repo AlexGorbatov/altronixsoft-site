@@ -108,40 +108,45 @@ const targets = [
 ] as const;
 
 const commerceNodes: FlowNode[] = [
-  { id: "channels", kind: "square", icon: "storefront", x: 40, cy: 276, label: "Storefront & channels", sub: "Web · mobile · B2B" },
-  { id: "platform", kind: "square", icon: "platform", x: 290, cy: 276, label: "Commerce platform", sub: "Catalog · cart · orders" },
-  { id: "integration", kind: "square", icon: "integration", x: 540, cy: 276, label: "Integration layer", sub: "queues · retries · monitoring" },
+  { id: "channels", kind: "square", icon: "storefront", x: 68, cy: 276, label: "Storefront & channels", sub: "Web · mobile · B2B" },
+  { id: "platform", kind: "square", icon: "platform", x: 310, cy: 276, label: "Commerce platform", sub: "Catalog · cart · orders" },
+  { id: "integration", kind: "square", icon: "integration", x: 560, cy: 276, label: "Integration layer", sub: "queues · retries · monitoring" },
   // Directly above the integration layer, so it stays on screen as long as the layer does.
   {
     id: "ai",
     kind: "card",
     icon: "ai",
-    x: 506,
+    x: 526,
     cy: 150,
     label: "AI assistant",
     sub: "access control · audit log · human approval",
     subLines: ["access control", "audit log", "human approval"],
     subAbove: true,
   },
-  ...TARGETS.map((cy, i): FlowNode => ({ id: targets[i].id, kind: "square", icon: targets[i].icon, x: 820, cy, label: targets[i].label, sub: targets[i].sub })),
+  ...TARGETS.map((cy, i): FlowNode => ({ id: targets[i].id, kind: "square", icon: targets[i].icon, x: 900, cy, label: targets[i].label, sub: targets[i].sub })),
 ];
 
+/**
+ * Same continuous chain as the original hero canvas: the results flow back into the start of the next
+ * segment (`M0 276 H68` picks up where the fan-in ends), so the pan never shows a gap.
+ */
 const commerceLinks: FlowLink[] = [
-  { d: "M0 276 H40", srcX: 0, to: "channels" },
-  { d: "M104 276 H290", srcX: 104, to: "platform" },
-  { d: "M354 276 H540", srcX: 354, to: "integration" },
+  { d: "M0 276 H68", srcX: 0, to: "channels" },
+  { d: "M132 276 H310", srcX: 132, to: "platform" },
+  { d: "M374 276 H560", srcX: 374, to: "integration" },
   // The AI assistant hangs off the integration layer: same governed access as every other consumer.
-  { d: "M572 244 V182", srcX: 572, to: "ai" },
-  ...TARGETS.map((cy, i): FlowLink => ({ d: `M604 276 C 700 276, 720 ${cy}, 820 ${cy}`, srcX: 604, to: targets[i].id })),
+  { d: "M592 244 V182", srcX: 592, to: "ai" },
+  ...TARGETS.map((cy, i): FlowLink => ({ d: `M624 276 C 760 276, 780 ${cy}, 900 ${cy}`, srcX: 624, to: targets[i].id })),
+  ...TARGETS.map((cy): FlowLink => ({ d: `M964 ${cy} C 1060 ${cy}, 1100 276, 1200 276`, srcX: 964, to: "channels" })),
 ];
 
 /** Hero scene: how the commerce, data and logistics systems are connected, with AI as one governed consumer. */
 export const commerceScene: FlowScene = {
-  segmentW: 1080,
+  segmentW: 1200,
   nodes: commerceNodes,
   links: commerceLinks,
-  staticStages: { 0: 0, 104: 1, 354: 2, 572: 3, 604: 3 },
-  staticView: { x: 10, y: 30, w: 900, h: 520 },
+  staticStages: { 0: 0, 132: 1, 374: 2, 592: 3, 624: 3, 964: 4 },
+  staticView: { x: 14, y: 30, w: 1022, h: 520 },
   label:
     "Diagram: storefront and channels connect to the commerce platform, then to an integration layer with queues, retries and monitoring, which links ERP, PIM, payments and logistics systems. An AI assistant attached to the integration layer works under access control, an audit log and human approval.",
 };
