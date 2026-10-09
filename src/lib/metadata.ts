@@ -4,7 +4,7 @@ import { siteConfig } from "@/data/site";
 // A page-level `openGraph` / `twitter` replaces the layout's, so the share images (the 1200×630 files
 // in src/app: opengraph-image.png, twitter-image.png) are listed here explicitly.
 // TODO(owner): regenerate OG image — src/app/opengraph-image.png (and twitter-image.png) have the old
-// "ALTRONIX SOFTWARE" wordmark baked in; the file is intentionally not redrawn here.
+// two-line wordmark (ALTRONIX / SOFTWARE) baked in; the file is intentionally not redrawn here.
 const OG_IMAGE = { url: "/opengraph-image.png", width: 1200, height: 630, alt: siteConfig.name };
 const TWITTER_IMAGE = "/twitter-image.png";
 

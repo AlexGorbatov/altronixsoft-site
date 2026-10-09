@@ -6,11 +6,13 @@
 export const sapCommerce = {
   path: "/services/sap-commerce",
   title: "SAP Commerce Cloud services",
+  /** Page title for search and sharing; the layout appends " | Altronixsoft". */
+  metaTitle: "SAP Commerce Cloud Development, Upgrades & Support",
   metaDescription:
-    "SAP Commerce Cloud (Hybris) development, support, integrations and upgrades by senior Java/Spring engineers. Start with a free 30-minute check-up.",
+    "SAP Commerce Cloud (Hybris) development, support, integrations and upgrades in Java and Spring, led by a principal architect. Start with a free 30-minute check-up.",
   h1: "SAP Commerce Cloud development and support",
   intro:
-    "We build, extend and support SAP Commerce Cloud (Hybris) platforms for e-commerce and product-data teams. The work is backend and integration engineering in Java and Spring, led by senior engineers.",
+    "We build, extend and support SAP Commerce Cloud (Hybris) platforms for e-commerce and product-data teams. The work is backend and integration engineering in Java and Spring, led by a principal architect.",
   offerings: [
     {
       title: "Development",
@@ -38,7 +40,11 @@ export const sapCommerce = {
   relevant: ["Java", "Spring", "SAP Commerce Cloud (Hybris)", "Enterprise APIs", "PIM", "Cloud"],
   start: [
     { title: "Architecture check-up", text: "A 30-minute call to look at your platform and decide what makes sense next." },
-    { title: "Technical review", text: "A short review of your code, architecture and integrations, with a written report." },
-    { title: "Delivery", text: "Fixed-scope work or a dedicated team, led by a senior engineer." },
+    // TODO(owner): price
+    {
+      title: "Platform review",
+      text: "A fixed-scope review of your code, architecture and integrations: risk register, upgrade plan and effort estimate. From €[price].",
+    },
+    { title: "Delivery", text: "A fixed-scope project or ongoing support, led by the founder." },
   ],
 };

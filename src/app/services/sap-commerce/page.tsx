@@ -5,14 +5,14 @@ import { Button } from "@/components/ui/Button";
 import { DevTodo } from "@/components/ui/DevTodo";
 import { Tag } from "@/components/ui/Tag";
 import { sapCommerce } from "@/data/sap-commerce";
-import { services } from "@/data/services";
+import { serviceCards } from "@/data/services";
 import { contactHref } from "@/data/site";
 import { breadcrumbSchema, serviceSchema } from "@/lib/jsonld";
 import { pageMetadata } from "@/lib/metadata";
 import { filled, todoLabel } from "@/lib/todo";
 
 export const metadata = pageMetadata({
-  title: sapCommerce.title,
+  title: sapCommerce.metaTitle,
   description: sapCommerce.metaDescription,
   path: sapCommerce.path,
 });
@@ -45,7 +45,7 @@ export default function SapCommercePage() {
         <div className="mt-8 flex flex-wrap gap-3">
           <Button href={contactHref("architecture-checkup")}>Book a free check-up →</Button>
           <Button href={contactHref("technical-review")} variant="secondary">
-            Request a technical review
+            Request a platform review
           </Button>
         </div>
 
@@ -69,7 +69,7 @@ export default function SapCommercePage() {
           </h2>
           <p className="mt-3 max-w-[68ch] text-body leading-[1.7] text-muted">
             Backend and integration work in Java and Spring, applied to e-commerce and product information platforms.
-            See <Link href="/#work" className="text-label underline underline-offset-2 hover:text-white">client projects</Link>.
+            See <Link href="/#work" className="text-label underline underline-offset-2 hover:text-white">engagement experience</Link>.
           </p>
           <ul className="mt-4 flex flex-wrap gap-2" aria-label="Technologies">
             {sapCommerce.relevant.map((item) => (
@@ -113,13 +113,15 @@ export default function SapCommercePage() {
         <nav aria-label="Related services" className="mt-14">
           <h2 className="mono-label text-label">Related services</h2>
           <ul className="mt-3 grid gap-1">
-            {services.map((service) => (
-              <li key={service.id}>
-                <Link href={`/services/${service.id}`} className="link-quiet">
-                  {service.title} <span aria-hidden="true">→</span>
-                </Link>
-              </li>
-            ))}
+            {serviceCards
+              .filter((service) => service.id !== "sap-commerce")
+              .map((service) => (
+                <li key={service.id}>
+                  <Link href={service.href} className="link-quiet">
+                    {service.title} <span aria-hidden="true">→</span>
+                  </Link>
+                </li>
+              ))}
           </ul>
         </nav>
       </article>

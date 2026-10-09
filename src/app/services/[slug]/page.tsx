@@ -6,7 +6,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/Button";
 import { Tag } from "@/components/ui/Tag";
 import { copy } from "@/data/copy";
-import { getService, services } from "@/data/services";
+import { getService, serviceCards, services } from "@/data/services";
 import { contactHref } from "@/data/site";
 import { breadcrumbSchema, serviceSchema } from "@/lib/jsonld";
 import { pageMetadata } from "@/lib/metadata";
@@ -68,23 +68,23 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
           <div className="mt-6 flex flex-wrap gap-3">
             <Button href={contactHref(service.cta.type)}>{service.cta.label} →</Button>
             <Button href={contactHref("technical-review")} variant="secondary">
-              Request a Technical Review
+              Request a platform review
             </Button>
+            {service.startLink && (
+              <Link href={contactHref(service.startLink.type)} className="link-quiet">
+                {service.startLink.label}
+              </Link>
+            )}
           </div>
         </section>
         <nav aria-label="Other services" className="mt-10">
           <h2 className="mono-label text-label">Other services</h2>
           <ul className="mt-3 grid gap-1">
-            <li>
-              <Link href="/services/sap-commerce" className="link-quiet">
-                SAP Commerce Cloud services <span aria-hidden="true">→</span>
-              </Link>
-            </li>
-            {services
+            {serviceCards
               .filter((other) => other.id !== service.id)
               .map((other) => (
                 <li key={other.id}>
-                  <Link href={`/services/${other.id}`} className="link-quiet">
+                  <Link href={other.href} className="link-quiet">
                     {other.title} <span aria-hidden="true">→</span>
                   </Link>
                 </li>

@@ -14,6 +14,8 @@ export interface Service {
   metaDescription: string;
   capabilities: string[];
   cta: { label: string; type: RequestType };
+  /** Extra link in "How to start" (e.g. the AI page offers a proof of value). */
+  startLink?: { label: string; type: RequestType };
 }
 
 export const services: Service[] = [
@@ -57,6 +59,7 @@ export const services: Service[] = [
       "LLM integrations",
     ],
     cta: { label: "Discuss AI solutions", type: "project" },
+    startLink: { label: "Discuss a proof of value →", type: "proof-of-value" },
   },
   {
     id: "software",
