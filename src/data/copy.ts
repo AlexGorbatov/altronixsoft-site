@@ -6,8 +6,8 @@
 export const copy = {
   /** One wording for how engagements start; reused by the contact block, service pages and the SAP page. */
   shared: {
-    typicalStart: "Typical start: a 30-minute architecture check-up, then a technical review.",
-    startParagraph: "Most engagements begin with a 30-minute architecture check-up and a short technical review, before a larger scope.",
+    typicalStart: "Typical start: a free 30-minute architecture check-up, then a platform review.",
+    startParagraph: "Most engagements begin with a 30-minute architecture check-up and a short platform review, before a larger scope.",
     allFormsLink: "See all engagement formats",
   },
   services: {
@@ -38,13 +38,8 @@ export const copy = {
   },
   engagement: {
     eyebrow: "Engagement",
-    title: "Engagement formats.",
-    description: "Four formats, from a short technical review to a dedicated engineering team.",
-    rowLabel: "Engagement formats",
-    includedLabel: "What is included",
-    priceLabel: "Price",
-    durationLabel: "Duration",
-    deliverableLabel: "Deliverable",
+    title: "How to start.",
+    rowLabel: "Ways to start",
   },
   process: {
     eyebrow: "Process",
@@ -71,7 +66,7 @@ export const copy = {
     whatWeDid: "What we did",
     result: "Result",
     similarTitle: "Working on something similar?",
-    similarText: "Tell us about the system and what has to change. We start with a short technical review.",
+    similarText: "Tell us about the system and what has to change. We start with a short platform review.",
     more: "More work",
   },
   form: {

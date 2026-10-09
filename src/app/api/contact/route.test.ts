@@ -5,7 +5,7 @@ const body = {
   email: "ada@example.com",
   company: "Analytical Engines",
   type: "technical-review",
-  message: "We would like a technical review of our platform.",
+  message: "We would like a platform review of our system.",
   consent: true,
   website: "",
 };
@@ -108,7 +108,7 @@ describe("POST /api/contact", () => {
     expect(sent.to).toEqual(["team@example.com"]);
     expect(sent.reply_to).toBe("ada@example.com");
     expect(sent.subject).not.toMatch(/[\r\n]/);
-    expect(sent.subject).toContain("Technical review");
+    expect(sent.subject).toContain("Platform review");
     expect(init.headers.Authorization).toBe("Bearer re_test");
   });
 

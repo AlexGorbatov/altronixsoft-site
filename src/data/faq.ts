@@ -1,21 +1,6 @@
-import { entryPackage } from "@/data/engagement";
-import { filled } from "@/lib/todo";
-
 export interface FaqItem {
   question: string;
   answer: string;
-}
-
-/**
- * The cost answer follows the Technical Review package: price and duration are inserted only once the
- * owner has filled them in `engagement.ts`; until then the sentence reads without the numbers.
- */
-function costAnswer(): string {
-  const facts = [entryPackage.priceFrom, entryPackage.duration].filter(filled).join(", ");
-  const entry = facts
-    ? `A Technical Review is a fixed-price starting point (${facts}).`
-    : "A Technical Review is a fixed-price starting point.";
-  return `${entry} Larger projects are scoped and priced after it.`;
 }
 
 /** Answers use only what the site already states elsewhere (services, process, engagement models, company). */
@@ -23,16 +8,16 @@ export const faqs: FaqItem[] = [
   {
     question: "How do we get started?",
     answer:
-      "Tell us about the workflow, system or product challenge. We usually begin with a short Technical Review, then a focused Proof of Value, so you see working software before committing to a larger scope.",
+      "Tell us about the workflow, system or product challenge. We usually begin with a free 30-minute architecture check-up, then a platform review, so you see the risks and the plan before committing to a larger scope.",
   },
   {
     question: "How do you work with clients?",
     answer:
-      "Four formats: a Technical Review, a Proof of Value, a fixed-scope project, or a dedicated team embedded in your product team. You pick the one that fits where you are, and you can start small.",
+      "Start with a free architecture check-up and a fixed-scope platform review. After the review, a fixed-scope project or ongoing support is agreed on the findings.",
   },
   {
     question: "How much does it cost and how long does it take?",
-    answer: costAnswer(),
+    answer: "A platform review is a fixed-scope starting point. Larger projects are scoped and priced after it.",
   },
   {
     question: "Do you only do AI?",
@@ -47,7 +32,7 @@ export const faqs: FaqItem[] = [
   {
     question: "Who will work on our project?",
     answer:
-      "A senior core team owns architecture, technical decisions and delivery. When a project needs extra expertise, such as backend, frontend, AI / ML, QA or design, we bring in trusted specialists. You work directly with the people responsible for the result.",
+      "The founder owns architecture, technical decisions and delivery. When a project needs extra expertise, such as backend, frontend, AI / ML, QA or design, we bring in trusted specialists. You work directly with the person responsible for the result.",
   },
   {
     question: "What technologies do you work with?",

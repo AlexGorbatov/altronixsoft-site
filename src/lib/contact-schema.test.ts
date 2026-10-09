@@ -23,7 +23,7 @@ describe("contactSchema", () => {
   });
 
   it("accepts every request type offered in the form", () => {
-    for (const type of ["architecture-checkup", "technical-review", "proof-of-value", "project", "team", "other"]) {
+    for (const type of ["architecture-checkup", "technical-review", "proof-of-value", "project", "other"]) {
       expect(contactSchema.safeParse({ ...valid, type }).success).toBe(true);
     }
   });

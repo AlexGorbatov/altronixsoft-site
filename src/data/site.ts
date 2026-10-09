@@ -24,7 +24,7 @@ export const siteConfig = {
 } as const;
 
 /** What the visitor wants to discuss. Drives the contact form's preselected request type. */
-export type RequestType = "architecture-checkup" | "technical-review" | "proof-of-value" | "project" | "team" | "other";
+export type RequestType = "architecture-checkup" | "technical-review" | "proof-of-value" | "project" | "other";
 
 /** Link to the contact form (home page `#contact`) with the request type preselected. */
 export function contactHref(type?: RequestType): string {

@@ -119,7 +119,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
           <div className="mt-6 flex flex-wrap gap-3">
             <Button href={contactHref("project")}>Discuss your project →</Button>
             <Button href={contactHref("technical-review")} variant="secondary">
-              Request a Technical Review
+              Request a platform review
             </Button>
           </div>
         </section>
