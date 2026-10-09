@@ -1,14 +1,9 @@
 import { copy } from "@/data/copy";
-import { aiScene } from "@/data/flow";
 import { aiUseCases } from "@/data/services";
 import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
 import { cn } from "@/lib/utils";
-import { WorkflowFlow } from "./WorkflowFlow";
 
-/**
- * Compact AI examples — deliberately a rule-separated strip, not another card grid — with the controlled
- * AI-agent flow (request → agent → checks → approval → action → audit) underneath.
- */
+/** Compact AI examples — deliberately a rule-separated strip, not another card grid. */
 export function AiUseCases() {
   return (
     <AnimatedReveal className="relative z-[1] mt-[46px]">
@@ -40,11 +35,6 @@ export function AiUseCases() {
           </div>
         ))}
       </div>
-
-      <figure className="mx-auto mt-10 max-w-[720px]">
-        <WorkflowFlow scene={aiScene} />
-        <figcaption className="mt-4 text-center text-small leading-[1.6] text-muted">{copy.aiBlock.diagramCaption}</figcaption>
-      </figure>
     </AnimatedReveal>
   );
 }

@@ -19,8 +19,6 @@ export const copy = {
   },
   aiBlock: {
     title: "Where AI fits in your operations",
-    diagramCaption:
-      "Every AI action is checked against your systems and policies, approved by a person where it matters, and logged.",
   },
   work: {
     eyebrow: "Selected work",
