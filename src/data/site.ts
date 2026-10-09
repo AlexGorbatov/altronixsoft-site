@@ -2,9 +2,9 @@ export const siteConfig = {
   name: "Altronixsoft",
   legalName: "Altronixsoft OÜ",
   tagline: "Serious engineering. Practical AI.",
-  title: "SAP Commerce, Java and AI engineering | Altronix Software",
+  title: "Enterprise Integrations, Modernization & Practical AI | Altronixsoft",
   description:
-    "Altronix Software builds and modernizes enterprise software: Java/Spring, SAP Commerce Cloud, integrations and AI. Start with a free 30-minute check-up.",
+    "Senior engineering for commerce, product data and logistics systems — integrations, modernization and practical AI. For teams in Europe and the US.",
   // Canonical placeholder — replace once the production domain is confirmed.
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://altronixsoft.com",
   email: "info@altronixsoft.com",

@@ -3,8 +3,8 @@
   position: relative;
   display: flex;
   align-items: center;
-  /* Hero + trust strip (89px) fill exactly one screen; never shorter than 640px. */
-  min-height: max(640px, calc(100svh - var(--header-h) - 89px));
+  /* The hero fills exactly one screen below the header; never shorter than 640px. */
+  min-height: max(640px, calc(100svh - var(--header-h)));
   overflow: hidden;
   /* Nothing in the hero (e.g. the workflow scene) may widen the page: paint is clipped to the section. */
   contain: paint;
@@ -80,7 +80,7 @@
 .title {
   max-width: 760px;
   margin: 26px 0 24px;
-  font-size: 72px;
+  font-size: 56px;
   font-weight: 800;
   line-height: 0.98;
   letter-spacing: -0.057em;
@@ -122,6 +122,15 @@
   align-items: center;
   gap: 8px;
 }
+.factLink {
+  text-decoration: underline;
+  text-decoration-color: rgba(143, 221, 232, 0.5);
+  text-underline-offset: 4px;
+}
+.factLink:hover {
+  color: #fff;
+  text-decoration-color: currentColor;
+}
 .meta i {
   width: 7px;
   height: 7px;
@@ -142,7 +151,6 @@
 }
 
 @media (min-width: 1024px) {
-  /* Three-line title, as in the original hero. */
   .title {
     max-width: 600px;
   }
@@ -163,7 +171,7 @@
     gap: 64px;
   }
   .title {
-    font-size: 58px;
+    font-size: 46px;
   }
 }
 
@@ -175,7 +183,7 @@
     gap: 48px;
   }
   .title {
-    font-size: 45px;
+    font-size: 34px;
   }
   .lead {
     font-size: 16px;

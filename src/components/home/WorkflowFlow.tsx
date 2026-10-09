@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import { CYCLE_S, FRAME_H, PULSE_S, SEGMENT_W, STATIC_STAGES, STATIC_STEP_S, flowLinks, flowNodes, pulseDelay, type FlowNode } from "@/data/flow";
+import { CYCLE_S, FRAME_H, PULSE_S, SEGMENT_W, STATIC_STEP_S, pulseDelay, type FlowNode, type FlowScene } from "@/data/flow";
 import styles from "./WorkflowFlow.module.css";
 
 /** 24×24 line icons (drawn inside the SVG, scaled). Decorative. */
@@ -26,10 +26,20 @@ const icons: Record<FlowNode["icon"], ReactNode> = {
       <path d="m8 12.3 2.8 2.8L16.2 9.5" />
     </>
   ),
+  storefront: <path d="M4 9l1.5-5h13L20 9M4 9v11h16V9M4 9h16M9 20v-6h6v6" />,
+  platform: <path d="m12 3 9 5-9 5-9-5zM3 13l9 5 9-5" />,
+  integration: <path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4" />,
+  payments: (
+    <>
+      <rect x="3" y="6" width="18" height="12" rx="2" />
+      <path d="M3 10.5h18M7 15h3" />
+    </>
+  ),
+  logistics: <path d="m12 3 8 4.5v9L12 21l-8-4.5v-9zM4 7.5l8 4.5 8-4.5M12 12v9" />,
 };
 
-const glowDelay = (nodeId: string) => {
-  const link = flowLinks.find((l) => l.to === nodeId);
+const glowDelay = (scene: FlowScene, nodeId: string) => {
+  const link = scene.links.find((l) => l.to === nodeId);
   return link ? (pulseDelay(link.srcX) + PULSE_S * 0.8) % CYCLE_S : 0;
 };
 
@@ -64,10 +74,10 @@ function Defs() {
 }
 
 /** One repeating segment of the canvas. Rendered twice (side by side) so the pan loops seamlessly. */
-function Segment({ copy }: { copy: number }) {
+function Segment({ copy, scene }: { copy: number; scene: FlowScene }) {
   return (
     <g transform={`translate(${copy * SEGMENT_W} 0)`}>
-      {flowLinks.map((link, i) => (
+      {scene.links.map((link, i) => (
         <g key={`l${i}`}>
           <path d={link.d} className={styles.halo} />
           <path d={link.d} className={styles.wire} />
@@ -75,16 +85,16 @@ function Segment({ copy }: { copy: number }) {
             d={link.d}
             className={styles.pulse}
             pathLength={100}
-            style={{ "--delay": `${pulseDelay(link.srcX)}s`, "--sdelay": `${(STATIC_STAGES[link.srcX] ?? 0) * STATIC_STEP_S}s` } as CSSProperties}
+            style={{ "--delay": `${pulseDelay(link.srcX)}s`, "--sdelay": `${(scene.staticStages[link.srcX] ?? 0) * STATIC_STEP_S}s` } as CSSProperties}
           />
         </g>
       ))}
-      {flowNodes.map((node) => {
+      {scene.nodes.map((node) => {
         const w = node.kind === "card" ? 132 : 64;
         const top = node.cy - 32;
         const cx = node.x + w / 2;
         return (
-          <g key={node.id} className={styles.node} style={{ "--glow": `${glowDelay(node.id)}s` } as CSSProperties}>
+          <g key={node.id} className={styles.node} style={{ "--glow": `${glowDelay(scene, node.id)}s` } as CSSProperties}>
             <rect x={node.x} y={top} width={w} height={64} rx={18} className={styles.shadow} />
             <rect x={node.x} y={top} width={w} height={64} rx={18} className={styles.tile} />
             <rect x={node.x} y={top} width={w} height={64} rx={18} className={styles.glass} />
@@ -111,11 +121,12 @@ function Segment({ copy }: { copy: number }) {
                 </text>
               </>
             )}
-            {node.kind === "card" && (
-              <text x={cx} y={top + 84} textAnchor="middle" className={styles.sub}>
-                {node.sub}
-              </text>
-            )}
+            {node.kind === "card" &&
+              (node.subLines ?? [node.sub]).map((line, n) => (
+                <text key={line} x={cx} y={top + 84 + n * 18} textAnchor="middle" className={styles.sub}>
+                  {line}
+                </text>
+              ))}
             {/* Position and animation live on separate groups: a CSS transform would replace the SVG one. */}
             <g transform={`translate(${node.x + w - 4} ${top + 4})`}>
               <g className={styles.badge}>
@@ -143,21 +154,22 @@ const particles = Array.from({ length: 16 }, (_, i) => ({
   dur: 7 + (i % 5) * 2,
 }));
 
-/** The whole scene in one picture: trigger on the left, action on the right, nothing cropped. */
-const STATIC_VIEW = { x: 14, y: 50, w: 1022, h: 470 };
-
-export function WorkflowFlow({ animated = false }: { animated?: boolean }) {
+/**
+ * `scene` picks the diagram. The scene's `label` is the text alternative: the picture is one image for
+ * assistive tech (role="img"), so the SVG text inside it is not read twice.
+ */
+export function WorkflowFlow({ scene, animated = false }: { scene: FlowScene; animated?: boolean }) {
   const vars = { "--cycle": `${CYCLE_S}s`, "--seg": `${SEGMENT_W}px`, "--pulse": `${PULSE_S}s` } as CSSProperties;
 
   if (!animated) {
-    const { x, y, w, h } = STATIC_VIEW;
+    const { x, y, w, h } = scene.staticView;
     return (
-      <div className={styles.flow} data-static="" style={vars} aria-hidden="true">
+      <div className={styles.flow} data-static="" style={vars} role="img" aria-label={scene.label}>
         <div className={styles.aura} />
         <div className={styles.stage}>
           <svg className={styles.canvas} viewBox={`${x} ${y} ${w} ${h}`} width="100%" role="presentation">
             <Defs />
-            <Segment copy={0} />
+            <Segment copy={0} scene={scene} />
           </svg>
         </div>
       </div>
@@ -165,7 +177,7 @@ export function WorkflowFlow({ animated = false }: { animated?: boolean }) {
   }
 
   return (
-    <div className={styles.flow} style={vars} aria-hidden="true">
+    <div className={styles.flow} style={vars} role="img" aria-label={scene.label}>
       <div className={styles.aura} />
       {particles.map((p, i) => (
         <i
@@ -177,8 +189,8 @@ export function WorkflowFlow({ animated = false }: { animated?: boolean }) {
       <div className={styles.stage}>
         <svg className={styles.canvas} viewBox={`0 0 ${SEGMENT_W * 2} ${FRAME_H}`} width={SEGMENT_W * 2} height={FRAME_H}>
           <Defs />
-          <Segment copy={0} />
-          <Segment copy={1} />
+          <Segment copy={0} scene={scene} />
+          <Segment copy={1} scene={scene} />
         </svg>
       </div>
     </div>

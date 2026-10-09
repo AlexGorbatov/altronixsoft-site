@@ -1,5 +1,7 @@
+import Link from "next/link";
+import { commerceScene } from "@/data/flow";
 import { hero } from "@/data/hero";
-import { CONTACT_HREF, CTA_LABEL, siteConfig } from "@/data/site";
+import { contactHref, siteConfig } from "@/data/site";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { HeroGlows } from "./HeroGlows";
@@ -7,7 +9,7 @@ import { WorkflowFlow } from "./WorkflowFlow";
 import styles from "./Hero.module.css";
 
 export function Hero() {
-  const [firstLine, secondLine] = hero.title;
+  const [firstPart, secondPart] = hero.title;
 
   return (
     <section id="hero" className={styles.hero} aria-labelledby="hero-title">
@@ -16,28 +18,32 @@ export function Hero() {
         <div className={styles.copy}>
           <div className="eyebrow">{hero.eyebrow}</div>
           <h1 id="hero-title" className={styles.title}>
-            <span>{firstLine}</span>
-            <br />
-            {secondLine}
+            <span>{firstPart}</span> {secondPart}
           </h1>
           <p className={styles.lead}>{hero.lead}</p>
           <div className={styles.actions}>
-            <Button href={CONTACT_HREF}>{CTA_LABEL}</Button>
+            <Button href={contactHref(hero.primaryCta.type)}>{hero.primaryCta.label}</Button>
             <Button href="#work" variant="secondary">
               See our work
             </Button>
           </div>
           <ul className={styles.meta} aria-label={`About ${siteConfig.name}`}>
             {hero.facts.map((fact) => (
-              <li key={fact}>
+              <li key={fact.text}>
                 <i aria-hidden="true" />
-                {fact}
+                {fact.type ? (
+                  <Link href={contactHref(fact.type)} className={styles.factLink}>
+                    {fact.text}
+                  </Link>
+                ) : (
+                  fact.text
+                )}
               </li>
             ))}
           </ul>
         </div>
       </Container>
-      <WorkflowFlow animated />
+      <WorkflowFlow scene={commerceScene} animated />
     </section>
   );
 }

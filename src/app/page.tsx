@@ -16,9 +16,9 @@ export default function HomePage() {
   return (
     <main id="top">
       <Hero />
-      <TrustStrip />
       <Services />
       <Industries />
+      <TrustStrip />
       <SelectedWork />
       <ProcessJourney />
       <EngagementModels />
