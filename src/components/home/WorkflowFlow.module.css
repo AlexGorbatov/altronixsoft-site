@@ -1,5 +1,5 @@
 /*
- * Automation canvas, panned sideways. All timing constants live in src/data/flow.ts (CYCLE_S = pan time
+ * Automation canvas, panned sideways. Timing lives in src/data/flow.ts (a scene's cycle = pan time
  * for one segment, which is also the loop length of every pulse and glow). The frame bleeds off the right
  * edge of the page and fades on its left side, so the chain starts and ends "beyond the page".
  * Layers (back to front): aura glow, drifting particles, the tilted stage with the SVG canvas.
@@ -40,9 +40,12 @@
   transform-origin: 100% 50%;
   transform-style: preserve-3d;
 }
+/* --k scales the whole canvas (1 on desktop, smaller on phones so more of the chain fits the window). */
 .canvas {
   display: block;
   max-width: none;
+  width: calc(var(--canvas-w) * var(--k, 1));
+  height: calc(var(--canvas-h) * var(--k, 1));
   animation: pan var(--cycle) linear infinite;
 }
 
@@ -144,7 +147,7 @@
 
 @keyframes pan {
   to {
-    transform: translateX(calc(var(--seg) * -1));
+    transform: translateX(calc(var(--seg) * var(--k, 1) * -1));
   }
 }
 @keyframes run {
@@ -303,6 +306,25 @@
   100% {
     stroke-dashoffset: -100;
     opacity: 0;
+  }
+}
+
+/* Phones, panning scene: the canvas is drawn at 66%, so the window shows ~520 canvas px instead of ~340 and the
+   chain reads as a chain. Captions get bigger in canvas units to stay legible at that scale. */
+@media (max-width: 767px) {
+  .flow:not([data-static]) {
+    --k: 0.66;
+    height: 400px;
+    margin-top: 32px;
+  }
+  .flow:not([data-static]) .label {
+    font-size: 18px;
+  }
+  .flow:not([data-static]) .cardTitle {
+    font-size: 18px;
+  }
+  .flow:not([data-static]) .sub {
+    font-size: 15px;
   }
 }
 

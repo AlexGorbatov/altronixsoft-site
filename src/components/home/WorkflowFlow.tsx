@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import { CYCLE_S, FRAME_H, PULSE_S, SEGMENT_W, STATIC_STEP_S, pulseDelay, type FlowNode, type FlowScene } from "@/data/flow";
+import { FRAME_H, PULSE_S, STATIC_STEP_S, pulseDelay, sceneCycle, type FlowNode, type FlowScene } from "@/data/flow";
 import styles from "./WorkflowFlow.module.css";
 
 /** 24×24 line icons (drawn inside the SVG, scaled). Decorative. */
@@ -40,19 +40,19 @@ const icons: Record<FlowNode["icon"], ReactNode> = {
 
 const glowDelay = (scene: FlowScene, nodeId: string) => {
   const link = scene.links.find((l) => l.to === nodeId);
-  return link ? (pulseDelay(link.srcX) + PULSE_S * 0.8) % CYCLE_S : 0;
+  return link ? (pulseDelay(scene, link.srcX) + PULSE_S * 0.8) % sceneCycle(scene) : 0;
 };
 
 /** Shared gradients. userSpaceOnUse so straight (zero-height) wires get a gradient too. */
-function Defs() {
+function Defs({ segmentW }: { segmentW: number }) {
   return (
     <defs>
-      <linearGradient id="wf-wire" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2={SEGMENT_W} y2="0">
+      <linearGradient id="wf-wire" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2={segmentW} y2="0">
         <stop offset="0" stopColor="#22d6f4" stopOpacity="0.55" />
         <stop offset="0.55" stopColor="#4d8dff" stopOpacity="0.55" />
         <stop offset="1" stopColor="#8b5cf6" stopOpacity="0.55" />
       </linearGradient>
-      <linearGradient id="wf-comet" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2={SEGMENT_W} y2="0">
+      <linearGradient id="wf-comet" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2={segmentW} y2="0">
         <stop offset="0" stopColor="#7df3ff" />
         <stop offset="0.55" stopColor="#8fb8ff" />
         <stop offset="1" stopColor="#c3a6ff" />
@@ -76,7 +76,7 @@ function Defs() {
 /** One repeating segment of the canvas. Rendered twice (side by side) so the pan loops seamlessly. */
 function Segment({ copy, scene }: { copy: number; scene: FlowScene }) {
   return (
-    <g transform={`translate(${copy * SEGMENT_W} 0)`}>
+    <g transform={`translate(${copy * scene.segmentW} 0)`}>
       {scene.links.map((link, i) => (
         <g key={`l${i}`}>
           <path d={link.d} className={styles.halo} />
@@ -85,7 +85,7 @@ function Segment({ copy, scene }: { copy: number; scene: FlowScene }) {
             d={link.d}
             className={styles.pulse}
             pathLength={100}
-            style={{ "--delay": `${pulseDelay(link.srcX)}s`, "--sdelay": `${(scene.staticStages[link.srcX] ?? 0) * STATIC_STEP_S}s` } as CSSProperties}
+            style={{ "--delay": `${pulseDelay(scene, link.srcX)}s`, "--sdelay": `${(scene.staticStages[link.srcX] ?? 0) * STATIC_STEP_S}s` } as CSSProperties}
           />
         </g>
       ))}
@@ -122,8 +122,14 @@ function Segment({ copy, scene }: { copy: number; scene: FlowScene }) {
               </>
             )}
             {node.kind === "card" &&
-              (node.subLines ?? [node.sub]).map((line, n) => (
-                <text key={line} x={cx} y={top + 84 + n * 18} textAnchor="middle" className={styles.sub}>
+              (node.subLines ?? [node.sub]).map((line, n, lines) => (
+                <text
+                  key={line}
+                  x={cx}
+                  y={node.subAbove ? top - 14 - (lines.length - 1 - n) * 18 : top + 84 + n * 18}
+                  textAnchor="middle"
+                  className={styles.sub}
+                >
                   {line}
                 </text>
               ))}
@@ -159,7 +165,13 @@ const particles = Array.from({ length: 16 }, (_, i) => ({
  * assistive tech (role="img"), so the SVG text inside it is not read twice.
  */
 export function WorkflowFlow({ scene, animated = false }: { scene: FlowScene; animated?: boolean }) {
-  const vars = { "--cycle": `${CYCLE_S}s`, "--seg": `${SEGMENT_W}px`, "--pulse": `${PULSE_S}s` } as CSSProperties;
+  const vars = {
+    "--cycle": `${sceneCycle(scene)}s`,
+    "--seg": `${scene.segmentW}px`,
+    "--canvas-w": `${scene.segmentW * 2}px`,
+    "--canvas-h": `${FRAME_H}px`,
+    "--pulse": `${PULSE_S}s`,
+  } as CSSProperties;
 
   if (!animated) {
     const { x, y, w, h } = scene.staticView;
@@ -168,7 +180,7 @@ export function WorkflowFlow({ scene, animated = false }: { scene: FlowScene; an
         <div className={styles.aura} />
         <div className={styles.stage}>
           <svg className={styles.canvas} viewBox={`${x} ${y} ${w} ${h}`} width="100%" role="presentation">
-            <Defs />
+            <Defs segmentW={scene.segmentW} />
             <Segment copy={0} scene={scene} />
           </svg>
         </div>
@@ -187,8 +199,8 @@ export function WorkflowFlow({ scene, animated = false }: { scene: FlowScene; an
         />
       ))}
       <div className={styles.stage}>
-        <svg className={styles.canvas} viewBox={`0 0 ${SEGMENT_W * 2} ${FRAME_H}`} width={SEGMENT_W * 2} height={FRAME_H}>
-          <Defs />
+        <svg className={styles.canvas} viewBox={`0 0 ${scene.segmentW * 2} ${FRAME_H}`} width={scene.segmentW * 2} height={FRAME_H}>
+          <Defs segmentW={scene.segmentW} />
           <Segment copy={0} scene={scene} />
           <Segment copy={1} scene={scene} />
         </svg>
