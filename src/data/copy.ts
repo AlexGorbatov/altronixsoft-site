@@ -28,6 +28,7 @@ export const copy = {
     stackAria: "Technology stack",
     readCase: "Read the case study",
     roleLabel: "Role",
+    focusLabel: "Focus",
     durationLabel: "Duration",
     resultLabel: "Result",
   },

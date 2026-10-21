@@ -14,11 +14,22 @@ import { Tag } from "@/components/ui/Tag";
 import { Labs } from "./Labs";
 import { ProjectVisual } from "./ProjectVisual";
 
+/** The measurable outcome, set apart from the other facts so it is what the eye lands on. Only when filled. */
+function CaseResult({ study }: { study: CaseStudy }) {
+  if (!hasResult(study)) return null;
+  return (
+    <div className="mt-5 rounded-xl border border-cyan/25 bg-cyan/[.06] px-4 py-3">
+      <div className={`${FACT_LABEL} text-label`}>{copy.work.resultLabel}</div>
+      <p className="mt-1 text-body leading-[1.45] font-semibold text-ink">{study.result}</p>
+    </div>
+  );
+}
+
 /** Only facts that are filled in are listed; placeholders never reach the page. */
 function CaseFacts({ study }: { study: CaseStudy }) {
   const facts: [string, string][] = [[copy.work.roleLabel, study.role]];
+  if (filled(study.focus)) facts.push([copy.work.focusLabel, study.focus]);
   if (filled(study.duration)) facts.push([copy.work.durationLabel, study.duration]);
-  if (hasResult(study)) facts.push([copy.work.resultLabel, study.result]);
 
   return (
     <dl className="mt-5 grid gap-3 border-t border-line pt-4 text-small">
@@ -67,6 +78,7 @@ export function SelectedWork() {
                 </div>
                 <h3 className="mt-3 mb-2 text-[19px] font-bold">{study.title}</h3>
                 <p className="text-sm leading-[1.6] text-muted">{study.summary}</p>
+                <CaseResult study={study} />
                 <CaseFacts study={study} />
                 {hasResult(study) && (
                   <Link href={`/work/${study.slug}`} className="link-quiet mt-auto self-start pt-2">

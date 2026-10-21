@@ -10,7 +10,6 @@
   overflow: hidden;
   width: min(calc(100% - 32px), 560px);
   margin: 40px auto 0;
-  perspective: 1500px;
   -webkit-mask-image: linear-gradient(to right, transparent 0, #000 20%, #000 100%);
   mask-image: linear-gradient(to right, transparent 0, #000 20%, #000 100%);
 }
@@ -32,13 +31,10 @@
   opacity: 0;
   animation: drift 10s ease-in-out infinite;
 }
-/* A slight 3D tilt gives the canvas depth: the left (far) side recedes, the right edge comes toward you. */
+/* Flat on purpose: any 3D tilt skews the tiles and slants the wires. */
 .stage {
   position: absolute;
   inset: 0;
-  transform: rotateY(-14deg) rotateX(4deg) scale(1.02);
-  transform-origin: 100% 50%;
-  transform-style: preserve-3d;
 }
 .canvas {
   display: block;
@@ -241,6 +237,41 @@
   }
 }
 
+/* Captions in the panning scene sit on the lighter aura, so they use the secondary text tier. */
+.flow:not([data-static]) .sub {
+  fill: var(--text-secondary);
+}
+
+/* Phones (animated scene): scale the canvas down (0.62) so more of the chain is in view at once (about 550
+   canvas px: trigger through the checks, with rules and action arriving as it pans), trim the dead space
+   around it, and fade both edges so cropped captions dissolve instead of being cut. The SVG text is enlarged by
+   the inverse of the scale so captions still render at 12px or more. */
+@media (max-width: 767px) {
+  .flow:not([data-static]) {
+    height: 288px;
+    margin-top: 24px;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 12%, #000 86%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 12%, #000 86%, transparent 100%);
+  }
+  .flow:not([data-static]) .stage {
+    width: 161%; /* 100% / 0.62 */
+    height: 580px;
+    transform: translateY(-44px) scale(0.62);
+    transform-origin: 0 0;
+  }
+  .flow:not([data-static]) .label {
+    font-size: 19px;
+  }
+  .flow:not([data-static]) .cardTitle {
+    font-size: 20px;
+  }
+  .flow:not([data-static]) .sub {
+    font-size: 19px;
+    /* The label/sub baselines are 18px apart in the SVG, too tight for the larger text. */
+    transform: translateY(7px);
+  }
+}
+
 /* Desktop: the canvas fills the right of the hero and runs off the page's right edge. */
 @media (min-width: 1024px) {
   .flow:not([data-static]) {
@@ -259,7 +290,6 @@
   width: auto;
   position: relative;
   overflow: visible;
-  perspective: none;
   -webkit-mask-image: none;
   mask-image: none;
 }
