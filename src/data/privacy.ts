@@ -16,8 +16,7 @@ export interface PolicySection {
 export const privacy = {
   title: "Privacy Policy",
   intro: `This policy explains what personal data ${siteConfig.legalName} ("we") collects through this website, why, and what your rights are.`,
-  // TODO(owner): set the date of the last review, e.g. "1 October 2026".
-  updated: "TODO(owner): last updated date",
+  updated: "21 October 2026",
   sections: [
     {
       id: "controller",
@@ -36,10 +35,18 @@ export const privacy = {
       bullets: ["Your name and email address", "Your company (optional)", "The type of request and your message"],
     },
     {
+      id: "technical",
+      title: "Technical data",
+      body: [
+        "When you visit this website, our hosting provider processes technical data such as your IP address and request details in server logs, so that the site can be delivered and kept secure. The legal basis is our legitimate interest in running and protecting the website (GDPR Art. 6(1)(f)).",
+        "When you send the form, we also use your IP address briefly, in memory only, to limit repeated submissions. It is not stored with your message and is not sent to our mailbox.",
+      ],
+    },
+    {
       id: "purpose",
       title: "Why we use it and on what basis",
       body: [
-        "We use these details only to read and answer your inquiry and, if you ask for it, to prepare a proposal. The legal basis is taking steps at your request before a possible contract and our legitimate interest in answering business inquiries (GDPR Art. 6(1)(b) and (f)). Where you agree to the form's consent checkbox, we also rely on that consent.",
+        "We use these details only to read and answer your inquiry and, if you ask for it, to prepare a proposal. The legal basis is taking steps at your request before a possible contract and our legitimate interest in answering business inquiries (GDPR Art. 6(1)(b) and (f)). The checkbox on the form only confirms that you have read this policy.",
         "We do not use your details for newsletters or marketing, and we do not sell them.",
       ],
     },
@@ -60,6 +67,13 @@ export const privacy = {
       ],
     },
     {
+      id: "transfers",
+      title: "Transfers outside the EEA",
+      body: [
+        "We transfer personal data outside the European Economic Area only where an appropriate safeguard is in place, such as an adequacy decision by the European Commission or the EU Standard Contractual Clauses.",
+      ],
+    },
+    {
       id: "cookies",
       title: "Cookies and analytics",
       body: [
@@ -71,6 +85,7 @@ export const privacy = {
       title: "Your rights",
       body: [
         "You can ask us at any time to access, correct or delete your data, to restrict or object to its use, and to receive a copy of it. Write to us and we will respond within the legal deadlines.",
+        "Where we rely on your consent for anything, you can withdraw it at any time. Withdrawing it does not affect processing that took place before.",
         "You can also complain to the Estonian Data Protection Inspectorate (Andmekaitse Inspektsioon, www.aki.ee) or to the authority in your own country.",
       ],
     },

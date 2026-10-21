@@ -14,7 +14,8 @@ export const contactSchema = z.object({
     .trim()
     .min(10, "Please tell us a little more (at least 10 characters).")
     .max(4000, "The message is too long (4000 characters maximum)."),
-  consent: z.literal(true, "Please accept the Privacy Policy to send your message."),
+  // The field keeps the name `consent` (the API shape), but the checkbox is an acknowledgement of the policy.
+  consent: z.literal(true, "Please confirm that you have read the Privacy Policy to send your message."),
   /** Honeypot. Real visitors never see or fill it; bots usually do. */
   website: z.string().max(0).optional().default(""),
 });

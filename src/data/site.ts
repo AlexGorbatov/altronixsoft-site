@@ -18,7 +18,7 @@ export const siteConfig = {
   },
   // Shown in the footer and on /privacy. Each part appears only once it is filled in.
   legal: {
-    registryCode: "TODO(owner): Estonian registry code",
+    registryCode: "16645816",
     vatNumber: "TODO(owner): VAT number",
     // From the company page; confirm it is still the registered address.
     address: "Kaupmehe tn 7-120, 10114 Tallinn",
