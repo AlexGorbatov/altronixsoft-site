@@ -16,8 +16,8 @@ export interface AboutPerson {
  */
 export const about = {
   eyebrow: "About",
-  title: "Senior engineers for enterprise systems.",
-  lead: "Altronix Software is an engineering company led by enterprise architects. We build, modernize and support commerce platforms, product data systems, logistics software and enterprise integrations. AI is part of some systems, not the starting point.",
+  title: "Senior engineers for enterprises and ambitious startups.",
+  lead: "Altronix Software is an engineering company led by enterprise architects. Startups bring us a product to take from MVP to production. Enterprises bring us systems to modernize, integrate and support. AI is part of some systems, not the starting point.",
 
   /** Key numbers. Only filled values are rendered. */
   stats: [
