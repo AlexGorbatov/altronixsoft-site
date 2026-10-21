@@ -12,7 +12,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { filled, todoLabel } from "@/lib/todo";
 
 export const metadata = pageMetadata({
-  title: sapCommerce.title,
+  title: sapCommerce.metaTitle,
   description: sapCommerce.metaDescription,
   path: sapCommerce.path,
 });

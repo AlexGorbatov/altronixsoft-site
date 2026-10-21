@@ -6,8 +6,10 @@
 export const sapCommerce = {
   path: "/services/sap-commerce",
   title: "SAP Commerce Cloud services",
+  /** Search and sharing title: "development" and "Hybris" are the terms people search for. `title` stays for the breadcrumb. */
+  metaTitle: "SAP Commerce Cloud (Hybris) development",
   metaDescription:
-    "SAP Commerce Cloud (Hybris) development, support, integrations and upgrades by senior Java/Spring engineers. Start with a free 30-minute check-up.",
+    "SAP Commerce Cloud (Hybris) development, support, integrations and upgrades by senior Java/Spring engineers. Start with a free 30-minute check-up call.",
   h1: "SAP Commerce Cloud development and support",
   intro:
     "We build, extend and support SAP Commerce Cloud (Hybris) platforms for e-commerce and product-data teams. The work is backend and integration engineering in Java and Spring, led by senior engineers.",
