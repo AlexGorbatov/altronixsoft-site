@@ -28,6 +28,43 @@ function Scene({ variant }: { variant: Variant }) {
     );
   }
 
+  if (variant === "integration") {
+    // External systems → platform (REST / SOAP), data feed through Data Hub, CI/CD pipeline underneath
+    const label = { fontFamily: "var(--font-mono), monospace", fontSize: 7.5, letterSpacing: 0.5, fill: "#7b90b0" };
+    return (
+      <>
+        {[0, 22, 44].map((y) => (
+          <g key={y}>
+            <path d={`M46 ${y + 8} C84 ${y + 8} 82 33 118 33`} fill="none" stroke={CYAN} strokeOpacity=".5" strokeDasharray="4 4" />
+            <rect x="0" y={y} width="46" height="16" rx="4" fill={TILE} />
+            <rect x="8" y={y + 6} width="20" height="4" rx="2" fill={LINE} />
+          </g>
+        ))}
+        <text x="78" y="70" textAnchor="middle" {...label}>
+          REST · SOAP
+        </text>
+        <rect x="118" y="11" width="64" height="44" rx="8" fill={CYAN} fillOpacity=".12" stroke={CYAN} strokeOpacity=".6" />
+        <rect x="130" y="23" width="40" height="5" rx="2.5" fill={CYAN} opacity=".6" />
+        <rect x="130" y="35" width="26" height="5" rx="2.5" fill={LINE} />
+        <path d="M254 33 H182" fill="none" stroke={VIOLET} strokeOpacity=".6" strokeDasharray="4 4" />
+        <rect x="254" y="11" width="46" height="44" rx="6" fill={TILE} />
+        {[22, 32, 42].map((y) => (
+          <rect key={y} x="262" y={y} width="30" height="4" rx="2" fill={VIOLET} opacity=".4" />
+        ))}
+        <text x="277" y="70" textAnchor="middle" {...label}>
+          DATA HUB
+        </text>
+        <path d="M34 86 H260" stroke={LINE} strokeWidth="1.2" />
+        {[60, 110, 160, 210, 260].map((x, i) => (
+          <circle key={x} cx={x} cy="86" r="3.2" fill="#101b31" stroke={i === 4 ? VIOLET : CYAN} strokeWidth="1.4" />
+        ))}
+        <text x="0" y="89" {...label}>
+          CI/CD
+        </text>
+      </>
+    );
+  }
+
   if (variant === "data") {
     // Sources → central hub → consumers
     const rows = [6, 34, 62];

@@ -1,4 +1,4 @@
-export type ProjectVisual = "commerce" | "data" | "logistics";
+export type ProjectVisual = "commerce" | "data" | "logistics" | "integration";
 
 export interface CaseStudy {
   /** URL slug of /work/[slug]. */
@@ -31,18 +31,20 @@ export interface CaseStudy {
 export const caseStudies: CaseStudy[] = [
   {
     slug: "enterprise-ecommerce-platform",
-    title: "Enterprise e-commerce platform",
-    visual: "commerce",
+    title: "SAP Hybris e-commerce platform",
+    visual: "integration",
     industry: "E-commerce",
-    summary: "Commerce backend, production support and integrations.",
-    context: "TODO(owner): industry and scale, e.g. users / orders / SKUs / countries",
-    challenge: "TODO(owner): the business or technical problem the client had",
-    whatWeDid: "TODO(owner): what the team built, changed or stabilised",
-    result: "TODO(owner): measurable result, e.g. latency, conversion, incidents, delivery time",
-    stack: ["Java", "Spring", "Enterprise APIs"],
-    duration: "TODO(owner): duration, e.g. N months",
-    role: "Backend and integration engineering",
-    focus: "Reliability and integrations in production",
+    summary: "OCC web services, Solr search, promotions and integrations for a furniture and home decor retailer.",
+    context: "Furniture and home decor retailer in Germany. Team of 5.",
+    challenge:
+      "Connect the SAP Hybris platform to external third-party systems, move large volumes of data into it, and keep a high-load production system stable.",
+    whatWeDid:
+      "We built the integrations with third-party systems over REST and SOAP web services and loaded large data volumes into the platform through Data Hub. We configured the OCC web services that provide user, account, cart and order data to the frontend, extended Solr search with new product listing filters, category extraction and facets, and customized promotion rule templates and the email notification process. We set up and improved the CI/CD pipeline and nightly builds, customized the checkout flow and cart management, kept test coverage adequate, and handled production issues and bug fixes. The team worked in Scrum, with regular code reviews and mentoring.",
+    result: "Features were delivered on time through the CI/CD process, and the platform stayed stable under high load.",
+    stack: ["SAP Hybris 2011", "Java 11", "Spring", "OCC", "Spartacus", "Solr", "Data Hub", "CI/CD"],
+    duration: "5 months",
+    role: "Integration and backend engineering, team lead",
+    focus: "OCC web services, Solr search and promotion rules",
   },
   {
     slug: "product-information-platform",
