@@ -1,7 +1,7 @@
 "use client";
 
 import { Check, ChevronDown, Globe } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState, type MouseEvent } from "react";
 import { localeMeta, localizedPath, locales, splitLocale, type Locale } from "@/i18n/config";
 import { cn } from "@/lib/utils";
@@ -17,6 +17,7 @@ export function LanguageSwitcher({ lang, label, className }: { lang: Locale; lab
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const listId = useId();
+  const router = useRouter();
   const path = splitLocale(usePathname()).path;
 
   // Close on Escape (returning focus to the button) and on a click anywhere outside.
@@ -41,7 +42,7 @@ export function LanguageSwitcher({ lang, label, className }: { lang: Locale; lab
   function choose(event: MouseEvent<HTMLAnchorElement>, target: Locale) {
     // Keep the page and the query, but not the #section: the new language opens at the top of the page.
     event.preventDefault();
-    window.location.assign(`${localizedPath(target, path)}${window.location.search}`);
+    router.push(`${localizedPath(target, path)}${window.location.search}`);
   }
 
   return (

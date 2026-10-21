@@ -64,7 +64,7 @@ export function ProcessJourney({ copy, phases }: ProcessJourneyProps) {
       observer.disconnect();
       window.clearInterval(timer);
     };
-  }, []);
+  }, [phases.length]);
 
   function choose(index: number) {
     userChose.current = true;
