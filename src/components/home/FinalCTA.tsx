@@ -1,8 +1,5 @@
 import { BOOKING_LABEL, siteConfig } from "@/data/site";
 import { copy } from "@/data/copy";
-import { contactPerson } from "@/data/checkup";
-import { filled, todoLabel } from "@/lib/todo";
-import { DevTodo } from "@/components/ui/DevTodo";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
 import { Button } from "@/components/ui/Button";
@@ -41,31 +38,17 @@ export function FinalCTA() {
             <p className="mt-6 text-sm text-strong">
               Or email <CopyEmail email={siteConfig.email} />
             </p>
-            {(filled(contactPerson.name) || todoLabel(contactPerson.name)) && (
-              <div className="mt-6 border-t border-white/10 pt-5 text-body">
-                <p className="text-caption font-medium tracking-[0.1em] text-subtle uppercase">Your contact</p>
-                {filled(contactPerson.name) ? (
-                  <p className="mt-2">
-                    <span className="font-bold text-white">{contactPerson.name}</span>
-                    {filled(contactPerson.role) && <span className="text-muted">, {contactPerson.role}</span>}
-                    {filled(contactPerson.linkedinUrl) && (
-                      <>
-                        {" · "}
-                        <a href={contactPerson.linkedinUrl} target="_blank" rel="noopener noreferrer" className="link-quiet !min-h-0 underline underline-offset-2">
-                          LinkedIn
-                        </a>
-                      </>
-                    )}
-                  </p>
-                ) : (
-                  <div className="mt-2 grid gap-2">
-                    <DevTodo value={contactPerson.name} />
-                    <DevTodo value={contactPerson.role} />
-                    <DevTodo value={contactPerson.linkedinUrl} />
-                  </div>
-                )}
-              </div>
-            )}
+            <div className="mt-6 border-t border-white/10 pt-5">
+              <p className="text-caption font-medium tracking-[0.1em] text-subtle uppercase">{copy.contact.hintTitle}</p>
+              <ul className="mt-3 grid gap-2 text-small text-muted">
+                {copy.contact.hints.map((hint) => (
+                  <li key={hint} className="flex gap-3">
+                    <span aria-hidden="true" className="mt-[0.6em] size-1 shrink-0 rounded-full bg-label" />
+                    {hint}
+                  </li>
+                ))}
+              </ul>
+            </div>
             <p className="mt-5 text-small text-muted">
               {copy.shared.typicalStart}
             </p>

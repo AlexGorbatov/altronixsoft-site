@@ -7,10 +7,3 @@ export const checkup = {
   text: "A call to look at your system and decide whether a technical review makes sense. No preparation needed.",
   cta: { label: "Request a check-up", type: "architecture-checkup" as RequestType },
 };
-
-/** Named contact for new projects, shown next to the contact form. Hidden until filled (see `filled()`). */
-export const contactPerson = {
-  name: "TODO(owner): contact person name",
-  role: "TODO(owner): role, e.g. Solution architect",
-  linkedinUrl: "TODO(owner): contact person LinkedIn URL",
-};

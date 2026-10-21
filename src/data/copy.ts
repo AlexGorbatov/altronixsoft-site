@@ -12,6 +12,16 @@ export const copy = {
     startParagraph: "Most engagements begin with a 30-minute architecture check-up and a short technical review, before a larger scope.",
     allFormsLink: "See all engagement formats",
   },
+  /** Next to the contact form: what makes a first message easy to answer. */
+  contact: {
+    hintTitle: "Helpful to include",
+    hints: [
+      "The system or platform you work with",
+      "The problem or the change you need",
+      "What a good result looks like",
+      "Any deadline or constraint",
+    ],
+  },
   services: {
     eyebrow: "Services",
     title: "Custom software, modernization, AI.",
@@ -86,7 +96,7 @@ export const copy = {
     optional: "(optional)",
     topic: "What do you want to discuss?",
     message: "Describe the system and the problem",
-    placeholder: "e.g. Our SAP Commerce storefront slows down at peak load. We need to find out why and fix it.",
+    placeholder: "e.g. Our platform has become slow and hard to change. We want to understand why and plan the next steps.",
     honeypot: "Leave this field empty",
     consentBefore: `I understand that ${siteConfig.legalName} will use my details to reply to this inquiry, as described in the`,
     consentLink: "Privacy Policy",
