@@ -3,7 +3,8 @@ import { PageShell } from "@/components/layout/PageShell";
 import { privacy } from "@/data/privacy";
 import { siteConfig } from "@/data/site";
 import { pageMetadata } from "@/lib/metadata";
-import { filled, todoLabel } from "@/lib/todo";
+import { DevTodo } from "@/components/ui/DevTodo";
+import { filled } from "@/lib/todo";
 
 export const metadata = pageMetadata({
   title: privacy.title,
@@ -14,10 +15,7 @@ export const metadata = pageMetadata({
 /** In development an open TODO shows as a dashed note so it is not forgotten; in production it is omitted. */
 function Line({ text }: { text: string }) {
   if (filled(text)) return <p>{text}</p>;
-  const todo = todoLabel(text);
-  return todo ? (
-    <p className="rounded-lg border border-dashed border-[#ffcd80]/60 px-3 py-2 text-small text-[#ffe0b0]">{todo}</p>
-  ) : null;
+  return <DevTodo value={text} className="block" />;
 }
 
 export default function PrivacyPage() {

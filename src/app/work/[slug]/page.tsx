@@ -10,6 +10,7 @@ import { caseStudies, getCaseStudy, type CaseStudy } from "@/data/projects";
 import { contactHref } from "@/data/site";
 import { hasResult, warnIfIncomplete } from "@/lib/cases";
 import { pageMetadata } from "@/lib/metadata";
+import { DevTodo } from "@/components/ui/DevTodo";
 import { filled, todoLabel } from "@/lib/todo";
 
 export function generateStaticParams() {
@@ -39,7 +40,7 @@ function Story({ title, text }: { title: string; text: string }) {
       {filled(text) ? (
         <p className="mt-2 text-body leading-[1.75] text-muted">{text}</p>
       ) : (
-        <p className="mt-2 rounded-lg border border-dashed border-[#ffcd80]/60 px-3 py-2 text-small text-[#ffe0b0]">{todo}</p>
+        <DevTodo value={text} className="mt-2 block" />
       )}
     </section>
   );
