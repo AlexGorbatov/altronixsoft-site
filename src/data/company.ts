@@ -36,6 +36,10 @@ export const about = {
       text: "A fixed-scope review or proof of value comes before any larger commitment.",
     },
     {
+      title: "NDA before work begins.",
+      text: "We sign a non-disclosure agreement before we start on your system.",
+    },
+    {
       title: "You get the code and documentation.",
       text: "Handed over under the contract terms.",
     },
