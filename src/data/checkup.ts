@@ -5,7 +5,7 @@ export const checkup = {
   title: "Architecture check-up",
   meta: "30 minutes · free",
   text: "A call to look at your system and decide whether a technical review makes sense. No preparation needed.",
-  cta: { label: "Book a check-up", type: "architecture-checkup" as RequestType },
+  cta: { label: "Request a check-up", type: "architecture-checkup" as RequestType },
 };
 
 /** Named contact for new projects, shown next to the contact form. Hidden until filled (see `filled()`). */

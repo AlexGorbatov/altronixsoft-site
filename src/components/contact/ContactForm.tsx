@@ -105,7 +105,7 @@ function ContactFormView() {
       <div role="status" className="rounded-2xl border border-[rgba(121,219,231,.35)] bg-[rgba(5,12,25,.45)] p-6">
         <h3 className="text-xl font-bold">{copy.form.successTitle}</h3>
         <p className="mt-2 text-body leading-[1.65] text-muted">
-          {copy.form.successText}
+          {copy.form.successText.replace("{name}", name.trim().split(/\s+/)[0])}
         </p>
       </div>
     );

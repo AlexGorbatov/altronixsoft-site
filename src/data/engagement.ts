@@ -36,7 +36,7 @@ export const engagementModels: EngagementModel[] = [
     priceFrom: "TODO(owner): price, e.g. from €X",
     duration: "TODO(owner): duration",
     deliverable: "TODO(owner): deliverable, e.g. working prototype and findings",
-    cta: { label: "Discuss a proof of value", type: "proof-of-value" },
+    cta: { label: "Scope a proof of value", type: "proof-of-value" },
   },
   {
     id: "fixed",
@@ -46,7 +46,7 @@ export const engagementModels: EngagementModel[] = [
     priceFrom: "TODO(owner): price, e.g. from €X",
     duration: "TODO(owner): duration",
     deliverable: "TODO(owner): deliverable",
-    cta: { label: "Discuss a project", type: "project" },
+    cta: { label: "Scope a project", type: "project" },
   },
   {
     id: "team",
