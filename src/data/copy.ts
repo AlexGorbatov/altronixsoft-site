@@ -86,11 +86,11 @@ export const copy = {
     sending: "Sending…",
     successTitle: "Message received.",
     /** `{name}` is replaced with the sender's first name. */
-    successText: "Thanks, {name}. We'll reply to the email you gave.",
-    rateLimited: "You've sent several messages in a short time. Please try again in a few minutes, or email us at",
-    unavailable: "We couldn't send your message. Your text is still here, so you can try again, or",
+    successText: "Thanks, {name}. We will reply to the email you gave.",
+    rateLimited: "You have sent several messages in a short time. Please try again in a few minutes, or email us at",
+    unavailable: "We could not send your message. Your text is still here, so you can try again, or",
     emailUs: "email us instead",
     emailUsAt: "at",
-    prefilled: "(we've prefilled your message).",
+    prefilled: "(we have prefilled your message).",
   },
 };

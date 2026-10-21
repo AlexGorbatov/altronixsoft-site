@@ -64,7 +64,7 @@ export const services: Service[] = [
     shortTitle: "AI and automation",
     description: "AI agents, search and document automation inside your systems.",
     intro:
-      "We add AI where it measurably helps and connect it to your existing systems with proper controls: agents, retrieval over internal knowledge, and document and workflow automation.",
+      "We add AI where it solves a real business problem and connect it to your existing systems with proper controls: agents, retrieval over internal knowledge, and document and workflow automation.",
     metaDescription:
       "AI agents, retrieval over internal knowledge, and document and workflow automation, connected to your existing systems with proper controls.",
     capabilities: [
