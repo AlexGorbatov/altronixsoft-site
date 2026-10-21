@@ -1,7 +1,7 @@
 "use client";
 
 import { Pause, Play } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * Pause / resume for the animations that never stop (hero canvas, technology marquee, process connectors).
@@ -10,6 +10,15 @@ import { useState } from "react";
  */
 export function MotionToggle() {
   const [paused, setPaused] = useState(false);
+
+  // <html> survives client-side navigation but this button does not. Resume when it unmounts, so the page is
+  // never left paused without a control and the button always matches the page when it comes back.
+  useEffect(
+    () => () => {
+      delete document.documentElement.dataset.motion;
+    },
+    [],
+  );
 
   function toggle() {
     const next = !paused;
