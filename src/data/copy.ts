@@ -1,3 +1,5 @@
+import { siteConfig } from "@/data/site";
+
 /**
  * Section headings, labels and UI messages that used to live inside components.
  * Body content (services, cases, formats, company) stays in its own `src/data/*` file.
@@ -86,7 +88,7 @@ export const copy = {
     message: "Describe the system and the problem",
     placeholder: "e.g. Our SAP Commerce storefront slows down at peak load. We need to find out why and fix it.",
     honeypot: "Leave this field empty",
-    consentBefore: "I agree that Altronixsoft OÜ processes my details to reply to this inquiry. See the",
+    consentBefore: `I agree that ${siteConfig.legalName} processes my details to reply to this inquiry. See the`,
     consentLink: "Privacy Policy",
     submit: "Send message",
     sending: "Sending…",

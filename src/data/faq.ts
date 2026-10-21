@@ -1,4 +1,5 @@
 import { entryPackage } from "@/data/engagement";
+import { siteConfig } from "@/data/site";
 import { filled } from "@/lib/todo";
 
 export interface FaqItem {
@@ -56,6 +57,6 @@ export const faqs: FaqItem[] = [
   },
   {
     question: "Where are you based?",
-    answer: "Altronix Software is operated by Altronixsoft OÜ, a company registered in Estonia (EU).",
+    answer: `${siteConfig.name} is operated by ${siteConfig.legalName}, a company registered in Estonia (EU).`,
   },
 ];

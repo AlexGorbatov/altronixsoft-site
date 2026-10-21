@@ -1,6 +1,9 @@
 export const siteConfig = {
   name: "Altronix Software",
-  legalName: "Altronixsoft OÜ",
+  /** Short form of the name, used by the company's profiles and its domain. */
+  shortName: "AltronixSoft",
+  /** The name exactly as in the Estonian commercial register (registry code 16645816). */
+  legalName: "AltronixSoftware OÜ",
   tagline: "Serious engineering. Practical AI.",
   title: "SAP Commerce, Java and AI engineering | Altronix Software",
   description:

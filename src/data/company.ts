@@ -21,9 +21,8 @@ export const about = {
 
   /** Key numbers. Only filled values are rendered. */
   stats: [
-    // TODO(owner): verify that 2019 matches the registration date of the OÜ in the e-Business Register;
-    // if it does not, reword the label to "working with clients since …" with the correct year.
-    { value: "Since 2019", label: "working with clients" },
+    // 2023 is the registration year of AltronixSoftware OÜ in the Estonian register (5 Jan 2023).
+    { value: "Since 2023", label: "working with clients" },
   ],
 
   operateTitle: "How we operate",

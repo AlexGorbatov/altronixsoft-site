@@ -118,7 +118,7 @@ npm run todo     # every open placeholder with file:line, grouped by file
 | Case studies (×3) | `src/data/projects.ts` | context, challenge, what we did, result, duration |
 | Labs | `src/data/projects.ts` | demo URL, repository, screenshot (block stays hidden without them) |
 | Engagement packages | `src/data/engagement.ts` | price, duration, deliverable per format |
-| Company | `src/data/company.ts` | production-systems count, industries and countries, check of "Since 2019" |
+| Company | `src/data/company.ts` | production-systems count, industries and countries |
 | Legal | `src/data/site.ts` | registry code, VAT number |
 | Contact person | `src/data/checkup.ts` | name, role, LinkedIn |
 | Support and Security | `src/data/trust.ts` | real conditions (the whole section stays hidden until filled) |
@@ -136,5 +136,5 @@ The contact form needs a server runtime (it posts to `/api/contact`), so deploy 
 <br />
 
 <div align="center">
-  <sub>© Altronixsoft OÜ · <i>Serious engineering. Practical AI.</i></sub>
+  <sub>© AltronixSoftware OÜ · <i>Serious engineering. Practical AI.</i></sub>
 </div>

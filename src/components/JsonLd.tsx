@@ -21,6 +21,7 @@ export function JsonLd() {
     "@type": "Organization",
     "@id": `${siteConfig.url}/#organization`,
     name: siteConfig.name,
+    alternateName: siteConfig.shortName,
     legalName: siteConfig.legalName,
     url: siteConfig.url,
     email: siteConfig.email,
