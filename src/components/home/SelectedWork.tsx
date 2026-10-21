@@ -27,8 +27,10 @@ function CaseResult({ study }: { study: CaseStudy }) {
 
 /** Only facts that are filled in are listed; placeholders never reach the page. */
 function CaseFacts({ study }: { study: CaseStudy }) {
-  const facts: [string, string][] = [[copy.work.roleLabel, study.role]];
+  const facts: [string, string][] = [];
+  if (filled(study.role)) facts.push([copy.work.roleLabel, study.role]);
   if (filled(study.focus)) facts.push([copy.work.focusLabel, study.focus]);
+  if (filled(study.team)) facts.push([copy.work.teamLabel, study.team]);
   if (filled(study.duration)) facts.push([copy.work.durationLabel, study.duration]);
 
   return (

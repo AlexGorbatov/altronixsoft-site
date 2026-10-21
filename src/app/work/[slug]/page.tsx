@@ -47,11 +47,10 @@ function Story({ title, text }: { title: string; text: string }) {
 }
 
 function Facts({ study }: { study: CaseStudy }) {
-  const facts: [string, string][] = [
-    ["Industry", study.industry],
-    ["Role", study.role],
-  ];
+  const facts: [string, string][] = [["Industry", study.industry]];
+  if (filled(study.role)) facts.push(["Role", study.role]);
   if (filled(study.context)) facts.push(["Context", study.context]);
+  if (filled(study.team)) facts.push(["Team", study.team]);
   if (filled(study.duration)) facts.push(["Duration", study.duration]);
 
   return (

@@ -47,6 +47,7 @@ export const copy = {
     readCase: "Read the case study",
     roleLabel: "Role",
     focusLabel: "Focus",
+    teamLabel: "Team",
     durationLabel: "Duration",
     resultLabel: "Result",
   },

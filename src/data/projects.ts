@@ -18,6 +18,9 @@ export interface CaseStudy {
   result: string;
   stack: string[];
   duration: string;
+  /** Team size, e.g. "5 people". Optional; hidden when empty. */
+  team?: string;
+  /** Our part in the engagement. Leave empty to hide the Role line. */
   role: string;
   /** What the engagement concentrated on. Known today, shown as highlights on the case page. */
   focus: string;
@@ -35,7 +38,7 @@ export const caseStudies: CaseStudy[] = [
     visual: "integration",
     industry: "E-commerce",
     summary: "OCC web services, Solr search, promotions and integrations for a furniture and home decor retailer.",
-    context: "Furniture and home decor retailer in Germany. Team of 5.",
+    context: "Furniture and home decor retailer in Germany.",
     challenge:
       "Connect the SAP Hybris platform to external third-party systems, move large volumes of data into it, and keep a high-load production system stable.",
     whatWeDid:
@@ -43,7 +46,8 @@ export const caseStudies: CaseStudy[] = [
     result: "Features were delivered on time through the CI/CD process, and the platform stayed stable under high load.",
     stack: ["SAP Hybris 2011", "Java 11", "Spring", "OCC", "Spartacus", "Solr", "Data Hub", "CI/CD"],
     duration: "5 months",
-    role: "Integration and backend engineering, team lead",
+    team: "5 people",
+    role: "",
     focus: "OCC web services, Solr search and promotion rules",
   },
   {
