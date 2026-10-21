@@ -1,4 +1,4 @@
-import { about } from "@/data/company";
+import { getContent } from "@/i18n/server";
 import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
 import { Section } from "@/components/ui/Section";
 import { AboutStats } from "./about/AboutStats";
@@ -9,7 +9,8 @@ const subtitle = "mono-label text-label";
  * "Who we are": one gradient card in two columns. Left: who we are and key numbers.
  * Right: how we operate. About the company, not about one person.
  */
-export function Company() {
+export async function Company() {
+  const { about } = await getContent();
   return (
     <Section id="about" tone="deep" labelledBy="about-title">
       <AnimatedReveal>

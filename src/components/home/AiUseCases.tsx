@@ -1,7 +1,8 @@
 import { FileCheck, MessageSquare, Search, Workflow, type LucideIcon } from "lucide-react";
 import Link from "next/link";
-import { copy } from "@/data/copy";
-import { aiUseCases, type UseCase } from "@/data/services";
+import type { UseCase } from "@/data/services";
+import { localizedPath } from "@/i18n/config";
+import { getContent } from "@/i18n/server";
 import { cn } from "@/lib/utils";
 
 const ICONS: Record<UseCase["icon"], LucideIcon> = {
@@ -12,7 +13,8 @@ const ICONS: Record<UseCase["icon"], LucideIcon> = {
 };
 
 /** Compact AI examples as one card: a 2×2 grid of use cases, each with an icon, rule-separated. */
-export function AiUseCases() {
+export async function AiUseCases() {
+  const { lang, copy, aiUseCases } = await getContent();
   const { eyebrow, title, link } = copy.services.aiCases;
 
   return (
@@ -22,7 +24,7 @@ export function AiUseCases() {
           <div className="eyebrow">{eyebrow}</div>
           <h3 className="mt-3 text-[26px] leading-[1.15] font-bold tracking-[-0.03em]">{title}</h3>
         </div>
-        <Link href="/services/ai" className="link-quiet">
+        <Link href={localizedPath(lang, "/services/ai")} className="link-quiet">
           {link} <span aria-hidden="true">→</span>
         </Link>
       </div>

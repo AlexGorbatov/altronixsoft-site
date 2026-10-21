@@ -1,5 +1,6 @@
-import { hero } from "@/data/hero";
 import { CONTACT_HREF } from "@/data/site";
+import { localizedPath } from "@/i18n/config";
+import { getContent } from "@/i18n/server";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { CtaLabel } from "@/components/ui/CtaLabel";
@@ -7,7 +8,8 @@ import { HeroGlows } from "./HeroGlows";
 import { WorkflowFlow } from "./WorkflowFlow";
 import styles from "./Hero.module.css";
 
-export function Hero() {
+export async function Hero() {
+  const { lang, hero, copy } = await getContent();
   const [firstLine, secondLine] = hero.title;
 
   return (
@@ -23,14 +25,14 @@ export function Hero() {
           </h1>
           <p className={styles.lead}>{hero.lead}</p>
           <div className={styles.actions}>
-            <Button href={CONTACT_HREF}>
-              <CtaLabel />
+            <Button href={localizedPath(lang, CONTACT_HREF)}>
+              <CtaLabel label={copy.ui.cta} />
             </Button>
             <Button href="#work" variant="secondary">
-              See our work
+              {copy.ui.seeOurWork}
             </Button>
           </div>
-          <ul className={styles.meta} aria-label="About Altronix Software">
+          <ul className={styles.meta} aria-label={copy.ui.heroAria}>
             {hero.facts.map((fact) => (
               <li key={fact}>
                 <i aria-hidden="true" />

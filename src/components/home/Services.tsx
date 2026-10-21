@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { copy } from "@/data/copy";
-import { services } from "@/data/services";
+import { localizedPath } from "@/i18n/config";
+import { getContent } from "@/i18n/server";
 import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
 import { CardRow } from "@/components/ui/CardRow";
 import { CARD_ITEM } from "@/components/ui/cardItem";
@@ -11,7 +11,8 @@ import { Tag } from "@/components/ui/Tag";
 import { AiUseCases } from "./AiUseCases";
 import { SapSpecialization } from "./SapSpecialization";
 
-export function Services() {
+export async function Services() {
+  const { lang, copy, services } = await getContent();
   return (
     <Section id="services" tone="alt" labelledBy="services-title">
       <SectionHeading
@@ -36,9 +37,9 @@ export function Services() {
               </ul>
               <div className="mt-auto border-t border-line pt-4">
                 <Link
-                  href={`/services/${service.id}`}
+                  href={localizedPath(lang, `/services/${service.id}`)}
                   className="link-quiet"
-                  aria-label={`Service details: ${service.title}`}
+                  aria-label={`${copy.services.detailsLink}: ${service.title}`}
                 >
                   {copy.services.detailsLink} <span aria-hidden="true">→</span>
                 </Link>

@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 
 interface CopyEmailProps {
   email: string;
+  labels: { copy: string; copied: string; status: string };
   className?: string;
 }
 
@@ -13,7 +14,7 @@ interface CopyEmailProps {
  * Shows the address as text (so contact never depends on a mail client being
  * configured) with a one-click copy. The mailto link still works.
  */
-export function CopyEmail({ email, className }: CopyEmailProps) {
+export function CopyEmail({ email, labels, className }: CopyEmailProps) {
   const [copied, setCopied] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -41,13 +42,13 @@ export function CopyEmail({ email, className }: CopyEmailProps) {
       <button
         type="button"
         onClick={copy}
-        aria-label={copied ? "Email address copied" : "Copy email address"}
+        aria-label={copied ? labels.copied : labels.copy}
         className="grid size-11 place-items-center rounded-lg text-muted transition-colors hover:text-white"
       >
         {copied ? <Check size={16} aria-hidden className="text-success" /> : <Copy size={16} aria-hidden />}
       </button>
       <span role="status" aria-live="polite" className="text-xs text-success">
-        {copied ? "Copied" : ""}
+        {copied ? labels.status : ""}
       </span>
     </span>
   );

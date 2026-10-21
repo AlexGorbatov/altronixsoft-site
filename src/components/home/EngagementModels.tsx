@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { copy } from "@/data/copy";
-import { checkup } from "@/data/checkup";
-import { engagementModels, type EngagementModel } from "@/data/engagement";
+import type { EngagementModel } from "@/data/engagement";
 import { contactHref, siteConfig } from "@/data/site";
+import { localizedPath } from "@/i18n/config";
+import type { Content } from "@/i18n/content";
+import { getContent } from "@/i18n/server";
 import { filled, filledItems } from "@/lib/todo";
 import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
 import { CardRow } from "@/components/ui/CardRow";
@@ -14,7 +15,7 @@ import { FACT_LABEL } from "@/components/ui/factLabel";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
 
 /** Package facts: shown only once the owner has filled them in (see `filled()`). Label above value, never cramped. */
-function PackageFacts({ model }: { model: EngagementModel }) {
+function PackageFacts({ model, copy }: { model: EngagementModel; copy: Content["copy"] }) {
   const facts: [string, string][] = [];
   if (filled(model.priceFrom)) facts.push([copy.engagement.priceLabel, model.priceFrom]);
   if (filled(model.duration)) facts.push([copy.engagement.durationLabel, model.duration]);
@@ -51,7 +52,8 @@ function PackageFacts({ model }: { model: EngagementModel }) {
   );
 }
 
-export function EngagementModels() {
+export async function EngagementModels() {
+  const { lang, copy, engagementModels, checkup } = await getContent();
   return (
     <Section id="engagement" labelledBy="engagement-title">
       <SectionHeading
@@ -68,8 +70,8 @@ export function EngagementModels() {
               <h3 className="mb-3 text-[22px] leading-[1.2] font-bold tracking-[-0.03em]">{model.title}</h3>
               <p className="text-body leading-[1.65] text-muted lg:min-h-[4.95rem]">{model.description}</p>
               <p className="mt-4 border-t border-line pt-4 text-small leading-[1.55] text-strong">{model.outcome}</p>
-              <PackageFacts model={model} />
-              <Link href={contactHref(model.cta.type)} className="link-quiet mt-auto self-start pt-3">
+              <PackageFacts model={model} copy={copy} />
+              <Link href={localizedPath(lang, contactHref(model.cta.type))} className="link-quiet mt-auto self-start pt-3">
                 {model.cta.label} <span aria-hidden="true">→</span>
               </Link>
             </SpotlightCard>
@@ -86,7 +88,7 @@ export function EngagementModels() {
             </div>
             <p className="mt-1 max-w-[62ch] text-body leading-[1.6] text-muted">{checkup.text}</p>
           </div>
-          <Button href={siteConfig.bookingUrl ?? contactHref(checkup.cta.type)} variant="secondary" className="shrink-0">
+          <Button href={siteConfig.bookingUrl ?? localizedPath(lang, contactHref(checkup.cta.type))} variant="secondary" className="shrink-0">
             {checkup.cta.label}
           </Button>
         </div>

@@ -1,16 +1,19 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
-import { privacy } from "@/data/privacy";
-import { siteConfig } from "@/data/site";
-import { pageMetadata } from "@/lib/metadata";
 import { DevTodo } from "@/components/ui/DevTodo";
+import { hasLocale, localizedPath } from "@/i18n/config";
+import { contentFor } from "@/i18n/content";
+import { getContent } from "@/i18n/server";
+import { pageMetadata } from "@/lib/metadata";
 import { filled } from "@/lib/todo";
 
-export const metadata = pageMetadata({
-  title: privacy.title,
-  description: `How ${siteConfig.legalName} handles personal data sent through the contact form.`,
-  path: "/privacy",
-});
+export async function generateMetadata({ params }: PageProps<"/[lang]/privacy">): Promise<Metadata> {
+  const { lang } = await params;
+  if (!hasLocale(lang)) return {};
+  const { privacy } = contentFor(lang);
+  return pageMetadata({ lang, title: privacy.title, description: privacy.metaDescription, path: "/privacy" });
+}
 
 /** In development an open TODO shows as a dashed note so it is not forgotten; in production it is omitted. */
 function Line({ text }: { text: string }) {
@@ -18,15 +21,20 @@ function Line({ text }: { text: string }) {
   return <DevTodo value={text} className="block" />;
 }
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  const { lang, privacy } = await getContent();
   return (
     <PageShell>
       <article className="mx-auto max-w-[760px]">
-        <Link href="/" className="link-quiet">
-          <span aria-hidden="true">←</span> Back to home
+        <Link href={localizedPath(lang, "/")} className="link-quiet">
+          <span aria-hidden="true">←</span> {privacy.backHome}
         </Link>
         <h1 className="mt-4 text-[36px] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[52px]">{privacy.title}</h1>
-        {filled(privacy.updated) && <p className="mt-2 text-sm text-subtle">Last updated: {privacy.updated}</p>}
+        {filled(privacy.updated) && (
+          <p className="mt-2 text-sm text-subtle">
+            {privacy.updatedLabel}: {privacy.updated}
+          </p>
+        )}
         <p className="mt-6 text-[16px] leading-[1.75] text-muted">{privacy.intro}</p>
 
         {privacy.sections.map((section) => (

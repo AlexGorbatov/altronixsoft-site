@@ -5,24 +5,29 @@ import { ProjectVisual } from "@/components/home/ProjectVisual";
 import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/Button";
 import { Tag } from "@/components/ui/Tag";
-import { copy } from "@/data/copy";
-import { caseStudies, getCaseStudy, type CaseStudy } from "@/data/projects";
+import type { CaseStudy } from "@/data/projects";
 import { contactHref } from "@/data/site";
+import { hasLocale, localizedPath } from "@/i18n/config";
+import { contentFor, type Content } from "@/i18n/content";
+import { getContent } from "@/i18n/server";
 import { hasResult, warnIfIncomplete } from "@/lib/cases";
 import { pageMetadata } from "@/lib/metadata";
 import { DevTodo } from "@/components/ui/DevTodo";
 import { filled, todoLabel } from "@/lib/todo";
 
 export function generateStaticParams() {
-  return caseStudies.map((study) => ({ slug: study.slug }));
+  return contentFor("en").caseStudies.map((study) => ({ slug: study.slug }));
 }
 
-export async function generateMetadata({ params }: PageProps<"/work/[slug]">): Promise<Metadata> {
-  const { slug } = await params;
-  const study = getCaseStudy(slug);
+export async function generateMetadata({ params }: PageProps<"/[lang]/work/[slug]">): Promise<Metadata> {
+  const { lang, slug } = await params;
+  if (!hasLocale(lang)) return {};
+  const { caseStudies, copy } = contentFor(lang);
+  const study = caseStudies.find((item) => item.slug === slug);
   if (!study) return {};
   return pageMetadata({
-    title: `${study.title}: case study`,
+    lang,
+    title: `${study.title}: ${copy.casePage.metaSuffix}`,
     description: study.summary,
     path: `/work/${study.slug}`,
     // A case without a measurable result is not ready to be indexed yet.
@@ -46,12 +51,13 @@ function Story({ title, text }: { title: string; text: string }) {
   );
 }
 
-function Facts({ study }: { study: CaseStudy }) {
-  const facts: [string, string][] = [["Industry", study.industry]];
-  if (filled(study.role)) facts.push(["Role", study.role]);
-  if (filled(study.context)) facts.push(["Context", study.context]);
-  if (filled(study.team)) facts.push(["Team", study.team]);
-  if (filled(study.duration)) facts.push(["Duration", study.duration]);
+function Facts({ study, copy }: { study: CaseStudy; copy: Content["copy"] }) {
+  const { work } = copy;
+  const facts: [string, string][] = [[work.industryLabel, study.industry]];
+  if (filled(study.role)) facts.push([work.roleLabel, study.role]);
+  if (filled(study.context)) facts.push([work.contextLabel, study.context]);
+  if (filled(study.team)) facts.push([work.teamLabel, study.team]);
+  if (filled(study.duration)) facts.push([work.durationLabel, study.duration]);
 
   return (
     <dl className="mt-8 grid gap-x-8 gap-y-4 rounded-2xl border border-line bg-[rgba(13,24,44,.6)] p-6 sm:grid-cols-2">
@@ -62,7 +68,7 @@ function Facts({ study }: { study: CaseStudy }) {
         </div>
       ))}
       <div className="sm:col-span-2">
-        <dt className="font-mono text-caption font-medium tracking-[0.1em] text-subtle uppercase">Stack</dt>
+        <dt className="font-mono text-caption font-medium tracking-[0.1em] text-subtle uppercase">{work.stackLabel}</dt>
         <dd>
           <ul className="mt-2 flex flex-wrap gap-2" aria-label={copy.work.stackAria}>
             {study.stack.map((item) => (
@@ -77,9 +83,10 @@ function Facts({ study }: { study: CaseStudy }) {
   );
 }
 
-export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]">) {
+export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/[slug]">) {
   const { slug } = await params;
-  const study = getCaseStudy(slug);
+  const { lang, copy, caseStudies } = await getContent();
+  const study = caseStudies.find((item) => item.slug === slug);
   if (!study) notFound();
   warnIfIncomplete([study]);
 
@@ -88,7 +95,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
   return (
     <PageShell>
       <article className="mx-auto max-w-[820px]">
-        <Link href="/#work" className="link-quiet">
+        <Link href={localizedPath(lang, "/#work")} className="link-quiet">
           <span aria-hidden="true">←</span> {copy.casePage.back}
         </Link>
         <div className="eyebrow mt-4">{study.industry}</div>
@@ -99,7 +106,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
           <ProjectVisual variant={study.visual} />
         </div>
 
-        <Facts study={study} />
+        <Facts study={study} copy={copy} />
 
         <section aria-label={copy.casePage.focus} className="mt-8">
           <h2 className="text-xl font-bold tracking-[-0.03em]">{copy.casePage.focus}</h2>
@@ -117,9 +124,9 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
             {copy.casePage.similarText}
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Button href={contactHref("project")}>Discuss your project →</Button>
-            <Button href={contactHref("technical-review")} variant="secondary">
-              Request a Technical Review
+            <Button href={localizedPath(lang, contactHref("project"))}>{copy.pages.discussProject} →</Button>
+            <Button href={localizedPath(lang, contactHref("technical-review"))} variant="secondary">
+              {copy.pages.requestReview}
             </Button>
           </div>
         </section>
@@ -129,7 +136,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
           <ul className="mt-3 grid gap-2">
             {others.map((item) => (
               <li key={item.slug}>
-                <Link href={`/work/${item.slug}`} className="link-quiet">
+                <Link href={localizedPath(lang, `/work/${item.slug}`)} className="link-quiet">
                   {item.title} <span aria-hidden="true">→</span>
                 </Link>
               </li>

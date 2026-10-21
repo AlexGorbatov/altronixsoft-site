@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { labs } from "@/data/projects";
+import { getContent } from "@/i18n/server";
 import { filled } from "@/lib/todo";
 import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
 
@@ -7,7 +7,8 @@ import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
  * Reference implementations. Rendered only when `labs.showLabs` is on AND at least one project has a
  * public demo or repository, so the block never shows up as a list of unverifiable names.
  */
-export function Labs() {
+export async function Labs() {
+  const { labs, copy } = await getContent();
   const hasPublicProject = labs.projects.some((project) => filled(project.demoUrl) || filled(project.repoUrl));
   if (!labs.showLabs || !hasPublicProject) return null;
 
@@ -22,12 +23,12 @@ export function Labs() {
         </div>
         <p className="mt-3 max-w-[620px] text-sm leading-[1.65] text-strong">{labs.description}</p>
 
-        <ul className="mt-5 grid gap-3 md:grid-cols-3" aria-label="Reference implementations">
+        <ul className="mt-5 grid gap-3 md:grid-cols-3" aria-label={copy.ui.labsAria}>
           {labs.projects.map((project) => (
             <li key={project.title} className="overflow-hidden rounded-xl border border-line bg-white/[.02]">
               {filled(project.screenshot) && (
                 <div className="relative aspect-[16/9] bg-[#0a1324]">
-                  <Image src={project.screenshot} alt={`${project.title} screenshot`} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
+                  <Image src={project.screenshot} alt={copy.ui.screenshotAlt.replace("{title}", project.title)} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
                 </div>
               )}
               <div className="p-4">
@@ -38,12 +39,12 @@ export function Labs() {
                 <div className="mt-3 flex flex-wrap gap-x-5">
                   {filled(project.demoUrl) && (
                     <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="link-quiet">
-                      Live demo <span aria-hidden="true">→</span>
+                      {copy.ui.liveDemo} <span aria-hidden="true">→</span>
                     </a>
                   )}
                   {filled(project.repoUrl) && (
                     <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="link-quiet">
-                      Repository <span aria-hidden="true">→</span>
+                      {copy.ui.repository} <span aria-hidden="true">→</span>
                     </a>
                   )}
                 </div>

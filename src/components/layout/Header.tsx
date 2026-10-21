@@ -4,19 +4,36 @@ import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "re
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { navigation } from "@/data/navigation";
+import type { NavItem } from "@/data/navigation";
 import { CONTACT_HREF } from "@/data/site";
+import { localizedPath, splitLocale, type Locale } from "@/i18n/config";
 import { CtaLabel } from "@/components/ui/CtaLabel";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Logo } from "./Logo";
 
 const DRAWER_ID = "mobile-navigation";
 
-export function Header() {
+interface HeaderProps {
+  lang: Locale;
+  navigation: NavItem[];
+  labels: {
+    home: string;
+    menuOpen: string;
+    menuClose: string;
+    navPrimary: string;
+    navMobile: string;
+    cta: string;
+    language: string;
+  };
+}
+
+export function Header({ lang, navigation, labels }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
-  const onHome = usePathname() === "/";
+  const onHome = splitLocale(usePathname()).path === "/";
+  const contactHref = localizedPath(lang, CONTACT_HREF);
   const [heroInView, setHeroInView] = useState(true);
   const [open, setOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -97,34 +114,42 @@ export function Header() {
       )}
     >
       <Container className="flex h-full items-center justify-between gap-[26px]">
-        <Link href="/" className="rounded-md py-2">
+        <Link href={localizedPath(lang, "/")} className="rounded-md py-2">
           <Logo />
-          <span className="sr-only"> — home</span>
+          <span className="sr-only"> — {labels.home}</span>
         </Link>
 
-        <nav aria-label="Primary" className="hidden gap-[30px] text-sm font-semibold text-strong lg:flex">
+        <nav aria-label={labels.navPrimary} className="hidden gap-[30px] text-sm font-semibold text-strong lg:flex">
           {navigation.map((item) => (
-            <Link key={item.href} href={item.href} className="inline-flex min-h-11 items-center transition-colors hover:text-white">
+            <Link
+              key={item.href}
+              href={localizedPath(lang, item.href)}
+              className="inline-flex min-h-11 items-center transition-colors hover:text-white"
+            >
               {item.label}
             </Link>
           ))}
         </nav>
 
-        <Button href={CONTACT_HREF} data-quiet={onHome && heroInView} className="hidden lg:inline-flex">
-          <CtaLabel />
-        </Button>
+        <div className="flex items-center gap-3">
+          <LanguageSwitcher lang={lang} label={labels.language} />
 
-        <button
-          ref={menuButtonRef}
-          type="button"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          aria-controls={DRAWER_ID}
-          onClick={() => (open ? close() : setOpen(true))}
-          className="grid size-11 place-items-center rounded-[10px] border border-line text-white lg:hidden"
-        >
-          {open ? <X size={20} aria-hidden /> : <Menu size={20} aria-hidden />}
-        </button>
+          <Button href={contactHref} data-quiet={onHome && heroInView} className="hidden lg:inline-flex">
+            <CtaLabel label={labels.cta} />
+          </Button>
+
+          <button
+            ref={menuButtonRef}
+            type="button"
+            aria-label={open ? labels.menuClose : labels.menuOpen}
+            aria-expanded={open}
+            aria-controls={DRAWER_ID}
+            onClick={() => (open ? close() : setOpen(true))}
+            className="grid size-11 place-items-center rounded-[10px] border border-line text-white lg:hidden"
+          >
+            {open ? <X size={20} aria-hidden /> : <Menu size={20} aria-hidden />}
+          </button>
+        </div>
       </Container>
 
       {/* Mobile / tablet drawer */}
@@ -134,19 +159,19 @@ export function Header() {
         hidden={!open}
         className="fixed inset-x-0 top-[var(--header-h)] z-[49] h-[calc(100dvh-var(--header-h))] overflow-y-auto border-t border-line bg-[#081225] lg:hidden"
       >
-        <nav aria-label="Mobile" className="mx-auto flex w-[min(calc(100%-32px),var(--container-max))] flex-col py-3 sm:w-[min(calc(100%-48px),var(--container-max))]">
+        <nav aria-label={labels.navMobile} className="mx-auto flex w-[min(calc(100%-32px),var(--container-max))] flex-col py-3 sm:w-[min(calc(100%-48px),var(--container-max))]">
           {navigation.map((item) => (
             <Link
               key={item.href}
-              href={item.href}
+              href={localizedPath(lang, item.href)}
               onClick={() => close(false)}
               className="flex min-h-14 items-center border-b border-line text-lg font-semibold text-[#d5deea]"
             >
               {item.label}
             </Link>
           ))}
-          <Button href={CONTACT_HREF} onClick={() => close(false)} className="mt-6 min-h-[52px] w-full">
-            <CtaLabel />
+          <Button href={contactHref} onClick={() => close(false)} className="mt-6 min-h-[52px] w-full">
+            <CtaLabel label={labels.cta} />
           </Button>
         </nav>
       </div>

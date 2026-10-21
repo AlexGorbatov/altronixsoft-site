@@ -5,54 +5,59 @@ import { JsonLdScript } from "@/components/JsonLdScript";
 import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/Button";
 import { Tag } from "@/components/ui/Tag";
-import { copy } from "@/data/copy";
-import { getService, services } from "@/data/services";
 import { contactHref } from "@/data/site";
+import { hasLocale, localizedPath } from "@/i18n/config";
+import { contentFor } from "@/i18n/content";
+import { getContent } from "@/i18n/server";
 import { breadcrumbSchema, serviceSchema } from "@/lib/jsonld";
 import { pageMetadata } from "@/lib/metadata";
 
 export function generateStaticParams() {
-  return services.map((service) => ({ slug: service.id }));
+  return contentFor("en").services.map((service) => ({ slug: service.id }));
 }
 
-export async function generateMetadata({ params }: PageProps<"/services/[slug]">): Promise<Metadata> {
-  const { slug } = await params;
-  const service = getService(slug);
+export async function generateMetadata({ params }: PageProps<"/[lang]/services/[slug]">): Promise<Metadata> {
+  const { lang, slug } = await params;
+  if (!hasLocale(lang)) return {};
+  const service = contentFor(lang).services.find((item) => item.id === slug);
   if (!service) return {};
   return pageMetadata({
+    lang,
     title: service.metaTitle ?? service.title,
     description: service.metaDescription,
     path: `/services/${service.id}`,
   });
 }
 
-export default async function ServicePage({ params }: PageProps<"/services/[slug]">) {
+export default async function ServicePage({ params }: PageProps<"/[lang]/services/[slug]">) {
   const { slug } = await params;
-  const service = getService(slug);
+  const { lang, copy, services, sapCommerce } = await getContent();
+  const service = services.find((item) => item.id === slug);
   if (!service) notFound();
 
   const path = `/services/${service.id}`;
   const graph = [
-    serviceSchema({ path, name: service.title, description: service.metaDescription, serviceType: service.title }),
-    breadcrumbSchema([{ name: service.title, path }]),
+    serviceSchema({ lang, path, name: service.title, description: service.metaDescription, serviceType: service.title }),
+    breadcrumbSchema(lang, [{ name: service.title, path }]),
   ];
+  const { pages } = copy;
 
   return (
     <PageShell>
       <JsonLdScript graph={graph} />
       <article className="mx-auto max-w-[820px]">
-        <Link href="/#services" className="link-quiet">
-          <span aria-hidden="true">←</span> All services
+        <Link href={localizedPath(lang, "/#services")} className="link-quiet">
+          <span aria-hidden="true">←</span> {pages.allServices}
         </Link>
-        <div className="eyebrow mt-4">Service {service.number}</div>
+        <div className="eyebrow mt-4">{pages.serviceNumber.replace("{number}", service.number)}</div>
         <h1 className="mt-3 text-[36px] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[52px]">{service.title}</h1>
         <p className="mt-6 text-[17px] leading-[1.75] text-muted">{service.intro}</p>
 
         <section aria-labelledby="capabilities-title" className="mt-10">
           <h2 id="capabilities-title" className="mono-label text-label">
-            What we do
+            {pages.whatWeDo}
           </h2>
-          <ul className="mt-4 flex flex-wrap gap-2" aria-label="Capabilities">
+          <ul className="mt-4 flex flex-wrap gap-2" aria-label={copy.services.capabilitiesLabel}>
             {service.capabilities.map((capability) => (
               <li key={capability}>
                 <Tag>{capability}</Tag>
@@ -63,32 +68,35 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
 
         <section aria-labelledby="start-title" className="mt-10 rounded-2xl border border-line bg-[rgba(13,24,44,.6)] p-6 sm:p-8">
           <h2 id="start-title" className="text-2xl font-bold tracking-[-0.03em]">
-            How to start
+            {pages.howToStart}
           </h2>
           <p className="mt-3 text-body leading-[1.7] text-muted">
             {copy.shared.startParagraph}{" "}
-            <Link href="/#engagement" className="text-label underline underline-offset-2 hover:text-white">{copy.shared.allFormsLink}</Link>.
+            <Link href={localizedPath(lang, "/#engagement")} className="text-label underline underline-offset-2 hover:text-white">
+              {copy.shared.allFormsLink}
+            </Link>
+            .
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Button href={contactHref(service.cta.type)}>{service.cta.label} →</Button>
-            <Button href={contactHref("technical-review")} variant="secondary">
-              Request a Technical Review
+            <Button href={localizedPath(lang, contactHref(service.cta.type))}>{service.cta.label} →</Button>
+            <Button href={localizedPath(lang, contactHref("technical-review"))} variant="secondary">
+              {pages.requestReview}
             </Button>
           </div>
         </section>
-        <nav aria-label="Other services" className="mt-10">
-          <h2 className="mono-label text-label">Other services</h2>
+        <nav aria-label={pages.otherServices} className="mt-10">
+          <h2 className="mono-label text-label">{pages.otherServices}</h2>
           <ul className="mt-3 grid gap-1">
             <li>
-              <Link href="/services/sap-commerce" className="link-quiet">
-                SAP Commerce Cloud services <span aria-hidden="true">→</span>
+              <Link href={localizedPath(lang, sapCommerce.path)} className="link-quiet">
+                {sapCommerce.title} <span aria-hidden="true">→</span>
               </Link>
             </li>
             {services
               .filter((other) => other.id !== service.id)
               .map((other) => (
                 <li key={other.id}>
-                  <Link href={`/services/${other.id}`} className="link-quiet">
+                  <Link href={localizedPath(lang, `/services/${other.id}`)} className="link-quiet">
                     {other.title} <span aria-hidden="true">→</span>
                   </Link>
                 </li>

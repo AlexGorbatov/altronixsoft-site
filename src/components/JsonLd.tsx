@@ -1,5 +1,5 @@
-import { services } from "@/data/services";
 import { siteConfig } from "@/data/site";
+import { getContent } from "@/i18n/server";
 import { filled } from "@/lib/todo";
 import { JsonLdScript } from "./JsonLdScript";
 
@@ -16,7 +16,8 @@ function postalAddress() {
  * Structured data for search engines. Only facts already on the site: the registered address appears
  * once it is filled in; no ratings or reviews.
  */
-export function JsonLd() {
+export async function JsonLd() {
+  const { lang, services, site } = await getContent();
   const organization = {
     "@type": "Organization",
     "@id": `${siteConfig.url}/#organization`,
@@ -37,6 +38,7 @@ export function JsonLd() {
     "@id": `${siteConfig.url}/#website`,
     url: siteConfig.url,
     name: siteConfig.name,
+    inLanguage: lang,
     publisher: { "@id": `${siteConfig.url}/#organization` },
   };
 
@@ -45,7 +47,8 @@ export function JsonLd() {
     "@id": `${siteConfig.url}/#service`,
     name: siteConfig.name,
     url: siteConfig.url,
-    description: siteConfig.description,
+    description: site.description,
+    inLanguage: lang,
     email: siteConfig.email,
     areaServed: "Europe",
     parentOrganization: { "@id": `${siteConfig.url}/#organization` },

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Company } from "@/components/home/Company";
 import { EngagementModels } from "@/components/home/EngagementModels";
 import { FinalCTA } from "@/components/home/FinalCTA";
@@ -9,10 +10,20 @@ import { Services } from "@/components/home/Services";
 import { TrustBlocks } from "@/components/home/TrustBlocks";
 import { TrustStrip } from "@/components/home/TrustStrip";
 import { JsonLd } from "@/components/JsonLd";
+import { hasLocale } from "@/i18n/config";
+import { contentFor } from "@/i18n/content";
+import { getContent } from "@/i18n/server";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata = { alternates: { canonical: "/" } };
+export async function generateMetadata({ params }: PageProps<"/[lang]">): Promise<Metadata> {
+  const { lang } = await params;
+  if (!hasLocale(lang)) return {};
+  const { site } = contentFor(lang);
+  return pageMetadata({ lang, title: site.title, description: site.description, path: "/", absoluteTitle: true });
+}
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { copy, processPhases } = await getContent();
   return (
     <main id="top">
       <Hero />
@@ -20,7 +31,7 @@ export default function HomePage() {
       <Services />
       <Industries />
       <SelectedWork />
-      <ProcessJourney />
+      <ProcessJourney copy={copy.process} phases={processPhases} />
       <EngagementModels />
       <Company />
       <TrustBlocks />

@@ -67,22 +67,47 @@ Client components are limited to what genuinely needs the browser: `Header` (dra
 
 ```text
 src/
-├─ app/                    layout, home page, /work/[slug], /services/[slug], /privacy, api/contact,
-│                          metadata, robots, sitemap, icon / apple-icon / opengraph-image, globals.css (tokens)
+├─ app/
+│  ├─ [lang]/              every page lives under /en, /de or /uk: layout (<html lang>), home, /work/[slug],
+│  │                       /services/[slug], /privacy, not-found, llms.txt
+│  ├─ api/contact          contact form endpoint
+│  └─ robots, sitemap, icon / apple-icon, llms.txt (English), globals.css (tokens)
+├─ proxy.ts                sends "/" and unprefixed paths to the visitor's language (Accept-Language), no cookie
 ├─ components/
-│  ├─ layout/              Header (sticky + accessible drawer), Footer (legal line), Logo, PageShell
+│  ├─ layout/              Header (sticky + accessible drawer), LanguageSwitcher, Footer, Logo, PageShell
 │  ├─ home/                Hero, TrustStrip, Services, AiUseCases, Industries, SelectedWork, Labs,
 │  │                       ProcessJourney, EngagementModels, Company ("Who we are"), FinalCTA
 │  ├─ contact/             ContactForm
 │  ├─ ui/                  Button, Container, Section, SectionHeading, Tag, Avatar,
 │  │                       AnimatedReveal, SpotlightCard, CardRow
 │  └─ JsonLd.tsx           structured data
-├─ data/                   all copy & content as typed data
-│                          (hero, services, industries, projects, process, engagement, company,
+├─ data/                   the English source: all copy & content as typed data
+│                          (copy, hero, services, industries, projects, process, engagement, company,
 │                           contact, privacy, navigation, site)
-└─ lib/                    utils, todo (TODO(owner) helpers), cases, metadata, contact-schema
+├─ i18n/                   languages: config, content loader, de/ and uk/ translations, llms.txt builder
+└─ lib/                    utils, todo (TODO(owner) helpers), cases, metadata, jsonld, contact-schema
+public/                    share images (opengraph-image.png, twitter-image.png)
 docs/superpowers/          design specs and implementation plans
 ```
+
+## 🌍 Languages
+
+The site is in English (`/en`), German (`/de`) and Ukrainian (`/uk`). English in `src/data/*` is the source; the
+translations live in `src/i18n/de/` and `src/i18n/uk/` and only hold the text, laid over the English. Whatever a
+translation leaves out falls back to English, so an unfinished language never shows a blank.
+
+- **Change a text:** edit the English in `src/data/*`, then the same key in `src/i18n/de/` and `src/i18n/uk/`.
+  `npm test` fails if a translated language still shows English text, so a missed key is caught.
+- **Fill an open `TODO(owner)`:** fill the English first (it stays hidden until it is real). German and Ukrainian
+  show the English value until you translate it.
+- **Add a language:** add the code to `locales` and `localeMeta` in `src/i18n/config.ts`, add a folder next to `de/`
+  with the same files, register it in `src/i18n/content.ts`, and add its font subset in `src/app/[lang]/layout.tsx`.
+- **Language choice:** `/` redirects by the browser's `Accept-Language`; the switcher links to the same page in
+  another language. No cookie is set, so the privacy policy statement "no cookies" stays true.
+- **SEO:** every page has a canonical URL, `hreflang` alternates (with `x-default` = English), a sitemap entry per
+  language and its own `/llms.txt`.
+- The German and Ukrainian privacy policy is a translation of the English text. Have it checked by a native-speaking
+  legal professional before launch.
 
 <br />
 

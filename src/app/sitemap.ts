@@ -1,24 +1,31 @@
 import type { MetadataRoute } from "next";
-import { caseStudies } from "@/data/projects";
-import { services } from "@/data/services";
 import { siteConfig } from "@/data/site";
+import { locales, localizedPath } from "@/i18n/config";
+import { contentFor } from "@/i18n/content";
 import { hasResult } from "@/lib/cases";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const url = (path: string) => `${siteConfig.url}${path}`;
+type Entry = { path: string; changeFrequency: "monthly" | "yearly"; priority: number };
 
-  return [
-    { url: siteConfig.url, changeFrequency: "monthly", priority: 1 },
-    ...services.map((service) => ({
-      url: url(`/services/${service.id}`),
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    })),
-    { url: url("/services/sap-commerce"), changeFrequency: "monthly" as const, priority: 0.9 },
+/** Every page in every language, each entry pointing at its translations. */
+export default function sitemap(): MetadataRoute.Sitemap {
+  const { services, caseStudies } = contentFor("en");
+  const pages: Entry[] = [
+    { path: "/", changeFrequency: "monthly", priority: 1 },
+    ...services.map((service) => ({ path: `/services/${service.id}`, changeFrequency: "monthly" as const, priority: 0.8 })),
+    { path: "/services/sap-commerce", changeFrequency: "monthly", priority: 0.9 },
     // Case studies without a measurable result are noindex, so they stay out of the sitemap too.
     ...caseStudies
       .filter(hasResult)
-      .map((study) => ({ url: url(`/work/${study.slug}`), changeFrequency: "yearly" as const, priority: 0.7 })),
-    { url: url("/privacy"), changeFrequency: "yearly", priority: 0.3 },
+      .map((study) => ({ path: `/work/${study.slug}`, changeFrequency: "yearly" as const, priority: 0.7 })),
+    { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },
   ];
+
+  const url = (locale: (typeof locales)[number], path: string) => `${siteConfig.url}${localizedPath(locale, path)}`;
+  return pages.flatMap(({ path, changeFrequency, priority }) => {
+    const languages = {
+      ...Object.fromEntries(locales.map((code) => [code, url(code, path)])),
+      "x-default": url("en", path),
+    };
+    return locales.map((locale) => ({ url: url(locale, path), changeFrequency, priority, alternates: { languages } }));
+  });
 }

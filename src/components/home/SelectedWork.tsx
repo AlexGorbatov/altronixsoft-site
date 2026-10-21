@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { copy } from "@/data/copy";
-import { caseStudies, type CaseStudy } from "@/data/projects";
+import type { CaseStudy } from "@/data/projects";
+import { localizedPath } from "@/i18n/config";
+import { getContent } from "@/i18n/server";
 import { hasResult, warnIfIncomplete } from "@/lib/cases";
 import { filled } from "@/lib/todo";
 import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
@@ -11,22 +12,23 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { FACT_LABEL } from "@/components/ui/factLabel";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { Tag } from "@/components/ui/Tag";
+import type { Content } from "@/i18n/content";
 import { Labs } from "./Labs";
 import { ProjectVisual } from "./ProjectVisual";
 
 /** The measurable outcome, set apart from the other facts so it is what the eye lands on. Only when filled. */
-function CaseResult({ study }: { study: CaseStudy }) {
+function CaseResult({ study, label }: { study: CaseStudy; label: string }) {
   if (!hasResult(study)) return null;
   return (
     <div className="mt-5 rounded-xl border border-cyan/25 bg-cyan/[.06] px-4 py-3">
-      <div className={`${FACT_LABEL} text-label`}>{copy.work.resultLabel}</div>
+      <div className={`${FACT_LABEL} text-label`}>{label}</div>
       <p className="mt-1 text-body leading-[1.45] font-semibold text-ink">{study.result}</p>
     </div>
   );
 }
 
 /** Only facts that are filled in are listed; placeholders never reach the page. */
-function CaseFacts({ study }: { study: CaseStudy }) {
+function CaseFacts({ study, copy }: { study: CaseStudy; copy: Content["copy"] }) {
   const facts: [string, string][] = [];
   if (filled(study.role)) facts.push([copy.work.roleLabel, study.role]);
   if (filled(study.focus)) facts.push([copy.work.focusLabel, study.focus]);
@@ -57,7 +59,8 @@ function CaseFacts({ study }: { study: CaseStudy }) {
   );
 }
 
-export function SelectedWork() {
+export async function SelectedWork() {
+  const { lang, copy, caseStudies } = await getContent();
   warnIfIncomplete(caseStudies);
 
   return (
@@ -80,10 +83,10 @@ export function SelectedWork() {
                 </div>
                 <h3 className="mt-3 mb-2 text-[19px] font-bold">{study.title}</h3>
                 <p className="text-sm leading-[1.6] text-muted">{study.summary}</p>
-                <CaseResult study={study} />
-                <CaseFacts study={study} />
+                <CaseResult study={study} label={copy.work.resultLabel} />
+                <CaseFacts study={study} copy={copy} />
                 {hasResult(study) && (
-                  <Link href={`/work/${study.slug}`} className="link-quiet mt-auto self-start pt-2">
+                  <Link href={localizedPath(lang, `/work/${study.slug}`)} className="link-quiet mt-auto self-start pt-2">
                     {copy.work.readCase} <span aria-hidden="true">→</span>
                   </Link>
                 )}

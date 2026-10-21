@@ -42,8 +42,5 @@ export function mailto(subject?: string): string {
 
 export const CONTACT_HREF = contactHref("project");
 
-/** The single label for the primary action, used by every primary CTA. Render it with `<CtaLabel />`, which adds the arrow. */
-export const CTA_LABEL = "Discuss a project";
-
-/** Label for the scheduling button; only shown when `siteConfig.bookingUrl` is set. */
-export const BOOKING_LABEL = "Book a 30-minute call";
+// The labels of the primary action and of the scheduling button live in the dictionary (copy.ui.cta,
+// copy.contactSection.booking). The scheduling button is only shown when `siteConfig.bookingUrl` is set.

@@ -1,9 +1,10 @@
-import { about } from "@/data/company";
+import { getContent } from "@/i18n/server";
 import { DevTodo } from "@/components/ui/DevTodo";
 import { filled, todoLabel } from "@/lib/todo";
 
 /** Key numbers. Filled ones render as cards; open TODOs show as dashed notes in development only. */
-export function AboutStats() {
+export async function AboutStats() {
+  const { about } = await getContent();
   const stats = about.stats.filter((stat) => filled(stat.value) || todoLabel(stat.value));
   if (stats.length === 0) return null;
 

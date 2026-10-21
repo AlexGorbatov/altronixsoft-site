@@ -62,8 +62,8 @@
   --color-violet-soft: var(--violet-soft);
   --color-success: var(--success);
 
-  --font-sans: var(--font-manrope), system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", monospace;
+  --font-sans: var(--font-manrope), var(--font-manrope-cyrillic), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-jetbrains-mono), var(--font-jetbrains-mono-cyrillic), ui-monospace, "SF Mono", monospace;
 
   --breakpoint-xs: 400px;
 

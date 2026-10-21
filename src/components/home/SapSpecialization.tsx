@@ -1,12 +1,13 @@
 import Link from "next/link";
-import { copy } from "@/data/copy";
-import { sapCommerce } from "@/data/sap-commerce";
 import { contactHref } from "@/data/site";
+import { localizedPath } from "@/i18n/config";
+import { getContent } from "@/i18n/server";
 import { Button } from "@/components/ui/Button";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
 
 /** The SAP Commerce Cloud specialization card under the three service cards. Content: `sapCommerce.specialization`. */
-export function SapSpecialization() {
+export async function SapSpecialization() {
+  const { lang, copy, sapCommerce } = await getContent();
   const { badge, title, text, stats } = sapCommerce.specialization;
 
   return (
@@ -26,8 +27,8 @@ export function SapSpecialization() {
       </dl>
 
       <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-2 pt-6">
-        <Button href={contactHref("architecture-checkup")}>{copy.services.sapCta}</Button>
-        <Link href={sapCommerce.path} className="link-quiet">
+        <Button href={localizedPath(lang, contactHref("architecture-checkup"))}>{copy.services.sapCta}</Button>
+        <Link href={localizedPath(lang, sapCommerce.path)} className="link-quiet">
           {copy.services.sapLink} <span aria-hidden="true">→</span>
         </Link>
       </div>

@@ -4,9 +4,10 @@ import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useEffect, useId, useState, type FormEvent, type ReactNode } from "react";
-import { copy } from "@/data/copy";
-import { DEFAULT_REQUEST_TYPE, parseRequestType, requestTypeLabel, requestTypes } from "@/data/contact";
+import { DEFAULT_REQUEST_TYPE, parseRequestType } from "@/data/contact";
 import { mailto, siteConfig, type RequestType } from "@/data/site";
+import { localizedPath, type Locale } from "@/i18n/config";
+import type { Content } from "@/i18n/content";
 import type { ContactField } from "@/lib/contact-schema";
 
 type Status = "idle" | "submitting" | "success" | "error" | "unavailable";
@@ -20,19 +21,21 @@ function Field({
   label,
   error,
   optional,
+  optionalLabel,
   children,
 }: {
   id: string;
   label: string;
   error?: string;
   optional?: boolean;
+  optionalLabel: string;
   children: ReactNode;
 }) {
   return (
     <div>
       <label htmlFor={id} className="mb-[6px] block text-small font-semibold text-strong">
         {label}
-        {optional && <span className="font-normal text-subtle"> {copy.form.optional}</span>}
+        {optional && <span className="font-normal text-subtle"> {optionalLabel}</span>}
       </label>
       {children}
       {error && (
@@ -44,7 +47,13 @@ function Field({
   );
 }
 
-function ContactFormView() {
+interface ContactFormProps {
+  lang: Locale;
+  form: Content["copy"]["form"];
+  requestTypes: Content["requestTypes"];
+}
+
+function ContactFormView({ lang, form, requestTypes }: ContactFormProps) {
   const uid = useId();
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -92,7 +101,10 @@ function ContactFormView() {
         return;
       }
       if (response.status === 400 && result.error === "validation") {
-        const fields = result.fields ?? {};
+        const messages = form.errors as Record<string, string>;
+        const fields = Object.fromEntries(
+          Object.entries(result.fields ?? {}).map(([field, code]) => [field, messages[code] ?? code]),
+        ) as FieldErrors;
         setErrors(fields);
         setStatus("error");
         // Move focus to the first invalid field so keyboard and screen reader users land on the problem.
@@ -110,23 +122,24 @@ function ContactFormView() {
   if (status === "success") {
     return (
       <div role="status" className="rounded-2xl border border-[rgba(121,219,231,.35)] bg-[rgba(5,12,25,.45)] p-6">
-        <h3 className="text-xl font-bold">{copy.form.successTitle}</h3>
+        <h3 className="text-xl font-bold">{form.successTitle}</h3>
         <p className="mt-2 text-body leading-[1.65] text-muted">
-          {copy.form.successText.replace("{name}", name.trim().split(/\s+/)[0])}
+          {form.successText.replace("{name}", name.trim().split(/\s+/)[0])}
         </p>
       </div>
     );
   }
 
-  const fallbackHref = `${mailto(`${requestTypeLabel(type)} — website inquiry`)}&body=${encodeURIComponent(message)}`;
+  const topicLabel = requestTypes.find((option) => option.value === type)?.label ?? type;
+  const fallbackHref = `${mailto(`${topicLabel} — ${form.fallbackSubject}`)}&body=${encodeURIComponent(message)}`;
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-4" aria-label={copy.form.ariaLabel}>
+    <form onSubmit={onSubmit} className="grid gap-4" aria-label={form.ariaLabel}>
       <Suspense fallback={null}>
         <RequestTypeFromQuery onType={onRequestedType} />
       </Suspense>
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field id={id("name")} label={copy.form.name} error={errors.name}>
+        <Field optionalLabel={form.optional} id={id("name")} label={form.name} error={errors.name}>
           <input
             {...fieldProps("name")}
             name="name"
@@ -140,7 +153,7 @@ function ContactFormView() {
             className="field"
           />
         </Field>
-        <Field id={id("email")} label={copy.form.email} error={errors.email}>
+        <Field optionalLabel={form.optional} id={id("email")} label={form.email} error={errors.email}>
           <input
             {...fieldProps("email")}
             name="email"
@@ -154,7 +167,7 @@ function ContactFormView() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field id={id("company")} label={copy.form.company} error={errors.company} optional>
+        <Field optionalLabel={form.optional} id={id("company")} label={form.company} error={errors.company} optional>
           <input
             {...fieldProps("company")}
             name="company"
@@ -164,7 +177,7 @@ function ContactFormView() {
             className="field"
           />
         </Field>
-        <Field id={id("type")} label={copy.form.topic} error={errors.type}>
+        <Field optionalLabel={form.optional} id={id("type")} label={form.topic} error={errors.type}>
           <div className="relative">
             <select
               {...fieldProps("type")}
@@ -188,7 +201,7 @@ function ContactFormView() {
         </Field>
       </div>
 
-      <Field id={id("message")} label={copy.form.message} error={errors.message}>
+      <Field optionalLabel={form.optional} id={id("message")} label={form.message} error={errors.message}>
         <textarea
           {...fieldProps("message")}
           name="message"
@@ -198,7 +211,7 @@ function ContactFormView() {
           maxLength={4000}
           value={message}
           onChange={(event) => setMessage(event.target.value)}
-          placeholder={copy.form.placeholder}
+          placeholder={form.placeholder}
           className="field resize-y"
         />
       </Field>
@@ -206,7 +219,7 @@ function ContactFormView() {
       {/* Honeypot: invisible to people and assistive tech, tempting to bots. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
         <label>
-          {copy.form.honeypot}
+          {form.honeypot}
           <input type="text" name="website" tabIndex={-1} autoComplete="off" defaultValue="" />
         </label>
       </div>
@@ -221,9 +234,9 @@ function ContactFormView() {
             className="checkbox mt-[1px]"
           />
           <span>
-            {copy.form.consentBefore}{" "}
-            <Link href="/privacy" className="text-label underline underline-offset-2 hover:text-white">
-              {copy.form.consentLink}
+            {form.consentBefore}{" "}
+            <Link href={localizedPath(lang, "/privacy")} className="text-label underline underline-offset-2 hover:text-white">
+              {form.consentLink}
             </Link>
             .
           </span>
@@ -237,7 +250,7 @@ function ContactFormView() {
 
       {status === "error" && Object.keys(errors).length === 0 && (
         <p role="alert" className="rounded-xl border border-[rgba(255,138,138,.4)] bg-[rgba(255,138,138,.08)] px-4 py-3 text-sm text-[#ffc4c4]">
-          {copy.form.rateLimited}{" "}
+          {form.rateLimited}{" "}
           <a href={mailto()} className="underline underline-offset-2">
             {siteConfig.email}
           </a>
@@ -247,16 +260,16 @@ function ContactFormView() {
 
       {status === "unavailable" && (
         <p role="alert" className="rounded-xl border border-[rgba(255,205,128,.4)] bg-[rgba(255,205,128,.08)] px-4 py-3 text-sm leading-[1.6] text-[#ffe0b0]">
-          {copy.form.unavailable}{" "}
+          {form.unavailable}{" "}
           <a href={fallbackHref} className="font-bold underline underline-offset-2">
-            {copy.form.emailUs}
+            {form.emailUs}
           </a>{" "}
-          {copy.form.emailUsAt} {siteConfig.email} {copy.form.prefilled}
+          {form.emailUsAt} {siteConfig.email} {form.prefilled}
         </p>
       )}
 
       <button type="submit" disabled={status === "submitting"} className="btn btn-primary w-full disabled:opacity-60">
-        {status === "submitting" ? copy.form.sending : copy.form.submit}
+        {status === "submitting" ? form.sending : form.submit}
       </button>
     </form>
   );
@@ -275,6 +288,6 @@ function RequestTypeFromQuery({ onType }: { onType: (type: RequestType) => void 
   return null;
 }
 
-export function ContactForm() {
-  return <ContactFormView />;
+export function ContactForm(props: ContactFormProps) {
+  return <ContactFormView {...props} />;
 }

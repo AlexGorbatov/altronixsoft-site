@@ -1,26 +1,28 @@
-import { BOOKING_LABEL, siteConfig } from "@/data/site";
-import { copy } from "@/data/copy";
+import { siteConfig } from "@/data/site";
+import { getContent } from "@/i18n/server";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
 import { Button } from "@/components/ui/Button";
 import { CopyEmail } from "@/components/ui/CopyEmail";
 import { Section } from "@/components/ui/Section";
 
-export function FinalCTA() {
+export async function FinalCTA() {
+  const { lang, copy, requestTypes } = await getContent();
+  const section = copy.contactSection;
   return (
     <Section id="contact" tone="alt" labelledBy="cta-title">
       <AnimatedReveal>
         <div className="relative grid items-start gap-10 overflow-hidden rounded-3xl border border-white/[.12] bg-[radial-gradient(600px_300px_at_100%_0%,rgba(139,92,246,.22),transparent_70%),linear-gradient(120deg,#0d1b35,#161838_65%,#2d1f47)] p-[26px] sm:p-[42px] lg:grid-cols-[.85fr_1.15fr] lg:gap-14 lg:p-[56px]">
           <div>
-            <div className="eyebrow">Contact</div>
+            <div className="eyebrow">{section.eyebrow}</div>
             <h2
               id="cta-title"
               className="mt-[14px] text-[32px] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[44px]"
             >
-              Describe the system and the problem.
+              {section.title}
             </h2>
             <p className="mt-5 leading-[1.7] text-strong">
-              Name the workflow, platform or product. We reply with the shortest path to production.
+              {section.text}
             </p>
 
             {siteConfig.bookingUrl && (
@@ -31,12 +33,16 @@ export function FinalCTA() {
                 rel="noopener noreferrer"
                 className="mt-6 w-full max-w-[320px]"
               >
-                {BOOKING_LABEL}
+                {section.booking}
               </Button>
             )}
 
             <p className="mt-6 text-sm text-strong">
-              Or email <CopyEmail email={siteConfig.email} />
+              {section.orEmail}{" "}
+              <CopyEmail
+                email={siteConfig.email}
+                labels={{ copy: copy.ui.copyEmail, copied: copy.ui.emailCopied, status: copy.ui.copied }}
+              />
             </p>
             <div className="mt-6 border-t border-white/10 pt-5">
               <p className="text-caption font-medium tracking-[0.1em] text-subtle uppercase">{copy.contact.hintTitle}</p>
@@ -54,7 +60,7 @@ export function FinalCTA() {
             </p>
           </div>
 
-          <ContactForm />
+          <ContactForm lang={lang} form={copy.form} requestTypes={requestTypes} />
         </div>
       </AnimatedReveal>
     </Section>

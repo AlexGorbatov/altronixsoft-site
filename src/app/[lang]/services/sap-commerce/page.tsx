@@ -1,31 +1,42 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLdScript } from "@/components/JsonLdScript";
 import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/Button";
 import { DevTodo } from "@/components/ui/DevTodo";
 import { Tag } from "@/components/ui/Tag";
-import { sapCommerce } from "@/data/sap-commerce";
-import { services } from "@/data/services";
 import { contactHref } from "@/data/site";
+import { hasLocale, localizedPath } from "@/i18n/config";
+import { contentFor } from "@/i18n/content";
+import { getContent } from "@/i18n/server";
 import { breadcrumbSchema, serviceSchema } from "@/lib/jsonld";
 import { pageMetadata } from "@/lib/metadata";
 import { filled, todoLabel } from "@/lib/todo";
 
-export const metadata = pageMetadata({
-  title: sapCommerce.metaTitle,
-  description: sapCommerce.metaDescription,
-  path: sapCommerce.path,
-});
+export async function generateMetadata({ params }: PageProps<"/[lang]/services/sap-commerce">): Promise<Metadata> {
+  const { lang } = await params;
+  if (!hasLocale(lang)) return {};
+  const { sapCommerce } = contentFor(lang);
+  return pageMetadata({
+    lang,
+    title: sapCommerce.metaTitle,
+    description: sapCommerce.metaDescription,
+    path: sapCommerce.path,
+  });
+}
 
-export default function SapCommercePage() {
+export default async function SapCommercePage() {
+  const { lang, copy, services, sapCommerce } = await getContent();
+  const { pages } = copy;
   const graph = [
     serviceSchema({
+      lang,
       path: sapCommerce.path,
       name: sapCommerce.h1,
       description: sapCommerce.metaDescription,
-      serviceType: "SAP Commerce Cloud development and support",
+      serviceType: sapCommerce.h1,
     }),
-    breadcrumbSchema([{ name: sapCommerce.title, path: sapCommerce.path }]),
+    breadcrumbSchema(lang, [{ name: sapCommerce.title, path: sapCommerce.path }]),
   ];
   const details = sapCommerce.details.filter((row) => filled(row.value) || todoLabel(row.value));
 
@@ -33,25 +44,25 @@ export default function SapCommercePage() {
     <PageShell>
       <JsonLdScript graph={graph} />
       <article className="mx-auto max-w-[900px]">
-        <nav aria-label="Breadcrumb" className="text-small text-subtle">
-          <Link href="/" className="hover:text-white">
-            Home
+        <nav aria-label={pages.breadcrumbAria} className="text-small text-subtle">
+          <Link href={localizedPath(lang, "/")} className="hover:text-white">
+            {pages.home}
           </Link>{" "}
           / <span aria-current="page">{sapCommerce.title}</span>
         </nav>
-        <div className="eyebrow mt-6">Service</div>
+        <div className="eyebrow mt-6">{pages.serviceEyebrow}</div>
         <h1 className="mt-3 text-[36px] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[52px]">{sapCommerce.h1}</h1>
         <p className="mt-6 max-w-[68ch] text-[17px] leading-[1.75] text-muted">{sapCommerce.intro}</p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Button href={contactHref("architecture-checkup")}>Book a free check-up →</Button>
-          <Button href={contactHref("technical-review")} variant="secondary">
-            Request a technical review
+          <Button href={localizedPath(lang, contactHref("architecture-checkup"))}>{copy.services.sapCta} →</Button>
+          <Button href={localizedPath(lang, contactHref("technical-review"))} variant="secondary">
+            {pages.requestReview}
           </Button>
         </div>
 
         <section aria-labelledby="what-title" className="mt-14">
           <h2 id="what-title" className="text-[28px] leading-[1.15] font-bold tracking-[-0.03em] sm:text-[32px]">
-            What we do on SAP Commerce Cloud
+            {pages.sapWhatWeDo}
           </h2>
           <ul className="mt-6 grid gap-4 sm:grid-cols-2">
             {sapCommerce.offerings.map((item) => (
@@ -65,13 +76,16 @@ export default function SapCommercePage() {
 
         <section aria-labelledby="stack-title" className="mt-14">
           <h2 id="stack-title" className="text-[28px] leading-[1.15] font-bold tracking-[-0.03em] sm:text-[32px]">
-            Engineering stack
+            {pages.sapStackTitle}
           </h2>
           <p className="mt-3 max-w-[68ch] text-body leading-[1.7] text-muted">
-            Backend and integration work in Java and Spring, applied to e-commerce and product information platforms.
-            See <Link href="/#work" className="text-label underline underline-offset-2 hover:text-white">client projects</Link>.
+            {pages.sapStackBefore}{" "}
+            <Link href={localizedPath(lang, "/#work")} className="text-label underline underline-offset-2 hover:text-white">
+              {pages.sapStackLink}
+            </Link>
+            .
           </p>
-          <ul className="mt-4 flex flex-wrap gap-2" aria-label="Technologies">
+          <ul className="mt-4 flex flex-wrap gap-2" aria-label={pages.technologiesAria}>
             {sapCommerce.relevant.map((item) => (
               <li key={item}>
                 <Tag>{item}</Tag>
@@ -94,7 +108,7 @@ export default function SapCommercePage() {
 
         <section aria-labelledby="start-title" className="mt-14">
           <h2 id="start-title" className="text-[28px] leading-[1.15] font-bold tracking-[-0.03em] sm:text-[32px]">
-            How to start
+            {pages.howToStart}
           </h2>
           <ol className="mt-6 grid gap-4 md:grid-cols-3">
             {sapCommerce.start.map((step, i) => (
@@ -106,16 +120,16 @@ export default function SapCommercePage() {
             ))}
           </ol>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Button href={contactHref("architecture-checkup")}>Book a free check-up →</Button>
+            <Button href={localizedPath(lang, contactHref("architecture-checkup"))}>{copy.services.sapCta} →</Button>
           </div>
         </section>
 
-        <nav aria-label="Related services" className="mt-14">
-          <h2 className="mono-label text-label">Related services</h2>
+        <nav aria-label={pages.relatedServices} className="mt-14">
+          <h2 className="mono-label text-label">{pages.relatedServices}</h2>
           <ul className="mt-3 grid gap-1">
             {services.map((service) => (
               <li key={service.id}>
-                <Link href={`/services/${service.id}`} className="link-quiet">
+                <Link href={localizedPath(lang, `/services/${service.id}`)} className="link-quiet">
                   {service.title} <span aria-hidden="true">→</span>
                 </Link>
               </li>

@@ -1,4 +1,4 @@
-import { trust } from "@/data/trust";
+import { getContent } from "@/i18n/server";
 import { filled, todoLabel } from "@/lib/todo";
 import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
 import { DevTodo } from "@/components/ui/DevTodo";
@@ -9,7 +9,8 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
  * Support and Security. Only filled items render; a block with none is hidden, and the whole section is
  * hidden in production until something is filled. In development open TODOs show as dashed notes.
  */
-export function TrustBlocks() {
+export async function TrustBlocks() {
+  const { trust } = await getContent();
   const blocks = trust.blocks
     .map((block) => ({
       ...block,

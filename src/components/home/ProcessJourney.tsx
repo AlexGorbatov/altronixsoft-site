@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { copy } from "@/data/copy";
-import { processPhases } from "@/data/process";
+import type { Content } from "@/i18n/content";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/Container";
 import styles from "./ProcessJourney.module.css";
@@ -27,7 +26,12 @@ const AUTOPLAY_STEP_MS = 1700;
  * When the section first scrolls into view the steps light up one by one (01 → 04) and stop on the
  * finished diagram; any click ends the intro. Reduced motion skips it. It never captures page scrolling.
  */
-export function ProcessJourney() {
+interface ProcessJourneyProps {
+  copy: Content["copy"]["process"];
+  phases: Content["processPhases"];
+}
+
+export function ProcessJourney({ copy, phases }: ProcessJourneyProps) {
   const [active, setActive] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const userChose = useRef(false);
@@ -44,7 +48,7 @@ export function ProcessJourney() {
         observer.disconnect();
         let step = 0;
         timer = window.setInterval(() => {
-          if (userChose.current || step >= processPhases.length - 1) {
+          if (userChose.current || step >= phases.length - 1) {
             window.clearInterval(timer);
             return;
           }
@@ -68,8 +72,8 @@ export function ProcessJourney() {
     setActive(index);
   }
 
-  const current = processPhases[active];
-  const progress = active / (processPhases.length - 1);
+  const current = phases[active];
+  const progress = active / (phases.length - 1);
 
   return (
     <section ref={sectionRef} id="approach" aria-labelledby="process-title" className="section section-alt">
@@ -77,9 +81,9 @@ export function ProcessJourney() {
         <Container className="relative z-[2]">
           <div className={styles.shell}>
             <div className={styles.head}>
-              <div className="eyebrow">{copy.process.eyebrow}</div>
-              <h2 id="process-title">{copy.process.title}</h2>
-              <p>{copy.process.description}</p>
+              <div className="eyebrow">{copy.eyebrow}</div>
+              <h2 id="process-title">{copy.title}</h2>
+              <p>{copy.description}</p>
             </div>
 
             <div className={styles.track}>
@@ -87,13 +91,13 @@ export function ProcessJourney() {
                 <div className={styles.progress} />
               </div>
               <ol className={styles.phases}>
-                {processPhases.map((phase, index) => (
+                {phases.map((phase, index) => (
                   <li
                     key={phase.title}
                     className={cn(styles.phase, index === active && styles.active, index < active && styles.completed)}
                   >
                     <span className={styles.dot} aria-hidden="true" />
-                    <span className={styles.kicker}>{copy.process.stepLabel} {phase.number}</span>
+                    <span className={styles.kicker}>{copy.stepLabel} {phase.number}</span>
                     <h3>
                       <button
                         type="button"
@@ -108,7 +112,7 @@ export function ProcessJourney() {
                   </li>
                 ))}
               </ol>
-              <p className={styles.hint}>{copy.process.hint}</p>
+              <p className={styles.hint}>{copy.hint}</p>
             </div>
 
             <div className={styles.mapArea}>
@@ -121,9 +125,9 @@ export function ProcessJourney() {
                 </svg>
 
                 <div className={cn(styles.zone, styles.sourceZone)}>
-                  <div className={styles.zoneLabel}>{copy.process.diagram.sourceZone}</div>
+                  <div className={styles.zoneLabel}>{copy.diagram.sourceZone}</div>
                   <div className={styles.sourceList}>
-                    {copy.process.diagram.sourceItems.map((item) => (
+                    {copy.diagram.sourceItems.map((item) => (
                       <div key={item} className={styles.chip}>
                         {item}
                       </div>
@@ -132,14 +136,14 @@ export function ProcessJourney() {
                 </div>
 
                 <div className={cn(styles.zone, styles.coreZone)}>
-                  <div className={styles.coreNode}>{copy.process.diagram.coreNodes[0]}</div>
+                  <div className={styles.coreNode}>{copy.diagram.coreNodes[0]}</div>
                   <div className={styles.coreArrow}>→</div>
-                  <div className={styles.coreNode}>{copy.process.diagram.coreNodes[1]}</div>
+                  <div className={styles.coreNode}>{copy.diagram.coreNodes[1]}</div>
                 </div>
 
                 <div className={cn(styles.zone, styles.outputZone)}>
-                  <div className={styles.zoneLabel}>{copy.process.diagram.outputZone}</div>
-                  {copy.process.diagram.outputs.map((output) => (
+                  <div className={styles.zoneLabel}>{copy.diagram.outputZone}</div>
+                  {copy.diagram.outputs.map((output) => (
                     <div key={output.title} className={styles.outputCard}>
                       <b>{output.title}</b>
                       <span>{output.text}</span>
@@ -148,8 +152,8 @@ export function ProcessJourney() {
                 </div>
 
                 <div className={styles.badge}>
-                  <b>{copy.process.diagram.badge.title}</b>
-                  <span>{copy.process.diagram.badge.text}</span>
+                  <b>{copy.diagram.badge.title}</b>
+                  <span>{copy.diagram.badge.text}</span>
                 </div>
               </div>
             </div>
@@ -157,7 +161,7 @@ export function ProcessJourney() {
             <div className={styles.footer}>
               <div className={styles.status} aria-live={interacted ? "polite" : "off"}>
                 <span className={styles.current}>
-                  {copy.process.stepLabel} <strong>{current.number}</strong> / {String(processPhases.length).padStart(2, "0")}
+                  {copy.stepLabel} <strong>{current.number}</strong> / {String(phases.length).padStart(2, "0")}
                 </span>
                 &nbsp;·&nbsp;
                 <strong>{current.title}</strong>

@@ -17,6 +17,9 @@ export const privacy = {
   title: "Privacy Policy",
   intro: `This policy explains what personal data ${siteConfig.legalName} ("we") collects through this website, why, and what your rights are.`,
   updated: "21 October 2026",
+  updatedLabel: "Last updated",
+  backHome: "Back to home",
+  metaDescription: `How ${siteConfig.legalName} handles personal data sent through the contact form.`,
   sections: [
     {
       id: "controller",
