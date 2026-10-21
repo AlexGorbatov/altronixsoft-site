@@ -9,6 +9,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { Tag } from "@/components/ui/Tag";
 import { AiUseCases } from "./AiUseCases";
+import { SapSpecialization } from "./SapSpecialization";
 
 export function Services() {
   return (
@@ -47,17 +48,14 @@ export function Services() {
         ))}
       </CardRow>
 
-      <AnimatedReveal className="relative z-[1] mt-5">
-        <Link
-          href="/services/sap-commerce"
-          className="card flex items-center justify-between gap-4 py-4 font-bold transition-colors hover:border-label/40"
-        >
-          <span>{copy.services.sapLink}</span>
-          <span aria-hidden="true" className="text-label">→</span>
-        </Link>
-      </AnimatedReveal>
-
-      <AiUseCases />
+      <div className="relative z-[1] mt-5 grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
+        <AnimatedReveal className="h-full">
+          <SapSpecialization />
+        </AnimatedReveal>
+        <AnimatedReveal delay={1} className="h-full">
+          <AiUseCases />
+        </AnimatedReveal>
+      </div>
     </Section>
   );
 }

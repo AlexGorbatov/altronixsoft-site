@@ -17,7 +17,13 @@ export const copy = {
     rowLabel: "Services",
     capabilitiesLabel: "Capabilities",
     detailsLink: "Service details",
-    sapLink: "SAP Commerce Cloud development and support",
+    sapCta: "Request a free check-up",
+    sapLink: "SAP services",
+    aiCases: {
+      eyebrow: "AI use cases",
+      title: "Where AI pays off first",
+      link: "All AI services",
+    },
   },
   work: {
     eyebrow: "Selected work",

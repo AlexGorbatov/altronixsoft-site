@@ -1,38 +1,55 @@
-import { aiUseCases } from "@/data/services";
-import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
-import { ScrollRegion } from "@/components/ui/ScrollRegion";
+import { FileCheck, MessageSquare, Search, Workflow, type LucideIcon } from "lucide-react";
+import Link from "next/link";
+import { copy } from "@/data/copy";
+import { aiUseCases, type UseCase } from "@/data/services";
 import { cn } from "@/lib/utils";
 
-/** Compact AI examples — deliberately a rule-separated strip, not another card grid. */
+const ICONS: Record<UseCase["icon"], LucideIcon> = {
+  chat: MessageSquare,
+  search: Search,
+  document: FileCheck,
+  workflow: Workflow,
+};
+
+/** Compact AI examples as one card: a 2×2 grid of use cases, each with an icon, rule-separated. */
 export function AiUseCases() {
+  const { eyebrow, title, link } = copy.services.aiCases;
+
   return (
-    <AnimatedReveal className="relative z-[1] mt-[46px]">
-      <ScrollRegion
-        id="solutions"
-        label="AI use cases"
-        className="grid grid-cols-2 border-y border-line max-sm:-mr-4 max-sm:flex max-sm:snap-x max-sm:snap-mandatory max-sm:overflow-x-auto max-sm:pr-4 max-sm:[scrollbar-width:none] lg:grid-cols-[1.2fr_repeat(4,1fr)] [&::-webkit-scrollbar]:hidden"
-      >
-        <div className="col-span-2 border-b border-line py-6 pr-[18px] max-sm:min-w-[80vw] max-sm:border-b-0 max-sm:border-r lg:col-span-1 lg:border-r lg:border-b-0">
-          <h3 className="text-base font-bold">AI use cases</h3>
+    <div id="solutions" className="card flex h-full flex-col p-6 sm:p-8">
+      <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-1">
+        <div>
+          <div className="eyebrow">{eyebrow}</div>
+          <h3 className="mt-3 text-[26px] leading-[1.15] font-bold tracking-[-0.03em]">{title}</h3>
         </div>
-        {aiUseCases.map((useCase, i) => (
-          <div
-            key={useCase.title}
-            className={cn(
-              "group border-line px-[18px] py-6 max-sm:min-w-[70vw] max-sm:snap-start max-sm:border-r",
-              i % 2 === 0 && "border-r",
-              i >= 2 && "max-lg:border-t",
-              i < aiUseCases.length - 1 && "lg:border-r",
-              i === aiUseCases.length - 1 && "max-sm:border-r-0",
-            )}
-          >
-            <h4 className="text-base font-bold transition-colors group-hover:text-label">
-              {useCase.title}
-            </h4>
-            <p className="mt-2 text-small leading-[1.6] text-muted">{useCase.description}</p>
-          </div>
-        ))}
-      </ScrollRegion>
-    </AnimatedReveal>
+        <Link href="/services/ai" className="link-quiet">
+          {link} <span aria-hidden="true">→</span>
+        </Link>
+      </div>
+
+      <ul className="mt-6 grid flex-1 border-y border-line sm:grid-cols-2">
+        {aiUseCases.map((useCase, i) => {
+          const Icon = ICONS[useCase.icon];
+          return (
+            <li
+              key={useCase.title}
+              className={cn(
+                "flex gap-4 border-line py-5 max-sm:border-b max-sm:last:border-b-0",
+                i < 2 && "sm:border-b",
+                i % 2 === 0 ? "sm:border-r sm:pr-6" : "sm:pl-6",
+              )}
+            >
+              <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-white/[.12] bg-white/[.03] text-label">
+                <Icon size={18} aria-hidden />
+              </span>
+              <div>
+                <h4 className="text-base font-bold">{useCase.title}</h4>
+                <p className="mt-1 text-small leading-[1.6] text-muted">{useCase.description}</p>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }

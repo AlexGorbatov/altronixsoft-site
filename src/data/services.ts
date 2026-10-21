@@ -89,13 +89,15 @@ export function getService(slug: string): Service | undefined {
 export interface UseCase {
   title: string;
   description: string;
+  /** Which icon the card draws (mapped to a lucide icon in AiUseCases). */
+  icon: "chat" | "search" | "document" | "workflow";
 }
 
 export const aiUseCases: UseCase[] = [
-  { title: "Customer service", description: "Order status, returns, policy lookup, agent assist." },
-  { title: "Knowledge assistant", description: "Secure search across internal knowledge and policies." },
-  { title: "Document automation", description: "Extract, validate and process business documents." },
-  { title: "Workflow agents", description: "Connect systems and people into controlled workflows." },
+  { title: "Customer service", description: "Order status, returns, policy lookup, agent assist.", icon: "chat" },
+  { title: "Knowledge assistant", description: "Secure search across internal knowledge and policies.", icon: "search" },
+  { title: "Document automation", description: "Extract, validate and process business documents.", icon: "document" },
+  { title: "Workflow agents", description: "Connect systems and people into controlled workflows.", icon: "workflow" },
 ];
 
 /** Technologies shown in the trust-strip marquee. */

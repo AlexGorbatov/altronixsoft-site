@@ -13,6 +13,19 @@ export const sapCommerce = {
   h1: "SAP Commerce Cloud development and support",
   intro:
     "We build, extend and support SAP Commerce Cloud (Hybris) platforms for e-commerce and product-data teams. The work is backend and integration engineering in Java and Spring, led by senior engineers.",
+  /**
+   * The SAP Commerce Cloud card in the home page's Services section. The figures are provided by the owner;
+   * keep them to what can be backed up (no support-hours promise unless it is contractually offered).
+   */
+  specialization: {
+    badge: "Specialization",
+    title: "SAP Commerce Cloud",
+    text: "Development, production support, integrations and upgrades for SAP Commerce Cloud (Hybris) platforms.",
+    stats: [
+      { value: "10+", label: "projects" },
+      { value: "ERP · PIM", label: "integrations" },
+    ],
+  },
   offerings: [
     {
       title: "Development",
