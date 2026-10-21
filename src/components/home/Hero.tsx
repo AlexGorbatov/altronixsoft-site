@@ -1,7 +1,8 @@
 import { hero } from "@/data/hero";
-import { CONTACT_HREF, CTA_LABEL } from "@/data/site";
+import { CONTACT_HREF } from "@/data/site";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { CtaLabel } from "@/components/ui/CtaLabel";
 import { HeroGlows } from "./HeroGlows";
 import { WorkflowFlow } from "./WorkflowFlow";
 import styles from "./Hero.module.css";
@@ -22,7 +23,9 @@ export function Hero() {
           </h1>
           <p className={styles.lead}>{hero.lead}</p>
           <div className={styles.actions}>
-            <Button href={CONTACT_HREF}>{CTA_LABEL}</Button>
+            <Button href={CONTACT_HREF}>
+              <CtaLabel />
+            </Button>
             <Button href="#work" variant="secondary">
               See our work
             </Button>

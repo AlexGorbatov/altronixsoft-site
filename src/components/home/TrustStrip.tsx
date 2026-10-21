@@ -1,5 +1,6 @@
 import { technologies } from "@/data/services";
 import { Container } from "@/components/ui/Container";
+import { MotionToggle } from "@/components/ui/MotionToggle";
 import { Tag } from "@/components/ui/Tag";
 
 /** Experience statement + a slow, subtle technology marquee. Pure CSS animation. */
@@ -21,6 +22,7 @@ export function TrustStrip() {
             )}
           </ul>
         </div>
+        <MotionToggle />
       </Container>
     </section>
   );

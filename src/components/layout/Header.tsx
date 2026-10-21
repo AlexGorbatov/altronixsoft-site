@@ -5,7 +5,8 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navigation } from "@/data/navigation";
-import { CONTACT_HREF, CTA_LABEL } from "@/data/site";
+import { CONTACT_HREF } from "@/data/site";
+import { CtaLabel } from "@/components/ui/CtaLabel";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -110,7 +111,7 @@ export function Header() {
         </nav>
 
         <Button href={CONTACT_HREF} data-quiet={onHome && heroInView} className="hidden lg:inline-flex">
-          {CTA_LABEL}
+          <CtaLabel />
         </Button>
 
         <button
@@ -145,7 +146,7 @@ export function Header() {
             </Link>
           ))}
           <Button href={CONTACT_HREF} onClick={() => close(false)} className="mt-6 min-h-[52px] w-full">
-            {CTA_LABEL}
+            <CtaLabel />
           </Button>
         </nav>
       </div>

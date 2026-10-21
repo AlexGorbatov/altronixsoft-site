@@ -12,6 +12,9 @@ import type { ContactField } from "@/lib/contact-schema";
 type Status = "idle" | "submitting" | "success" | "error" | "unavailable";
 type FieldErrors = Partial<Record<ContactField, string>>;
 
+/** Visual order of the fields, used to find the first one with an error. */
+const FIELD_ORDER: ContactField[] = ["name", "email", "company", "type", "message", "consent"];
+
 function Field({
   id,
   label,
@@ -33,7 +36,7 @@ function Field({
       </label>
       {children}
       {error && (
-        <p id={`${id}-error`} className="mt-[6px] text-small text-[#ffb0b0]">
+        <p id={`${id}-error`} role="alert" className="mt-[6px] text-small text-[#ffb0b0]">
           {error}
         </p>
       )}
@@ -89,8 +92,12 @@ function ContactFormView() {
         return;
       }
       if (response.status === 400 && result.error === "validation") {
-        setErrors(result.fields ?? {});
+        const fields = result.fields ?? {};
+        setErrors(fields);
         setStatus("error");
+        // Move focus to the first invalid field so keyboard and screen reader users land on the problem.
+        const first = FIELD_ORDER.find((field) => fields[field]);
+        if (first) requestAnimationFrame(() => document.getElementById(id(first))?.focus());
         return;
       }
       setStatus(response.status === 429 ? "error" : "unavailable");
@@ -222,7 +229,7 @@ function ContactFormView() {
           </span>
         </label>
         {errors.consent && (
-          <p id={`${id("consent")}-error`} className="mt-[6px] text-small text-[#ffb0b0]">
+          <p id={`${id("consent")}-error`} role="alert" className="mt-[6px] text-small text-[#ffb0b0]">
             {errors.consent}
           </p>
         )}
