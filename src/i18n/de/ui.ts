@@ -145,11 +145,9 @@ export const copy: Part<"copy"> = {
       metaTitle: "Unser Portfolio",
       metaDescription:
         "Kundensysteme unter NDA, eigene Produkte und Open-Source-KI-Arbeit, jeweils mit Status. Kundennamen sind vertraulich.",
-      filterLabel: "Projekte nach Art filtern",
       view: { label: "Darstellung", tiles: "Kacheln", list: "Liste" },
       listLabel: "Alle Projekte",
     },
-    filters: { all: "Alle", client: "Kundenprojekte", ai: "KI", product: "Produkte" },
     status: { nda: "Kunde · NDA", "open-source": "Open Source", "in-development": "In Entwicklung" },
     openProject: "Projekt öffnen: {title}",
     next: {

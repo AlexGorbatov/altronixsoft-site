@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
-import { FilterBar, FilteredList, type KindFilter } from "@/components/projects/PortfolioFilter";
+import { ProjectList, ViewToggle } from "@/components/projects/PortfolioView";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import { contactHref } from "@/data/site";
 import { hasLocale, localizedPath } from "@/i18n/config";
@@ -21,20 +21,13 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/work">): P
   });
 }
 
-/** The whole portfolio: every project as a card, filterable by kind through ?kind=client|ai|product. */
+/** The whole portfolio: every project as a card, as tiles or as a list (?view=list). */
 export default async function PortfolioPage() {
   const { lang, copy, projects } = await getContent();
-  const { page, filters, next } = copy.portfolio;
+  const { page, next } = copy.portfolio;
 
-  const count = (kind: KindFilter) => (kind === "all" ? projects.length : projects.filter((p) => p.kind === kind).length);
-  const chips = (["all", "client", "ai", "product"] as const).map((kind) => ({
-    kind,
-    label: filters[kind],
-    count: count(kind),
-  }));
   const items = projects.map((project, index) => ({
     slug: project.slug,
-    kind: project.kind,
     node: <ProjectCard project={project} index={index} size="standard" lang={lang} copy={copy.portfolio} />,
   }));
 
@@ -48,9 +41,9 @@ export default async function PortfolioPage() {
           </p>
           <h1 className="text-[44px] leading-[1.02] font-extrabold tracking-[-0.045em] lg:text-[72px]">{page.title}</h1>
         </div>
-        <div className="flex flex-col gap-[14px] lg:max-w-[520px] lg:items-end">
+        <div className="flex flex-col items-start gap-[14px] lg:max-w-[520px] lg:items-end">
           <p className="text-base leading-[1.55] text-muted lg:text-right">{page.description}</p>
-          <FilterBar label={page.filterLabel} chips={chips} view={page.view} />
+          <ViewToggle labels={page.view} />
         </div>
       </header>
 
@@ -58,7 +51,7 @@ export default async function PortfolioPage() {
         <h2 id="all-projects" className="sr-only">
           {page.listLabel}
         </h2>
-        <FilteredList
+        <ProjectList
           label={page.listLabel}
           items={items}
           footer={

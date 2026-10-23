@@ -235,19 +235,19 @@ function Gateway() {
 }
 
 /**
- * The canvas of each scene: the drawn objects plus a margin of 28 units on every side, so a scene always
- * sits inside its panel, centred, with air around it (the faint floor grid may run past the edge).
- * Measured from the rendered scenes; update it when a scene's geometry changes.
+ * The canvas of each scene: everything it draws, floor grid included, plus a margin of 16 units on every side.
+ * A scene therefore always sits inside its panel, centred, even while a card is hovered and the scene grows by
+ * a few percent. Measured from the rendered scenes; update it when a scene's geometry changes.
  */
 export const VIEWBOX: Record<ProjectVisual, string> = {
-  shop: "62 18 281 250",
-  pim: "26 18 325 221",
-  logistics: "80 -6 247 256",
-  scorecard: "34 7 316 217",
-  rag: "43 22 278 203",
-  agent: "55 32 271 201",
-  documents: "27 20 288 215",
-  gateway: "21 20 312 217",
+  shop: "-29 19 430 262",
+  pim: "-12 13 396 242",
+  logistics: "-18 6 413 258",
+  scorecard: "1 4 378 232",
+  rag: "-22 9 396 242",
+  agent: "-10 17 396 242",
+  documents: "-36 11 396 242",
+  gateway: "-22 9 396 242",
 };
 
 /** The scene of one project. */

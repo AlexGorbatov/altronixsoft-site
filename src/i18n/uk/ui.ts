@@ -143,11 +143,9 @@ export const copy: Part<"copy"> = {
       metaTitle: "Наше портфоліо",
       metaDescription:
         "Клієнтські системи під NDA, власні продукти та відкриті проєкти зі ШІ, кожен зі своїм статусом. Назви клієнтів конфіденційні.",
-      filterLabel: "Фільтр проєктів за типом",
       view: { label: "Вигляд", tiles: "Плитки", list: "Список" },
       listLabel: "Усі проєкти",
     },
-    filters: { all: "Усі", client: "Для клієнтів", ai: "ШІ", product: "Продукти" },
     status: { nda: "Клієнт · NDA", "open-source": "Відкритий код", "in-development": "У розробці" },
     openProject: "Відкрити проєкт: {title}",
     next: {

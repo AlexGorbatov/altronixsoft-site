@@ -154,11 +154,9 @@ export const copy = {
       metaTitle: "Our portfolio",
       metaDescription:
         "Client systems under NDA, our own products and open-source AI work, each with its status. Client names are confidential.",
-      filterLabel: "Filter projects by type",
       view: { label: "Layout", tiles: "Tiles", list: "List" },
       listLabel: "All projects",
     },
-    filters: { all: "All", client: "Client work", ai: "AI", product: "Products" },
     status: { nda: "Client · NDA", "open-source": "Open source", "in-development": "In development" },
     /** aria-label of a project link; {title} is replaced by the project's name. */
     openProject: "Open project: {title}",

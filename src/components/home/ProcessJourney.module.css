@@ -6,11 +6,19 @@
  * Nothing here hijacks page scrolling.
  */
 .scroll {
-  --map-h: 390px;
+  --map-h: 430px;
   position: relative;
   background:
-    radial-gradient(900px 560px at 50% 44%, rgba(92, 72, 190, 0.14), transparent 72%),
-    radial-gradient(700px 420px at 8% 68%, rgba(26, 124, 251, 0.08), transparent 74%);
+    radial-gradient(
+      900px 560px at 50% 44%,
+      rgba(92, 72, 190, 0.14),
+      transparent 72%
+    ),
+    radial-gradient(
+      700px 420px at 8% 68%,
+      rgba(26, 124, 251, 0.08),
+      transparent 74%
+    );
 }
 
 .shell {
@@ -18,7 +26,11 @@
   padding: 44px 44px 30px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 24px;
-  background: linear-gradient(180deg, rgba(12, 20, 39, 0.96), rgba(8, 14, 28, 0.98));
+  background: linear-gradient(
+    180deg,
+    rgba(12, 20, 39, 0.96),
+    rgba(8, 14, 28, 0.98)
+  );
   box-shadow:
     0 34px 90px rgba(0, 0, 0, 0.28),
     inset 0 1px 0 rgba(255, 255, 255, 0.035);
@@ -31,9 +43,19 @@
   inset: 0;
   pointer-events: none;
   opacity: 0.45;
-  background-image: radial-gradient(circle at 1px 1px, rgba(128, 151, 255, 0.18) 1px, transparent 1px);
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(128, 151, 255, 0.18) 1px,
+    transparent 1px
+  );
   background-size: 16px 16px;
-  mask-image: linear-gradient(to bottom, transparent 0, #000 18%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 18%,
+    #000 82%,
+    transparent 100%
+  );
 }
 /* Ambient glow under the shell */
 .shell::after {
@@ -44,7 +66,12 @@
   bottom: -150px;
   height: 390px;
   pointer-events: none;
-  background: radial-gradient(ellipse, rgba(74, 71, 208, 0.3), rgba(17, 84, 195, 0.12) 42%, transparent 72%);
+  background: radial-gradient(
+    ellipse,
+    rgba(74, 71, 208, 0.3),
+    rgba(17, 84, 195, 0.12) 42%,
+    transparent 72%
+  );
   filter: blur(16px);
 }
 
@@ -212,7 +239,11 @@
 .active .kicker {
   color: #a6f4fb;
   border-color: rgba(74, 181, 255, 0.28);
-  background: linear-gradient(180deg, rgba(42, 101, 184, 0.18), rgba(53, 62, 136, 0.1));
+  background: linear-gradient(
+    180deg,
+    rgba(42, 101, 184, 0.18),
+    rgba(53, 62, 136, 0.1)
+  );
   box-shadow: 0 0 24px rgba(47, 133, 255, 0.07) inset;
 }
 .active h3 {
@@ -240,6 +271,8 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
+  perspective: 1500px;
+  perspective-origin: 50% 40%;
 }
 .map::before {
   content: "";
@@ -256,11 +289,15 @@
   position: absolute;
   border: 1px solid rgba(255, 255, 255, 0.085);
   border-radius: 14px;
-  background: linear-gradient(180deg, rgba(16, 26, 47, 0.86), rgba(10, 18, 34, 0.76));
+  background: linear-gradient(
+    180deg,
+    rgba(16, 26, 47, 0.86),
+    rgba(10, 18, 34, 0.76)
+  );
   box-shadow: 0 18px 46px rgba(0, 0, 0, 0.2);
   transition:
     opacity 0.32s ease,
-    transform 0.38s var(--ease-out),
+    translate 0.38s var(--ease-out),
     border-color 0.32s ease,
     box-shadow 0.32s ease;
 }
@@ -375,8 +412,12 @@
   padding: 13px 16px;
   border: 1px solid rgba(116, 103, 241, 0.2);
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(44, 55, 104, 0.16), rgba(67, 46, 117, 0.14));
-  transform: translateY(8px);
+  background: linear-gradient(
+    135deg,
+    rgba(44, 55, 104, 0.16),
+    rgba(67, 46, 117, 0.14)
+  );
+  translate: 0 8px;
   transition: all 0.35s ease;
 }
 /* Before phase 4 the badge is "ghosted" through its box, not its text (text stays >= 4.5:1). */
@@ -427,7 +468,7 @@
   box-shadow:
     0 18px 48px rgba(0, 0, 0, 0.22),
     0 0 40px rgba(47, 133, 255, 0.06);
-  transform: translateY(-2px);
+  translate: 0 -4px;
 }
 .scroll[data-active="0"] .chip {
   color: #d9e5f3;
@@ -440,13 +481,17 @@
   box-shadow:
     0 20px 56px rgba(0, 0, 0, 0.23),
     0 0 48px rgba(68, 102, 238, 0.08);
-  transform: translateY(-3px);
+  translate: 0 -5px;
 }
 .scroll[data-active="1"] .coreNode:first-child,
 .scroll[data-active="2"] .coreNode {
   color: #e7f2ff;
   border-color: rgba(45, 211, 234, 0.24);
-  background: linear-gradient(145deg, rgba(42, 115, 205, 0.11), rgba(93, 74, 190, 0.08));
+  background: linear-gradient(
+    145deg,
+    rgba(42, 115, 205, 0.11),
+    rgba(93, 74, 190, 0.08)
+  );
 }
 .scroll[data-active="2"] .coreNode:last-child {
   box-shadow: 0 0 30px rgba(116, 103, 241, 0.1) inset;
@@ -457,11 +502,15 @@
   box-shadow:
     0 20px 56px rgba(0, 0, 0, 0.23),
     0 0 50px rgba(116, 103, 241, 0.1);
-  transform: translateY(-3px);
+  translate: 0 -5px;
 }
 .scroll[data-active="3"] .outputCard {
   border-color: rgba(72, 184, 255, 0.18);
-  background: linear-gradient(145deg, rgba(36, 96, 168, 0.08), rgba(85, 63, 160, 0.08));
+  background: linear-gradient(
+    145deg,
+    rgba(36, 96, 168, 0.08),
+    rgba(85, 63, 160, 0.08)
+  );
 }
 .scroll[data-active="3"] .badge b {
   color: #fff;
@@ -470,14 +519,24 @@
   color: var(--text-strong);
 }
 .scroll[data-active="3"] .badge {
-  transform: none;
-  background: linear-gradient(135deg, rgba(44, 55, 104, 0.42), rgba(67, 46, 117, 0.35));
+  translate: none;
+  background: linear-gradient(
+    135deg,
+    rgba(44, 55, 104, 0.42),
+    rgba(67, 46, 117, 0.35)
+  );
   border-color: rgba(116, 103, 241, 0.36);
   box-shadow: 0 14px 40px rgba(67, 46, 117, 0.18);
 }
 
 /* Wires light up progressively (each stays lit once reached) */
-.scroll:is([data-active="0"], [data-active="1"], [data-active="2"], [data-active="3"]) .wireA {
+.scroll:is(
+    [data-active="0"],
+    [data-active="1"],
+    [data-active="2"],
+    [data-active="3"]
+  )
+  .wireA {
   stroke: #3f9dff;
   opacity: 0.95;
   filter: drop-shadow(0 0 5px rgba(47, 133, 255, 0.45));
@@ -525,8 +584,27 @@
 /* Reduced motion: keep the step changes (they follow the user's own click)
    but drop the flowing dashes and pulses. */
 @media (prefers-reduced-motion: reduce) {
-  .wires path {
-    animation: none;
+  .wires path,
+  .stage,
+  .zone,
+  .badge,
+  .zone::before,
+  .mote,
+  .ring,
+  .chip::after,
+  .outputCard::after,
+  .tail,
+  .head,
+  .deck::after {
+    animation: none !important;
+  }
+  .pulseA,
+  .pulseB,
+  .pulseC,
+  .pulseD,
+  .mote,
+  .ring {
+    display: none;
   }
 }
 
@@ -676,5 +754,393 @@
   .footer :global(.btn) {
     width: 100%;
     min-height: 46px;
+  }
+}
+
+/* ================================================================== 3D scene
+   The diagram is a tilted stage: every zone floats at its own depth (translateZ) over a base
+   deck, so perspective gives real parallax. Light pulses travel along the lit wires, the active
+   zone gets a spinning conic border, and the stage leans towards the pointer. Everything is
+   CSS (plus two custom properties set on hover); reduced motion and "Pause motion" stop it. */
+@property --pj-sway {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+@property --pj-rx {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+@property --pj-ry {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+@property --pj-a {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.mapArea {
+  --tilt-x: 9deg;
+  --tilt-y: -5deg;
+  transition:
+    --pj-rx 0.5s var(--ease-out),
+    --pj-ry 0.5s var(--ease-out);
+}
+.stage {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--tilt-x) + var(--pj-rx)))
+    rotateY(calc(var(--tilt-y) + var(--pj-ry) + var(--pj-sway)));
+  animation: pjSway 14s ease-in-out infinite;
+}
+@keyframes pjSway {
+  0%,
+  100% {
+    --pj-sway: -2deg;
+  }
+  50% {
+    --pj-sway: 3deg;
+  }
+}
+
+/* Base deck: a glowing plate behind everything, with a drifting grid. */
+.deck {
+  position: absolute;
+  inset: 8px 1% 0;
+  border-radius: 24px;
+  transform: translateZ(-70px);
+  background:
+    radial-gradient(
+      60% 70% at 50% 50%,
+      rgba(113, 103, 241, 0.2),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 50% at 20% 60%,
+      rgba(34, 214, 244, 0.1),
+      transparent 70%
+    );
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+.deck::after {
+  content: "";
+  position: absolute;
+  inset: -40px;
+  background-image:
+    linear-gradient(rgba(120, 150, 220, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 150, 220, 0.12) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(ellipse at center, #000 20%, transparent 72%);
+  animation: pjGrid 5s linear infinite;
+}
+@keyframes pjGrid {
+  to {
+    transform: translate(34px, 34px);
+  }
+}
+
+/* Zones: depth, bobbing, ground shadow, active spinning border. */
+.zone {
+  transform-style: preserve-3d;
+  transform: translateZ(var(--pj-z, 0px));
+  animation: pjBob 6.5s ease-in-out infinite;
+  animation-delay: var(--pj-delay, 0s);
+}
+.sourceZone {
+  --pj-z: 18px;
+  --pj-delay: -1s;
+}
+.coreZone {
+  --pj-z: 56px;
+  --pj-delay: -3.5s;
+}
+.outputZone {
+  --pj-z: 28px;
+  --pj-delay: -5s;
+}
+@keyframes pjBob {
+  0%,
+  100% {
+    transform: translateZ(var(--pj-z)) translateY(0);
+  }
+  50% {
+    transform: translateZ(calc(var(--pj-z) + 14px)) translateY(-5px);
+  }
+}
+.zone::after {
+  content: "";
+  position: absolute;
+  inset: 8px 4px 0;
+  z-index: -1;
+  border-radius: 16px;
+  background: rgba(70, 58, 190, 0.34);
+  filter: blur(18px);
+  transform: translateZ(-60px) translateY(26px);
+  pointer-events: none;
+}
+.zone::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--pj-a),
+    transparent 0 55%,
+    var(--cyan) 78%,
+    var(--violet-soft) 92%,
+    transparent 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  animation: pjSpin 3.4s linear infinite;
+  pointer-events: none;
+}
+@keyframes pjSpin {
+  to {
+    --pj-a: 360deg;
+  }
+}
+.scroll[data-active="0"] .sourceZone::before,
+.scroll:is([data-active="1"], [data-active="2"]) .coreZone::before,
+.scroll[data-active="3"] .outputZone::before {
+  opacity: 1;
+}
+
+/* Core: expanding rings from the Problem → Architecture engine. */
+.ring {
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid rgba(34, 214, 244, 0.55);
+  border-radius: 16px;
+  opacity: 0;
+  pointer-events: none;
+  animation: pjRing 3.6s ease-out infinite;
+}
+.ring2 {
+  animation-delay: -1.8s;
+  border-color: rgba(139, 92, 246, 0.6);
+}
+@keyframes pjRing {
+  0% {
+    opacity: 0.8;
+    transform: translateZ(-4px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateZ(-30px) scale(1.55, 1.9);
+  }
+}
+.coreArrow {
+  animation: pjNudge 1.6s ease-in-out infinite;
+}
+@keyframes pjNudge {
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+/* Light glints sweeping across the lit zone's items. */
+.chip,
+.outputCard {
+  position: relative;
+  overflow: hidden;
+}
+.chip::after,
+.outputCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    rgba(143, 221, 232, 0.1) 50%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  opacity: 0;
+  pointer-events: none;
+}
+.scroll[data-active="0"] .chip::after,
+.scroll[data-active="3"] .outputCard::after {
+  opacity: 1;
+  animation: pjGlint 3s ease-in-out infinite;
+}
+.chip:nth-child(2)::after,
+.outputCard:nth-child(3)::after {
+  animation-delay: 0.3s;
+}
+.chip:nth-child(3)::after {
+  animation-delay: 0.6s;
+}
+.chip:nth-child(4)::after {
+  animation-delay: 0.9s;
+}
+@keyframes pjGlint {
+  0%,
+  35% {
+    transform: translateX(-120%);
+  }
+  75%,
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+/* Badge floats highest and breathes when it is the active step. */
+.badge {
+  transform: translateZ(40px);
+  animation: pjBadge 5.5s ease-in-out infinite;
+}
+@keyframes pjBadge {
+  0%,
+  100% {
+    transform: translateZ(40px) translateY(0);
+  }
+  50% {
+    transform: translateZ(52px) translateY(-6px);
+  }
+}
+.scroll[data-active="3"] .badge {
+  box-shadow:
+    0 14px 40px rgba(67, 46, 117, 0.3),
+    0 0 36px rgba(139, 92, 246, 0.35);
+}
+
+/* Wires sit just above the deck, under the zones. */
+.wires {
+  transform: translateZ(18px);
+}
+.pulseA,
+.pulseB,
+.pulseC,
+.pulseD {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.tail,
+.head {
+  fill: none;
+  stroke-linecap: round;
+}
+.tail {
+  stroke-width: 3;
+  stroke-dasharray: 34 420;
+  opacity: 0.55;
+  animation: pjTail 2.6s linear infinite;
+  animation-delay: calc(var(--pj-i, 0) * -0.55s);
+}
+.head {
+  stroke-width: 7;
+  stroke-dasharray: 0.1 420;
+  animation: pjHead 2.6s linear infinite;
+  animation-delay: calc(var(--pj-i, 0) * -0.55s);
+}
+@keyframes pjTail {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -420;
+  }
+}
+@keyframes pjHead {
+  from {
+    stroke-dashoffset: -34;
+  }
+  to {
+    stroke-dashoffset: -454;
+  }
+}
+.pulseA {
+  color: var(--label);
+}
+.pulseB {
+  color: var(--cyan);
+}
+.pulseC,
+.pulseD {
+  color: var(--violet-soft);
+}
+.tail,
+.head {
+  stroke: currentColor;
+}
+.head {
+  filter: drop-shadow(0 0 5px currentColor)
+    drop-shadow(0 0 9px rgba(255, 255, 255, 0.6));
+}
+.scroll:is(
+    [data-active="0"],
+    [data-active="1"],
+    [data-active="2"],
+    [data-active="3"]
+  )
+  .pulseA,
+.scroll:is([data-active="1"], [data-active="2"], [data-active="3"]) .pulseB,
+.scroll:is([data-active="2"], [data-active="3"]) .pulseC,
+.scroll[data-active="3"] .pulseD {
+  opacity: 1;
+}
+/* Step 04: the return loop runs faster, the whole system is "live". */
+.scroll[data-active="3"] :is(.tail, .head) {
+  animation-duration: 1.9s;
+}
+
+/* Floating motes at several depths. */
+.mote {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 10px 2px rgba(34, 214, 244, 0.6);
+  transform: translateZ(var(--pj-mz, 40px));
+  opacity: 0;
+  animation: pjMote var(--d) ease-in-out infinite;
+  animation-delay: var(--dl);
+  pointer-events: none;
+}
+.mote:nth-of-type(3n) {
+  background: var(--violet-soft);
+  box-shadow: 0 0 10px 2px rgba(139, 92, 246, 0.6);
+}
+@keyframes pjMote {
+  0% {
+    opacity: 0;
+    transform: translateZ(var(--z)) translateY(14px);
+  }
+  30%,
+  70% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translateZ(var(--z)) translateY(-38px);
+  }
+}
+
+@media (max-width: 1023px) {
+  .mapArea {
+    --tilt-x: 6deg;
+    --tilt-y: -3deg;
+  }
+  .mote:nth-of-type(n + 9) {
+    display: none;
   }
 }

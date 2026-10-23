@@ -173,7 +173,7 @@
 }
 .link:hover .scene,
 .link:has(.stretch:focus-visible) .scene {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 .link:hover .go,
 .link:has(.stretch:focus-visible) .go {
