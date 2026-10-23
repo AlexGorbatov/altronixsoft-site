@@ -58,7 +58,7 @@ const SAME_EVERYWHERE = new Set([
   "Migration", "Hybris", "Compass AI", "Secure RAG", "LLM Gateway",
   // Names on the architecture pictures that are the same in every language.
   "SAP Hybris", "OCC API", "Spring Modulith", "Next.js", "Workflows", "PIM · Workflows", "Agent", "System",
-  "Retrieval", "Clients", "Gateway · Routing · Limits",
+  "Retrieval", "Clients", "Gateway · Routing · Limits", "Blockchain & Web3",
   // Loanwords and terms that are the same in German as in English.
   "Workflow", "Problem", "(optional)", "Support", "Compliance",
 ]);
