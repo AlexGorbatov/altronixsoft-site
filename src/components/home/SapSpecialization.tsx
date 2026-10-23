@@ -19,16 +19,16 @@ export async function SapSpecialization() {
 
       <dl className="mt-6 grid divide-y divide-line rounded-xl border border-line sm:grid-cols-2 sm:divide-x sm:divide-y-0">
         {stats.map((stat) => (
-          <div key={stat.label} className="flex items-baseline justify-center gap-3 px-4 py-3 text-center sm:flex-col sm:items-center sm:gap-1 sm:py-4">
+          <div key={stat.label} className="flex items-baseline justify-start gap-3 px-4 py-3 text-left sm:flex-col sm:items-center sm:justify-center sm:gap-1 sm:py-4 sm:text-center">
             <dt className="text-small leading-[1.3] text-subtle">{stat.label}</dt>
             <dd className="order-first text-[22px] leading-[1.15] font-bold sm:text-[24px]">{stat.value}</dd>
           </div>
         ))}
       </dl>
 
-      <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-2 pt-6">
+      <div className="mt-auto flex flex-col items-stretch gap-3 pt-6 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-2">
         <Button href={localizedPath(lang, contactHref("architecture-checkup"))}>{copy.services.sapCta}</Button>
-        <Link href={localizedPath(lang, sapCommerce.path)} className="link-quiet">
+        <Link href={localizedPath(lang, sapCommerce.path)} className="link-quiet justify-center sm:justify-start">
           {copy.services.sapLink} <span aria-hidden="true">→</span>
         </Link>
       </div>

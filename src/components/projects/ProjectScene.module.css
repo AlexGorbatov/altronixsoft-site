@@ -160,10 +160,9 @@
     display: none;
   }
 }
-/* The name of a component: a mono caption, upper case. */
+/* The name of a component: a mono caption, spelled as the project spells it (Next.js, Enterprise APIs). */
 .chipText {
   font-family: var(--font-mono), ui-monospace, monospace;
-  text-transform: uppercase;
 }
 
 /* With reduced motion the global rule removes the animations; keep the orbs visible mid-route. */

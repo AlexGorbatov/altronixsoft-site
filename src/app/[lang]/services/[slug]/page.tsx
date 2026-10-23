@@ -77,7 +77,7 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
             </Link>
             .
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="actions mt-6">
             <Button href={localizedPath(lang, contactHref(service.cta.type))}>{service.cta.label} →</Button>
             <Button href={localizedPath(lang, contactHref("technical-review"))} variant="secondary">
               {pages.requestReview}

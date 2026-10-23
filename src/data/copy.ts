@@ -136,22 +136,22 @@ export const copy = {
     roleLabel: "Role",
     teamLabel: "Team",
     durationLabel: "Duration",
-    diagramNote: "Simplified, animated diagram. Systems and names are generalised to protect client confidentiality.",
+    diagramNote: "Diagrams are simplified and animated. For client projects, systems and names are generalized to protect confidentiality.",
   },
   /** The portfolio: the "Selected projects" section on the home page and the /work page. */
   portfolio: {
     home: {
       eyebrow: "Selected work",
       title: "Selected projects.",
-      description: "Four of eight. Client systems under NDA, our own products and AI projects. Each one opens.",
+      description: "A selection of client systems under NDA, our own products and AI projects.",
       viewAll: "View all projects",
       listLabel: "Selected projects",
     },
     page: {
-      eyebrow: "Works",
-      title: "Our portfolio.",
-      description: "Client systems under NDA, our own products and open-source AI work. Statuses are shown on each project.",
-      metaTitle: "Our portfolio",
+      eyebrow: "Work",
+      title: "Our projects.",
+      description: "Every project shows its status: under NDA, open source or in development.",
+      metaTitle: "Our projects",
       metaDescription:
         "Client systems under NDA, our own products and open-source AI work, each with its status. Client names are confidential.",
       view: { label: "Layout", tiles: "Tiles", list: "List" },
@@ -160,6 +160,8 @@ export const copy = {
     status: { nda: "Client · NDA", "open-source": "Open source", "in-development": "In development" },
     /** aria-label of a project link; {title} is replaced by the project's name. */
     openProject: "Open project: {title}",
+    /** Same, for a link that opens another site in a new tab. */
+    openProjectExternal: "Open project: {title} (opens in a new tab)",
     /** Names on the architecture pictures: each one is a component named in the project's own description or stack. */
     scene: {
       hybris: {
@@ -184,11 +186,12 @@ export const copy = {
       },
       gateway: { clients: "Clients", gateway: "Gateway · Routing · Limits", models: "Language models", audit: "Audit trail" },
     },
+    /** Shown on a project whose link is not published yet. */
+    noLink: "No public link yet",
     next: {
-      label: "Next",
-      title: "Your project could be next.",
+      label: "Your turn",
+      title: "Have a project in mind?",
       text: "Describe the system and the problem. Start with a free 30-minute architecture check-up.",
-      link: "Send message",
     },
   },
   engagement: {
@@ -220,7 +223,7 @@ export const copy = {
     },
   },
   casePage: {
-    back: "All work",
+    back: "All projects",
     focus: "Focus",
     challenge: "Challenge",
     whatWeDid: "What we did",

@@ -102,7 +102,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
         <h1 className="mt-3 text-[36px] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[52px]">{study.title}</h1>
         <p className="mt-5 text-[17px] leading-[1.75] text-muted">{study.summary}</p>
 
-        <ScenePanel variant={study.visual} labels={copy.portfolio.scene} className="mt-8" />
+        <ScenePanel variant={study.visual} labels={copy.portfolio.scene} accent="violet" className="mt-8" />
 
         <Facts study={study} copy={copy} />
 
@@ -121,7 +121,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
           <p className="mt-3 text-body leading-[1.7] text-muted">
             {copy.casePage.similarText}
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="actions mt-6">
             <Button href={localizedPath(lang, contactHref("project"))}>{copy.pages.discussProject} →</Button>
             <Button href={localizedPath(lang, contactHref("technical-review"))} variant="secondary">
               {copy.pages.requestReview}

@@ -26,13 +26,28 @@ export const GLASS = {
   violet: ["#dccbff", "#9b6cff", "#6a3fe0"],
   plate: ["#a9bde8", "#5a78c2", "#3a4f94"],
   amber: ["#ffe3b0", "#e6a24a", "#a8691f"],
+  green: ["#b8f5de", "#52d8ae", "#1f8f6e"],
 } as const satisfies Record<string, Glass>;
 
-type Tone = "cyan" | "violet" | "amber";
+type Tone = "cyan" | "violet" | "amber" | "ice" | "green";
 const TONE: Record<Tone, { line: string; lite: string; orb: string }> = {
   cyan: { line: "#22d6f4", lite: "#9bf6ff", orb: "orb" },
   violet: { line: "#8b5cf6", lite: "#dccbff", orb: "orbV" },
   amber: { line: "#ffb347", lite: "#ffe3b0", orb: "orbA" },
+  ice: { line: "#8cbcff", lite: "#cfe0ff", orb: "orbI" },
+  green: { line: "#52d8ae", lite: "#b8f5de", orb: "orbG" },
+};
+
+/**
+ * The accent of a scene is the colour of its project's status (violet: client work under NDA, green: open source,
+ * cyan: in development), so the frame of a card and its picture say the same thing. The central component, the
+ * main beams, the gates and the glow on the floor take the accent; everything else is neutral blue and ice.
+ */
+export type Accent = "violet" | "green" | "cyan";
+export const ACCENTS: Record<Accent, { glass: Glass; tone: Tone; line: string; lite: string }> = {
+  violet: { glass: GLASS.violet, tone: "violet", line: "#8b5cf6", lite: "#dccbff" },
+  green: { glass: GLASS.green, tone: "green", line: "#52d8ae", lite: "#b8f5de" },
+  cyan: { glass: GLASS.cyan, tone: "cyan", line: "#22d6f4", lite: "#9bf6ff" },
 };
 
 /** `--d` is the duration of an animation, `--l` its delay (see ProjectScene.module.css). */
@@ -55,7 +70,7 @@ export type BoxOptions = {
 };
 
 type Solid = { depth: number; draw: (animate: boolean) => ReactNode };
-type Label = { wx: number; wy: number; wz: number; text: string; dx: number; dy: number; tone?: "violet" };
+type Label = { wx: number; wy: number; wz: number; text: string; dx: number; dy: number; accent?: boolean };
 
 /**
  * One isometric scene in the glass style. Units are grid cells; `sc` is pixels per cell and (`ox`, `oy`) the
@@ -63,7 +78,8 @@ type Label = { wx: number; wy: number; wz: number; text: string; dx: number; dy:
  * gates, back to front by `depth`), then orbs, nodes and the names. The canvas (`viewBox`) is worked out from
  * everything the scene draws, so a scene always sits inside its panel, with room for its names.
  */
-export function makeScene(id: string, sc: number, ox: number, oy: number) {
+export function makeScene(id: string, sc: number, ox: number, oy: number, accentName: Accent) {
+  const accent = ACCENTS[accentName];
   const P = projector(sc, ox, oy);
   const under: ReactNode[] = [];
   const solids: Solid[] = [];
@@ -89,6 +105,7 @@ export function makeScene(id: string, sc: number, ox: number, oy: number) {
 
   const scene = {
     P,
+    accent,
 
     floor(ax: number, ay: number, bx: number, by: number) {
       const lines: ReactNode[] = [];
@@ -186,7 +203,7 @@ export function makeScene(id: string, sc: number, ox: number, oy: number) {
     plane(x: number, ya: number, yb: number, za: number, zb: number, o: { color?: string; delay?: number; depth: number }) {
       const quad = planeQuad(P, x, ya, yb, za, zb);
       grow(quad);
-      const color = o.color ?? "#22d6f4";
+      const color = o.color ?? accent.line;
       solids.push({
         depth: o.depth,
         draw: (animate) => (
@@ -200,7 +217,7 @@ export function makeScene(id: string, sc: number, ox: number, oy: number) {
 
     /** A route as a glowing beam: soft halo, flowing dashes, and orbs that travel in its direction. */
     beam(route: readonly Point[], o: { tone?: Tone; dur?: number; delay?: number; orbs?: number; r?: number } = {}) {
-      const tone = TONE[o.tone ?? "cyan"];
+      const tone = TONE[o.tone ?? accent.tone];
       const d = routePath(sc, ox, oy, route, 0.05);
       grow(route.map(([x, y]) => P(x, y, 0.05)));
       under.push(
@@ -262,8 +279,8 @@ export function makeScene(id: string, sc: number, ox: number, oy: number) {
     },
 
     /** The name of a component: a glass pill tied to a point of the scene by a thin line. */
-    label(wx: number, wy: number, wz: number, text: string, dx: number, dy: number, tone?: "violet") {
-      labels.push({ wx, wy, wz, text, dx, dy, tone });
+    label(wx: number, wy: number, wz: number, text: string, dx: number, dy: number, accented = false) {
+      labels.push({ wx, wy, wz, text, dx, dy, accent: accented });
     },
 
     /** Specks of light, scattered over the finished scene. */
@@ -277,24 +294,28 @@ export function makeScene(id: string, sc: number, ox: number, oy: number) {
         const [x, y] = P(l.wx, l.wy, l.wz);
         const tx = x + l.dx;
         const ty = y + l.dy;
-        const w = l.text.length * 6.3 + 18;
-        grow([[tx - w / 2, ty - 9], [tx + w / 2, ty + 9], [x, y]]);
+        const w = l.text.length * 6.2 + 20;
+        grow([[tx - w / 2, ty - 10], [tx + w / 2, ty + 10], [x, y]]);
         return { ...l, x, y, tx, ty, w };
       });
 
-      const margin = 14;
-      const vx = x0 - margin;
-      const vy = y0 - margin;
-      const vw = x1 - x0 + 2 * margin;
-      const vh = y1 - y0 + 2 * margin;
+      // Air around the scene. More on top, where a card puts its number and its status badge over the picture.
+      const side = 24;
+      const top = 34;
+      const bottom = 22;
+      const vx = x0 - side;
+      const vy = y0 - top;
+      const vw = x1 - x0 + 2 * side;
+      const vh = y1 - y0 + top + bottom;
 
       const specks: ReactNode[] = [];
       if (mote) {
         let s = mote.seed;
         const rnd = () => (s = (s * 9301 + 49297) % 233280) / 233280;
         for (let i = 0; i < mote.count; i++) {
-          const cx = vx + rnd() * vw;
-          const cy = vy + rnd() * vh;
+          // Over the scene, not in the margin: the margin holds a card's number and badge.
+          const cx = x0 + rnd() * (x1 - x0);
+          const cy = y0 + rnd() * (y1 - y0);
           const r = 0.8 + rnd() * 1.4;
           const violet = rnd() > 0.5;
           specks.push(
@@ -335,10 +356,20 @@ export function makeScene(id: string, sc: number, ox: number, oy: number) {
               <stop offset=".35" stopColor="#ffe3b0" />
               <stop offset="1" stopColor="#ffb347" stopOpacity="0" />
             </radialGradient>
+            <radialGradient id={`orbI-${id}`}>
+              <stop offset="0" stopColor="#fff" />
+              <stop offset=".35" stopColor="#cfe0ff" />
+              <stop offset="1" stopColor="#8cbcff" stopOpacity="0" />
+            </radialGradient>
+            <radialGradient id={`orbG-${id}`}>
+              <stop offset="0" stopColor="#fff" />
+              <stop offset=".35" stopColor="#b8f5de" />
+              <stop offset="1" stopColor="#52d8ae" stopOpacity="0" />
+            </radialGradient>
             <radialGradient id={`floorGlow-${id}`}>
-              <stop offset="0" stopColor="#22d6f4" stopOpacity=".28" />
-              <stop offset=".6" stopColor="#8b5cf6" stopOpacity=".1" />
-              <stop offset="1" stopColor="#8b5cf6" stopOpacity="0" />
+              <stop offset="0" stopColor={accent.line} stopOpacity=".28" />
+              <stop offset=".6" stopColor={accent.line} stopOpacity=".1" />
+              <stop offset="1" stopColor={accent.line} stopOpacity="0" />
             </radialGradient>
             <radialGradient id={`fade-${id}`} cx=".5" cy=".5" r=".5">
               <stop offset="0" stopColor="#fff" />
@@ -372,15 +403,15 @@ export function makeScene(id: string, sc: number, ox: number, oy: number) {
           {over.map((n, i) => (
             <Fragment key={`o${i}`}>{n}</Fragment>
           ))}
-          {chips.map(({ text, x, y, tx, ty, w, tone }, i) => {
-            const color = tone === "violet" ? "#dccbff" : "#9bf6ff";
+          {chips.map(({ text, x, y, tx, ty, w, accent: accented }, i) => {
+            const color = accented ? accent.lite : "#cfe0ff";
             return (
               <g key={`l${i}`} className={styles.label}>
-                <line x1={x} y1={y} x2={tx} y2={ty + (ty < y ? 8.5 : -8.5)} stroke={color} strokeOpacity=".55" strokeWidth=".8" strokeDasharray="2 3" />
+                <line x1={x} y1={y} x2={tx} y2={ty + (ty < y ? 9.5 : -9.5)} stroke={color} strokeOpacity=".55" strokeWidth=".8" strokeDasharray="2 3" />
                 <circle cx={x} cy={y} r="2.2" fill={color} />
                 <circle className={styles.pulse} cx={x} cy={y} r="5" fill={color} opacity=".3" />
-                <rect x={tx - w / 2} y={ty - 8.5} width={w} height="17" rx="8.5" fill="#0a1430" fillOpacity=".7" stroke={color} strokeOpacity=".6" strokeWidth=".8" />
-                <text className={styles.chipText} x={tx} y={ty + 3.1} textAnchor="middle" fontSize="8.4" letterSpacing=".8" fill="#e6f8ff">
+                <rect x={tx - w / 2} y={ty - 9.5} width={w} height="19" rx="9.5" fill="#0a1430" fillOpacity=".7" stroke={color} strokeOpacity=".6" strokeWidth=".8" />
+                <text className={styles.chipText} x={tx} y={ty + 3.4} textAnchor="middle" fontSize="9.2" letterSpacing=".3" fill="#e6f8ff">
                   {text}
                 </text>
               </g>

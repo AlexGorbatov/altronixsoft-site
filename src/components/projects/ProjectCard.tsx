@@ -7,6 +7,8 @@ import { filled } from "@/lib/todo";
 import { cn } from "@/lib/utils";
 import { ActiveWhenVisible } from "./ActiveWhenVisible";
 import { ProjectScene, SceneBackdrop } from "./ProjectScene";
+import type { Accent } from "./sceneKit";
+import { sceneChain } from "./scenes";
 import styles from "./ProjectCard.module.css";
 
 const STATUS_CLASS: Record<ProjectStatus, string> = {
@@ -14,6 +16,9 @@ const STATUS_CLASS: Record<ProjectStatus, string> = {
   "open-source": styles.openSource,
   "in-development": styles.inDevelopment,
 };
+
+/** A project's picture takes the colour of its status, like its frame. */
+const STATUS_ACCENT: Record<ProjectStatus, Accent> = { nda: "violet", "open-source": "green", "in-development": "cyan" };
 
 const MONO = "font-mono text-caption leading-[1.2] font-medium uppercase";
 
@@ -39,7 +44,12 @@ export function ProjectCard({ project, index, size, lang, copy }: ProjectCardPro
 
   return (
     <ActiveWhenVisible
-      className={cn(styles.frame, STATUS_CLASS[project.status], linked && styles.link, linked && project.isExternal && styles.external)}
+      className={cn(
+        styles.frame,
+        STATUS_CLASS[project.status],
+        linked ? styles.link : styles.static,
+        linked && project.isExternal && styles.external,
+      )}
     >
       <article className={cn(styles.inner, styles[size])}>
         <div className={styles.img}>
@@ -52,7 +62,7 @@ export function ProjectCard({ project, index, size, lang, copy }: ProjectCardPro
           </span>
           <SceneBackdrop />
           <div className={styles.scene}>
-            <ProjectScene variant={project.visual} labels={copy.scene} className="size-full" />
+            <ProjectScene variant={project.visual} labels={copy.scene} accent={STATUS_ACCENT[project.status]} className="size-full" />
           </div>
         </div>
 
@@ -60,6 +70,10 @@ export function ProjectCard({ project, index, size, lang, copy }: ProjectCardPro
           <div className="min-w-0">
             <h3 className={cn(styles.title, "text-xl leading-[1.2] font-bold tracking-[-0.03em] sm:text-2xl")}>{project.title}</h3>
             <p className="mt-2 line-clamp-2 min-h-[44px] text-small leading-[1.55] text-muted">{project.summary}</p>
+            {/* On a phone the names on the picture are hidden; the same architecture, as one line. */}
+            <p className="mt-1 truncate font-mono text-caption leading-[1.4] text-label sm:sr-only">
+              {sceneChain(project.visual, copy.scene).join(" → ")}
+            </p>
             <div className="mt-[10px] flex items-center gap-3">
               <span className={cn(MONO, "truncate tracking-[0.1em] text-subtle")}>{project.category}</span>
               {/* In the list layout the status sits here instead of on the picture. */}
@@ -69,6 +83,7 @@ export function ProjectCard({ project, index, size, lang, copy }: ProjectCardPro
               </span>
             </div>
           </div>
+          {!linked && <span className="max-w-[112px] text-right text-caption leading-[1.35] text-subtle">{copy.noLink}</span>}
           {linked && (
             <span className={styles.go} aria-hidden="true">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -85,7 +100,7 @@ export function ProjectCard({ project, index, size, lang, copy }: ProjectCardPro
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={copy.openProject.replace("{title}", project.title)}
+              aria-label={copy.openProjectExternal.replace("{title}", project.title)}
             />
           ) : (
             <Link className={styles.stretch} href={href} aria-label={copy.openProject.replace("{title}", project.title)} />

@@ -2,12 +2,15 @@ import type { ProjectVisual } from "@/data/projects";
 import { cn } from "@/lib/utils";
 import { ActiveWhenVisible } from "./ActiveWhenVisible";
 import styles from "./ProjectScene.module.css";
+import type { Accent } from "./sceneKit";
 import { buildScene, type SceneLabels } from "./scenes";
 
 interface ProjectSceneProps {
   variant: ProjectVisual;
   /** The names on the picture, in the language of the page. */
   labels: SceneLabels;
+  /** The colour of the project's status; it tints the central component, the main beams and the floor glow. */
+  accent: Accent;
   className?: string;
 }
 
@@ -17,8 +20,8 @@ interface ProjectSceneProps {
  * free of real UI, data or client marks. It fills its container and keeps its proportions, centred; wrap it in
  * `ActiveWhenVisible` (or use `ScenePanel`) so it only animates while on screen.
  */
-export function ProjectScene({ variant, labels, className }: ProjectSceneProps) {
-  const { viewBox, node } = buildScene(variant, labels);
+export function ProjectScene({ variant, labels, accent, className }: ProjectSceneProps) {
+  const { viewBox, node } = buildScene(variant, labels, accent);
   return (
     <svg
       viewBox={viewBox}
@@ -48,7 +51,7 @@ export function SceneBackdrop() {
 }
 
 /** A scene on its own: the dark panel used on the case page. */
-export function ScenePanel({ variant, labels, className }: ProjectSceneProps) {
+export function ScenePanel({ variant, labels, accent, className }: ProjectSceneProps) {
   return (
     <ActiveWhenVisible
       className={cn(
@@ -57,7 +60,7 @@ export function ScenePanel({ variant, labels, className }: ProjectSceneProps) {
       )}
     >
       <SceneBackdrop />
-      <ProjectScene variant={variant} labels={labels} className="relative z-[1] aspect-[400/240] w-full" />
+      <ProjectScene variant={variant} labels={labels} accent={accent} className="relative z-[1] aspect-[400/240] w-full" />
     </ActiveWhenVisible>
   );
 }

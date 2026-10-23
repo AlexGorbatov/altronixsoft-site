@@ -7,6 +7,7 @@ import { contactHref } from "@/data/site";
 import { hasLocale, localizedPath } from "@/i18n/config";
 import { contentFor } from "@/i18n/content";
 import { getContent } from "@/i18n/server";
+import { warnIfDraft } from "@/lib/cases";
 import { pageMetadata } from "@/lib/metadata";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/work">): Promise<Metadata> {
@@ -25,6 +26,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/work">): P
 export default async function PortfolioPage() {
   const { lang, copy, projects } = await getContent();
   const { page, next } = copy.portfolio;
+  warnIfDraft(projects);
 
   const items = projects.map((project, index) => ({
     slug: project.slug,
@@ -66,7 +68,7 @@ export default async function PortfolioPage() {
                 <span className="mb-[10px] block text-[22px] leading-[1.2] font-bold tracking-[-0.03em]">{next.title}</span>
                 <span className="mb-4 block text-small leading-[1.55] text-muted">{next.text}</span>
                 <span className="inline-flex items-center gap-2 text-small font-bold text-cyan">
-                  {next.link}
+                  {copy.ui.cta}
                   <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
                     →
                   </span>

@@ -31,7 +31,7 @@ export async function FinalCTA() {
                 variant="secondary"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 w-full max-w-[320px]"
+                className="mt-6 w-full sm:w-auto"
               >
                 {section.booking}
               </Button>

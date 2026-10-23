@@ -109,6 +109,8 @@ export interface Project {
   stack: string[];
   /** Shown on the home page. The order of the list is the order on the page. */
   featured?: boolean;
+  /** The text is a draft the owner has not confirmed yet. It is shown, and dev mode lists it (see `warnIfDraft`). */
+  draft?: boolean;
 }
 
 const [hybris, pim, logistics] = caseStudies;
@@ -168,6 +170,7 @@ export const projects: Project[] = [
     isExternal: true,
     stack: ["Java", "Spring Modulith", "Next.js"],
     featured: true,
+    draft: true,
   },
   {
     slug: "secure-rag",
@@ -177,10 +180,13 @@ export const projects: Project[] = [
     kind: "ai",
     status: "open-source",
     visual: "rag",
+    // Owner to check: the repository did not answer when this link was last tried (not found or private), and
+    // "open source" needs a licence in it.
     href: "https://github.com/AlexGorbatov/secure-rag-java",
     isExternal: true,
     stack: ["Java", "RAG", "GitHub"],
     featured: true,
+    draft: true,
   },
   {
     slug: "ai-business-workflow-agent",
@@ -194,6 +200,7 @@ export const projects: Project[] = [
     isExternal: true,
     stack: ["Java", "Agents", "Workflows"],
     featured: true,
+    draft: true,
   },
   {
     slug: "ai-document-processing",
@@ -206,6 +213,7 @@ export const projects: Project[] = [
     href: "TODO(owner): AI Document Processing repository URL",
     isExternal: true,
     stack: ["Java", "Extraction", "Validation"],
+    draft: true,
   },
   {
     slug: "llm-gateway",
@@ -218,6 +226,7 @@ export const projects: Project[] = [
     href: "TODO(owner): LLM Gateway repository URL",
     isExternal: true,
     stack: ["Java", "Routing", "Audit"],
+    draft: true,
   },
 ];
 

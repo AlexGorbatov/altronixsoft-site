@@ -45,21 +45,19 @@ interface ViewToggleProps {
   labels: { label: string; tiles: string; list: string };
 }
 
-/** The switch between tiles and a list. Shown from 640px up, where there is a choice (below it both are one column). */
+/** The switch between tiles and a list, with its words. Shown from 640px up, where there is a choice (below it both are one column). */
 export function ViewToggle({ labels }: ViewToggleProps) {
   const [view, setView] = useView();
   return (
-    <div role="group" aria-label={labels.label} className="hidden gap-1 rounded-full border border-white/[.14] p-[3px] sm:flex">
+    <div role="group" aria-label={labels.label} className="hidden gap-1 rounded-full border border-white/[.14] p-1 sm:flex">
       {(["tiles", "list"] as const).map((mode) => (
         <button
           key={mode}
           type="button"
           aria-pressed={view === mode}
-          aria-label={labels[mode]}
-          title={labels[mode]}
           onClick={() => setView(mode)}
           className={cn(
-            "grid size-8 place-items-center rounded-full transition-colors",
+            "inline-flex h-10 items-center gap-2 rounded-full px-4 text-small font-semibold transition-colors",
             view === mode ? "bg-cyan/15 text-white" : "text-muted hover:text-white",
           )}
         >
@@ -78,6 +76,7 @@ export function ViewToggle({ labels }: ViewToggleProps) {
               </>
             )}
           </svg>
+          {labels[mode]}
         </button>
       ))}
     </div>

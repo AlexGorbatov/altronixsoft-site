@@ -224,3 +224,12 @@
     display: inline-flex;
   }
 }
+
+/* A card without a link: a quiet frame that does not turn, no corner marks, no lift. */
+.static {
+  animation: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.16), color-mix(in srgb, var(--c) 38%, rgba(255, 255, 255, 0.08)));
+}
+.static::before {
+  opacity: 0;
+}

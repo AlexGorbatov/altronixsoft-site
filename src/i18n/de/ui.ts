@@ -126,23 +126,23 @@ export const copy: Part<"copy"> = {
     teamLabel: "Team",
     durationLabel: "Dauer",
     diagramNote:
-      "Vereinfachtes, animiertes Diagramm. Systeme und Namen sind verallgemeinert, um die Vertraulichkeit der Kunden zu wahren.",
+      "Die Diagramme sind vereinfacht und animiert. Bei Kundenprojekten sind Systeme und Namen verallgemeinert, um die Vertraulichkeit zu wahren.",
   },
   portfolio: {
     home: {
       eyebrow: "Ausgewählte Arbeiten",
       title: "Ausgewählte Projekte.",
       description:
-        "Vier von acht. Kundensysteme unter NDA, eigene Produkte und KI-Projekte. Jedes lässt sich öffnen.",
+        "Eine Auswahl: Kundensysteme unter NDA, eigene Produkte und KI-Projekte.",
       viewAll: "Alle Projekte ansehen",
       listLabel: "Ausgewählte Projekte",
     },
     page: {
       eyebrow: "Arbeiten",
-      title: "Unser Portfolio.",
+      title: "Unsere Projekte.",
       description:
-        "Kundensysteme unter NDA, eigene Produkte und Open-Source-KI-Arbeit. Der Status steht bei jedem Projekt.",
-      metaTitle: "Unser Portfolio",
+        "Jedes Projekt zeigt seinen Status: unter NDA, Open Source oder in Entwicklung.",
+      metaTitle: "Unsere Projekte",
       metaDescription:
         "Kundensysteme unter NDA, eigene Produkte und Open-Source-KI-Arbeit, jeweils mit Status. Kundennamen sind vertraulich.",
       view: { label: "Darstellung", tiles: "Kacheln", list: "Liste" },
@@ -150,6 +150,7 @@ export const copy: Part<"copy"> = {
     },
     status: { nda: "Kunde · NDA", "open-source": "Open Source", "in-development": "In Entwicklung" },
     openProject: "Projekt öffnen: {title}",
+    openProjectExternal: "Projekt öffnen: {title} (öffnet in neuem Tab)",
     scene: {
       hybris: {
         thirdParty: "Drittsysteme · REST/SOAP",
@@ -173,11 +174,11 @@ export const copy: Part<"copy"> = {
       },
       gateway: { clients: "Clients", gateway: "Gateway · Routing · Limits", models: "Sprachmodelle", audit: "Audit-Trail" },
     },
+    noLink: "Noch kein öffentlicher Link",
     next: {
-      label: "Als Nächstes",
-      title: "Ihr Projekt könnte das nächste sein.",
+      label: "Sie sind dran",
+      title: "Haben Sie ein Projekt im Sinn?",
       text: "Beschreiben Sie das System und das Problem. Starten Sie mit einem kostenlosen 30-Minuten-Architektur-Check-up.",
-      link: "Nachricht senden",
     },
   },
   engagement: {
