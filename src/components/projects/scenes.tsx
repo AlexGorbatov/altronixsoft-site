@@ -1,273 +1,262 @@
-import type { Point } from "@/lib/iso";
 import type { ProjectVisual } from "@/data/projects";
-import {
-  BLUE,
-  C_AMBER_LIGHT,
-  C_BLUE,
-  C_CYAN,
-  C_CYAN_LIGHT,
-  C_SKY,
-  C_VIOLET,
-  C_VIOLET_LIGHT,
-  CYAN,
-  DARK,
-  DOOR,
-  HALL_WALL,
-  PAPER,
-  PAPER_LIGHT,
-  SHOP_WALL,
-  STEEL,
-  VIOLET,
-  VIOLET_DEEP,
-  makeScene,
-} from "./sceneKit";
+import type { Content } from "@/i18n/content";
+import type { Point } from "@/lib/iso";
+import { GLASS, makeScene } from "./sceneKit";
+
+/** The names on the pictures, in the language of the page. */
+export type SceneLabels = Content["copy"]["portfolio"]["scene"];
 
 /*
- * The eight scenes, ported number for number from docs/design-ref/v3/generators (scenes2.py, gen_pf2.py).
- * Same scale, origin, block coordinates, routes, paint order and timings. Each one is drawn on a 400×240 canvas.
+ * The eight scenes show how each application is built: a block is a component, a name is the component's name
+ * from the project's own description or stack, a beam is the direction the data takes. Nothing is drawn that the
+ * project data does not name. The geometry and timings follow the approved generators (docs/design-ref/v3), the
+ * drawing style follows docs/design-ref/ai-style-architecture-demo.html.
  */
 
-/** Client e-commerce: parcels leave a depot along a road, pass a shop and reach the order stack. */
-function Shop() {
-  const s = makeScene(23, 146, 58);
-  s.floor(-1, -1, 11, 7);
-  const road: Point[] = [[0.8, 2.4], [10, 2.4]];
-  s.road(road, 0.9);
-  s.route(road, C_CYAN, 0.35);
-  for (let k = 0; k < 3; k++) {
-    s.box(0, 0.2 + k * 0.9, 0, 0.9, 0.8, 0.6 + k * 0.15, DARK, { dur: 3.2 + k * 0.3, delay: k * 0.3, depth: 0.1 + k });
-  }
-  s.box(4.6, 0.5, 0, 2.6, 2.2, 1.3, SHOP_WALL, { dur: 4, depth: 5.5 });
-  s.roof(4.6, 0.5, 0, 2.6, 2.2, 1.3, 0.8, CYAN, { anim: "bob", dur: 4, depth: 5.6 });
-  for (let k = 0; k < 4; k++) {
-    s.box(4.6 + k * 0.65, 2.7, 0.65, 0.32, 0.38, 0.08, k % 2 === 0 ? CYAN : VIOLET, { dur: 4, depth: 6 + k * 0.01 });
-  }
-  s.box(8.9, 3.6, 0, 1.8, 1.6, 0.55, VIOLET, { dur: 3.5, delay: 0.4, depth: 9.5 });
-  s.box(9.2, 3.9, 0.55, 1.2, 1.0, 0.45, VIOLET_DEEP, { dur: 3.5, delay: 0.7, depth: 10 });
-  s.flush();
-  for (let k = 0; k < 3; k++) s.vehicle([[0.9, 2.4], [4.4, 2.4]], "parcel", 3.2, k * 1.05);
-  for (let k = 0; k < 3; k++) s.vehicle([[7.1, 2.4], [9.4, 2.4], [9.4, 3.7]], "parcel", 3.2, k * 1.05 + 0.5);
+/** 01 SAP Hybris: third-party systems → Data Hub → Hybris (with Solr) → OCC → Spartacus, and CI/CD underneath. */
+function hybris(t: SceneLabels["hybris"]) {
+  const s = makeScene("hybris", 21, 150, 44);
+  s.floor(-1, -1, 11, 8);
+  const ys = [0.4, 2.2, 4.0];
+  ys.forEach((y, i) => s.beam([[1.4, y + 0.5], [2.5, y + 0.5], [2.5, 2.9], [3.3, 2.9]], { dur: 3, delay: i * 0.9, orbs: 1 }));
+  s.beam([[4.6, 2.9], [5.5, 2.9]], { dur: 1.6, orbs: 1 });
+  s.beam([[7.7, 2.9], [8.4, 2.9]], { tone: "violet", dur: 1.4, orbs: 1 });
+  s.beam([[8.6, 2.9], [9.3, 2.9]], { tone: "violet", dur: 1.4, orbs: 1, delay: 0.6 });
+  s.beam([[0.5, 6.4], [10.5, 6.4]], { dur: 5, orbs: 1, r: 4 });
+  ys.forEach((y, i) => s.box(0, y, 0, 1.4, 1, 0.6, GLASS.ice, { depth: y, dur: 3.2 + i * 0.4, delay: i * 0.4 }));
+  s.box(3.3, 2.2, 0, 1.3, 1.3, 0.7, GLASS.blue, { depth: 6, dur: 3.6, core: true });
+  s.box(6.1, 0, 0, 1.1, 0.9, 0.5, GLASS.ice, { depth: 6.5, dur: 3.4, delay: 0.4 });
+  s.box(5.5, 1.8, 0, 2.2, 2.2, 1.1, GLASS.cyan, { depth: 8, dur: 4, core: true });
+  s.box(5.7, 2, 1.1, 1.8, 1.8, 0.22, GLASS.violet, { depth: 8.1, dur: 4 });
+  s.box(5.7, 2, 1.32, 1.8, 1.8, 0.22, GLASS.blue, { depth: 8.2, dur: 4 });
+  s.plane(8.5, 1.7, 4.1, 0, 1.5, { depth: 9 });
+  s.box(9.3, 1.7, 0, 1.7, 2.4, 0.45, GLASS.violet, { depth: 11, dur: 3.5, delay: 0.3 });
+  s.box(10.6, 1.7, 0.45, 0.2, 2.4, 1.1, GLASS.ice, { depth: 11.2, dur: 3.5, delay: 0.3 });
+  for (let i = 0; i < 5; i++) s.tick(0.8 + i * 2.35, 6.4, i, i === 4 ? "#dccbff" : "#9bf6ff");
+  s.label(0.7, 1.4, 0.6, t.thirdParty, -8, -34);
+  s.label(3.95, 2.85, 0.7, t.dataHub, -30, 30);
+  s.label(6.6, 0.45, 0.5, t.solr, 40, -34);
+  s.label(6.6, 2.9, 1.54, t.hybris, -8, -44);
+  s.label(8.5, 2.9, 1.5, t.occ, -30, 34);
+  s.label(10.7, 2.9, 1.5, t.spartacus, 36, -20, "violet");
+  s.label(0.5, 6.4, 0, t.cicd, -6, 24);
+  s.motes(12, 5);
   return s.render();
 }
 
-/** Client PIM: product sheets enter a stacked hub and fan out to channels. */
-function Pim() {
-  const s = makeScene(21, 150, 50);
+/** 02 PIM: data sources → PIM hub (workflow layers) → enterprise APIs → integrations. */
+function pim(t: SceneLabels["pim"]) {
+  const s = makeScene("pim", 21, 150, 50);
   s.floor(-1, -1, 11, 7);
   const ys = [0.3, 2.3, 4.3];
-  const feeds = ys.map((y): Point[] => [[1.8, y + 0.5], [3.2, y + 0.5], [3.2, 3.1], [4.4, 3.1]]);
-  feeds.forEach((f) => s.route(f, C_CYAN, 0.5));
-  ys.forEach((y, i) =>
-    s.box(0, y, 0, 1.7, 1.0, 0.35, STEEL, { dur: 3.2 + i * 0.3, delay: i * 0.3, glow: true, glowDelay: i * 0.7, depth: y }),
-  );
-  for (let k = 0; k < 4; k++) {
-    const face = k === 3 ? CYAN : k === 2 ? BLUE : k === 1 ? VIOLET_DEEP : DARK;
-    s.box(4.4, 2.4, k * 0.55, 1.9, 1.5, 0.42, face, { dur: 3.8, delay: k * 0.2, glow: k === 3, depth: 7 + k * 0.01 });
-  }
+  ys.forEach((y, i) => s.beam([[1.8, y + 0.5], [3.2, y + 0.5], [3.2, 3.1], [4.4, 3.1]], { dur: 2.8, delay: i * 0.8, orbs: 1 }));
+  s.beam([[6.4, 3.1], [7.4, 3.1], [7.4, 2.0], [8.2, 2.0]], { tone: "violet", dur: 2.2, orbs: 1, delay: 0.4 });
+  s.beam([[7.4, 3.1], [7.4, 4.6], [8.2, 4.6]], { tone: "violet", dur: 2.2, orbs: 1, delay: 1.3 });
+  ys.forEach((y, i) => s.box(0, y, 0, 1.7, 1, 0.35, GLASS.plate, { depth: y, dur: 3.2 + i * 0.3, delay: i * 0.3, core: i === 1 }));
+  const layers = [GLASS.ice, GLASS.violet, GLASS.blue, GLASS.cyan];
+  layers.forEach((face, k) => s.box(4.4, 2.4, k * 0.55, 1.9, 1.5, 0.42, face, { depth: 7 + k * 0.01, dur: 3.8, delay: k * 0.2, core: k === 3 }));
+  s.plane(6.7, 1.9, 4.3, 0, 1.2, { depth: 8 });
   let n = 0;
   for (let i = 0; i < 2; i++) {
     for (let j = 0; j < 2; j++) {
-      s.box(8.2 + i * 1.5, 1.4 + j * 1.7, 0, 1.2, 1.3, 0.3, (i + j) % 2 === 0 ? CYAN : VIOLET, {
-        dur: 3.4,
-        delay: n * 0.4,
-        glow: true,
-        glowDelay: n * 0.6,
-        depth: 10 + i + j,
-      });
+      s.box(8.2 + i * 1.5, 1.4 + j * 1.7, 0, 1.2, 1.3, 0.3, (i + j) % 2 ? GLASS.violet : GLASS.cyan, { depth: 10 + i + j, dur: 3.4, delay: n * 0.4 });
       n++;
     }
   }
-  const outA: Point[] = [[6.4, 3.1], [7.4, 3.1], [7.4, 2.0], [8.2, 2.0]];
-  const outB: Point[] = [[6.4, 3.1], [7.4, 3.1], [7.4, 4.6], [8.2, 4.6]];
-  s.route([[6.4, 3.1], [7.4, 3.1], [7.4, 2.0], [8.2, 2.0]], C_VIOLET, 0.6);
-  s.route([[7.4, 3.1], [7.4, 4.6], [8.2, 4.6]], C_VIOLET, 0.6);
-  s.flush();
-  feeds.forEach((f, i) => s.packet(f, C_CYAN_LIGHT, 2.8, i * 0.8));
-  s.packet(outA, C_VIOLET_LIGHT, 2.2, 0.4);
-  s.packet(outB, C_VIOLET_LIGHT, 2.2, 1.3);
+  s.label(0.85, 1.3, 0.35, t.sources, -44, -26);
+  s.label(5.35, 3.1, 1.9, t.hub, 14, -46);
+  s.label(6.7, 4.3, 1.2, t.apis, 6, 36);
+  s.label(9.4, 2.7, 0.3, t.integrations, 28, -34, "violet");
+  s.motes(12, 9);
   return s.render();
 }
 
-/** Client logistics: a depot sends trucks round a delivery route to its stops. */
-function Logistics() {
-  const s = makeScene(22, 150, 50);
+/** 03 Logistics: an API in front of the backend systems, workflows, trucks to operations; the cloud above. */
+function logistics(t: SceneLabels["logistics"]) {
+  const s = makeScene("logistics", 22, 150, 56);
   s.floor(-1, -1, 11, 7);
   const route: Point[] = [[1.8, 1.2], [6.2, 1.2], [6.2, 4.8], [9.6, 4.8]];
-  s.road(route, 0.9);
-  s.route(route, C_AMBER_LIGHT, 0.45);
-  s.box(0, 0, 0, 3, 2.2, 1.2, HALL_WALL, { anim: "none", depth: 2 });
-  s.roof(0, 0, 0, 3, 2.2, 1.2, 0.6, VIOLET, { depth: 2.1 });
-  for (let k = 0; k < 3; k++) s.box(0.4 + k * 0.9, 2.19, 0, 0.6, 0.02, 0.7, DOOR, { anim: "none", depth: 4 + k * 0.01 });
-  for (let k = 0; k < 2; k++) s.box(3.6 + k * 0.7, 2.8, 0, 0.6, 0.6, 0.35 + k * 0.2, DARK, { dur: 3 + k * 0.4, depth: 6 + k });
-  s.box(9.2, 4.2, 0, 1.2, 1.2, 0.9, VIOLET, { dur: 3.4, delay: 0.3, glow: true, glowDelay: 0.5, depth: 12 });
-  s.box(5.7, 5.4, 0, 1.0, 1.0, 0.7, CYAN, { dur: 3.6, delay: 0.6, glow: true, glowDelay: 1.1, depth: 8 });
-  s.box(6.9, 0.2, 0, 1.1, 1.0, 0.5, CYAN, { dur: 3.2, glow: true, glowDelay: 0.2, depth: 7 });
-  s.flush();
-  s.ring(9.8, 4.8, 18, C_VIOLET_LIGHT, 0);
-  s.vehicle(route, "truck", 7, 0);
-  s.vehicle(route, "truck", 7, 3.5);
+  s.road(route);
+  s.beam(route, { tone: "amber", dur: 7, orbs: 2, r: 4 });
+  s.box(0, 0, 0, 3, 2.2, 1.2, GLASS.ice, { depth: 2, anim: "none", core: true });
+  s.roof(0, 0, 0, 3, 2.2, 1.2, 0.6, GLASS.violet, { depth: 2.1 });
+  for (let k = 0; k < 2; k++) s.box(3.6 + k * 0.7, 2.8, 0, 0.6, 0.6, 0.35 + k * 0.2, GLASS.ice, { depth: 6 + k, dur: 3 + k * 0.4 });
+  s.plane(2.2, -0.2, 2.4, 0, 1.4, { depth: 3 });
+  s.box(9.2, 4.2, 0, 1.2, 1.2, 0.9, GLASS.violet, { depth: 12, dur: 3.4, delay: 0.3, core: true });
+  s.box(5.7, 5.4, 0, 1, 1, 0.7, GLASS.cyan, { depth: 8, dur: 3.6, delay: 0.6, core: true });
+  s.box(6.9, 0.2, 0, 1.1, 1, 0.5, GLASS.cyan, { depth: 7, dur: 3.2, core: true });
+  // The cloud: a faint glass layer above everything.
+  s.box(1.2, 0.6, 3.4, 8.6, 4.4, 0.12, GLASS.plate, { depth: 30, anim: "none", alpha: 0.22 });
+  s.label(1.5, 1.1, 1.2, t.backend, -6, -42);
+  s.label(2.2, 1.1, 1.4, t.api, 52, -2);
+  s.label(4.1, 3.1, 0.55, t.workflows, -20, 30);
+  s.label(9.8, 4.8, 0.9, t.operations, 22, -32, "violet");
+  s.label(8.6, 1.4, 3.5, t.cloud, 18, -8);
+  s.motes(12, 2);
   return s.render();
 }
 
-/** Compass AI: a platform of six module towers, scanned by two orbiting signals. */
-function Scorecard() {
-  const s = makeScene(20, 156, 40);
+/** 04 Compass AI: a Next.js layer over a Spring Modulith plate of six modules, and a weekly ScoreCard loop. */
+function scorecard(t: SceneLabels["scorecard"]) {
+  const s = makeScene("scorecard", 20, 156, 50);
   s.floor(-1, -1, 11, 7);
-  s.box(0.4, 0.2, 0, 9.4, 5.6, 0.3, DARK, { anim: "none", depth: 0 });
-  const towers: [number, number, number, typeof CYAN][] = [
-    [1.4, 0.9, 1.3, CYAN],
-    [4.2, 0.9, 2.4, BLUE],
-    [7, 0.9, 1.7, VIOLET],
-    [1.4, 3.6, 2.7, BLUE],
-    [4.2, 3.6, 1.9, CYAN],
-    [7, 3.6, 1.4, VIOLET_DEEP],
+  s.box(0.4, 0.2, 0, 9.4, 5.6, 0.3, GLASS.plate, { depth: 0, anim: "none", alpha: 0.9 });
+  const towers: [number, number, number, keyof typeof GLASS][] = [
+    [1.4, 0.9, 1.3, "cyan"],
+    [4.2, 0.9, 2.0, "blue"],
+    [7, 0.9, 1.7, "violet"],
+    [1.4, 3.6, 2.2, "blue"],
+    [4.2, 3.6, 1.6, "cyan"],
+    [7, 3.6, 1.4, "violet"],
   ];
   towers.forEach(([x, y, h, face], i) =>
-    s.box(x, y, 0.3, 1.6, 1.6, h, face, { anim: "grow", dur: 3.4 + i * 0.35, delay: i * 0.45, glow: h > 2, depth: x + y + 1 }),
+    s.box(x, y, 0.3, 1.6, 1.6, h, GLASS[face], { depth: x + y + 1, anim: "grow", dur: 3.4 + i * 0.35, delay: i * 0.45, core: i === 1 }),
   );
-  s.ellipse(5.1, 3.1, 0.31, 92, C_CYAN);
-  s.ellipse(5.1, 3.1, 0.31, 64, C_VIOLET, false);
-  s.flush();
-  const loop: Point[] = [[0.8, 0.4], [9.4, 0.4], [9.4, 5.6], [0.8, 5.6], [0.8, 0.4]];
-  s.packet(loop, C_CYAN_LIGHT, 9, 0, 2.8);
-  s.packet(loop, C_VIOLET_LIGHT, 9, 4.5, 2.8);
+  s.ellipse(5.1, 3.1, 0.31, 92, "#22d6f4");
+  s.beam([[0.8, 0.4], [9.4, 0.4], [9.4, 5.6], [0.8, 5.6], [0.8, 0.4]], { tone: "violet", dur: 9, orbs: 2, r: 5 });
+  // The front layer: a glass screen floating above the modules.
+  s.box(1.0, 0.5, 3.9, 8.4, 5.0, 0.1, GLASS.ice, { depth: 40, dur: 5, alpha: 0.55 });
+  // The modules are only numbered: the data names none of them.
+  towers.forEach(([x, y, h], i) => s.label(x + 0.8, y + 0.8, 0.3 + h, `0${i + 1}`, 0, -22 - (i % 2) * 6, i % 3 === 2 ? "violet" : undefined));
+  s.label(5.1, 5.7, 0.3, t.modulith, -6, 26);
+  s.label(9.4, 0.5, 4.0, t.nextjs, 20, -14);
+  s.label(9.4, 3.0, 0.3, t.weekly, 36, 14, "violet");
+  s.motes(14, 3);
   return s.render();
 }
 
-/** Secure RAG: documents pass an access-control gate before they reach the model. */
-function Rag() {
-  const s = makeScene(21, 140, 46);
+/** 05 Secure RAG: documents → retrieval → access control → model → response. */
+function rag(t: SceneLabels["rag"]) {
+  const s = makeScene("rag", 21, 140, 50);
   s.floor(-1, -1, 11, 7);
-  const route: Point[] = [[1.4, 3], [9.2, 3]];
-  s.route(route);
-  for (let k = 0; k < 3; k++) s.box(0, 2.2, k * 0.32, 1.8, 1.6, 0.26, PAPER, { dur: 3.4, delay: k * 0.3, depth: 2.2 + k * 0.01 });
-  for (let k = 0; k < 3; k++) s.box(2.9, 2.1, k * 0.5, 1.7, 1.7, 0.34, k === 1 ? BLUE : DARK, { dur: 3.8, delay: k * 0.25, depth: 5 + k * 0.01 });
-  s.box(5.7, 0.9, 0, 0.45, 0.45, 2.3, DARK, { anim: "none", depth: 8 });
-  s.box(5.7, 4.2, 0, 0.45, 0.45, 2.3, DARK, { anim: "none", depth: 9 });
-  s.box(7.3, 2.2, 0, 1.6, 1.6, 1.3, CYAN, { dur: 4, glow: true, depth: 12 });
-  s.box(9.6, 2.4, 0, 1.2, 1.2, 0.5, VIOLET, { dur: 3.2, delay: 0.4, depth: 14 });
-  s.flush();
-  s.plane(5.92, 1.2, 4.6, 0, 2.3);
-  s.ring(8.1, 3, 22, C_CYAN, 0);
-  for (let k = 0; k < 3; k++) s.packet(route, C_CYAN_LIGHT, 4, k * 1.4);
+  s.beam([[1.4, 3], [9.2, 3]], { dur: 4, orbs: 3, r: 5 });
+  for (let k = 0; k < 3; k++) s.box(0, 2.2, k * 0.32, 1.8, 1.6, 0.26, GLASS.ice, { depth: 2.2 + k * 0.01, dur: 3.4, delay: k * 0.3 });
+  for (let k = 0; k < 3; k++) {
+    s.box(2.9, 2.1, k * 0.5, 1.7, 1.7, 0.34, k === 1 ? GLASS.blue : GLASS.plate, { depth: 5 + k * 0.01, dur: 3.8, delay: k * 0.25, core: k === 2 });
+  }
+  s.box(5.7, 0.9, 0, 0.45, 0.45, 2.3, GLASS.plate, { depth: 8, anim: "none" });
+  s.box(5.7, 4.2, 0, 0.45, 0.45, 2.3, GLASS.plate, { depth: 9, anim: "none" });
+  s.plane(5.92, 1.2, 4.6, 0, 2.3, { depth: 8.5 });
+  s.box(7.3, 2.2, 0, 1.6, 1.6, 1.3, GLASS.cyan, { depth: 12, dur: 4, core: true });
+  s.ellipse(8.1, 3, 0, 44, "#22d6f4");
+  s.box(9.6, 2.4, 0, 1.2, 1.2, 0.5, GLASS.violet, { depth: 14, dur: 3.2, delay: 0.4 });
+  s.label(0.9, 3.0, 0.8, t.documents, -46, -26);
+  s.label(3.75, 3.0, 1.5, t.retrieval, -6, -54);
+  s.label(5.92, 2.9, 2.3, t.access, 58, -40);
+  s.label(8.1, 3.0, 1.3, t.model, 22, -34);
+  s.label(10.2, 3.0, 0.5, t.response, 20, 30, "violet");
+  s.motes(12, 4);
   return s.render();
 }
 
-/** AI Business Workflow Agent: a core that talks to three systems, with a violet approval step. */
-function Agent() {
-  const s = makeScene(21, 152, 54);
+/** 06 AI Business Workflow Agent: the agent between several systems, with a human approval step. */
+function agent(t: SceneLabels["agent"]) {
+  const s = makeScene("agent", 21, 152, 56);
   s.floor(-1, -1, 11, 7);
   const spokes: Point[][] = [[[3.4, 3.2], [1.8, 3.2]], [[4.3, 2.2], [4.3, -0.4]], [[4.3, 4.4], [4.3, 6.3]]];
-  const approval: Point[] = [[5.2, 3.2], [9.0, 3.2]];
-  s.route(approval, C_VIOLET, 0.7);
-  s.route([[3.4, 3.2], [1.8, 3.2]]);
-  s.route([[4.3, 4.4], [4.3, 6.3]]);
-  s.route([[4.3, 2.2], [4.3, -0.4]]);
-  s.box(3.3, 2.2, 0, 2, 2, 1.5, CYAN, { dur: 4, glow: true, depth: 8 });
-  s.box(0, 2.6, 0, 1.6, 1.2, 0.6, DARK, { dur: 3.2, depth: 2 });
-  s.box(3.6, -1.8, 0, 1.4, 1.2, 0.6, DARK, { dur: 3.5, delay: 0.4, depth: 0 });
-  s.box(3.6, 5.7, 0, 1.4, 1.2, 0.6, DARK, { dur: 3.7, delay: 0.8, depth: 12 });
-  s.box(9, 2.6, 0, 1.6, 1.2, 0.9, VIOLET, { dur: 3.3, delay: 0.2, glow: true, depth: 14 });
-  s.ring(4.3, 3.2, 26, C_CYAN, 0);
-  s.ring(4.3, 3.2, 26, C_CYAN, 1.5);
-  s.flush();
   spokes.forEach((r, i) => {
-    s.packet(r, C_CYAN_LIGHT, 2.4, i * 0.7);
-    s.packet([...r].reverse(), C_SKY, 2.4, i * 0.7 + 1.2);
+    s.beam(r, { dur: 2.4, orbs: 1, delay: i * 0.7 });
+    s.beam([...r].reverse(), { dur: 2.4, orbs: 1, delay: i * 0.7 + 1.2 });
   });
-  s.packet(approval, C_VIOLET_LIGHT, 2.6, 0.5);
-  s.packet([...approval].reverse(), C_VIOLET_LIGHT, 2.6, 1.9);
+  const approval: Point[] = [[5.2, 3.2], [9.0, 3.2]];
+  s.beam(approval, { tone: "violet", dur: 2.6, orbs: 1, delay: 0.5 });
+  s.beam([...approval].reverse(), { tone: "violet", dur: 2.6, orbs: 1, delay: 1.9 });
+  s.box(3.3, 2.2, 0, 2, 2, 1.5, GLASS.cyan, { depth: 8, dur: 4, core: true });
+  s.ellipse(4.3, 3.2, 0, 52, "#22d6f4");
+  s.box(0, 2.6, 0, 1.6, 1.2, 0.6, GLASS.ice, { depth: 2, dur: 3.2 });
+  s.box(3.6, -1.8, 0, 1.4, 1.2, 0.6, GLASS.ice, { depth: 0, dur: 3.5, delay: 0.4 });
+  s.box(3.6, 5.7, 0, 1.4, 1.2, 0.6, GLASS.ice, { depth: 12, dur: 3.7, delay: 0.8 });
+  s.box(9, 2.6, 0, 1.6, 1.2, 0.9, GLASS.violet, { depth: 14, dur: 3.3, delay: 0.2, core: true });
+  // The person who approves: a small glass figure on the violet block.
+  const [hx, hy] = s.P(9.8, 3.2, 1.55);
+  s.add(
+    <>
+      <circle cx={hx} cy={hy} r="4.2" fill="#fff" fillOpacity=".85" />
+      <path d={`M${hx - 6} ${hy + 11} Q${hx} ${hy + 1} ${hx + 6} ${hy + 11} Z`} fill="#fff" fillOpacity=".6" />
+    </>,
+    [[hx - 6, hy - 5], [hx + 6, hy + 11]],
+  );
+  s.label(4.3, 3.2, 1.5, t.agent, 0, -46);
+  s.label(0.8, 3.2, 0.6, t.system, -8, -34);
+  s.label(4.3, -1.2, 0.6, t.system, 34, -10);
+  s.label(4.3, 6.3, 0.6, t.system, 40, 22);
+  s.label(9.8, 3.2, 1.9, t.approval, 10, -36, "violet");
+  s.motes(12, 6);
   return s.render();
 }
 
-/** AI Document Processing: a stack of pages is scanned and becomes a city of checked data. */
-function Documents() {
-  const s = makeScene(21, 126, 48);
+/** 07 AI Document Processing: pages → extraction → validation → structured data for downstream systems. */
+function documents(t: SceneLabels["documents"]) {
+  const s = makeScene("documents", 21, 120, 54);
   s.floor(-1, -1, 11, 7);
-  const route: Point[] = [[1.6, 3.1], [10, 3.1]];
-  s.route(route);
-  for (let k = 0; k < 4; k++) s.box(0, 2.3, k * 0.3, 1.6, 1.6, 0.24, PAPER_LIGHT, { dur: 3.4, delay: k * 0.25, depth: 2.3 + k * 0.01 });
-  s.box(4.2, 1.3, 0, 0.45, 0.45, 2, DARK, { anim: "none", depth: 7 });
-  s.box(4.2, 4.6, 0, 0.45, 0.45, 2, DARK, { anim: "none", depth: 9 });
+  s.beam([[1.6, 3.1], [10, 3.1]], { dur: 4, orbs: 0 });
+  for (let k = 0; k < 4; k++) s.box(0, 2.3, k * 0.3, 1.6, 1.6, 0.24, GLASS.ice, { depth: 2.3 + k * 0.01, dur: 3.4, delay: k * 0.25 });
+  s.box(3.6, 1.3, 0, 0.45, 0.45, 2, GLASS.plate, { depth: 6, anim: "none" });
+  s.box(3.6, 4.6, 0, 0.45, 0.45, 2, GLASS.plate, { depth: 8, anim: "none" });
+  s.plane(3.82, 1.6, 4.9, 0, 2, { depth: 7 });
+  s.box(5.4, 1.3, 0, 0.45, 0.45, 2, GLASS.plate, { depth: 8.5, anim: "none" });
+  s.box(5.4, 4.6, 0, 0.45, 0.45, 2, GLASS.plate, { depth: 10, anim: "none" });
+  s.plane(5.62, 1.6, 4.9, 0, 2, { color: "#9bf6ff", delay: 1.2, depth: 9 });
   let n = 0;
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
       const h = 0.5 + ((i * 3 + j) % 4) * 0.35;
-      const face = (i + j) % 2 === 0 ? CYAN : (i + j) % 3 === 0 ? VIOLET : BLUE;
-      s.box(7 + i * 1.2, 1.5 + j * 1.2, 0, 0.95, 0.95, h, face, {
-        anim: "grow",
-        dur: 3.2 + n * 0.2,
-        delay: n * 0.3,
-        depth: 7.8 + i * 1.3 + j * 1.2 + 3,
-      });
+      const face = (i + j) % 2 === 0 ? GLASS.cyan : (i + j) % 3 === 0 ? GLASS.violet : GLASS.blue;
+      s.box(7.2 + i * 1.2, 1.5 + j * 1.2, 0, 0.95, 0.95, h, face, { depth: 11 + i * 1.3 + j * 1.2, anim: "grow", dur: 3.2 + n * 0.2, delay: n * 0.3 });
       n++;
     }
   }
-  s.flush();
-  s.plane(4.42, 1.6, 4.9, 0, 2);
+  // Pages travel along the route as little glass sheets.
   for (let k = 0; k < 3; k++) s.sheet([[1.8, 3.1], [7, 3.1]], 4, k * 1.3);
+  s.label(0.8, 3.1, 1.1, t.incoming, -6, -44);
+  s.label(3.82, 4.9, 0.6, t.extraction, -14, 30);
+  s.label(5.62, 3.1, 2, t.validation, 30, -24, "violet");
+  s.label(8.6, 3.2, 1.2, t.downstream, 30, -42);
+  s.motes(12, 8);
   return s.render();
 }
 
-/** LLM Gateway: requests meet one gateway and fan out to three model towers. */
-function Gateway() {
-  const s = makeScene(21, 140, 46);
+/** 08 LLM Gateway: clients → one gateway (routing, limits) → several models; an audit trail kept alongside. */
+function gateway(t: SceneLabels["gateway"]) {
+  const s = makeScene("gateway", 21, 140, 50);
   s.floor(-1, -1, 11, 7);
-  const intake: Point[] = [[1.7, 3.1], [3.5, 3.1]];
   const fan = [0.3, 2.5, 4.7].map((y): Point[] => [[5.6, 3.1], [6.8, 3.1], [6.8, y + 0.6], [7.6, y + 0.6]]);
-  s.route([[1.7, 3.1], [3.5, 3.1]]);
-  fan.forEach((f) => s.route(f, C_VIOLET, 0.65));
-  s.box(0, 1.2, 0, 1.8, 3.8, 0.5, DARK, { dur: 3.4, depth: 2 });
-  s.box(3.5, 2.1, 0, 2.1, 2.1, 1.3, BLUE, { dur: 3.8, glow: true, depth: 8 });
-  const models: [number, number, typeof CYAN][] = [
-    [0.3, 2.4, CYAN],
-    [2.5, 1.5, VIOLET],
-    [4.7, 2, BLUE],
-  ];
-  models.forEach(([y, h, face], i) =>
-    s.box(7.6, y, 0, 1.8, 1.4, h, face, { anim: "grow", dur: 3.4 + i * 0.4, delay: i * 0.5, glow: true, depth: 9 + y }),
-  );
-  s.ring(4.6, 3.1, 24, C_BLUE, 0);
-  s.flush();
-  for (let k = 0; k < 3; k++) s.packet(intake, C_CYAN_LIGHT, 1.6, k * 0.5, 2.4);
-  fan.forEach((f, i) => s.packet(f, i === 1 ? C_VIOLET_LIGHT : C_CYAN_LIGHT, 2.6, i * 0.7 + 0.4));
+  for (let k = 0; k < 3; k++) s.beam([[1.7, 3.1], [3.5, 3.1]], { dur: 1.6, orbs: 1, delay: k * 0.5, r: 4.5 });
+  fan.forEach((f, i) => s.beam(f, { tone: i === 1 ? "violet" : "cyan", dur: 2.6, orbs: 1, delay: i * 0.7 + 0.4 }));
+  s.beam([[4.55, 4.2], [4.55, 6.0]], { tone: "amber", dur: 2.4, orbs: 1, r: 4 });
+  s.box(0, 1.2, 0, 1.8, 3.8, 0.5, GLASS.ice, { depth: 2, dur: 3.4 });
+  s.box(3.5, 2.1, 0, 2.1, 2.1, 1.3, GLASS.blue, { depth: 8, dur: 3.8, core: true });
+  s.ellipse(4.55, 3.15, 0, 48, "#5aa6ff");
+  const models: [number, number, keyof typeof GLASS][] = [[0.3, 2.4, "cyan"], [2.5, 1.5, "violet"], [4.7, 2, "blue"]];
+  models.forEach(([y, h, face], i) => s.box(7.6, y, 0, 1.8, 1.4, h, GLASS[face], { depth: 9 + y, anim: "grow", dur: 3.4 + i * 0.4, delay: i * 0.5, core: true }));
+  // The audit trail: a stack of thin log slabs.
+  for (let k = 0; k < 4; k++) s.box(3.7, 5.9, k * 0.16, 1.7, 1, 0.12, GLASS.amber, { depth: 12 + k * 0.01, dur: 3.6, delay: k * 0.2, alpha: 0.9 });
+  s.label(0.9, 3.1, 0.5, t.clients, -42, -28);
+  s.label(4.55, 3.15, 1.3, t.gateway, 30, -58);
+  s.label(8.5, 0.6, 2.4, t.models, 22, -22);
+  s.label(4.55, 6.4, 0.5, t.audit, -64, 22);
+  s.motes(12, 1);
   return s.render();
 }
 
-/**
- * The canvas of each scene: everything it draws, floor grid included, plus a margin of 16 units on every side.
- * A scene therefore always sits inside its panel, centred, even while a card is hovered and the scene grows by
- * a few percent. Measured from the rendered scenes; update it when a scene's geometry changes.
- */
-export const VIEWBOX: Record<ProjectVisual, string> = {
-  shop: "-29 19 430 262",
-  pim: "-12 13 396 242",
-  logistics: "-18 6 413 258",
-  scorecard: "1 4 378 232",
-  rag: "-22 9 396 242",
-  agent: "-10 17 396 242",
-  documents: "-36 11 396 242",
-  gateway: "-22 9 396 242",
-};
-
-/** The scene of one project. */
-export function Scene({ variant }: { variant: ProjectVisual }) {
+/** The scene of one project, with its names in the given language. */
+export function buildScene(variant: ProjectVisual, labels: SceneLabels) {
   switch (variant) {
     case "shop":
-      return <Shop />;
+      return hybris(labels.hybris);
     case "pim":
-      return <Pim />;
+      return pim(labels.pim);
     case "logistics":
-      return <Logistics />;
+      return logistics(labels.logistics);
     case "scorecard":
-      return <Scorecard />;
+      return scorecard(labels.scorecard);
     case "rag":
-      return <Rag />;
+      return rag(labels.rag);
     case "agent":
-      return <Agent />;
+      return agent(labels.agent);
     case "documents":
-      return <Documents />;
+      return documents(labels.documents);
     case "gateway":
-      return <Gateway />;
+      return gateway(labels.gateway);
   }
 }

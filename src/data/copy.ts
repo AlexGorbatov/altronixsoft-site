@@ -160,6 +160,30 @@ export const copy = {
     status: { nda: "Client · NDA", "open-source": "Open source", "in-development": "In development" },
     /** aria-label of a project link; {title} is replaced by the project's name. */
     openProject: "Open project: {title}",
+    /** Names on the architecture pictures: each one is a component named in the project's own description or stack. */
+    scene: {
+      hybris: {
+        thirdParty: "Third-party · REST/SOAP",
+        dataHub: "Data Hub",
+        solr: "Solr",
+        hybris: "SAP Hybris",
+        occ: "OCC API",
+        spartacus: "Spartacus",
+        cicd: "CI/CD",
+      },
+      pim: { sources: "Data sources", hub: "PIM · Workflows", apis: "Enterprise APIs", integrations: "Integrations" },
+      logistics: { backend: "Backend systems", api: "API", workflows: "Workflows", operations: "Operations", cloud: "Cloud" },
+      scorecard: { modulith: "Spring Modulith", nextjs: "Next.js", weekly: "Weekly ScoreCard" },
+      rag: { documents: "Documents", retrieval: "Retrieval", access: "Access control", model: "Model", response: "Response" },
+      agent: { agent: "Agent", system: "System", approval: "Human approval" },
+      documents: {
+        incoming: "Incoming documents",
+        extraction: "Extraction",
+        validation: "Validation",
+        downstream: "Downstream systems",
+      },
+      gateway: { clients: "Clients", gateway: "Gateway · Routing · Limits", models: "Language models", audit: "Audit trail" },
+    },
     next: {
       label: "Next",
       title: "Your project could be next.",

@@ -56,6 +56,9 @@ const SAME_EVERYWHERE = new Set([
   "SAP Commerce Cloud (Hybris)", "Altronix Labs", "RAG", "PIM", "API", "APIs", "Repository", "Stack", "Team",
   "ERP · PIM", "Cloud", "Proof of Value", "Data Hub", "CI/CD", "OCC", "Solr", "Spartacus", "SAP Hybris 2011", "Java 11",
   "Migration", "Hybris", "Compass AI", "Secure RAG", "LLM Gateway",
+  // Names on the architecture pictures that are the same in every language.
+  "SAP Hybris", "OCC API", "Spring Modulith", "Next.js", "Workflows", "PIM · Workflows", "Agent", "System",
+  "Retrieval", "Clients", "Gateway · Routing · Limits",
   // Loanwords and terms that are the same in German as in English.
   "Workflow", "Problem", "(optional)", "Support", "Compliance",
 ]);

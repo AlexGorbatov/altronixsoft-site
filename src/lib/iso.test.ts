@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { boxFaces, cuboid, planeQuad, polygonPoints, project, projector, roadQuads, roofFaces, routePath } from "./iso";
+import { boxFaces, planeQuad, polygonPoints, project, projector, roadQuads, roofFaces, routePath } from "./iso";
 
 describe("isometric projection", () => {
   it("maps the origin to the offset", () => {
@@ -57,12 +57,5 @@ describe("isometric shapes", () => {
     const quad = planeQuad(P, 3, 1, 2, 0, 1);
     expect(quad[0]).toEqual(P(3, 1, 0));
     expect(quad[2]).toEqual(P(3, 2, 1));
-  });
-
-  it("measures a vehicle block from its own origin", () => {
-    const { top, left, right } = cuboid(1, 1, 1, 10);
-    expect(top[2]).toEqual(left[1]);
-    expect(top[2]).toEqual(right[1]);
-    expect(left[3][1]).toBeCloseTo(5, 5);
   });
 });

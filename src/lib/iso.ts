@@ -77,19 +77,3 @@ export function roadQuads(P: Projector, route: readonly Point[], wd = 0.8): Poly
 export function planeQuad(P: Projector, x: number, y0: number, y1: number, z0: number, z1: number): Polygon {
   return [P(x, y0, z0), P(x, y1, z0), P(x, y1, z1), P(x, y0, z1)];
 }
-
-/** A small box in a vehicle's own pixel space (origin at the vehicle, not on the grid). */
-export function cuboid(w: number, d: number, h: number, sc: number, ox = 0, oy = 0) {
-  const ex = [0.866 * sc, 0.5 * sc];
-  const ey = [-0.866 * sc, 0.5 * sc];
-  const ez = [0, -sc];
-  const v = (a: number, b: number, c: number): Point => [
-    ox + a * ex[0] + b * ey[0] + c * ez[0],
-    oy + a * ex[1] + b * ey[1] + c * ez[1],
-  ];
-  return {
-    top: [v(0, 0, h), v(w, 0, h), v(w, d, h), v(0, d, h)] as Polygon,
-    left: [v(0, d, h), v(w, d, h), v(w, d, 0), v(0, d, 0)] as Polygon,
-    right: [v(w, 0, h), v(w, d, h), v(w, d, 0), v(w, 0, 0)] as Polygon,
-  };
-}

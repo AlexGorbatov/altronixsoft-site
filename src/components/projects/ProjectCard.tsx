@@ -6,7 +6,7 @@ import type { Content } from "@/i18n/content";
 import { filled } from "@/lib/todo";
 import { cn } from "@/lib/utils";
 import { ActiveWhenVisible } from "./ActiveWhenVisible";
-import { ProjectScene } from "./ProjectScene";
+import { ProjectScene, SceneBackdrop } from "./ProjectScene";
 import styles from "./ProjectCard.module.css";
 
 const STATUS_CLASS: Record<ProjectStatus, string> = {
@@ -50,8 +50,9 @@ export function ProjectCard({ project, index, size, lang, copy }: ProjectCardPro
             <i aria-hidden="true" />
             {status}
           </span>
+          <SceneBackdrop />
           <div className={styles.scene}>
-            <ProjectScene variant={project.visual} className="size-full" />
+            <ProjectScene variant={project.visual} labels={copy.scene} className="size-full" />
           </div>
         </div>
 
