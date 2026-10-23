@@ -1,6 +1,8 @@
 /*
  * Isometric project scenes. Everything here is decorative, so every animation is safe to stop:
  * globals.css pauses them for the Pause motion button and removes them for prefers-reduced-motion.
+ * They also wait until the scene is on screen: ActiveWhenVisible sets data-active, which sets --ps (running);
+ * without it --ps is unset and every animation below stays paused.
  * Custom properties: --d = duration, --l = delay.
  */
 .pk {
@@ -8,6 +10,7 @@
   offset-distance: 0;
   opacity: 0;
   animation: travel var(--d, 3.2s) linear infinite;
+  animation-play-state: var(--ps, paused);
   animation-delay: var(--l, 0s);
 }
 @keyframes travel {
@@ -29,6 +32,7 @@
 .dash {
   stroke-dasharray: 4 4;
   animation: dash 1.2s linear infinite;
+  animation-play-state: var(--ps, paused);
 }
 @keyframes dash {
   to {
@@ -37,6 +41,7 @@
 }
 .bob {
   animation: bob var(--d, 3.4s) ease-in-out infinite;
+  animation-play-state: var(--ps, paused);
   animation-delay: var(--l, 0s);
 }
 @keyframes bob {
@@ -48,9 +53,27 @@
     transform: translateY(-3px);
   }
 }
+/* Towers breathe upwards from the floor. */
+.grow {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: grow var(--d, 3.6s) ease-in-out infinite;
+  animation-play-state: var(--ps, paused);
+  animation-delay: var(--l, 0s);
+}
+@keyframes grow {
+  0%,
+  100% {
+    transform: scaleY(0.8);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
 .glow {
   opacity: 0;
   animation: glow 2.6s ease-in-out infinite;
+  animation-play-state: var(--ps, paused);
   animation-delay: var(--l, 0s);
 }
 @keyframes glow {
@@ -67,6 +90,7 @@
   transform-box: fill-box;
   transform-origin: center;
   animation: ring 3s ease-out infinite;
+  animation-play-state: var(--ps, paused);
   animation-delay: var(--l, 0s);
 }
 @keyframes ring {
@@ -79,9 +103,26 @@
     opacity: 0;
   }
 }
+/* A scanner plane: faint when still, so a static scene stays readable. */
+.scan {
+  opacity: 0.3;
+  animation: scan 2.4s ease-in-out infinite;
+  animation-play-state: var(--ps, paused);
+  animation-delay: var(--l, 0s);
+}
+@keyframes scan {
+  0%,
+  100% {
+    opacity: 0.08;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
 .tick {
   opacity: 0.25;
   animation: tick 5s linear infinite;
+  animation-play-state: var(--ps, paused);
   animation-delay: var(--l, 0s);
 }
 @keyframes tick {

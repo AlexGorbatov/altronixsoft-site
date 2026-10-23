@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { polygonPoints, project, routePath } from "./iso";
+import { boxFaces, cuboid, planeQuad, polygonPoints, project, projector, roadQuads, roofFaces, routePath } from "./iso";
 
 describe("isometric projection", () => {
   it("maps the origin to the offset", () => {
@@ -20,5 +20,49 @@ describe("isometric projection", () => {
   it("formats polygon points and routes", () => {
     expect(polygonPoints([[1, 2], [3.14159, 4]])).toBe("1.0,2.0 3.1,4.0");
     expect(routePath(10, 0, 0, [[0, 0], [1, 0]], 0)).toBe("M0.0 0.0 L8.7 5.0");
+  });
+});
+
+describe("isometric shapes", () => {
+  const P = projector(20, 100, 30);
+
+  it("fixes the scale and origin of a scene", () => {
+    expect(P(1, 2, 3)).toEqual(project(20, 100, 30, 1, 2, 3));
+  });
+
+  it("builds a box from its top, left and right faces", () => {
+    const { top, left, right } = boxFaces(P, 0, 0, 0, 1, 1, 2);
+    expect(top).toHaveLength(4);
+    // The front corner is shared by all three faces.
+    expect(top[2]).toEqual(left[1]);
+    expect(top[2]).toEqual(right[1]);
+    // The box is two cells high.
+    expect(top[0][1]).toBe(P(0, 0, 0)[1] - 40);
+  });
+
+  it("puts the ridge of a roof half way along the depth, above the walls", () => {
+    const { front, back, gable } = roofFaces(P, 0, 0, 0, 2, 2, 1, 0.5);
+    expect(front[2]).toEqual(back[2]);
+    expect(front[2]).toEqual(gable[2]);
+    expect(front[2][1]).toBe(P(2, 1, 1.5)[1]);
+  });
+
+  it("widens a road segment by half its width on each side", () => {
+    const [quad] = roadQuads(P, [[0, 0], [4, 0]], 1);
+    expect(quad[0]).toEqual(P(-0.5, -0.5, 0.02));
+    expect(quad[2]).toEqual(P(4.5, 0.5, 0.02));
+  });
+
+  it("draws a sheet on a fixed x", () => {
+    const quad = planeQuad(P, 3, 1, 2, 0, 1);
+    expect(quad[0]).toEqual(P(3, 1, 0));
+    expect(quad[2]).toEqual(P(3, 2, 1));
+  });
+
+  it("measures a vehicle block from its own origin", () => {
+    const { top, left, right } = cuboid(1, 1, 1, 10);
+    expect(top[2]).toEqual(left[1]);
+    expect(top[2]).toEqual(right[1]);
+    expect(left[3][1]).toBeCloseTo(5, 5);
   });
 });

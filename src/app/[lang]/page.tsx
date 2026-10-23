@@ -5,7 +5,7 @@ import { FinalCTA } from "@/components/home/FinalCTA";
 import { Hero } from "@/components/home/Hero";
 import { Industries } from "@/components/home/Industries";
 import { ProcessJourney } from "@/components/home/ProcessJourney";
-import { SelectedWork } from "@/components/home/SelectedWork";
+import { SelectedProjects } from "@/components/home/SelectedProjects";
 import { Services } from "@/components/home/Services";
 import { TrustBlocks } from "@/components/home/TrustBlocks";
 import { TrustStrip } from "@/components/home/TrustStrip";
@@ -30,7 +30,7 @@ export default async function HomePage() {
       <TrustStrip />
       <Services />
       <Industries />
-      <SelectedWork />
+      <SelectedProjects />
       <ProcessJourney copy={copy.process} phases={processPhases} />
       <EngagementModels />
       <Company />

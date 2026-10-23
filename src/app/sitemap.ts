@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/", changeFrequency: "monthly", priority: 1 },
     ...services.map((service) => ({ path: `/services/${service.id}`, changeFrequency: "monthly" as const, priority: 0.8 })),
     { path: "/services/sap-commerce", changeFrequency: "monthly", priority: 0.9 },
+    { path: "/work", changeFrequency: "monthly", priority: 0.8 },
     // Case studies without a measurable result are noindex, so they stay out of the sitemap too.
     ...caseStudies
       .filter(hasResult)

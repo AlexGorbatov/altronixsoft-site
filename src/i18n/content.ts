@@ -9,7 +9,7 @@ import { industries } from "@/data/industries";
 import { navigation } from "@/data/navigation";
 import { processPhases } from "@/data/process";
 import { privacy } from "@/data/privacy";
-import { caseStudies, labs } from "@/data/projects";
+import { caseStudies, labs, projects } from "@/data/projects";
 import { sapCommerce } from "@/data/sap-commerce";
 import { aiUseCases, services, technologies } from "@/data/services";
 import { siteConfig } from "@/data/site";
@@ -33,6 +33,7 @@ const en = {
   about,
   processPhases,
   caseStudies,
+  projects,
   labs,
   sapCommerce,
   trust,

@@ -1,4 +1,5 @@
-export type ProjectVisual = "commerce" | "data" | "logistics" | "integration";
+/** The isometric scene drawn for a project (see `ProjectScene`). */
+export type ProjectVisual = "shop" | "pim" | "logistics" | "scorecard" | "rag" | "agent" | "documents" | "gateway";
 
 export interface CaseStudy {
   /** URL slug of /work/[slug]. */
@@ -35,7 +36,7 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "enterprise-ecommerce-platform",
     title: "SAP Hybris e-commerce platform",
-    visual: "integration",
+    visual: "shop",
     industry: "E-commerce",
     summary: "OCC web services, Solr search, promotions and integrations for a furniture and home decor retailer.",
     context: "Furniture and home decor retailer in Germany.",
@@ -53,7 +54,7 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "product-information-platform",
     title: "Product information platform",
-    visual: "data",
+    visual: "pim",
     industry: "Product information (PIM)",
     summary: "Centralized product information, integrations and enterprise workflows.",
     context: "TODO(owner): industry and scale, e.g. SKUs / channels / countries",
@@ -85,6 +86,140 @@ export const caseStudies: CaseStudy[] = [
 export function getCaseStudy(slug: string): CaseStudy | undefined {
   return caseStudies.find((study) => study.slug === slug);
 }
+
+/** What kind of work a project is: delivered for a client, our own product, or AI work. */
+export type ProjectKind = "client" | "product" | "ai";
+/** Drives the frame colour and the badge: violet / green / cyan. */
+export type ProjectStatus = "nda" | "open-source" | "in-development";
+
+/** One tile of the portfolio (home: the `featured` ones; /work: all of them, in this order). */
+export interface Project {
+  slug: string;
+  title: string;
+  /** Eyebrow under the title, e.g. "AI · Agents". */
+  category: string;
+  /** One or two lines, up to about 110 characters. */
+  summary: string;
+  kind: ProjectKind;
+  status: ProjectStatus;
+  visual: ProjectVisual;
+  /** Internal path ("/work/<case>"), an absolute URL, or `TODO(owner)` until the link is known. */
+  href: string;
+  isExternal: boolean;
+  stack: string[];
+  /** Shown on the home page. The order of the list is the order on the page. */
+  featured?: boolean;
+}
+
+const [hybris, pim, logistics] = caseStudies;
+
+/**
+ * The portfolio, in display order. The three client projects take their text from the case studies above, so
+ * a case and its tile never say different things. Everything marked `TODO(owner)` is a draft or a missing
+ * link: a tile without a real link is shown without a way through, only with its status.
+ */
+export const projects: Project[] = [
+  {
+    slug: hybris.slug,
+    title: hybris.title,
+    category: hybris.industry,
+    summary: hybris.summary,
+    kind: "client",
+    status: "nda",
+    visual: "shop",
+    href: `/work/${hybris.slug}`,
+    isExternal: false,
+    stack: hybris.stack,
+    featured: true,
+  },
+  {
+    slug: pim.slug,
+    title: pim.title,
+    category: pim.industry,
+    summary: pim.summary,
+    kind: "client",
+    status: "nda",
+    visual: "pim",
+    href: `/work/${pim.slug}`,
+    isExternal: false,
+    stack: pim.stack,
+  },
+  {
+    slug: logistics.slug,
+    title: logistics.title,
+    category: logistics.industry,
+    summary: logistics.summary,
+    kind: "client",
+    status: "nda",
+    visual: "logistics",
+    href: `/work/${logistics.slug}`,
+    isExternal: false,
+    stack: logistics.stack,
+  },
+  {
+    slug: "compass-ai",
+    title: "Compass AI",
+    category: "Own product · Management",
+    summary: "Management platform for IT service companies: a weekly ScoreCard across six business modules.",
+    kind: "product",
+    status: "in-development",
+    visual: "scorecard",
+    href: "TODO(owner): Compass AI product URL",
+    isExternal: true,
+    stack: ["Java", "Spring Modulith", "Next.js"],
+    featured: true,
+  },
+  {
+    slug: "secure-rag",
+    title: "Secure RAG",
+    category: "AI · Retrieval",
+    summary: "Enterprise retrieval-augmented generation in Java, with access control in front of the model.",
+    kind: "ai",
+    status: "open-source",
+    visual: "rag",
+    href: "https://github.com/AlexGorbatov/secure-rag-java",
+    isExternal: true,
+    stack: ["Java", "RAG", "GitHub"],
+    featured: true,
+  },
+  {
+    slug: "ai-business-workflow-agent",
+    title: "AI Business Workflow Agent",
+    category: "AI · Agents",
+    summary: "An agent that runs a business workflow across systems, with a human approval step.",
+    kind: "ai",
+    status: "in-development",
+    visual: "agent",
+    href: "TODO(owner): AI Business Workflow Agent repository URL",
+    isExternal: true,
+    stack: ["Java", "Agents", "Workflows"],
+    featured: true,
+  },
+  {
+    slug: "ai-document-processing",
+    title: "AI Document Processing",
+    category: "AI · Documents",
+    summary: "Turns incoming documents into structured, checked data that downstream systems can use.",
+    kind: "ai",
+    status: "in-development",
+    visual: "documents",
+    href: "TODO(owner): AI Document Processing repository URL",
+    isExternal: true,
+    stack: ["Java", "Extraction", "Validation"],
+  },
+  {
+    slug: "llm-gateway",
+    title: "LLM Gateway",
+    category: "AI · Infrastructure",
+    summary: "One entry point to several language models, with routing, limits and an audit trail.",
+    kind: "ai",
+    status: "in-development",
+    visual: "gateway",
+    href: "TODO(owner): LLM Gateway repository URL",
+    isExternal: true,
+    stack: ["Java", "Routing", "Audit"],
+  },
+];
 
 export interface LabsProject {
   title: string;

@@ -46,6 +46,7 @@ export function buildLlmsTxt(locale: Locale): string {
   lines.push(`## ${llms.keyPages}`);
   for (const service of services) lines.push(`- ${service.title}: ${at(`/services/${service.id}`)}`);
   lines.push(`- ${sapCommerce.h1}: ${at(sapCommerce.path)}`);
+  lines.push(`- ${llms.projects}: ${at("/work")}`);
   lines.push(`- ${llms.privacy}: ${at("/privacy")}`, "");
 
   return lines.join("\n");

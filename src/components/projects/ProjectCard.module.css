@@ -1,0 +1,223 @@
+/*
+ * A project card. The frame is a 1px conic-gradient border whose angle turns slowly (--a, registered in
+ * globals.css); its colour (--c) comes from the project's status. The corner marks around it close in on hover.
+ * The spin runs only while the card is on screen (--ps, see ActiveWhenVisible) and is removed by the global
+ * Pause motion and prefers-reduced-motion rules.
+ */
+.frame {
+  --c: var(--cyan);
+  position: relative;
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 1px;
+  border-radius: 17px;
+  background: conic-gradient(from var(--a), rgba(255, 255, 255, 0.16) 0 50%, var(--c) 78%, rgba(255, 255, 255, 0.16) 100%);
+  animation: spin 7s linear infinite;
+  animation-play-state: var(--ps, paused);
+  transition:
+    transform 0.35s var(--ease-out),
+    box-shadow 0.35s;
+}
+@keyframes spin {
+  to {
+    --a: 395deg;
+  }
+}
+
+.nda {
+  --c: var(--violet);
+}
+.openSource {
+  --c: var(--success);
+}
+.inDevelopment {
+  --c: var(--cyan);
+}
+
+/* Corner marks: eight short lines, two per corner. */
+.frame::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  pointer-events: none;
+  border-radius: 20px;
+  opacity: 0.5;
+  transition:
+    inset 0.35s,
+    opacity 0.35s;
+  background:
+    linear-gradient(var(--c), var(--c)) 0 0 / 14px 1.5px no-repeat,
+    linear-gradient(var(--c), var(--c)) 0 0 / 1.5px 14px no-repeat,
+    linear-gradient(var(--c), var(--c)) 100% 0 / 14px 1.5px no-repeat,
+    linear-gradient(var(--c), var(--c)) 100% 0 / 1.5px 14px no-repeat,
+    linear-gradient(var(--c), var(--c)) 0 100% / 14px 1.5px no-repeat,
+    linear-gradient(var(--c), var(--c)) 0 100% / 1.5px 14px no-repeat,
+    linear-gradient(var(--c), var(--c)) 100% 100% / 14px 1.5px no-repeat,
+    linear-gradient(var(--c), var(--c)) 100% 100% / 1.5px 14px no-repeat;
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #0a1326;
+}
+
+/* The picture: a fixed height, so every card in a row is the same size. */
+.large {
+  --h: 230px;
+}
+.standard {
+  --h: 200px;
+}
+@media (min-width: 640px) {
+  .large {
+    --h: 320px;
+  }
+  .standard {
+    --h: 290px;
+  }
+}
+.img {
+  position: relative;
+  flex: none;
+  height: var(--h);
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background: radial-gradient(ellipse at 50% 45%, #10203f, #0a1224);
+}
+.scene {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s var(--ease-out);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 24px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in srgb, var(--c) 40%, transparent);
+  border-radius: 999px;
+  background: rgba(7, 16, 31, 0.7);
+  white-space: nowrap;
+}
+.badge i {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.nda .badge {
+  color: var(--violet-soft);
+}
+.openSource .badge {
+  color: var(--success);
+}
+.inDevelopment .badge {
+  color: var(--label);
+}
+
+/* The round arrow button. */
+.go {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  color: #fff;
+  transition:
+    background 0.3s,
+    border-color 0.3s,
+    color 0.3s;
+}
+.go svg {
+  transform: rotate(var(--r, 0deg));
+  transition: transform 0.3s;
+}
+.external .go {
+  --r: -45deg;
+}
+
+/* The whole card is one link: this layer covers it. */
+.stretch {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  border-radius: 16px;
+}
+.stretch:focus-visible {
+  border-radius: 16px;
+  outline-offset: 4px;
+}
+
+/* Hover and keyboard focus look the same. */
+.link:hover,
+.link:has(.stretch:focus-visible) {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px -22px var(--c);
+}
+.link:hover::before,
+.link:has(.stretch:focus-visible)::before {
+  inset: -5px;
+  opacity: 1;
+}
+.link:hover .scene,
+.link:has(.stretch:focus-visible) .scene {
+  transform: scale(1.05);
+}
+.link:hover .go,
+.link:has(.stretch:focus-visible) .go {
+  border-color: var(--c);
+  background: var(--c);
+  color: #07101f;
+}
+.link:hover .go svg,
+.link:has(.stretch:focus-visible) .go svg {
+  --r: -45deg;
+}
+
+/* One line, cut with an ellipsis. Not `truncate`: the global `text-wrap: balance` on headings would let it wrap. */
+.title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}
+
+/*
+ * List layout (/work?view=list, from 640px up): a row with a picture on the left. The status badge moves from the
+ * picture into the caption. Below 640px a list would be the same single column, so the tiles stay.
+ */
+.inline {
+  display: none;
+}
+@media (min-width: 640px) {
+  :global([data-view="list"]) .inner {
+    flex-direction: row;
+  }
+  :global([data-view="list"]) .img {
+    width: 300px;
+    height: 176px;
+    border-right: 1px solid rgba(255, 255, 255, 0.07);
+    border-bottom: 0;
+  }
+  :global([data-view="list"]) .cap {
+    min-height: 0;
+    align-items: center;
+  }
+  :global([data-view="list"]) .onImage {
+    display: none;
+  }
+  :global([data-view="list"]) .inline {
+    display: inline-flex;
+  }
+}

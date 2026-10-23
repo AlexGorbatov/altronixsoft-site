@@ -55,21 +55,22 @@ const SAME_EVERYWHERE = new Set([
   "Java", "Spring", "Azure", "AWS", "PostgreSQL", "Docker", "Kubernetes", "Enterprise APIs", "SAP Commerce Cloud",
   "SAP Commerce Cloud (Hybris)", "Altronix Labs", "RAG", "PIM", "API", "APIs", "Repository", "Stack", "Team",
   "ERP · PIM", "Cloud", "Proof of Value", "Data Hub", "CI/CD", "OCC", "Solr", "Spartacus", "SAP Hybris 2011", "Java 11",
-  "Migration", "Hybris",
+  "Migration", "Hybris", "Compass AI", "Secure RAG", "LLM Gateway",
   // Loanwords and terms that are the same in German as in English.
   "Workflow", "Problem", "(optional)", "Support", "Compliance",
 ]);
 /** Keys that hold identifiers, links or numbers rather than words. */
 const NOT_TEXT_KEYS = new Set([
   "id", "slug", "number", "type", "icon", "visual", "value", "href", "path", "demoUrl", "repoUrl", "screenshot",
-  "tag", "stack", "relevant", "technologies", "showLabs", "name", "kind",
+  "tag", "stack", "relevant", "technologies", "showLabs", "name", "kind", "status", "featured",
 ]);
 
 function untranslated(english: unknown, translated: unknown, trail: string[] = []): string[] {
   if (typeof english === "string") {
     if (translated !== english) return [];
     const key = trail[trail.length - 1];
-    if (NOT_TEXT_KEYS.has(key) || /TODO\(owner\)/.test(english) || !/\p{L}/u.test(english)) return [];
+    // A technology list ("stack") is a list of names, not words to translate.
+    if (NOT_TEXT_KEYS.has(key) || trail.includes("stack") || /TODO\(owner\)/.test(english) || !/\p{L}/u.test(english)) return [];
     if (SAME_EVERYWHERE.has(english) || /^(https?:|\/|[\w.-]+@[\w.-]+)/.test(english)) return [];
     return [`${trail.join(".")}: "${english}"`];
   }
@@ -94,6 +95,9 @@ describe.each(locales.filter((code): code is Exclude<Locale, "en"> => code !== "
     const other = contentFor(locale);
     expect(other.services.map((s) => s.id)).toEqual(en.services.map((s) => s.id));
     expect(other.caseStudies.map((c) => c.slug)).toEqual(en.caseStudies.map((c) => c.slug));
+    expect(other.projects.map((p) => [p.slug, p.kind, p.status, p.href, p.visual, p.isExternal, p.featured])).toEqual(
+      en.projects.map((p) => [p.slug, p.kind, p.status, p.href, p.visual, p.isExternal, p.featured]),
+    );
     expect(other.navigation.map((n) => n.href)).toEqual(en.navigation.map((n) => n.href));
     expect(other.requestTypes.map((r) => r.value)).toEqual(en.requestTypes.map((r) => r.value));
     expect(other.sapCommerce.path).toBe(en.sapCommerce.path);

@@ -22,3 +22,74 @@ export function routePath(sc: number, ox: number, oy: number, route: readonly Po
     })
     .join(" ");
 }
+
+export type Polygon = readonly Point[];
+export type Projector = (x: number, y: number, z?: number) => Point;
+
+/** `project` with the scale and origin of one scene fixed. */
+export function projector(sc: number, ox: number, oy: number): Projector {
+  return (x, y, z = 0) => project(sc, ox, oy, x, y, z);
+}
+
+/** The three visible faces of a box standing on `z`, as polygons. */
+export function boxFaces(P: Projector, x: number, y: number, z: number, w: number, d: number, h: number) {
+  return {
+    top: [P(x, y, z + h), P(x + w, y, z + h), P(x + w, y + d, z + h), P(x, y + d, z + h)] as Polygon,
+    left: [P(x, y + d, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z), P(x, y + d, z)] as Polygon,
+    right: [P(x + w, y, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z), P(x + w, y, z)] as Polygon,
+  };
+}
+
+/** A gabled roof (ridge along x) on top of a box of height `h`; `rh` is the ridge height. */
+export function roofFaces(P: Projector, x: number, y: number, z: number, w: number, d: number, h: number, rh: number) {
+  const mid = y + d / 2;
+  return {
+    back: [P(x, y, z + h), P(x + w, y, z + h), P(x + w, mid, z + h + rh), P(x, mid, z + h + rh)] as Polygon,
+    front: [P(x, y + d, z + h), P(x + w, y + d, z + h), P(x + w, mid, z + h + rh), P(x, mid, z + h + rh)] as Polygon,
+    gable: [P(x + w, y, z + h), P(x + w, y + d, z + h), P(x + w, mid, z + h + rh)] as Polygon,
+  };
+}
+
+/** One flat quad per straight segment of an axis-aligned route, `wd` wide, lying just above the floor. */
+export function roadQuads(P: Projector, route: readonly Point[], wd = 0.8): Polygon[] {
+  const half = wd / 2;
+  return route.slice(1).map(([x1, y1], i) => {
+    const [x0, y0] = route[i];
+    const quad: Point[] =
+      x0 === x1
+        ? [
+            [x0 - half, Math.min(y0, y1) - half],
+            [x0 + half, Math.min(y0, y1) - half],
+            [x0 + half, Math.max(y0, y1) + half],
+            [x0 - half, Math.max(y0, y1) + half],
+          ]
+        : [
+            [Math.min(x0, x1) - half, y0 - half],
+            [Math.max(x0, x1) + half, y0 - half],
+            [Math.max(x0, x1) + half, y0 + half],
+            [Math.min(x0, x1) - half, y0 + half],
+          ];
+    return quad.map(([a, b]) => P(a, b, 0.02));
+  });
+}
+
+/** A vertical sheet standing on the plane x = `x`, between y0..y1 and z0..z1. */
+export function planeQuad(P: Projector, x: number, y0: number, y1: number, z0: number, z1: number): Polygon {
+  return [P(x, y0, z0), P(x, y1, z0), P(x, y1, z1), P(x, y0, z1)];
+}
+
+/** A small box in a vehicle's own pixel space (origin at the vehicle, not on the grid). */
+export function cuboid(w: number, d: number, h: number, sc: number, ox = 0, oy = 0) {
+  const ex = [0.866 * sc, 0.5 * sc];
+  const ey = [-0.866 * sc, 0.5 * sc];
+  const ez = [0, -sc];
+  const v = (a: number, b: number, c: number): Point => [
+    ox + a * ex[0] + b * ey[0] + c * ez[0],
+    oy + a * ex[1] + b * ey[1] + c * ez[1],
+  ];
+  return {
+    top: [v(0, 0, h), v(w, 0, h), v(w, d, h), v(0, d, h)] as Polygon,
+    left: [v(0, d, h), v(w, d, h), v(w, d, 0), v(0, d, 0)] as Polygon,
+    right: [v(w, 0, h), v(w, d, h), v(w, d, 0), v(w, 0, 0)] as Polygon,
+  };
+}

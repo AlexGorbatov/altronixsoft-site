@@ -105,6 +105,7 @@ export const copy = {
     email: "Email",
     contactForm: "Contact form",
     keyPages: "Key pages",
+    projects: "Projects",
     privacy: "Privacy policy",
   },
   notFound: {
@@ -128,21 +129,45 @@ export const copy = {
     },
   },
   work: {
-    eyebrow: "Selected work",
-    title: "Client projects.",
-    description: "Client names are confidential.",
-    rowLabel: "Case studies",
     stackLabel: "Stack",
     stackAria: "Technology stack",
-    readCase: "Read the case study",
     industryLabel: "Industry",
     contextLabel: "Context",
     roleLabel: "Role",
-    focusLabel: "Focus",
     teamLabel: "Team",
     durationLabel: "Duration",
-    resultLabel: "Result",
     diagramNote: "Simplified, animated diagram. Systems and names are generalised to protect client confidentiality.",
+  },
+  /** The portfolio: the "Selected projects" section on the home page and the /work page. */
+  portfolio: {
+    home: {
+      eyebrow: "Selected work",
+      title: "Selected projects.",
+      description: "Four of eight. Client systems under NDA, our own products and AI projects. Each one opens.",
+      viewAll: "View all projects",
+      listLabel: "Selected projects",
+    },
+    page: {
+      eyebrow: "Works",
+      title: "Our portfolio.",
+      description: "Client systems under NDA, our own products and open-source AI work. Statuses are shown on each project.",
+      metaTitle: "Our portfolio",
+      metaDescription:
+        "Client systems under NDA, our own products and open-source AI work, each with its status. Client names are confidential.",
+      filterLabel: "Filter projects by type",
+      view: { label: "Layout", tiles: "Tiles", list: "List" },
+      listLabel: "All projects",
+    },
+    filters: { all: "All", client: "Client work", ai: "AI", product: "Products" },
+    status: { nda: "Client · NDA", "open-source": "Open source", "in-development": "In development" },
+    /** aria-label of a project link; {title} is replaced by the project's name. */
+    openProject: "Open project: {title}",
+    next: {
+      label: "Next",
+      title: "Your project could be next.",
+      text: "Describe the system and the problem. Start with a free 30-minute architecture check-up.",
+      link: "Send message",
+    },
   },
   engagement: {
     eyebrow: "Engagement",

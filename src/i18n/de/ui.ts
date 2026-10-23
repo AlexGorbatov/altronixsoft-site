@@ -94,6 +94,7 @@ export const copy: Part<"copy"> = {
     email: "E-Mail",
     contactForm: "Kontaktformular",
     keyPages: "Wichtige Seiten",
+    projects: "Projekte",
     privacy: "Datenschutzerklärung",
   },
   notFound: {
@@ -117,22 +118,46 @@ export const copy: Part<"copy"> = {
     },
   },
   work: {
-    eyebrow: "Ausgewählte Projekte",
-    title: "Kundenprojekte.",
-    description: "Kundennamen sind vertraulich.",
-    rowLabel: "Fallstudien",
     stackLabel: "Stack",
     stackAria: "Technologie-Stack",
-    readCase: "Fallstudie lesen",
     industryLabel: "Branche",
     contextLabel: "Kontext",
     roleLabel: "Rolle",
-    focusLabel: "Schwerpunkt",
     teamLabel: "Team",
     durationLabel: "Dauer",
-    resultLabel: "Ergebnis",
     diagramNote:
       "Vereinfachtes, animiertes Diagramm. Systeme und Namen sind verallgemeinert, um die Vertraulichkeit der Kunden zu wahren.",
+  },
+  portfolio: {
+    home: {
+      eyebrow: "Ausgewählte Arbeiten",
+      title: "Ausgewählte Projekte.",
+      description:
+        "Vier von acht. Kundensysteme unter NDA, eigene Produkte und KI-Projekte. Jedes lässt sich öffnen.",
+      viewAll: "Alle Projekte ansehen",
+      listLabel: "Ausgewählte Projekte",
+    },
+    page: {
+      eyebrow: "Arbeiten",
+      title: "Unser Portfolio.",
+      description:
+        "Kundensysteme unter NDA, eigene Produkte und Open-Source-KI-Arbeit. Der Status steht bei jedem Projekt.",
+      metaTitle: "Unser Portfolio",
+      metaDescription:
+        "Kundensysteme unter NDA, eigene Produkte und Open-Source-KI-Arbeit, jeweils mit Status. Kundennamen sind vertraulich.",
+      filterLabel: "Projekte nach Art filtern",
+      view: { label: "Darstellung", tiles: "Kacheln", list: "Liste" },
+      listLabel: "Alle Projekte",
+    },
+    filters: { all: "Alle", client: "Kundenprojekte", ai: "KI", product: "Produkte" },
+    status: { nda: "Kunde · NDA", "open-source": "Open Source", "in-development": "In Entwicklung" },
+    openProject: "Projekt öffnen: {title}",
+    next: {
+      label: "Als Nächstes",
+      title: "Ihr Projekt könnte das nächste sein.",
+      text: "Beschreiben Sie das System und das Problem. Starten Sie mit einem kostenlosen 30-Minuten-Architektur-Check-up.",
+      link: "Nachricht senden",
+    },
   },
   engagement: {
     eyebrow: "Zusammenarbeit",

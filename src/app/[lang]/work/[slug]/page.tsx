@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ProjectVisual } from "@/components/home/ProjectVisual";
 import { PageShell } from "@/components/layout/PageShell";
+import { ScenePanel } from "@/components/projects/ProjectScene";
 import { Button } from "@/components/ui/Button";
 import { Tag } from "@/components/ui/Tag";
 import type { CaseStudy } from "@/data/projects";
@@ -95,14 +95,14 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
   return (
     <PageShell>
       <article className="mx-auto max-w-[820px]">
-        <Link href={localizedPath(lang, "/#work")} className="link-quiet">
+        <Link href={localizedPath(lang, "/work")} className="link-quiet">
           <span aria-hidden="true">←</span> {copy.casePage.back}
         </Link>
         <div className="eyebrow mt-4">{study.industry}</div>
         <h1 className="mt-3 text-[36px] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[52px]">{study.title}</h1>
         <p className="mt-5 text-[17px] leading-[1.75] text-muted">{study.summary}</p>
 
-        <ProjectVisual variant={study.visual} size="featured" className="mt-8" />
+        <ScenePanel variant={study.visual} className="mt-8" />
 
         <Facts study={study} copy={copy} />
 
