@@ -55,16 +55,16 @@ const SAME_EVERYWHERE = new Set([
   "Java", "Spring", "Azure", "AWS", "PostgreSQL", "Docker", "Kubernetes", "Enterprise APIs", "SAP Commerce Cloud",
   "SAP Commerce Cloud (Hybris)", "Altronix Labs", "RAG", "PIM", "API", "APIs", "Repository", "Stack", "Team",
   "ERP · PIM", "Cloud", "Proof of Value", "Data Hub", "CI/CD", "OCC", "Solr", "Spartacus", "SAP Hybris 2011", "Java 11",
-  "Migration", "Hybris", "Compass AI", "Secure RAG", "LLM Gateway",
+  "Migration", "Hybris", "Nexus", "Secure RAG", "LLM Gateway",
   // Names on the architecture pictures that are the same in every language.
   "SAP Hybris", "OCC API", "Spring Modulith", "Next.js", "Workflows", "PIM · Workflows", "Agent", "System",
-  "Retrieval", "Clients", "Gateway · Routing · Limits", "Blockchain & Web3",
+  "Retrieval", "Cardano", "Midnight", "Bitcoin", "Yaci · Koios · Blockfrost", "REST · WebSocket · MCP", "OpenAPI 3.1", "Clients", "Gateway · Routing · Limits", "Blockchain & Web3",
   // Loanwords and terms that are the same in German as in English.
-  "Workflow", "Problem", "(optional)", "Support", "Compliance",
+  "Workflow", "Website", "Problem", "(optional)", "Support", "Compliance",
 ]);
 /** Keys that hold identifiers, links or numbers rather than words. */
 const NOT_TEXT_KEYS = new Set([
-  "id", "slug", "number", "type", "icon", "visual", "value", "href", "path", "demoUrl", "repoUrl", "screenshot",
+  "id", "slug", "number", "type", "icon", "visual", "value", "href", "path", "demoUrl", "repoUrl", "liveUrl", "screenshot",
   "tag", "stack", "relevant", "technologies", "showLabs", "name", "kind", "status", "featured",
 ]);
 

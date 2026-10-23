@@ -125,6 +125,7 @@ export const copy: Part<"copy"> = {
     roleLabel: "Rolle",
     teamLabel: "Team",
     durationLabel: "Dauer",
+    websiteLabel: "Website",
     diagramNote:
       "Die Diagramme sind vereinfacht und animiert. Bei Kundenprojekten sind Systeme und Namen verallgemeinert, um die Vertraulichkeit zu wahren.",
   },
@@ -163,7 +164,7 @@ export const copy: Part<"copy"> = {
       },
       pim: { sources: "Datenquellen", hub: "PIM · Workflows", apis: "Enterprise APIs", integrations: "Integrationen" },
       logistics: { backend: "Backend-Systeme", api: "API", workflows: "Workflows", operations: "Betrieb", cloud: "Cloud" },
-      scorecard: { modulith: "Spring Modulith", nextjs: "Next.js", weekly: "Wöchentliche ScoreCard" },
+      chain: { cardano: "Cardano", midnight: "Midnight", bitcoin: "Bitcoin", providers: "Yaci · Koios · Blockfrost", api: "Nexus API · Failover", clients: "REST · WebSocket · MCP" },
       rag: { documents: "Dokumente", retrieval: "Retrieval", access: "Zugriffskontrolle", model: "Modell", response: "Antwort" },
       agent: { agent: "Agent", system: "System", approval: "Menschliche Freigabe" },
       documents: {
@@ -215,6 +216,8 @@ export const copy: Part<"copy"> = {
     challenge: "Herausforderung",
     whatWeDid: "Was wir getan haben",
     result: "Ergebnis",
+    architecture: "Architektur",
+    visit: "{site} besuchen",
     similarTitle: "Arbeiten Sie an etwas Ähnlichem?",
     similarText:
       "Erzählen Sie uns, um welches System es geht und was sich ändern muss. Wir beginnen mit einem kurzen Technischen Review.",

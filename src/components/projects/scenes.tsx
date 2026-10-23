@@ -99,33 +99,34 @@ function logistics(t: SceneLabels["logistics"], accent: Accent) {
   return s.render();
 }
 
-/** 04 Compass AI: a Next.js layer over a Spring Modulith plate of six modules, and a weekly ScoreCard loop. */
-function scorecard(t: SceneLabels["scorecard"], accent: Accent) {
-  const s = makeScene("scorecard", 20, 156, 50, accent);
+/**
+ * 04 Nexus: three chains → the upstream providers → the Nexus API (failover, cache) → REST, WebSocket and MCP.
+ * Every block stands on whole grid cells and every beam runs along the grid; the names sit on free sides.
+ */
+function chain(t: SceneLabels["chain"], accent: Accent) {
+  const s = makeScene("chain", 20, 156, 50, accent);
   const A = s.accent;
-  s.floor(-1, -1, 11, 7);
-  s.box(0.4, 0.2, 0, 9.4, 5.6, 0.3, GLASS.plate, { depth: 0, anim: "none", alpha: 0.9 });
-  const towers: [number, number, number, Glass][] = [
-    [1.4, 0.9, 1.3, A.glass],
-    [4.2, 0.9, 2.0, GLASS.blue],
-    [7, 0.9, 1.7, GLASS.ice],
-    [1.4, 3.6, 2.2, GLASS.blue],
-    [4.2, 3.6, 1.6, A.glass],
-    [7, 3.6, 1.4, GLASS.ice],
-  ];
-  towers.forEach(([x, y, h, face], i) =>
-    s.box(x, y, 0.3, 1.6, 1.6, h, face, { depth: x + y + 1, anim: "grow", dur: 3.4 + i * 0.35, delay: i * 0.45, core: i === 1 }),
-  );
-  s.ellipse(5.1, 3.1, 0.31, 92, A.line);
-  s.beam([[0.8, 0.4], [9.4, 0.4], [9.4, 5.6], [0.8, 5.6], [0.8, 0.4]], { tone: "ice", dur: 9, orbs: 2, r: 5 });
-  // The front layer: a glass screen floating above the modules.
-  s.box(1.0, 0.5, 3.9, 8.4, 5.0, 0.1, GLASS.ice, { depth: 40, dur: 5, alpha: 0.55 });
-  // The modules are only numbered: the data names none of them.
-  towers.forEach(([x, y, h], i) => s.label(x + 0.8, y + 0.8, 0.3 + h, `0${i + 1}`, 0, -22 - (i % 2) * 6, i % 3 === 2));
-  s.label(5.1, 5.7, 0.3, t.modulith, -6, 26);
-  s.label(9.4, 0.5, 4.0, t.nextjs, 20, -14);
-  s.label(9.4, 3.0, 0.3, t.weekly, 36, 14, true);
-  s.motes(14, 3);
+  // Centred under the blocks: halfway between the chains and the clients.
+  s.floor(-1, -8, 12, 5);
+  // Cardano, Midnight and Bitcoin flow into the providers along the grid, then one line runs to the clients.
+  s.beam([[0.5, 0.5], [4, 0.5], [4, 1]], { dur: 2.6, orbs: 1, r: 4 });
+  s.beam([[2.5, 2.5], [4, 2.5], [4, 1]], { dur: 2.6, orbs: 1, delay: 0.6, r: 4 });
+  s.beam([[4.5, 4.5], [4.5, 1]], { dur: 2.6, orbs: 1, delay: 1.2, r: 4 });
+  s.beam([[4, 1], [7, 1], [7, -2]], { tone: "ice", dur: 2, orbs: 1, r: 4.5 });
+  s.beam([[7, -2], [9.5, -2], [9.5, -4.5]], { dur: 2, orbs: 2, delay: 0.6, r: 4.5 });
+  const chains: [number, Glass][] = [[0, GLASS.blue], [2, A.glass], [4, GLASS.ice]];
+  chains.forEach(([c, face], i) => s.box(c, c, 0, 1, 1, 0.8, face, { depth: c, anim: "grow", dur: 3.4 + i * 0.4, delay: i * 0.5, core: true }));
+  // The upstream providers: two slabs, the amber one in reserve.
+  s.box(3, 0, 0, 2, 2, 0.3, GLASS.ice, { depth: 3, dur: 3.6, alpha: 0.9 });
+  s.box(3, 0, 0.5, 2, 2, 0.3, GLASS.amber, { depth: 3.1, dur: 3.6, delay: 0.3, alpha: 0.9 });
+  s.box(6, -3, 0, 2, 2, 1.4, GLASS.blue, { depth: 5, dur: 3.8, core: true });
+  s.ellipse(7, -2, 0, 52, "#5aa6ff");
+  s.box(9, -5, 0, 1, 1, 1, A.glass, { depth: 7, dur: 3.2, core: true });
+  chains.forEach(([c], i) => s.label(c, c + 1, 0.4, [t.cardano, t.midnight, t.bitcoin][i], -52, 0));
+  s.label(5, 2, 0, t.providers, 40, 42);
+  s.label(7, -2, 1.4, t.api, 0, -36, true);
+  s.label(10, -4, 0, t.clients, 30, 42);
+  s.motes(12, 2);
   return s.render();
 }
 
@@ -256,8 +257,8 @@ export function buildScene(variant: ProjectVisual, labels: SceneLabels, accent: 
       return pim(labels.pim, accent);
     case "logistics":
       return logistics(labels.logistics, accent);
-    case "scorecard":
-      return scorecard(labels.scorecard, accent);
+    case "chain":
+      return chain(labels.chain, accent);
     case "rag":
       return rag(labels.rag, accent);
     case "agent":
@@ -287,9 +288,9 @@ export function sceneChain(variant: ProjectVisual, labels: SceneLabels): string[
       const t = labels.logistics;
       return [t.api, t.backend, t.workflows, t.operations];
     }
-    case "scorecard": {
-      const t = labels.scorecard;
-      return [t.modulith, t.nextjs, t.weekly];
+    case "chain": {
+      const t = labels.chain;
+      return [`${t.cardano} · ${t.midnight} · ${t.bitcoin}`, t.providers, t.api, t.clients];
     }
     case "rag": {
       const t = labels.rag;

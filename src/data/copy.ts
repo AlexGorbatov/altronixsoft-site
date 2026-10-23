@@ -136,6 +136,7 @@ export const copy = {
     roleLabel: "Role",
     teamLabel: "Team",
     durationLabel: "Duration",
+    websiteLabel: "Website",
     diagramNote: "Diagrams are simplified and animated. For client projects, systems and names are generalized to protect confidentiality.",
   },
   /** The portfolio: the "Selected projects" section on the home page and the /work page. */
@@ -175,7 +176,7 @@ export const copy = {
       },
       pim: { sources: "Data sources", hub: "PIM · Workflows", apis: "Enterprise APIs", integrations: "Integrations" },
       logistics: { backend: "Backend systems", api: "API", workflows: "Workflows", operations: "Operations", cloud: "Cloud" },
-      scorecard: { modulith: "Spring Modulith", nextjs: "Next.js", weekly: "Weekly ScoreCard" },
+      chain: { cardano: "Cardano", midnight: "Midnight", bitcoin: "Bitcoin", providers: "Yaci · Koios · Blockfrost", api: "Nexus API · failover", clients: "REST · WebSocket · MCP" },
       rag: { documents: "Documents", retrieval: "Retrieval", access: "Access control", model: "Model", response: "Response" },
       agent: { agent: "Agent", system: "System", approval: "Human approval" },
       documents: {
@@ -228,6 +229,9 @@ export const copy = {
     challenge: "Challenge",
     whatWeDid: "What we did",
     result: "Result",
+    architecture: "Architecture",
+    /** The button to the live product; {site} is its domain. */
+    visit: "Visit {site}",
     similarTitle: "Working on something similar?",
     similarText: "Tell us about the system and what has to change. We start with a short technical review.",
     more: "More work",

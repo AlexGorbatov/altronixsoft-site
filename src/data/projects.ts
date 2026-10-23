@@ -1,5 +1,5 @@
 /** The isometric scene drawn for a project (see `ProjectScene`). */
-export type ProjectVisual = "shop" | "pim" | "logistics" | "scorecard" | "rag" | "agent" | "documents" | "gateway";
+export type ProjectVisual = "shop" | "pim" | "logistics" | "chain" | "rag" | "agent" | "documents" | "gateway";
 
 export interface CaseStudy {
   /** URL slug of /work/[slug]. */
@@ -25,6 +25,10 @@ export interface CaseStudy {
   role: string;
   /** What the engagement concentrated on. Known today, shown as highlights on the case page. */
   focus: string;
+  /** The layers of the system, from the user down to the data, as listed on the case page. */
+  architecture?: { title: string; text: string }[];
+  /** The public product, when there is one: linked from the case page. */
+  liveUrl?: string;
 }
 
 /**
@@ -81,6 +85,51 @@ export const caseStudies: CaseStudy[] = [
     role: "Backend engineering",
     focus: "Operational workflows and API design",
   },
+  {
+    slug: "nexus",
+    title: "Nexus",
+    visual: "chain",
+    industry: "Blockchain · Data API",
+    summary: "Managed multi-chain data and transaction API for Cardano, Midnight and Bitcoin, with provider failover and OpenAPI 3.1.",
+    context: "Blockchain infrastructure for wallets, dApps, exchanges and AI agents on Cardano, Bitcoin and Midnight.",
+    challenge:
+      "Give wallets, dApps and AI agents one dependable way into three different blockchains: chain data, market data and transactions behind one base URL and one API key, without depending on a single upstream provider and without ever holding a user's private keys.",
+    whatWeDid:
+      "We built one API surface over Cardano, Bitcoin and Midnight. Every request is served behind several upstreams, Yaci, Koios, Blockfrost and our own indexers: per-provider health checks pick a healthy one for each call, and hot data is served from cache. On top sit chain data in ten endpoint groups, market data across 11 Cardano DEXes, wallet analytics, best-price swap routing and server-side transaction building that returns unsigned CBOR, so keys never leave the client. The same data is pushed over WebSocket streaming and offered to AI agents through a hosted MCP server, and the whole surface is described by an OpenAPI 3.1 spec, with a typed TypeScript SDK generated from it.",
+    result:
+      "The client's own non-custodial wallet runs on the platform in production: its swap routing, market data and transaction building go through the same API that external developers use.",
+    stack: ["Cardano", "Bitcoin", "Midnight", "REST", "WebSocket", "MCP", "OpenAPI 3.1", "TypeScript SDK", "Kubernetes", "PostgreSQL"],
+    duration: "TODO(owner): duration, e.g. N months",
+    role: "",
+    focus: "Multi-provider failover, one API surface across three chains, and non-custodial transaction building",
+    architecture: [
+      {
+        title: "Clients",
+        text: "Wallets, dApps, exchanges and AI agents connect over REST, WebSocket streaming or the hosted MCP server, with the typed TypeScript SDK or any HTTP client.",
+      },
+      {
+        title: "One API surface",
+        text: "One base URL and one X-Api-Key header for every chain. Each key is scoped to one chain and one network, and an OpenAPI 3.1 spec with a live playground describes every endpoint.",
+      },
+      {
+        title: "Products",
+        text: "Chain data, market data across 11 Cardano DEXes, wallet analytics, best-price swap routing and server-side transaction building.",
+      },
+      {
+        title: "Routing and cache",
+        text: "Health checks per provider pick a healthy upstream for every call and route around a degraded one. Hot data is served from cache, and usage is counted per key.",
+      },
+      {
+        title: "Upstreams and chains",
+        text: "Yaci, Koios, Blockfrost and our own indexers, over Cardano, Bitcoin and Midnight.",
+      },
+      {
+        title: "Non-custodial by design",
+        text: "Transactions are built unsigned and signed on the client, so private keys never reach the platform.",
+      },
+    ],
+    liveUrl: "https://nexus.gerowallet.io/",
+  },
 ];
 
 export function getCaseStudy(slug: string): CaseStudy | undefined {
@@ -113,10 +162,10 @@ export interface Project {
   draft?: boolean;
 }
 
-const [hybris, pim, logistics] = caseStudies;
+const [hybris, pim, logistics, nexus] = caseStudies;
 
 /**
- * The portfolio, in display order. The three client projects take their text from the case studies above, so
+ * The portfolio, in display order. The four client projects take their text from the case studies above, so
  * a case and its tile never say different things. Everything marked `TODO(owner)` is a draft or a missing
  * link: a tile without a real link is shown without a way through, only with its status.
  */
@@ -159,18 +208,17 @@ export const projects: Project[] = [
     stack: logistics.stack,
   },
   {
-    slug: "compass-ai",
-    title: "Compass AI",
-    category: "Own product · Management",
-    summary: "Management platform for IT service companies: a weekly ScoreCard across six business modules.",
-    kind: "product",
-    status: "in-development",
-    visual: "scorecard",
-    href: "TODO(owner): Compass AI product URL",
-    isExternal: true,
-    stack: ["Java", "Spring Modulith", "Next.js"],
+    slug: nexus.slug,
+    title: nexus.title,
+    category: nexus.industry,
+    summary: nexus.summary,
+    kind: "client",
+    status: "nda",
+    visual: "chain",
+    href: `/work/${nexus.slug}`,
+    isExternal: false,
+    stack: nexus.stack,
     featured: true,
-    draft: true,
   },
   {
     slug: "secure-rag",

@@ -1,6 +1,6 @@
 import type { ProjectVisual } from "@/data/projects";
+import { FramedCard, type FrameAccent } from "@/components/ui/FramedCard";
 import { cn } from "@/lib/utils";
-import { ActiveWhenVisible } from "./ActiveWhenVisible";
 import styles from "./ProjectScene.module.css";
 import type { Accent } from "./sceneKit";
 import { buildScene, type SceneLabels } from "./scenes";
@@ -50,17 +50,18 @@ export function SceneBackdrop() {
   );
 }
 
-/** A scene on its own: the dark panel used on the case page. */
+const FRAME: Record<Accent, FrameAccent> = { violet: "violet", green: "green", cyan: "cyan" };
+
+/** A scene on its own: the panel on the case page, in the same frame of light as the project cards. */
 export function ScenePanel({ variant, labels, accent, className }: ProjectSceneProps) {
   return (
-    <ActiveWhenVisible
-      className={cn(
-        "relative isolate overflow-hidden rounded-xl border border-line bg-[radial-gradient(ellipse_at_50%_55%,#0f2147,#0a1430_55%,#070f22)]",
-        className,
-      )}
+    <FramedCard
+      accent={FRAME[accent]}
+      className={className}
+      innerClassName="isolate bg-[radial-gradient(ellipse_at_50%_55%,#0f2147,#0a1430_55%,#070f22)]"
     >
       <SceneBackdrop />
       <ProjectScene variant={variant} labels={labels} accent={accent} className="relative z-[1] aspect-[400/240] w-full" />
-    </ActiveWhenVisible>
+    </FramedCard>
   );
 }

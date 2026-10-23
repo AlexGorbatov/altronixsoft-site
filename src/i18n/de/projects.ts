@@ -20,6 +20,13 @@ const logistics = {
     "Backend-Systeme für Logistik-Workflows, APIs und den täglichen Betrieb.",
 };
 
+const nexus = {
+  title: "Nexus",
+  industry: "Blockchain · Daten-API",
+  summary:
+    "Verwaltete Multi-Chain-Daten- und Transaktions-API für Cardano, Midnight und Bitcoin, mit Provider-Failover und OpenAPI 3.1.",
+};
+
 /** Deutsch: Fallstudien, Labs und die SAP-Commerce-Seite. */
 export const caseStudies: Part<"caseStudies"> = [
   {
@@ -45,18 +52,52 @@ export const caseStudies: Part<"caseStudies"> = [
     role: "Backend-Entwicklung",
     focus: "Operative Workflows und API-Design",
   },
+  {
+    ...nexus,
+    context: "Blockchain-Infrastruktur für Wallets, dApps, Börsen und KI-Agenten auf Cardano, Bitcoin und Midnight.",
+    challenge:
+      "Wallets, dApps und KI-Agenten einen verlässlichen Zugang zu drei verschiedenen Blockchains geben: Chain-Daten, Marktdaten und Transaktionen hinter einer Basis-URL und einem API-Schlüssel, ohne Abhängigkeit von einem einzelnen Upstream-Provider und ohne jemals die privaten Schlüssel der Nutzer zu halten.",
+    whatWeDid:
+      "Wir haben eine API-Oberfläche über Cardano, Bitcoin und Midnight gebaut. Jede Anfrage läuft hinter mehreren Upstreams, Yaci, Koios, Blockfrost und eigenen Indexern: Health Checks pro Provider wählen für jeden Aufruf einen gesunden aus, und häufig abgefragte Daten kommen aus dem Cache. Darauf liegen Chain-Daten in zehn Endpunktgruppen, Marktdaten über 11 Cardano-DEXes, Wallet-Analysen, Swap-Routing zum besten Preis und serverseitiger Transaktionsaufbau, der unsigniertes CBOR zurückgibt, sodass die Schlüssel den Client nie verlassen. Dieselben Daten werden per WebSocket-Streaming gepusht und KI-Agenten über einen gehosteten MCP-Server angeboten; die gesamte Oberfläche ist durch eine OpenAPI-3.1-Spezifikation beschrieben, aus der ein typisiertes TypeScript-SDK generiert wird.",
+    result:
+      "Die eigene Non-Custodial-Wallet des Kunden läuft produktiv auf der Plattform: Swap-Routing, Marktdaten und Transaktionsaufbau laufen über dieselbe API, die auch externe Entwickler nutzen.",
+    duration: "TODO(owner): duration, e.g. N months",
+    focus: "Multi-Provider-Failover, eine API-Oberfläche über drei Chains und Transaktionsaufbau ohne Verwahrung von Schlüsseln",
+    architecture: [
+      {
+        title: "Clients",
+        text: "Wallets, dApps, Börsen und KI-Agenten verbinden sich über REST, WebSocket-Streaming oder den gehosteten MCP-Server, mit dem typisierten TypeScript-SDK oder jedem HTTP-Client.",
+      },
+      {
+        title: "Eine API-Oberfläche",
+        text: "Eine Basis-URL und ein X-Api-Key-Header für jede Chain. Jeder Schlüssel gilt für eine Chain und ein Netzwerk, und eine OpenAPI-3.1-Spezifikation mit Live-Playground beschreibt jeden Endpunkt.",
+      },
+      {
+        title: "Produkte",
+        text: "Chain-Daten, Marktdaten über 11 Cardano-DEXes, Wallet-Analysen, Swap-Routing zum besten Preis und serverseitiger Transaktionsaufbau.",
+      },
+      {
+        title: "Routing und Cache",
+        text: "Health Checks pro Provider wählen für jeden Aufruf einen gesunden Upstream und umgehen einen gestörten. Häufig abgefragte Daten kommen aus dem Cache, die Nutzung wird pro Schlüssel gezählt.",
+      },
+      {
+        title: "Upstreams und Chains",
+        text: "Yaci, Koios, Blockfrost und eigene Indexer, über Cardano, Bitcoin und Midnight.",
+      },
+      {
+        title: "Ohne Verwahrung von Schlüsseln",
+        text: "Transaktionen werden unsigniert aufgebaut und auf dem Client signiert, sodass private Schlüssel die Plattform nie erreichen.",
+      },
+    ],
+  },
 ];
 
-/** The portfolio tiles, in the order of the English source. Tiles 1–3 are the case studies above. */
+/** The portfolio tiles, in the order of the English source. Tiles 1–4 are the case studies above. */
 export const projects: Part<"projects"> = [
   { title: hybris.title, category: hybris.industry, summary: hybris.summary },
   { title: pim.title, category: pim.industry, summary: pim.summary },
   { title: logistics.title, category: logistics.industry, summary: logistics.summary },
-  {
-    title: "Compass AI",
-    category: "Eigenes Produkt · Management",
-    summary: "Management-Plattform für IT-Dienstleister: eine wöchentliche ScoreCard über sechs Geschäftsmodule.",
-  },
+  { title: nexus.title, category: nexus.industry, summary: nexus.summary },
   {
     title: "Secure RAG",
     category: "KI · Retrieval",

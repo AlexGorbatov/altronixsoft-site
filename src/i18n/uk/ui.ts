@@ -125,6 +125,7 @@ export const copy: Part<"copy"> = {
     roleLabel: "Роль",
     teamLabel: "Команда",
     durationLabel: "Тривалість",
+    websiteLabel: "Сайт",
     diagramNote: "Діаграми спрощені й анімовані. У клієнтських проєктах системи й назви узагальнено, щоб зберегти конфіденційність.",
   },
   portfolio: {
@@ -161,7 +162,7 @@ export const copy: Part<"copy"> = {
       },
       pim: { sources: "Джерела даних", hub: "PIM · Робочі процеси", apis: "Enterprise APIs", integrations: "Інтеграції" },
       logistics: { backend: "Бекенд-системи", api: "API", workflows: "Робочі процеси", operations: "Операції", cloud: "Cloud" },
-      scorecard: { modulith: "Spring Modulith", nextjs: "Next.js", weekly: "Щотижнева ScoreCard" },
+      chain: { cardano: "Cardano", midnight: "Midnight", bitcoin: "Bitcoin", providers: "Yaci · Koios · Blockfrost", api: "Nexus API · резервування", clients: "REST · WebSocket · MCP" },
       rag: { documents: "Документи", retrieval: "Пошук", access: "Контроль доступу", model: "Модель", response: "Відповідь" },
       agent: { agent: "Агент", system: "Система", approval: "Погодження людиною" },
       documents: {
@@ -213,6 +214,8 @@ export const copy: Part<"copy"> = {
     challenge: "Виклик",
     whatWeDid: "Що ми зробили",
     result: "Результат",
+    architecture: "Архітектура",
+    visit: "Перейти на {site}",
     similarTitle: "Працюєте над чимось подібним?",
     similarText:
       "Розкажіть про систему та про те, що потрібно змінити. Ми починаємо з короткого технічного огляду.",

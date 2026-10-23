@@ -37,6 +37,9 @@
 .violet {
   --c: var(--violet);
 }
+.green {
+  --c: var(--success);
+}
 
 /* Corner marks: eight short lines, two per corner. */
 .frame::before {
@@ -77,4 +80,25 @@
 .frame:focus-within::before {
   inset: -4px;
   opacity: 1;
+}
+
+/* Around one control: the radius follows the button's, and the control lifts itself, so the frame stays put. */
+.compact {
+  border-radius: 13px;
+}
+.compact::before {
+  inset: -5px;
+  border-radius: 16px;
+}
+.compact > .inner {
+  border-radius: 12px;
+  background: none;
+}
+.compact:hover,
+.compact:focus-within {
+  transform: none;
+}
+.compact:hover::before,
+.compact:focus-within::before {
+  inset: -3px;
 }
