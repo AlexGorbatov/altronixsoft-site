@@ -53,7 +53,7 @@ export default async function SapCommercePage() {
         <div className="eyebrow mt-6">{pages.serviceEyebrow}</div>
         <h1 className="mt-3 text-[36px] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[52px]">{sapCommerce.h1}</h1>
         <p className="mt-6 max-w-[68ch] text-[17px] leading-[1.75] text-muted">{sapCommerce.intro}</p>
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="actions mt-8">
           <Button href={localizedPath(lang, contactHref("architecture-checkup"))}>{copy.services.sapCta} →</Button>
           <Button href={localizedPath(lang, contactHref("technical-review"))} variant="secondary">
             {pages.requestReview}
@@ -119,7 +119,7 @@ export default async function SapCommercePage() {
               </li>
             ))}
           </ol>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="actions mt-8">
             <Button href={localizedPath(lang, contactHref("architecture-checkup"))}>{copy.services.sapCta} →</Button>
           </div>
         </section>

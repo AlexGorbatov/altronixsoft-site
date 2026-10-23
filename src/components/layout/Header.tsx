@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Logo } from "./Logo";
+import { NavLink } from "./NavLink";
 
 const DRAWER_ID = "mobile-navigation";
 
@@ -121,13 +122,9 @@ export function Header({ lang, navigation, labels }: HeaderProps) {
 
         <nav aria-label={labels.navPrimary} className="hidden gap-[30px] text-sm font-semibold text-strong lg:flex">
           {navigation.map((item) => (
-            <Link
-              key={item.href}
-              href={localizedPath(lang, item.href)}
-              className="inline-flex min-h-11 items-center transition-colors hover:text-white"
-            >
+            <NavLink key={item.href} lang={lang} href={item.href}>
               {item.label}
-            </Link>
+            </NavLink>
           ))}
         </nav>
 

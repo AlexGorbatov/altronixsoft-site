@@ -94,6 +94,7 @@ export const copy: Part<"copy"> = {
     email: "E-Mail",
     contactForm: "Kontaktformular",
     keyPages: "Wichtige Seiten",
+    projects: "Projekte",
     privacy: "Datenschutzerklärung",
   },
   notFound: {
@@ -117,20 +118,68 @@ export const copy: Part<"copy"> = {
     },
   },
   work: {
-    eyebrow: "Ausgewählte Projekte",
-    title: "Kundenprojekte.",
-    description: "Kundennamen sind vertraulich.",
-    rowLabel: "Fallstudien",
     stackLabel: "Stack",
     stackAria: "Technologie-Stack",
-    readCase: "Fallstudie lesen",
     industryLabel: "Branche",
     contextLabel: "Kontext",
     roleLabel: "Rolle",
-    focusLabel: "Schwerpunkt",
     teamLabel: "Team",
     durationLabel: "Dauer",
-    resultLabel: "Ergebnis",
+    diagramNote:
+      "Die Diagramme sind vereinfacht und animiert. Bei Kundenprojekten sind Systeme und Namen verallgemeinert, um die Vertraulichkeit zu wahren.",
+  },
+  portfolio: {
+    home: {
+      eyebrow: "Ausgewählte Arbeiten",
+      title: "Ausgewählte Projekte.",
+      description:
+        "Eine Auswahl: Kundensysteme unter NDA, eigene Produkte und KI-Projekte.",
+      viewAll: "Alle Projekte ansehen",
+      listLabel: "Ausgewählte Projekte",
+    },
+    page: {
+      eyebrow: "Arbeiten",
+      title: "Unsere Projekte.",
+      description:
+        "Jedes Projekt zeigt seinen Status: unter NDA, Open Source oder in Entwicklung.",
+      metaTitle: "Unsere Projekte",
+      metaDescription:
+        "Kundensysteme unter NDA, eigene Produkte und Open-Source-KI-Arbeit, jeweils mit Status. Kundennamen sind vertraulich.",
+      view: { label: "Darstellung", tiles: "Kacheln", list: "Liste" },
+      listLabel: "Alle Projekte",
+    },
+    status: { nda: "Kunde · NDA", "open-source": "Open Source", "in-development": "In Entwicklung" },
+    openProject: "Projekt öffnen: {title}",
+    openProjectExternal: "Projekt öffnen: {title} (öffnet in neuem Tab)",
+    scene: {
+      hybris: {
+        thirdParty: "Drittsysteme · REST/SOAP",
+        dataHub: "Data Hub",
+        solr: "Solr",
+        hybris: "SAP Hybris",
+        occ: "OCC API",
+        spartacus: "Spartacus",
+        cicd: "CI/CD",
+      },
+      pim: { sources: "Datenquellen", hub: "PIM · Workflows", apis: "Enterprise APIs", integrations: "Integrationen" },
+      logistics: { backend: "Backend-Systeme", api: "API", workflows: "Workflows", operations: "Betrieb", cloud: "Cloud" },
+      scorecard: { modulith: "Spring Modulith", nextjs: "Next.js", weekly: "Wöchentliche ScoreCard" },
+      rag: { documents: "Dokumente", retrieval: "Retrieval", access: "Zugriffskontrolle", model: "Modell", response: "Antwort" },
+      agent: { agent: "Agent", system: "System", approval: "Menschliche Freigabe" },
+      documents: {
+        incoming: "Eingehende Dokumente",
+        extraction: "Extraktion",
+        validation: "Validierung",
+        downstream: "Nachgelagerte Systeme",
+      },
+      gateway: { clients: "Clients", gateway: "Gateway · Routing · Limits", models: "Sprachmodelle", audit: "Audit-Trail" },
+    },
+    noLink: "Noch kein öffentlicher Link",
+    next: {
+      label: "Sie sind dran",
+      title: "Haben Sie ein Projekt im Sinn?",
+      text: "Beschreiben Sie das System und das Problem. Starten Sie mit einem kostenlosen 30-Minuten-Architektur-Check-up.",
+    },
   },
   engagement: {
     eyebrow: "Zusammenarbeit",

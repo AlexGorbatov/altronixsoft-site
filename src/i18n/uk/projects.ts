@@ -1,11 +1,29 @@
 import type { Part } from "../content";
 
+/** Shared by the case studies and the portfolio tiles, so a case and its tile never say different things. */
+const hybris = {
+  title: "E-commerce-платформа на SAP Hybris",
+  industry: "Електронна комерція",
+  summary:
+    "OCC-вебсервіси, пошук Solr, акції та інтеграції для рітейлера меблів і декору для дому.",
+};
+const pim = {
+  title: "Платформа продуктової інформації",
+  industry: "Продуктова інформація (PIM)",
+  summary:
+    "Централізована продуктова інформація, інтеграції та корпоративні робочі процеси.",
+};
+const logistics = {
+  title: "Платформа операційного управління логістикою",
+  industry: "Логістика",
+  summary:
+    "Бекенд-системи для логістичних процесів, API та щоденних операцій.",
+};
+
 /** Українська: кейси, лабораторія та сторінка SAP Commerce. */
 export const caseStudies: Part<"caseStudies"> = [
   {
-    title: "E-commerce-платформа на SAP Hybris",
-    industry: "Електронна комерція",
-    summary: "OCC-вебсервіси, пошук Solr, акції та інтеграції для рітейлера меблів і декору для дому.",
+    ...hybris,
     context: "Рітейлер меблів і декору для дому в Німеччині.",
     challenge:
       "Підключити платформу SAP Hybris до зовнішніх сторонніх систем, завантажувати великі обсяги даних і підтримувати стабільність високонавантаженої промислової системи.",
@@ -18,18 +36,46 @@ export const caseStudies: Part<"caseStudies"> = [
     focus: "OCC-вебсервіси, пошук Solr і правила акцій",
   },
   {
-    title: "Платформа продуктової інформації",
-    industry: "Продуктова інформація (PIM)",
-    summary: "Централізована продуктова інформація, інтеграції та корпоративні робочі процеси.",
+    ...pim,
     role: "Розробка бекенду та інтеграцій",
     focus: "Потоки даних і цілісність процесів",
   },
   {
-    title: "Платформа операційного управління логістикою",
-    industry: "Логістика",
-    summary: "Бекенд-системи для логістичних процесів, API та щоденних операцій.",
+    ...logistics,
     role: "Розробка бекенду",
     focus: "Операційні процеси та проєктування API",
+  },
+];
+
+/** The portfolio tiles, in the order of the English source. Tiles 1–3 are the case studies above. */
+export const projects: Part<"projects"> = [
+  { title: hybris.title, category: hybris.industry, summary: hybris.summary },
+  { title: pim.title, category: pim.industry, summary: pim.summary },
+  { title: logistics.title, category: logistics.industry, summary: logistics.summary },
+  {
+    title: "Compass AI",
+    category: "Власний продукт · Менеджмент",
+    summary: "Платформа управління для ІТ-сервісних компаній: щотижнева ScoreCard за шістьма бізнес-модулями.",
+  },
+  {
+    title: "Secure RAG",
+    category: "ШІ · Пошук",
+    summary: "Корпоративна генерація з доповненням пошуком (RAG) на Java, з контролем доступу перед моделлю.",
+  },
+  {
+    title: "ШІ-агент для бізнес-процесів",
+    category: "ШІ · Агенти",
+    summary: "Агент, що виконує бізнес-процес у різних системах, із кроком погодження людиною.",
+  },
+  {
+    title: "ШІ-обробка документів",
+    category: "ШІ · Документи",
+    summary: "Перетворює вхідні документи на структуровані, перевірені дані для наступних систем.",
+  },
+  {
+    title: "LLM Gateway",
+    category: "ШІ · Інфраструктура",
+    summary: "Єдина точка входу до кількох мовних моделей, з маршрутизацією, лімітами та журналом аудиту.",
   },
 ];
 

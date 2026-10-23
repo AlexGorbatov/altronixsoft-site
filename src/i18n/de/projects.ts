@@ -1,12 +1,29 @@
 import type { Part } from "../content";
 
+/** Shared by the case studies and the portfolio tiles, so a case and its tile never say different things. */
+const hybris = {
+  title: "SAP-Hybris-E-Commerce-Plattform",
+  industry: "E-Commerce",
+  summary:
+    "OCC-Webservices, Solr-Suche, Aktionen und Integrationen für einen Händler für Möbel und Wohndekoration.",
+};
+const pim = {
+  title: "Produktinformationsplattform",
+  industry: "Produktinformation (PIM)",
+  summary:
+    "Zentralisierte Produktinformationen, Integrationen und Unternehmens-Workflows.",
+};
+const logistics = {
+  title: "Logistik-Betriebsplattform",
+  industry: "Logistik",
+  summary:
+    "Backend-Systeme für Logistik-Workflows, APIs und den täglichen Betrieb.",
+};
+
 /** Deutsch: Fallstudien, Labs und die SAP-Commerce-Seite. */
 export const caseStudies: Part<"caseStudies"> = [
   {
-    title: "SAP-Hybris-E-Commerce-Plattform",
-    industry: "E-Commerce",
-    summary:
-      "OCC-Webservices, Solr-Suche, Aktionen und Integrationen für einen Händler für Möbel und Wohndekoration.",
+    ...hybris,
     context: "Händler für Möbel und Wohndekoration in Deutschland.",
     challenge:
       "Die SAP-Hybris-Plattform an externe Drittsysteme anbinden, große Datenmengen einspielen und ein hochbelastetes Produktivsystem stabil halten.",
@@ -19,18 +36,46 @@ export const caseStudies: Part<"caseStudies"> = [
     focus: "OCC-Webservices, Solr-Suche und Aktionsregeln",
   },
   {
-    title: "Produktinformationsplattform",
-    industry: "Produktinformation (PIM)",
-    summary: "Zentralisierte Produktinformationen, Integrationen und Unternehmens-Workflows.",
+    ...pim,
     role: "Backend- und Integrationsentwicklung",
     focus: "Datenflüsse und Workflow-Integrität",
   },
   {
-    title: "Logistik-Betriebsplattform",
-    industry: "Logistik",
-    summary: "Backend-Systeme für Logistik-Workflows, APIs und den täglichen Betrieb.",
+    ...logistics,
     role: "Backend-Entwicklung",
     focus: "Operative Workflows und API-Design",
+  },
+];
+
+/** The portfolio tiles, in the order of the English source. Tiles 1–3 are the case studies above. */
+export const projects: Part<"projects"> = [
+  { title: hybris.title, category: hybris.industry, summary: hybris.summary },
+  { title: pim.title, category: pim.industry, summary: pim.summary },
+  { title: logistics.title, category: logistics.industry, summary: logistics.summary },
+  {
+    title: "Compass AI",
+    category: "Eigenes Produkt · Management",
+    summary: "Management-Plattform für IT-Dienstleister: eine wöchentliche ScoreCard über sechs Geschäftsmodule.",
+  },
+  {
+    title: "Secure RAG",
+    category: "KI · Retrieval",
+    summary: "Retrieval-Augmented Generation für Unternehmen in Java, mit Zugriffskontrolle vor dem Modell.",
+  },
+  {
+    title: "KI-Agent für Geschäftsprozesse",
+    category: "KI · Agenten",
+    summary: "Ein Agent, der einen Geschäftsprozess über mehrere Systeme steuert, mit Freigabeschritt durch einen Menschen.",
+  },
+  {
+    title: "KI-Dokumentenverarbeitung",
+    category: "KI · Dokumente",
+    summary: "Macht aus eingehenden Dokumenten strukturierte, geprüfte Daten, die nachgelagerte Systeme nutzen können.",
+  },
+  {
+    title: "LLM Gateway",
+    category: "KI · Infrastruktur",
+    summary: "Ein Zugangspunkt zu mehreren Sprachmodellen, mit Routing, Limits und Audit-Trail.",
   },
 ];
 

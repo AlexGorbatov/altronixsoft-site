@@ -178,6 +178,33 @@ h3 {
       radial-gradient(680px 400px at 96% 64%, rgba(139, 92, 246, 0.12), transparent 72%);
   }
 
+  /* Faint 80px grid that fades out away from the top right; sits behind a section or page header. */
+  .grid-backdrop {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at 70% 20%, #000 20%, transparent 70%);
+  }
+
+  /* A group of buttons: stacked at one width on phones, one row from 640px, always left-aligned. */
+  .actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  @media (min-width: 640px) {
+    .actions {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+  }
+
   /* Buttons */
   .btn {
     position: relative;
@@ -405,6 +432,18 @@ h3 {
   .spotlight > * {
     position: relative;
   }
+}
+
+/* Animated scenes and card frames run only while on screen (ActiveWhenVisible); their animations read --ps. */
+[data-active="true"] {
+  --ps: running;
+}
+
+/* The conic angle of an animated card frame (ProjectCard). */
+@property --a {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 35deg;
 }
 
 @keyframes float {

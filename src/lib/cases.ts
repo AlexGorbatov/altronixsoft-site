@@ -1,4 +1,4 @@
-import type { CaseStudy } from "@/data/projects";
+import type { CaseStudy, Project } from "@/data/projects";
 import { filled } from "@/lib/todo";
 
 export const hasResult = (study: CaseStudy) => filled(study.result);
@@ -11,4 +11,11 @@ export function warnIfIncomplete(studies: readonly CaseStudy[]): void {
       console.warn(`[content] Case study "${study.title}" has no result yet. Fill it in src/data/projects.ts.`);
     }
   }
+}
+
+/** Development-only reminder: these portfolio texts are drafts the owner has not confirmed. They are shown meanwhile. */
+export function warnIfDraft(projects: readonly Project[]): void {
+  if (process.env.NODE_ENV !== "development") return;
+  const drafts = projects.filter((project) => project.draft).map((project) => project.title);
+  if (drafts.length > 0) console.warn(`[content] Draft text, not confirmed by the owner: ${drafts.join(", ")}. See src/data/projects.ts.`);
 }

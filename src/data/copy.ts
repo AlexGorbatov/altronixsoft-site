@@ -105,6 +105,7 @@ export const copy = {
     email: "Email",
     contactForm: "Contact form",
     keyPages: "Key pages",
+    projects: "Projects",
     privacy: "Privacy policy",
   },
   notFound: {
@@ -128,20 +129,70 @@ export const copy = {
     },
   },
   work: {
-    eyebrow: "Selected work",
-    title: "Client projects.",
-    description: "Client names are confidential.",
-    rowLabel: "Case studies",
     stackLabel: "Stack",
     stackAria: "Technology stack",
-    readCase: "Read the case study",
     industryLabel: "Industry",
     contextLabel: "Context",
     roleLabel: "Role",
-    focusLabel: "Focus",
     teamLabel: "Team",
     durationLabel: "Duration",
-    resultLabel: "Result",
+    diagramNote: "Diagrams are simplified and animated. For client projects, systems and names are generalized to protect confidentiality.",
+  },
+  /** The portfolio: the "Selected projects" section on the home page and the /work page. */
+  portfolio: {
+    home: {
+      eyebrow: "Selected work",
+      title: "Selected projects.",
+      description: "A selection of client systems under NDA, our own products and AI projects.",
+      viewAll: "View all projects",
+      listLabel: "Selected projects",
+    },
+    page: {
+      eyebrow: "Work",
+      title: "Our projects.",
+      description: "Every project shows its status: under NDA, open source or in development.",
+      metaTitle: "Our projects",
+      metaDescription:
+        "Client systems under NDA, our own products and open-source AI work, each with its status. Client names are confidential.",
+      view: { label: "Layout", tiles: "Tiles", list: "List" },
+      listLabel: "All projects",
+    },
+    status: { nda: "Client · NDA", "open-source": "Open source", "in-development": "In development" },
+    /** aria-label of a project link; {title} is replaced by the project's name. */
+    openProject: "Open project: {title}",
+    /** Same, for a link that opens another site in a new tab. */
+    openProjectExternal: "Open project: {title} (opens in a new tab)",
+    /** Names on the architecture pictures: each one is a component named in the project's own description or stack. */
+    scene: {
+      hybris: {
+        thirdParty: "Third-party · REST/SOAP",
+        dataHub: "Data Hub",
+        solr: "Solr",
+        hybris: "SAP Hybris",
+        occ: "OCC API",
+        spartacus: "Spartacus",
+        cicd: "CI/CD",
+      },
+      pim: { sources: "Data sources", hub: "PIM · Workflows", apis: "Enterprise APIs", integrations: "Integrations" },
+      logistics: { backend: "Backend systems", api: "API", workflows: "Workflows", operations: "Operations", cloud: "Cloud" },
+      scorecard: { modulith: "Spring Modulith", nextjs: "Next.js", weekly: "Weekly ScoreCard" },
+      rag: { documents: "Documents", retrieval: "Retrieval", access: "Access control", model: "Model", response: "Response" },
+      agent: { agent: "Agent", system: "System", approval: "Human approval" },
+      documents: {
+        incoming: "Incoming documents",
+        extraction: "Extraction",
+        validation: "Validation",
+        downstream: "Downstream systems",
+      },
+      gateway: { clients: "Clients", gateway: "Gateway · Routing · Limits", models: "Language models", audit: "Audit trail" },
+    },
+    /** Shown on a project whose link is not published yet. */
+    noLink: "No public link yet",
+    next: {
+      label: "Your turn",
+      title: "Have a project in mind?",
+      text: "Describe the system and the problem. Start with a free 30-minute architecture check-up.",
+    },
   },
   engagement: {
     eyebrow: "Engagement",
@@ -172,7 +223,7 @@ export const copy = {
     },
   },
   casePage: {
-    back: "All work",
+    back: "All projects",
     focus: "Focus",
     challenge: "Challenge",
     whatWeDid: "What we did",

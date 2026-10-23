@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project scenes — AI style 2026 (demo)</title>
+<style>
+  @property --a { syntax: "<angle>"; inherits: false; initial-value: 35deg; }
+  :root { --bg:#07101f; --cyan:#22d6f4; --violet:#8b5cf6; --text:#f7f9fc; --muted:#bcc6d6; --subtle:#9aa9be; --label:#8fdde8; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family: "Manrope", system-ui, sans-serif; -webkit-font-smoothing:antialiased; }
+  .page { width:min(1200px, calc(100% - 48px)); margin:0 auto; padding:56px 0 80px; }
+  .note { display:flex; flex-wrap:wrap; gap:12px 24px; align-items:baseline; margin-bottom:28px; color:var(--subtle); font-size:14px; }
+  .note b { color:var(--text); font-size:18px; letter-spacing:-.02em; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+  @media (max-width: 900px) { .grid { grid-template-columns:1fr; } }
+
+  /* Card frame: same as the site (status colour, turning conic border). */
+  .frame { --c:var(--violet); position:relative; padding:1px; border-radius:17px;
+    background:conic-gradient(from var(--a), rgba(255,255,255,.16) 0 50%, var(--c) 78%, rgba(255,255,255,.16) 100%);
+    animation:spin 7s linear infinite; transition:transform .35s cubic-bezier(.2,.75,.2,1), box-shadow .35s; }
+  .frame.cyan { --c:var(--cyan); }
+  .frame:hover { transform:translateY(-4px); box-shadow:0 18px 40px -22px var(--c); }
+  @keyframes spin { to { --a:395deg; } }
+  .inner { background:#0a1326; border-radius:16px; overflow:hidden; display:flex; flex-direction:column; height:100%; }
+  .cap { padding:20px 24px 22px; min-height:132px; position:relative; }
+  .cap h3 { margin:0; font-size:24px; letter-spacing:-.03em; line-height:1.2; }
+  .cap p { margin:8px 0 0; font-size:14px; line-height:1.55; color:var(--muted); min-height:44px; }
+  .cap .cat { margin-top:10px; font:500 12px/1.2 "JetBrains Mono", ui-monospace, monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--subtle); }
+  .badge { position:absolute; top:10px; right:12px; z-index:4; display:inline-flex; align-items:center; gap:7px; height:24px; padding:0 10px; border-radius:999px;
+    font:500 12px/1 "JetBrains Mono", ui-monospace, monospace; letter-spacing:.08em; text-transform:uppercase; background:rgba(7,16,31,.6); backdrop-filter:blur(8px);
+    border:1px solid color-mix(in srgb, var(--c) 40%, transparent); color:#b79bfd; }
+  .cyan .badge { color:var(--label); }
+  .badge i { width:6px; height:6px; border-radius:50%; background:currentColor; box-shadow:0 0 8px currentColor; }
+  .idx { position:absolute; top:14px; left:16px; z-index:4; font:500 12px/1.2 "JetBrains Mono", ui-monospace, monospace; letter-spacing:.12em; color:var(--label); }
+
+  /* The picture */
+  .img { position:relative; height:320px; overflow:hidden; border-bottom:1px solid rgba(255,255,255,.07);
+    background:radial-gradient(ellipse at 50% 55%, #0f2147 0%, #0a1430 55%, #070f22 100%); isolation:isolate; }
+  /* aurora: two soft light fields that drift slowly */
+  .aurora { position:absolute; inset:-20%; z-index:0; pointer-events:none; filter:blur(46px); opacity:.85; }
+  .aurora i { position:absolute; border-radius:50%; }
+  .aurora i:nth-child(1) { width:55%; height:60%; left:8%; top:20%; background:radial-gradient(closest-side, rgba(34,214,244,.38), transparent); animation:drift1 14s ease-in-out infinite alternate; }
+  .aurora i:nth-child(2) { width:50%; height:55%; right:6%; top:6%; background:radial-gradient(closest-side, rgba(139,92,246,.42), transparent); animation:drift2 17s ease-in-out infinite alternate; }
+  .aurora i:nth-child(3) { width:35%; height:40%; left:38%; bottom:-6%; background:radial-gradient(closest-side, rgba(26,124,251,.35), transparent); animation:drift1 19s ease-in-out infinite alternate-reverse; }
+  @keyframes drift1 { to { transform:translate(8%, -6%) scale(1.12); } }
+  @keyframes drift2 { to { transform:translate(-9%, 8%) scale(1.1); } }
+  /* film grain, very light: takes the digital edge off the gradients */
+  .grain { position:absolute; inset:0; z-index:3; pointer-events:none; opacity:.07; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>"); }
+  .scene { position:absolute; inset:0; z-index:1; width:100%; height:100%; transition:transform .6s cubic-bezier(.2,.75,.2,1); }
+  .frame:hover .scene { transform:scale(1.03); }
+
+  /* motion */
+  .pk { offset-rotate:0deg; offset-distance:0; opacity:0; animation:travel var(--d,3.2s) linear infinite; animation-delay:var(--l,0s); }
+  @keyframes travel { 0% { offset-distance:0; opacity:0; } 10% { opacity:1; } 90% { opacity:1; } 100% { offset-distance:100%; opacity:0; } }
+  .flow { stroke-dasharray:3 7; animation:flow 1.1s linear infinite; }
+  @keyframes flow { to { stroke-dashoffset:-10; } }
+  .bob { animation:bob var(--d,3.6s) ease-in-out infinite; animation-delay:var(--l,0s); }
+  @keyframes bob { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-3px); } }
+  .grow { transform-box:fill-box; transform-origin:50% 100%; animation:grow var(--d,3.6s) ease-in-out infinite; animation-delay:var(--l,0s); }
+  @keyframes grow { 0%,100% { transform:scaleY(.82); } 50% { transform:scaleY(1); } }
+  .pulse { transform-box:fill-box; transform-origin:center; animation:pulse 2.6s ease-in-out infinite; animation-delay:var(--l,0s); }
+  @keyframes pulse { 0%,100% { transform:scale(.7); opacity:.5; } 50% { transform:scale(1.25); opacity:1; } }
+  .ring { transform-box:fill-box; transform-origin:center; animation:ring 3.4s ease-out infinite; animation-delay:var(--l,0s); }
+  @keyframes ring { 0% { transform:scale(.5); opacity:.9; } 100% { transform:scale(1.5); opacity:0; } }
+  .mote { animation:mote var(--d,6s) ease-in-out infinite; animation-delay:var(--l,0s); }
+  @keyframes mote { 0%,100% { transform:translateY(0); opacity:.2; } 50% { transform:translateY(-9px); opacity:.9; } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation:none !important; transition:none !important; }
+    .pk { opacity:1; offset-distance:50%; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="note"><b>AI style 2026 — пример</b><span>Стекло, свет и поток данных вместо плотных блоков. Рамка карточки, подписи и размеры те же, меняется только картинка.</span></div>
+  <div class="grid">
+    <article class="frame">
+      <div class="inner">
+        <div class="img"><span class="idx">01</span><span class="badge"><i></i>Client · NDA</span>
+          <div class="aurora"><i></i><i></i><i></i></div>
+          <svg class="scene" id="s1" aria-hidden="true" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="grain"></div></div>
+        <div class="cap"><h3>SAP Hybris e-commerce platform</h3>
+          <p>OCC web services, Solr search, promotions and integrations for a furniture and home decor retailer.</p>
+          <div class="cat">E-commerce</div></div>
+      </div>
+    </article>
+    <article class="frame cyan">
+      <div class="inner">
+        <div class="img"><span class="idx">04</span><span class="badge"><i></i>In development</span>
+          <div class="aurora"><i></i><i></i><i></i></div>
+          <svg class="scene" id="s2" aria-hidden="true" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="grain"></div></div>
+        <div class="cap"><h3>Compass AI</h3>
+          <p>Management platform for IT service companies: a weekly ScoreCard across six business modules.</p>
+          <div class="cat">Own product · Management</div></div>
+      </div>
+    </article>
+  </div>
+</div>
+
+<script>
+/* Same isometric geometry as the site's scenes (src/components/projects/scenes.tsx); only the drawing is new. */
+const mk = (sc, ox, oy) => (x, y, z = 0) => [ox + (x - y) * .866 * sc, oy + (x + y) * .5 * sc - z * sc];
+const pts = (l) => l.map(([a, b]) => `${a.toFixed(1)},${b.toFixed(1)}`).join(' ');
+const path = (P, route, z = .05) => 'M' + route.map(([x, y]) => P(x, y, z).map(v => v.toFixed(1)).join(' ')).join(' L');
+
+/* glass palette: [top, left, right] */
+const GLASS = {
+  ice:    ['#cfe0ff', '#7ea2ff', '#4a63d6'],
+  cyan:   ['#9bf6ff', '#22d6f4', '#1a7cfb'],
+  blue:   ['#8cbcff', '#2f86ff', '#3b3fd0'],
+  violet: ['#dccbff', '#9b6cff', '#6a3fe0'],
+  plate:  ['#a9bde8', '#5a78c2', '#3a4f94'],
+};
+
+function defs(id) {
+  return `<defs>
+    <linearGradient id="edge${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".95"/><stop offset=".5" stop-color="#7cefff" stop-opacity=".8"/><stop offset="1" stop-color="#b79bfd" stop-opacity=".9"/></linearGradient>
+    <linearGradient id="beam${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#22d6f4"/><stop offset="1" stop-color="#b79bfd"/></linearGradient>
+    <linearGradient id="sheen${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <radialGradient id="orb${id}"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#9bf6ff"/><stop offset="1" stop-color="#22d6f4" stop-opacity="0"/></radialGradient>
+    <radialGradient id="orbV${id}"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#dccbff"/><stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/></radialGradient>
+    <radialGradient id="floorGlow${id}"><stop offset="0" stop-color="#22d6f4" stop-opacity=".30"/><stop offset=".6" stop-color="#8b5cf6" stop-opacity=".10"/><stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/></radialGradient>
+    <radialGradient id="fade${id}" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff"/><stop offset=".62" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <mask id="gridMask${id}" maskUnits="userSpaceOnUse" x="-200" y="-100" width="900" height="600"><rect x="-200" y="-100" width="900" height="600" fill="url(#fade${id})" transform="translate(0 0)"/></mask>
+    <filter id="blur6${id}" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="7"/></filter>
+    <filter id="blur2${id}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+  </defs>`;
+}
+
+/* A block made of glass: translucent faces, a lit top, bright edges. */
+function glassBox(P, id, x, y, z, w, d, h, pal, o = {}) {
+  const top = [P(x, y, z + h), P(x + w, y, z + h), P(x + w, y + d, z + h), P(x, y + d, z + h)];
+  const left = [P(x, y + d, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z), P(x, y + d, z)];
+  const right = [P(x + w, y, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z), P(x + w, y, z)];
+  const a = o.alpha ?? 1;
+  const style = [o.dur && `--d:${o.dur}s`, o.delay !== undefined && `--l:${o.delay}s`].filter(Boolean).join(';');
+  return { depth: o.depth ?? x + y, svg: `<g class="${o.anim ?? 'bob'}" style="${style}">
+    <polygon points="${pts(left)}" fill="${pal[1]}" fill-opacity="${.34 * a}"/>
+    <polygon points="${pts(right)}" fill="${pal[2]}" fill-opacity="${.30 * a}"/>
+    <polygon points="${pts(left)}" fill="url(#sheen${id})" fill-opacity=".12"/>
+    <polygon points="${pts(top)}" fill="${pal[0]}" fill-opacity="${.62 * a}"/>
+    <polygon points="${pts(top)}" fill="url(#sheen${id})" fill-opacity=".35"/>
+    <polyline points="${pts([top[0], top[1], top[2], top[3], top[0]])}" fill="none" stroke="url(#edge${id})" stroke-width="1.15" stroke-linejoin="round"/>
+    <polyline points="${pts([left[3], left[0]])}" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width=".9"/>
+    <polyline points="${pts([left[2], left[1], right[0]])}" fill="none" stroke="#fff" stroke-opacity=".38" stroke-width=".8" stroke-linejoin="round"/>
+    <polyline points="${pts([left[2], left[3]])}" fill="none" stroke="#fff" stroke-opacity=".2" stroke-width=".7"/>
+    ${o.core ? `<ellipse cx="${((top[0][0] + top[2][0]) / 2).toFixed(1)}" cy="${((top[0][1] + top[2][1]) / 2).toFixed(1)}" rx="${(w * 5).toFixed(1)}" ry="${(w * 2.4).toFixed(1)}" fill="#fff" class="pulse" style="--l:${o.delay ?? 0}s" opacity=".5" filter="url(#blur2${id})"/>` : ''}
+  </g>` };
+}
+
+function glassRoof(P, id, x, y, z, w, d, h, rh, pal, o = {}) {
+  const m = y + d / 2;
+  const back = [P(x, y, z + h), P(x + w, y, z + h), P(x + w, m, z + h + rh), P(x, m, z + h + rh)];
+  const front = [P(x, y + d, z + h), P(x + w, y + d, z + h), P(x + w, m, z + h + rh), P(x, m, z + h + rh)];
+  const gab = [P(x + w, y, z + h), P(x + w, y + d, z + h), P(x + w, m, z + h + rh)];
+  return { depth: o.depth, svg: `<g class="bob" style="--d:${o.dur ?? 4}s">
+    <polygon points="${pts(back)}" fill="${pal[2]}" fill-opacity=".34"/>
+    <polygon points="${pts(gab)}" fill="${pal[1]}" fill-opacity=".32"/>
+    <polygon points="${pts(front)}" fill="${pal[0]}" fill-opacity=".6"/>
+    <polygon points="${pts(front)}" fill="url(#sheen${id})" fill-opacity=".35"/>
+    <polyline points="${pts([...front, front[0]])}" fill="none" stroke="url(#edge${id})" stroke-width="1.15" stroke-linejoin="round"/>
+  </g>` };
+}
+
+function floorGrid(P, id, x0, y0, x1, y1) {
+  let l = '';
+  for (let i = x0; i <= x1; i++) { const a = P(i, y0), b = P(i, y1); l += `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`; }
+  for (let j = y0; j <= y1; j++) { const a = P(x0, j), b = P(x1, j); l += `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`; }
+  const c = P((x0 + x1) / 2, (y0 + y1) / 2);
+  return `<ellipse cx="${c[0]}" cy="${c[1] + 6}" rx="190" ry="95" fill="url(#floorGlow${id})"/>
+    <g mask="url(#gridMask${id})" stroke="url(#beam${id})" stroke-opacity=".34" stroke-width=".75">${l}</g>`;
+}
+
+/* A route as a glowing beam: soft halo, crisp flowing dashes, and orbs that travel along it. */
+function beam(P, id, route, o = {}) {
+  const d = path(P, route), c = o.violet ? 'url(#orbV' + id + ')' : 'url(#orb' + id + ')';
+  return {
+    line: `<path d="${d}" fill="none" stroke="${o.violet ? '#8b5cf6' : '#22d6f4'}" stroke-opacity=".35" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#blur2${id})"/>
+      <path class="flow" d="${d}" fill="none" stroke="${o.violet ? '#dccbff' : '#9bf6ff'}" stroke-opacity=".9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`,
+    orb: (dur, delay, r = 6) => `<g class="pk" style="offset-path:path('${path(P, route, .3)}');--d:${dur}s;--l:${delay}s"><circle r="${r * 2.6}" fill="${c}" opacity=".7"/><circle r="${r * .38}" fill="#fff"/></g>`,
+  };
+}
+
+/* A small floating glass label tied to a point by a thin leader line. */
+let VBTOP = 0; // chips never leave the picture
+function chip(id, x, y, text, tx, ty) {
+  ty = Math.max(ty, VBTOP + 16);
+  const w = text.length * 6.2 + 18;
+  return `<g>
+    <line x1="${x}" y1="${y}" x2="${tx}" y2="${ty + 7}" stroke="#9bf6ff" stroke-opacity=".5" stroke-width=".8" stroke-dasharray="2 3"/>
+    <circle cx="${x}" cy="${y}" r="2.2" fill="#9bf6ff"/><circle cx="${x}" cy="${y}" r="5" fill="#22d6f4" opacity=".35" class="pulse"/>
+    <rect x="${tx - w / 2}" y="${ty - 8}" width="${w}" height="16" rx="8" fill="#0a1430" fill-opacity=".62" stroke="#9bf6ff" stroke-opacity=".5" stroke-width=".8"/>
+    <text x="${tx}" y="${ty + 3.2}" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="7.6" letter-spacing=".9" fill="#d8f6ff">${text}</text>
+  </g>`;
+}
+
+function motes(id, n, seed, [x0, y0, x1, y1]) {
+  let s = seed, o = '';
+  const r = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+  for (let i = 0; i < n; i++) {
+    const x = x0 + r() * (x1 - x0), y = y0 + r() * (y1 - y0), rad = .8 + r() * 1.4;
+    o += `<circle class="mote" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${rad.toFixed(1)}" fill="${r() > .5 ? '#9bf6ff' : '#dccbff'}" style="--d:${(4 + r() * 5).toFixed(1)}s;--l:${(r() * 5).toFixed(1)}s"/>`;
+  }
+  return o;
+}
+
+const paint = (list) => [...list].sort((a, b) => a.depth - b.depth).map(i => i.svg).join('');
+
+/* 01 — SAP Hybris: parcels along a road, through the shop, to the order stack. */
+function shop() {
+  VBTOP = 19;
+  const id = 'a', P = mk(23, 146, 58), b = [];
+  const road = [[0.8, 2.4], [10, 2.4]];
+  const roadQuad = [P(0.8 - .45, 2.4 - .45, .02), P(10 + .45, 2.4 - .45, .02), P(10 + .45, 2.4 + .45, .02), P(0.8 - .45, 2.4 + .45, .02)];
+  for (let k = 0; k < 3; k++) b.push(glassBox(P, id, 0, .2 + k * .9, 0, .9, .8, .6 + k * .15, GLASS.ice, { depth: .1 + k, dur: 3.2 + k * .3, delay: k * .3 }));
+  b.push(glassBox(P, id, 4.6, .5, 0, 2.6, 2.2, 1.3, GLASS.ice, { depth: 5.5, dur: 4 }));
+  b.push(glassRoof(P, id, 4.6, .5, 0, 2.6, 2.2, 1.3, .8, GLASS.cyan, { depth: 5.6, dur: 4 }));
+  for (let k = 0; k < 4; k++) b.push(glassBox(P, id, 4.6 + k * .65, 2.7, .65, .32, .38, .08, k % 2 ? GLASS.violet : GLASS.cyan, { depth: 6 + k * .01, dur: 4 }));
+  b.push(glassBox(P, id, 8.9, 3.6, 0, 1.8, 1.6, .55, GLASS.violet, { depth: 9.5, dur: 3.5, delay: .4, core: true }));
+  b.push(glassBox(P, id, 9.2, 3.9, .55, 1.2, 1.0, .45, GLASS.cyan, { depth: 10, dur: 3.5, delay: .7 }));
+  const intake = beam(P, id, [[0.9, 2.4], [4.4, 2.4]]);
+  const outflow = beam(P, id, [[7.1, 2.4], [9.4, 2.4], [9.4, 3.7]], { violet: true });
+  const top = P(5.9, 1.6, 2.1), a = P(0.45, .6, 1), c = P(9.8, 4.4, 1.1);
+  return `${defs(id)}${floorGrid(P, id, -1, -1, 11, 7)}
+    <polygon points="${pts(roadQuad)}" fill="#7cefff" fill-opacity=".07" stroke="url(#beam${id})" stroke-opacity=".35" stroke-width=".8"/>
+    ${intake.line}${outflow.line}
+    <g id="bx${id}">${paint(b)}</g>
+    <use href="#bx${id}" filter="url(#blur6${id})" opacity=".55" style="mix-blend-mode:screen"/>
+    ${[0, 1, 2].map(k => intake.orb(3.2, k * 1.05)).join('')}${[0, 1, 2].map(k => outflow.orb(3.2, k * 1.05 + .5, 5)).join('')}
+    ${chip(id, top[0], top[1], 'OCC · SOLR', top[0] + 6, top[1] - 38)}
+    ${chip(id, a[0], a[1], 'REST · SOAP', a[0] - 16, a[1] - 36)}
+    ${chip(id, c[0], c[1], 'DATA HUB', c[0] + 12, c[1] + 40)}
+    ${motes(id, 16, 7, [20, 40, 360, 250])}`;
+}
+
+/* 04 — Compass AI: six module towers on a glass plate, scanned by two signals. */
+function compass() {
+  VBTOP = 4;
+  const id = 'b', P = mk(20, 156, 40), b = [];
+  b.push(glassBox(P, id, .4, .2, 0, 9.4, 5.6, .3, GLASS.plate, { depth: 0, anim: 'none', alpha: .9 }));
+  const towers = [[1.4, .9, 1.3, 'cyan'], [4.2, .9, 2.4, 'blue'], [7, .9, 1.7, 'violet'], [1.4, 3.6, 2.7, 'blue'], [4.2, 3.6, 1.9, 'cyan'], [7, 3.6, 1.4, 'violet']];
+  towers.forEach(([x, y, h, c], i) => b.push(glassBox(P, id, x, y, .3, 1.6, 1.6, h, GLASS[c], { depth: x + y + 1, anim: 'grow', dur: 3.4 + i * .35, delay: i * .45, core: h > 2 })));
+  const loop = [[.8, .4], [9.4, .4], [9.4, 5.6], [.8, 5.6], [.8, .4]];
+  const ring = (rx, col, dash) => { const [cx, cy] = P(5.1, 3.1, .31); return `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${rx / 2}" fill="none" stroke="${col}" stroke-opacity=".55" stroke-width="1.2" ${dash ? 'stroke-dasharray="3 6" class="flow"' : ''}/>`; };
+  const lp = beam(P, id, loop);
+  const t1 = P(5.0, 1.7, 3.2), t2 = P(8.0, 1.7, 2.1), t3 = P(2.2, 4.4, 3.7);
+  // a thin "neural" web between the tower tops
+  const web = [[t1, t2], [t1, t3], [t2, t3]].map(([p, q]) => `<path d="M${p[0]} ${p[1]} Q${(p[0] + q[0]) / 2} ${Math.min(p[1], q[1]) - 18} ${q[0]} ${q[1]}" fill="none" stroke="#dccbff" stroke-opacity=".5" stroke-width=".8" stroke-dasharray="2 4" class="flow"/>`).join('');
+  return `${defs(id)}${floorGrid(P, id, -1, -1, 11, 7)}
+    ${ring(92, '#22d6f4', true)}${ring(64, '#8b5cf6', false)}
+    ${lp.line}
+    <g id="bx${id}">${paint(b)}</g>
+    <use href="#bx${id}" filter="url(#blur6${id})" opacity=".55" style="mix-blend-mode:screen"/>
+    ${web}
+    ${[t1, t2, t3].map(([x, y], i) => `<circle cx="${x}" cy="${y}" r="2.4" fill="#fff"/><circle cx="${x}" cy="${y}" r="7" fill="#b79bfd" opacity=".45" class="pulse" style="--l:${i * .7}s"/>`).join('')}
+    ${lp.orb(9, 0, 7)}${lp.orb(9, 4.5, 7)}
+    ${chip(id, t3[0], t3[1], 'SCORECARD', t3[0] - 22, t3[1] - 30)}
+    ${chip(id, t2[0], t2[1], 'WEEKLY', t2[0] + 20, t2[1] - 28)}
+    ${motes(id, 18, 3, [30, 24, 350, 220])}`;
+}
+
+const s1 = document.getElementById('s1'), s2 = document.getElementById('s2');
+s1.setAttribute('viewBox', '-29 19 430 262'); s1.innerHTML = shop();
+s2.setAttribute('viewBox', '1 4 378 232'); s2.innerHTML = compass();
+</script>
+</body>
+</html>

@@ -101,10 +101,19 @@
   color: var(--text-strong);
 }
 
+/* Buttons: stacked at one width on phones, one row from 640px (same rule as .actions in globals.css). */
 .actions {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: stretch;
   gap: 12px;
+}
+@media (min-width: 640px) {
+  .actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
 }
 
 .meta {
