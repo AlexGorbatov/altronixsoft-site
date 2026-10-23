@@ -191,7 +191,7 @@ export const copy = {
     next: {
       label: "Your turn",
       title: "Have a project in mind?",
-      text: "Describe the system and the problem. Start with a no-obligation conversation.",
+      text: "Describe the system and the problem. We take it from there.",
     },
   },
   engagement: {

@@ -28,7 +28,7 @@ export const services: Service[] = [
     intro:
       "We design and build custom software around your business processes, from the first MVP to production: web applications, internal platforms, APIs and integrations.",
     metaDescription:
-      "Custom software built around your business processes, from MVP to production: web apps, internal platforms, APIs and integrations. Start with a no-obligation conversation.",
+      "Custom software built around your business processes, from MVP to production: web apps, internal platforms, APIs and integrations. Clear ownership. Transparent delivery.",
     capabilities: [
       "SaaS products",
       "Web applications",
@@ -49,7 +49,7 @@ export const services: Service[] = [
     intro:
       "We improve the systems that already run your business, without unnecessary rewrites: Java / Spring modernization, SAP Commerce Cloud development and support, cloud migration and enterprise integrations.",
     metaDescription:
-      "Modernize existing systems without full rewrites: Java/Spring, SAP Commerce Cloud support, cloud migration, integrations. Start with a no-obligation conversation.",
+      "Modernize existing systems without full rewrites: Java/Spring, SAP Commerce Cloud support, cloud migration, integrations. Clear ownership. Transparent delivery.",
     capabilities: [
       "Java / Spring modernization",
       "SAP Commerce Cloud development and support",
@@ -70,7 +70,7 @@ export const services: Service[] = [
     intro:
       "We add AI where it solves a real business problem and connect it to your existing systems with proper controls: agents, retrieval over internal knowledge, and document and workflow automation.",
     metaDescription:
-      "AI agents, retrieval over internal knowledge, document and workflow automation, connected to your systems with controls. Start with a no-obligation conversation.",
+      "AI agents, retrieval over internal knowledge, document and workflow automation, connected to your systems with controls. Clear ownership. Transparent delivery.",
     capabilities: [
       "AI agents",
       "RAG and knowledge systems",

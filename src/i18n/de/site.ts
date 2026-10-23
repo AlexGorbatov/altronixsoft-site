@@ -6,7 +6,7 @@ export const hero: Part<"hero"> = {
   title: ["Komplexe Systeme.", "Klare Lösungen."],
   lead: "Wir entwickeln und modernisieren Software — von individuellen Plattformen und Integrationen bis zu SAP Commerce und KI-Lösungen.",
   leadMore: "Sie arbeiten direkt mit erfahrenen Engineers zusammen, von der Planung bis zum Launch.",
-  facts: ["Von der Architektur bis zum Betrieb", "Starten Sie mit einem unverbindlichen Gespräch"],
+  facts: ["Von der Architektur bis zum Betrieb", "Klare Verantwortung. Transparente Umsetzung."],
 };
 
 export const navigation: Part<"navigation"> = [
@@ -20,7 +20,7 @@ export const navigation: Part<"navigation"> = [
 export const site: Part<"site"> = {
   title: "SAP Commerce, Java und KI-Entwicklung | Altronix Software",
   description:
-    "Altronix Software entwickelt und modernisiert Unternehmenssoftware: Java/Spring, SAP Commerce Cloud, Integrationen und KI. Starten Sie mit einem unverbindlichen Gespräch.",
+    "Altronix Software entwickelt und modernisiert Unternehmenssoftware: Java/Spring, SAP Commerce Cloud, Integrationen und KI. Klare Verantwortung. Transparente Umsetzung.",
   tagline: "Komplexe Systeme. Klare Lösungen.",
 };
 
@@ -32,7 +32,7 @@ export const services: Part<"services"> = [
     intro:
       "Wir konzipieren und entwickeln individuelle Software rund um Ihre Geschäftsprozesse, vom ersten MVP bis zum Produktivbetrieb: Webanwendungen, interne Plattformen, APIs und Integrationen.",
     metaDescription:
-      "Individuelle Software für Ihre Geschäftsprozesse, vom MVP bis zum Produktivbetrieb: Web-Apps, interne Plattformen, APIs und Integrationen. Starten Sie mit einem unverbindlichen Gespräch.",
+      "Individuelle Software für Ihre Geschäftsprozesse, vom MVP bis zum Produktivbetrieb: Web-Apps, interne Plattformen, APIs und Integrationen. Klare Verantwortung. Transparente Umsetzung.",
     capabilities: [
       "SaaS-Produkte",
       "Webanwendungen",
@@ -51,7 +51,7 @@ export const services: Part<"services"> = [
     intro:
       "Wir verbessern die Systeme, die Ihr Geschäft heute tragen, ohne unnötige Neuentwicklungen: Java-/Spring-Modernisierung, Entwicklung und Support für SAP Commerce Cloud, Cloud-Migration und Enterprise-Integrationen.",
     metaDescription:
-      "Bestehende Systeme ohne komplette Neuentwicklung modernisieren: Java/Spring, SAP Commerce Cloud, Cloud-Migration, Integrationen. Starten Sie mit einem unverbindlichen Gespräch.",
+      "Bestehende Systeme ohne komplette Neuentwicklung modernisieren: Java/Spring, SAP Commerce Cloud, Cloud-Migration, Integrationen. Klare Verantwortung. Transparente Umsetzung.",
     capabilities: [
       "Java-/Spring-Modernisierung",
       "Entwicklung und Support für SAP Commerce Cloud",
@@ -70,7 +70,7 @@ export const services: Part<"services"> = [
     intro:
       "Wir setzen KI dort ein, wo sie ein echtes Geschäftsproblem löst, und binden sie mit klaren Kontrollen an Ihre bestehenden Systeme an: Agenten, Retrieval über internes Wissen sowie Dokumenten- und Workflow-Automatisierung.",
     metaDescription:
-      "KI-Agenten, Retrieval über internes Wissen, Dokumenten- und Workflow-Automatisierung, mit Kontrollen an Ihre Systeme angebunden. Starten Sie mit einem unverbindlichen Gespräch.",
+      "KI-Agenten, Retrieval über internes Wissen, Dokumenten- und Workflow-Automatisierung, mit Kontrollen an Ihre Systeme angebunden. Klare Verantwortung. Transparente Umsetzung.",
     capabilities: [
       "KI-Agenten",
       "RAG und Wissenssysteme",

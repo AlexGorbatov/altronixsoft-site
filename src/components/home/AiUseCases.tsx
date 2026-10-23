@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { UseCase } from "@/data/services";
 import { localizedPath } from "@/i18n/config";
 import { getContent } from "@/i18n/server";
+import { FramedCard } from "@/components/ui/FramedCard";
 import { cn } from "@/lib/utils";
 
 const ICONS: Record<UseCase["icon"], LucideIcon> = {
@@ -18,7 +19,7 @@ export async function AiUseCases() {
   const { eyebrow, title, link } = copy.services.aiCases;
 
   return (
-    <div id="solutions" className="card flex h-full flex-col p-6 sm:p-8">
+    <FramedCard accent="violet" innerId="solutions" innerClassName="flex h-full flex-col p-6 sm:p-8">
       <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-1">
         <div>
           <div className="eyebrow">{eyebrow}</div>
@@ -52,6 +53,6 @@ export async function AiUseCases() {
           );
         })}
       </ul>
-    </div>
+    </FramedCard>
   );
 }

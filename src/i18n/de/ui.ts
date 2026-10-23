@@ -178,7 +178,7 @@ export const copy: Part<"copy"> = {
     next: {
       label: "Sie sind dran",
       title: "Haben Sie ein Projekt im Sinn?",
-      text: "Beschreiben Sie das System und das Problem. Starten Sie mit einem unverbindlichen Gespräch.",
+      text: "Beschreiben Sie das System und das Problem. Alles Weitere besprechen wir gemeinsam.",
     },
   },
   engagement: {
