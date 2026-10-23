@@ -1,15 +1,20 @@
 import Link from "next/link";
+import { contactHref } from "@/data/site";
 import { localizedPath } from "@/i18n/config";
 import { getContent } from "@/i18n/server";
 import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
+import { Button } from "@/components/ui/Button";
 import { CardRow } from "@/components/ui/CardRow";
 import { CARD_ITEM } from "@/components/ui/cardItem";
+import { FramedCard, type FrameAccent } from "@/components/ui/FramedCard";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { Tag } from "@/components/ui/Tag";
 import { AiUseCases } from "./AiUseCases";
 import { SapSpecialization } from "./SapSpecialization";
+
+/** One colour per service, so the three cards read as three different things. */
+const ACCENTS: FrameAccent[] = ["cyan", "blue", "violet"];
 
 export async function Services() {
   const { lang, copy, services } = await getContent();
@@ -22,10 +27,11 @@ export async function Services() {
         description={copy.services.description}
       />
 
-      <CardRow label={copy.services.rowLabel}>
+      {/* The padding gives the corner marks of the frames room inside the scrolling row on phones. */}
+      <CardRow label={copy.services.rowLabel} className="max-lg:-mt-2 max-lg:pt-2">
         {services.map((service, i) => (
           <AnimatedReveal key={service.id} delay={(i + 1) as 1 | 2 | 3} className={CARD_ITEM}>
-            <SpotlightCard className="card flex h-full flex-col">
+            <FramedCard accent={ACCENTS[i % ACCENTS.length]} innerClassName="flex h-full flex-col p-6">
               <h3 className="mb-3 text-[22px] leading-[1.2] font-bold tracking-[-0.03em]">{service.shortTitle}</h3>
               <p className="text-body leading-[1.65] text-muted lg:min-h-[3.3em]">{service.description}</p>
               <ul className="mt-5 mb-6 flex flex-wrap gap-[7px]" aria-label={copy.services.capabilitiesLabel}>
@@ -35,16 +41,23 @@ export async function Services() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-auto border-t border-line pt-4">
+              <div className="mt-auto flex flex-col items-stretch gap-3 border-t border-line pt-5">
+                <Button
+                  href={localizedPath(lang, contactHref(service.cta.type))}
+                  variant="secondary"
+                  className="h-auto min-h-14 px-3 py-2 text-center whitespace-normal"
+                >
+                  {service.cta.label}
+                </Button>
                 <Link
                   href={localizedPath(lang, `/services/${service.id}`)}
-                  className="link-quiet"
+                  className="link-quiet justify-center"
                   aria-label={`${copy.services.detailsLink}: ${service.title}`}
                 >
                   {copy.services.detailsLink} <span aria-hidden="true">→</span>
                 </Link>
               </div>
-            </SpotlightCard>
+            </FramedCard>
           </AnimatedReveal>
         ))}
       </CardRow>

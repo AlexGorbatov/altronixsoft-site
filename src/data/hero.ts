@@ -5,5 +5,5 @@ export const hero = {
   lead: "We build and modernize software — from custom platforms and integrations to SAP Commerce and AI solutions.",
   /** The second paragraph of the lead. */
   leadMore: "You work directly with experienced engineers, from planning to launch.",
-  facts: ["Architecture to production", "Start with a no-obligation conversation"],
+  facts: ["Architecture to production", "Clear ownership. Transparent delivery."],
 };

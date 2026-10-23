@@ -3,7 +3,7 @@ import { contactHref } from "@/data/site";
 import { localizedPath } from "@/i18n/config";
 import { getContent } from "@/i18n/server";
 import { Button } from "@/components/ui/Button";
-import { SpotlightCard } from "@/components/ui/SpotlightCard";
+import { FramedCard } from "@/components/ui/FramedCard";
 
 /** The SAP Commerce Cloud specialization card under the three service cards. Content: `sapCommerce.specialization`. */
 export async function SapSpecialization() {
@@ -11,7 +11,7 @@ export async function SapSpecialization() {
   const { badge, title, text, stats } = sapCommerce.specialization;
 
   return (
-    <SpotlightCard className="card flex h-full flex-col p-6 sm:p-8">
+    <FramedCard accent="blue" innerClassName="flex h-full flex-col p-6 sm:p-8">
       <span aria-hidden="true" className="absolute inset-x-8 top-0 h-px bg-[image:var(--brand-gradient)] opacity-70" />
       <div className="mono-label w-fit rounded-lg border border-white/[.18] px-3 py-[7px] text-label">{badge}</div>
       <h3 className="mt-6 text-[30px] leading-[1.1] font-bold tracking-[-0.03em]">{title}</h3>
@@ -32,6 +32,6 @@ export async function SapSpecialization() {
           {copy.services.sapLink} <span aria-hidden="true">→</span>
         </Link>
       </div>
-    </SpotlightCard>
+    </FramedCard>
   );
 }
