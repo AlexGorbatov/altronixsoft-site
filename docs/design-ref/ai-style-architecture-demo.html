@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project scenes as architecture — AI style 2026 (demo)</title>
+<style>
+  @property --a { syntax: "<angle>"; inherits: false; initial-value: 35deg; }
+  :root { --bg:#07101f; --cyan:#22d6f4; --violet:#8b5cf6; --green:#52d8ae; --text:#f7f9fc; --muted:#bcc6d6; --subtle:#9aa9be; --label:#8fdde8; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:"Manrope", system-ui, sans-serif; -webkit-font-smoothing:antialiased; }
+  .page { width:min(1200px, calc(100% - 48px)); margin:0 auto; padding:48px 0 80px; }
+  .note { display:flex; flex-wrap:wrap; gap:8px 24px; align-items:baseline; margin-bottom:28px; color:var(--subtle); font-size:14px; max-width:860px; line-height:1.55; }
+  .note b { color:var(--text); font-size:20px; letter-spacing:-.02em; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+  @media (max-width: 900px) { .grid { grid-template-columns:1fr; } }
+
+  .frame { --c:var(--violet); position:relative; padding:1px; border-radius:17px;
+    background:conic-gradient(from var(--a), rgba(255,255,255,.16) 0 50%, var(--c) 78%, rgba(255,255,255,.16) 100%);
+    animation:spin 7s linear infinite; transition:transform .35s cubic-bezier(.2,.75,.2,1), box-shadow .35s; }
+  .frame.cyan { --c:var(--cyan); }
+  .frame.green { --c:var(--green); }
+  .frame:hover { transform:translateY(-4px); box-shadow:0 18px 40px -22px var(--c); }
+  @keyframes spin { to { --a:395deg; } }
+  .inner { background:#0a1326; border-radius:16px; overflow:hidden; display:flex; flex-direction:column; height:100%; }
+  .cap { padding:20px 24px 22px; min-height:132px; }
+  .cap h3 { margin:0; font-size:24px; letter-spacing:-.03em; line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .cap p { margin:8px 0 0; font-size:14px; line-height:1.55; color:var(--muted); min-height:44px; }
+  .cap .cat { margin-top:10px; font:500 12px/1.2 "JetBrains Mono", ui-monospace, monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--subtle); }
+  .badge { position:absolute; top:10px; right:12px; z-index:4; display:inline-flex; align-items:center; gap:7px; height:24px; padding:0 10px; border-radius:999px;
+    font:500 12px/1 "JetBrains Mono", ui-monospace, monospace; letter-spacing:.08em; text-transform:uppercase; background:rgba(7,16,31,.6); backdrop-filter:blur(8px);
+    border:1px solid color-mix(in srgb, var(--c) 40%, transparent); color:#b79bfd; }
+  .cyan .badge { color:var(--label); }
+  .green .badge { color:var(--green); }
+  .badge i { width:6px; height:6px; border-radius:50%; background:currentColor; box-shadow:0 0 8px currentColor; }
+  .idx { position:absolute; top:14px; left:16px; z-index:4; font:500 12px/1.2 "JetBrains Mono", ui-monospace, monospace; letter-spacing:.12em; color:var(--label); }
+
+  .img { position:relative; height:320px; overflow:hidden; border-bottom:1px solid rgba(255,255,255,.07);
+    background:radial-gradient(ellipse at 50% 55%, #0f2147 0%, #0a1430 55%, #070f22 100%); isolation:isolate; }
+  .aurora { position:absolute; inset:-20%; z-index:0; pointer-events:none; filter:blur(46px); opacity:.85; }
+  .aurora i { position:absolute; border-radius:50%; }
+  .aurora i:nth-child(1) { width:55%; height:60%; left:8%; top:20%; background:radial-gradient(closest-side, rgba(34,214,244,.34), transparent); animation:drift1 14s ease-in-out infinite alternate; }
+  .aurora i:nth-child(2) { width:50%; height:55%; right:6%; top:6%; background:radial-gradient(closest-side, rgba(139,92,246,.40), transparent); animation:drift2 17s ease-in-out infinite alternate; }
+  .aurora i:nth-child(3) { width:35%; height:40%; left:38%; bottom:-6%; background:radial-gradient(closest-side, rgba(26,124,251,.32), transparent); animation:drift1 19s ease-in-out infinite alternate-reverse; }
+  @keyframes drift1 { to { transform:translate(8%, -6%) scale(1.12); } }
+  @keyframes drift2 { to { transform:translate(-9%, 8%) scale(1.1); } }
+  .grain { position:absolute; inset:0; z-index:3; pointer-events:none; opacity:.07; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>"); }
+  .scene { position:absolute; inset:0; z-index:1; width:100%; height:100%; transition:transform .6s cubic-bezier(.2,.75,.2,1); }
+  .frame:hover .scene { transform:scale(1.03); }
+
+  .pk { offset-rotate:0deg; offset-distance:0; opacity:0; animation:travel var(--d,3.2s) linear infinite; animation-delay:var(--l,0s); }
+  @keyframes travel { 0% { offset-distance:0; opacity:0; } 10% { opacity:1; } 90% { opacity:1; } 100% { offset-distance:100%; opacity:0; } }
+  .flow { stroke-dasharray:3 7; animation:flow 1.1s linear infinite; }
+  @keyframes flow { to { stroke-dashoffset:-10; } }
+  .bob { animation:bob var(--d,3.6s) ease-in-out infinite; animation-delay:var(--l,0s); }
+  @keyframes bob { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-3px); } }
+  .grow { transform-box:fill-box; transform-origin:50% 100%; animation:grow var(--d,3.6s) ease-in-out infinite; animation-delay:var(--l,0s); }
+  @keyframes grow { 0%,100% { transform:scaleY(.84); } 50% { transform:scaleY(1); } }
+  .pulse { transform-box:fill-box; transform-origin:center; animation:pulse 2.6s ease-in-out infinite; animation-delay:var(--l,0s); }
+  @keyframes pulse { 0%,100% { transform:scale(.7); opacity:.5; } 50% { transform:scale(1.25); opacity:1; } }
+  .scan { animation:scan 2.4s ease-in-out infinite; animation-delay:var(--l,0s); }
+  @keyframes scan { 0%,100% { opacity:.25; } 50% { opacity:.75; } }
+  .tick { animation:tick 5s linear infinite; animation-delay:var(--l,0s); opacity:.3; }
+  @keyframes tick { 0%,100% { opacity:.3; } 10%,20% { opacity:1; } 35% { opacity:.3; } }
+  .mote { animation:mote var(--d,6s) ease-in-out infinite; animation-delay:var(--l,0s); }
+  @keyframes mote { 0%,100% { transform:translateY(0); opacity:.2; } 50% { transform:translateY(-9px); opacity:.9; } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation:none !important; transition:none !important; }
+    .pk { opacity:1; offset-distance:50%; }
+    .scan, .tick { opacity:.6; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="note">
+    <b>Архитектура приложения на картинках — AI style 2026</b>
+    <span>Каждый блок — реальный компонент системы, каждая метка — его название из описания проекта и стека, каждая линия — направление данных. Названий и связей, которых нет в данных проектов, здесь нет.</span>
+  </div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+/* ---------- project data (from src/data/projects.ts) ---------- */
+const PROJECTS = [
+  { t: 'SAP Hybris e-commerce platform', c: 'E-commerce', s: 'nda', d: 'OCC web services, Solr search, promotions and integrations for a furniture and home decor retailer.', scene: 'hybris' },
+  { t: 'Product information platform', c: 'Product information (PIM)', s: 'nda', d: 'Centralized product information, integrations and enterprise workflows.', scene: 'pim' },
+  { t: 'Logistics operations platform', c: 'Logistics', s: 'nda', d: 'Backend systems for logistics workflows, APIs and day-to-day operations.', scene: 'logistics' },
+  { t: 'Compass AI', c: 'Own product · Management', s: 'dev', d: 'Management platform for IT service companies: a weekly ScoreCard across six business modules.', scene: 'compass' },
+  { t: 'Secure RAG', c: 'AI · Retrieval', s: 'oss', d: 'Enterprise retrieval-augmented generation in Java, with access control in front of the model.', scene: 'rag' },
+  { t: 'AI Business Workflow Agent', c: 'AI · Agents', s: 'dev', d: 'An agent that runs a business workflow across systems, with a human approval step.', scene: 'agent' },
+  { t: 'AI Document Processing', c: 'AI · Documents', s: 'dev', d: 'Turns incoming documents into structured, checked data that downstream systems can use.', scene: 'documents' },
+  { t: 'LLM Gateway', c: 'AI · Infrastructure', s: 'dev', d: 'One entry point to several language models, with routing, limits and an audit trail.', scene: 'gateway' },
+];
+const STATUS = { nda: ['Client · NDA', ''], dev: ['In development', 'cyan'], oss: ['Open source', 'green'] };
+
+/* ---------- isometric kit (same projection as the site) ---------- */
+const mk = (sc, ox, oy) => (x, y, z = 0) => [ox + (x - y) * .866 * sc, oy + (x + y) * .5 * sc - z * sc];
+const pts = (l) => l.map(([a, b]) => `${a.toFixed(1)},${b.toFixed(1)}`).join(' ');
+const path = (P, route, z = .05) => 'M' + route.map(([x, y]) => P(x, y, z).map(v => v.toFixed(1)).join(' ')).join(' L');
+
+const GLASS = {
+  ice:    ['#cfe0ff', '#7ea2ff', '#4a63d6'],
+  cyan:   ['#9bf6ff', '#22d6f4', '#1a7cfb'],
+  blue:   ['#8cbcff', '#2f86ff', '#3b3fd0'],
+  violet: ['#dccbff', '#9b6cff', '#6a3fe0'],
+  plate:  ['#a9bde8', '#5a78c2', '#3a4f94'],
+  amber:  ['#ffe3b0', '#e6a24a', '#a8691f'],
+};
+const ID = (n) => `s${n}`;
+
+class Scene {
+  constructor(n, sc, ox, oy) { this.id = ID(n); this.P = mk(sc, ox, oy); this.under = ''; this.solids = []; this.over = ''; this.labels = []; this.sc = sc; }
+  floor(x0, y0, x1, y1) {
+    const P = this.P; let l = '';
+    for (let i = x0; i <= x1; i++) { const a = P(i, y0), b = P(i, y1); l += `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`; }
+    for (let j = y0; j <= y1; j++) { const a = P(x0, j), b = P(x1, j); l += `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`; }
+    const c = P((x0 + x1) / 2, (y0 + y1) / 2);
+    this.under += `<ellipse cx="${c[0]}" cy="${c[1] + 6}" rx="${(x1 - x0) * 17}" ry="${(x1 - x0) * 8.5}" fill="url(#floorGlow${this.id})"/>
+      <g mask="url(#gridMask${this.id})" stroke="url(#beam${this.id})" stroke-opacity=".34" stroke-width=".75">${l}</g>`;
+    this.gridC = c; this.gridR = (x1 - x0) * 17;
+  }
+  /* a zone on the floor: a tier of the architecture */
+  zone(x, y, w, d, col = '#22d6f4') {
+    const P = this.P, q = [P(x, y, .02), P(x + w, y, .02), P(x + w, y + d, .02), P(x, y + d, .02)];
+    this.under += `<polygon points="${pts(q)}" fill="${col}" fill-opacity=".07" stroke="${col}" stroke-opacity=".5" stroke-width=".9" stroke-dasharray="3 4" stroke-linejoin="round"/>`;
+  }
+  road(route, wd = .9) {
+    const P = this.P;
+    route.slice(1).forEach(([x1, y1], i) => {
+      const [x0, y0] = route[i], h = wd / 2;
+      const q = x0 === x1 ? [[x0 - h, Math.min(y0, y1) - h], [x0 + h, Math.min(y0, y1) - h], [x0 + h, Math.max(y0, y1) + h], [x0 - h, Math.max(y0, y1) + h]]
+        : [[Math.min(x0, x1) - h, y0 - h], [Math.max(x0, x1) + h, y0 - h], [Math.max(x0, x1) + h, y0 + h], [Math.min(x0, x1) - h, y0 + h]];
+      this.under += `<polygon points="${pts(q.map(([a, b]) => P(a, b, .02)))}" fill="#7cefff" fill-opacity=".07" stroke="url(#beam${this.id})" stroke-opacity=".35" stroke-width=".8"/>`;
+    });
+  }
+  box(x, y, z, w, d, h, pal, o = {}) {
+    const P = this.P, id = this.id;
+    const top = [P(x, y, z + h), P(x + w, y, z + h), P(x + w, y + d, z + h), P(x, y + d, z + h)];
+    const left = [P(x, y + d, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z), P(x, y + d, z)];
+    const right = [P(x + w, y, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z), P(x + w, y, z)];
+    const a = o.alpha ?? 1, style = [o.dur && `--d:${o.dur}s`, o.delay !== undefined && `--l:${o.delay}s`].filter(Boolean).join(';');
+    const cx = (top[0][0] + top[2][0]) / 2, cy = (top[0][1] + top[2][1]) / 2;
+    this.solids.push({ depth: o.depth ?? x + y + z * .01, svg: `<g class="${o.anim ?? 'bob'}" style="${style}">
+      <polygon points="${pts(left)}" fill="${pal[1]}" fill-opacity="${.34 * a}"/>
+      <polygon points="${pts(right)}" fill="${pal[2]}" fill-opacity="${.30 * a}"/>
+      <polygon points="${pts(left)}" fill="url(#sheen${id})" fill-opacity=".12"/>
+      <polygon points="${pts(top)}" fill="${pal[0]}" fill-opacity="${.62 * a}"/>
+      <polygon points="${pts(top)}" fill="url(#sheen${id})" fill-opacity=".35"/>
+      <polyline points="${pts([top[0], top[1], top[2], top[3], top[0]])}" fill="none" stroke="url(#edge${id})" stroke-width="1.15" stroke-linejoin="round"/>
+      <polyline points="${pts([left[3], left[0]])}" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width=".9"/>
+      <polyline points="${pts([left[2], left[1], right[0]])}" fill="none" stroke="#fff" stroke-opacity=".38" stroke-width=".8" stroke-linejoin="round"/>
+      <polyline points="${pts([left[2], left[3]])}" fill="none" stroke="#fff" stroke-opacity=".2" stroke-width=".7"/>
+      ${o.core ? `<ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${Math.max(w, d) * this.sc * .5}" ry="${Math.max(w, d) * this.sc * .24}" fill="#fff" class="pulse" style="--l:${o.delay ?? 0}s" opacity=".5" filter="url(#blur2${id})"/>` : ''}
+    </g>` });
+  }
+  roof(x, y, z, w, d, h, rh, pal, o = {}) {
+    const P = this.P, id = this.id, m = y + d / 2;
+    const back = [P(x, y, z + h), P(x + w, y, z + h), P(x + w, m, z + h + rh), P(x, m, z + h + rh)];
+    const front = [P(x, y + d, z + h), P(x + w, y + d, z + h), P(x + w, m, z + h + rh), P(x, m, z + h + rh)];
+    const gab = [P(x + w, y, z + h), P(x + w, y + d, z + h), P(x + w, m, z + h + rh)];
+    this.solids.push({ depth: o.depth, svg: `<g class="${o.anim ?? ''}" style="--d:${o.dur ?? 4}s">
+      <polygon points="${pts(back)}" fill="${pal[2]}" fill-opacity=".34"/><polygon points="${pts(gab)}" fill="${pal[1]}" fill-opacity=".32"/>
+      <polygon points="${pts(front)}" fill="${pal[0]}" fill-opacity=".6"/><polygon points="${pts(front)}" fill="url(#sheen${id})" fill-opacity=".35"/>
+      <polyline points="${pts([...front, front[0]])}" fill="none" stroke="url(#edge${id})" stroke-width="1.15" stroke-linejoin="round"/></g>` });
+  }
+  /* a translucent gate / scanner standing across the flow */
+  plane(x, y0, y1, z0, z1, col = '#22d6f4', delay = 0, o = {}) {
+    const P = this.P, q = [P(x, y0, z0), P(x, y1, z0), P(x, y1, z1), P(x, y0, z1)];
+    this.solids.push({ depth: o.depth ?? x + (y0 + y1) / 2, svg: `<g><polygon class="scan" style="--l:${delay}s" points="${pts(q)}" fill="${col}" fill-opacity=".32"/>
+      <polygon points="${pts(q)}" fill="none" stroke="${col}" stroke-opacity=".95" stroke-width="1.1" stroke-linejoin="round"/></g>` });
+  }
+  /* a flowing route: halo, crisp dashes, and orbs that travel in its direction */
+  beam(route, o = {}) {
+    const P = this.P, id = this.id, d = path(P, route), dp = path(P, route, .3);
+    const col = o.violet ? '#8b5cf6' : o.amber ? '#ffb347' : '#22d6f4', lite = o.violet ? '#dccbff' : o.amber ? '#ffe3b0' : '#9bf6ff';
+    const orb = o.violet ? `url(#orbV${id})` : o.amber ? `url(#orbA${id})` : `url(#orb${id})`;
+    this.under += `<path d="${d}" fill="none" stroke="${col}" stroke-opacity=".35" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#blur2${id})"/>
+      <path class="flow" d="${d}" fill="none" stroke="${lite}" stroke-opacity=".9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+    const n = o.orbs ?? 2, dur = o.dur ?? 3.2, r = o.r ?? 5.5;
+    for (let k = 0; k < n; k++) this.over += `<g class="pk" style="offset-path:path('${dp}');--d:${dur}s;--l:${((o.delay ?? 0) + k * dur / n).toFixed(2)}s"><circle r="${r * 2.6}" fill="${orb}" opacity=".7"/><circle r="${r * .38}" fill="#fff"/></g>`;
+  }
+  ring(x, y, z, rx, col, dash = true) {
+    const [cx, cy] = this.P(x, y, z);
+    this.under += `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${rx / 2}" fill="none" stroke="${col}" stroke-opacity=".55" stroke-width="1.2" ${dash ? 'stroke-dasharray="3 6" class="flow"' : ''}/>`;
+  }
+  tick(x, y, i, col = '#9bf6ff') {
+    const [cx, cy] = this.P(x, y);
+    this.over += `<ellipse cx="${cx}" cy="${cy}" rx="7" ry="3.5" fill="#0a1430" stroke="${col}" stroke-width="1.4"/><ellipse class="tick" style="--l:${i}s" cx="${cx}" cy="${cy}" rx="3" ry="1.5" fill="${col}"/>`;
+  }
+  /* an architecture label: a glass pill tied to a component by a thin line */
+  label(wx, wy, wz, text, dx, dy, o = {}) { this.labels.push({ wx, wy, wz, text, dx, dy, ...o }); }
+  motes(n, seed, box) {
+    let s = seed; const r = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+    for (let i = 0; i < n; i++) {
+      const x = box[0] + r() * (box[2] - box[0]), y = box[1] + r() * (box[3] - box[1]), rad = .8 + r() * 1.4;
+      this.over += `<circle class="mote" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${rad.toFixed(1)}" fill="${r() > .5 ? '#9bf6ff' : '#dccbff'}" style="--d:${(4 + r() * 5).toFixed(1)}s;--l:${(r() * 5).toFixed(1)}s"/>`;
+    }
+  }
+  defs() {
+    const id = this.id;
+    return `<defs>
+    <linearGradient id="edge${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".5" stop-color="#7cefff" stop-opacity=".8"/><stop offset="1" stop-color="#b79bfd" stop-opacity=".9"/></linearGradient>
+    <linearGradient id="beam${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#22d6f4"/><stop offset="1" stop-color="#b79bfd"/></linearGradient>
+    <linearGradient id="sheen${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <radialGradient id="orb${id}"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#9bf6ff"/><stop offset="1" stop-color="#22d6f4" stop-opacity="0"/></radialGradient>
+    <radialGradient id="orbV${id}"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#dccbff"/><stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/></radialGradient>
+    <radialGradient id="orbA${id}"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#ffe3b0"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient>
+    <radialGradient id="floorGlow${id}"><stop offset="0" stop-color="#22d6f4" stop-opacity=".28"/><stop offset=".6" stop-color="#8b5cf6" stop-opacity=".10"/><stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/></radialGradient>
+    <radialGradient id="fade${id}" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff"/><stop offset=".62" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <mask id="gridMask${id}" maskUnits="userSpaceOnUse" x="-300" y="-200" width="1100" height="800"><rect x="${this.gridC[0] - this.gridR * 1.15}" y="${this.gridC[1] - this.gridR * .62}" width="${this.gridR * 2.3}" height="${this.gridR * 1.24}" fill="url(#fade${id})"/></mask>
+    <filter id="blur6${id}" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="7"/></filter>
+    <filter id="blur2${id}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+  </defs>`;
+  }
+  render() {
+    const id = this.id;
+    const solids = [...this.solids].sort((a, b) => a.depth - b.depth).map(s => s.svg).join('');
+    const labels = this.labels.map(({ wx, wy, wz, text, dx, dy, tone }) => {
+      const [x, y] = this.P(wx, wy, wz), tx = x + dx, ty = y + dy, w = text.length * 5.6 + 16;
+      const col = tone === 'violet' ? '#dccbff' : '#9bf6ff';
+      return `<g class="lbl">
+        <line x1="${x}" y1="${y}" x2="${tx}" y2="${ty + (dy < 0 ? 7 : -7)}" stroke="${col}" stroke-opacity=".55" stroke-width=".8" stroke-dasharray="2 3"/>
+        <circle cx="${x}" cy="${y}" r="2.2" fill="${col}"/><circle cx="${x}" cy="${y}" r="5" fill="${col}" opacity=".3" class="pulse"/>
+        <rect x="${tx - w / 2}" y="${ty - 7.5}" width="${w}" height="15" rx="7.5" fill="#0a1430" fill-opacity=".7" stroke="${col}" stroke-opacity=".6" stroke-width=".8"/>
+        <text x="${tx}" y="${ty + 2.9}" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="7.4" letter-spacing=".8" fill="#e6f8ff">${text}</text></g>`;
+    }).join('');
+    return `${this.defs()}${this.under}<g id="bx${id}">${solids}</g>
+      <use href="#bx${id}" filter="url(#blur6${id})" opacity=".5" style="mix-blend-mode:screen"/>${this.over}${labels}`;
+  }
+}
+
+/* ---------- the eight architectures ---------- */
+
+/* 01 — SAP Hybris: third-party systems (REST/SOAP) → Data Hub → Hybris (Solr, promotions, checkout) → OCC → Spartacus; CI/CD underneath. */
+function hybris() {
+  const s = new Scene(1, 21, 150, 44);
+  s.floor(-1, -1, 11, 8);
+  const ys = [.4, 2.2, 4.0];
+  ys.forEach((y, i) => s.beam([[1.4, y + .5], [2.5, y + .5], [2.5, 2.9], [3.3, 2.9]], { dur: 3, delay: i * .9, orbs: 1 }));
+  s.beam([[4.6, 2.9], [5.5, 2.9]], { dur: 1.6, orbs: 1 });
+  s.beam([[7.7, 2.9], [8.4, 2.9]], { violet: true, dur: 1.4, orbs: 1 });
+  s.beam([[8.6, 2.9], [9.3, 2.9]], { violet: true, dur: 1.4, orbs: 1, delay: .6 });
+  s.beam([[0.5, 6.4], [10.5, 6.4]], { dur: 5, orbs: 1, r: 4 });
+  ys.forEach((y, i) => s.box(0, y, 0, 1.4, 1, .6, GLASS.ice, { depth: y, dur: 3.2 + i * .4, delay: i * .4 }));
+  s.box(3.3, 2.2, 0, 1.3, 1.3, .7, GLASS.blue, { depth: 6, dur: 3.6, core: true });
+  s.box(6.1, 0, 0, 1.1, .9, .5, GLASS.ice, { depth: 6.5, dur: 3.4, delay: .4 });
+  s.box(5.5, 1.8, 0, 2.2, 2.2, 1.1, GLASS.cyan, { depth: 8, dur: 4, core: true });
+  s.box(5.7, 2, 1.1, 1.8, 1.8, .22, GLASS.violet, { depth: 8.1, dur: 4 });
+  s.box(5.7, 2, 1.32, 1.8, 1.8, .22, GLASS.blue, { depth: 8.2, dur: 4 });
+  s.plane(8.5, 1.7, 4.1, 0, 1.5, '#22d6f4', 0, { depth: 9 });
+  s.box(9.3, 1.7, 0, 1.7, 2.4, .45, GLASS.violet, { depth: 11, dur: 3.5, delay: .3 });
+  s.box(10.6, 1.7, .45, .2, 2.4, 1.1, GLASS.ice, { depth: 11.2, dur: 3.5, delay: .3 });
+  for (let i = 0; i < 5; i++) s.tick(.8 + i * 2.35, 6.4, i, i === 4 ? '#dccbff' : '#9bf6ff');
+  s.label(.7, 1.4, .6, 'THIRD-PARTY · REST/SOAP', -8, -34);
+  s.label(3.95, 2.85, .7, 'DATA HUB', -30, 30);
+  s.label(6.6, .45, .5, 'SOLR', 40, -34);
+  s.label(6.6, 2.9, 1.54, 'SAP HYBRIS', -8, -44);
+  s.label(8.5, 2.9, 1.5, 'OCC API', -30, 34);
+  s.label(10.7, 2.9, 1.5, 'SPARTACUS', 36, -20, { tone: 'violet' });
+  s.label(.5, 6.4, 0, 'CI/CD', -6, 24);
+  s.motes(12, 5, [0, 20, 380, 250]);
+  return s;
+}
+
+/* 02 — PIM: data sources → PIM hub (workflow layers) → enterprise APIs → integrations. */
+function pim() {
+  const s = new Scene(2, 21, 150, 50);
+  s.floor(-1, -1, 11, 7);
+  const ys = [.3, 2.3, 4.3];
+  ys.forEach((y, i) => s.beam([[1.8, y + .5], [3.2, y + .5], [3.2, 3.1], [4.4, 3.1]], { dur: 2.8, delay: i * .8, orbs: 1 }));
+  s.beam([[6.4, 3.1], [7.4, 3.1], [7.4, 2.0], [8.2, 2.0]], { violet: true, dur: 2.2, orbs: 1, delay: .4 });
+  s.beam([[7.4, 3.1], [7.4, 4.6], [8.2, 4.6]], { violet: true, dur: 2.2, orbs: 1, delay: 1.3 });
+  ys.forEach((y, i) => s.box(0, y, 0, 1.7, 1, .35, GLASS.plate, { depth: y, dur: 3.2 + i * .3, delay: i * .3, core: i === 1 }));
+  for (let k = 0; k < 4; k++) s.box(4.4, 2.4, k * .55, 1.9, 1.5, .42, [GLASS.ice, GLASS.violet, GLASS.blue, GLASS.cyan][k], { depth: 7 + k * .01, dur: 3.8, delay: k * .2, core: k === 3 });
+  s.plane(6.7, 1.9, 4.3, 0, 1.2, '#22d6f4', 0, { depth: 8 });
+  let n = 0;
+  for (let i = 0; i < 2; i++) for (let j = 0; j < 2; j++) { s.box(8.2 + i * 1.5, 1.4 + j * 1.7, 0, 1.2, 1.3, .3, (i + j) % 2 ? GLASS.violet : GLASS.cyan, { depth: 10 + i + j, dur: 3.4, delay: n * .4 }); n++; }
+  s.label(.85, 1.3, .35, 'DATA SOURCES', -44, -26);
+  s.label(5.35, 3.1, 1.9, 'PIM · WORKFLOWS', 14, -46);
+  s.label(6.7, 4.3, 1.2, 'ENTERPRISE APIs', 6, 36, { });
+  s.label(9.4, 2.7, .3, 'INTEGRATIONS', 28, -34, { tone: 'violet' });
+  s.motes(12, 9, [0, 20, 380, 250]);
+  return s;
+}
+
+/* 03 — Logistics: API in front of backend systems, workflows, trucks to operations; the cloud above. */
+function logistics() {
+  const s = new Scene(3, 22, 150, 56);
+  s.floor(-1, -1, 11, 7);
+  const R = [[1.8, 1.2], [6.2, 1.2], [6.2, 4.8], [9.6, 4.8]];
+  s.road(R, .9); s.beam(R, { amber: true, dur: 7, orbs: 2, r: 4 });
+  s.box(0, 0, 0, 3, 2.2, 1.2, GLASS.ice, { depth: 2, anim: 'none', core: true });
+  s.roof(0, 0, 0, 3, 2.2, 1.2, .6, GLASS.violet, { depth: 2.1 });
+  for (let k = 0; k < 2; k++) s.box(3.6 + k * .7, 2.8, 0, .6, .6, .35 + k * .2, GLASS.ice, { depth: 6 + k, dur: 3 + k * .4 });
+  s.plane(2.2, -.2, 2.4, 0, 1.4, '#22d6f4', 0, { depth: 3 });
+  s.box(9.2, 4.2, 0, 1.2, 1.2, .9, GLASS.violet, { depth: 12, dur: 3.4, delay: .3, core: true });
+  s.box(5.7, 5.4, 0, 1, 1, .7, GLASS.cyan, { depth: 8, dur: 3.6, delay: .6, core: true });
+  s.box(6.9, .2, 0, 1.1, 1, .5, GLASS.cyan, { depth: 7, dur: 3.2, core: true });
+  // the cloud: a glass layer above everything
+  s.box(1.2, .6, 3.4, 8.6, 4.4, .12, GLASS.plate, { depth: 30, anim: 'none', alpha: .22 });
+  s.label(1.5, 1.1, 1.2, 'BACKEND SYSTEMS', -6, -42);
+  s.label(2.2, 1.1, 1.4, 'API', 52, -2);
+  s.label(4.1, 3.1, .55, 'WORKFLOWS', -20, 30);
+  s.label(9.8, 4.8, .9, 'OPERATIONS', 22, -32, { tone: 'violet' });
+  s.label(8.6, 1.4, 3.5, 'CLOUD', 18, -8);
+  s.motes(12, 2, [0, 10, 380, 250]);
+  return s;
+}
+
+/* 04 — Compass AI: Next.js front layer over a Spring Modulith plate of six modules; a weekly ScoreCard loop. */
+function compass() {
+  const s = new Scene(4, 20, 156, 50);
+  s.floor(-1, -1, 11, 7);
+  s.box(.4, .2, 0, 9.4, 5.6, .3, GLASS.plate, { depth: 0, anim: 'none', alpha: .9 });
+  const towers = [[1.4, .9, 1.3, 'cyan'], [4.2, .9, 2.0, 'blue'], [7, .9, 1.7, 'violet'], [1.4, 3.6, 2.2, 'blue'], [4.2, 3.6, 1.6, 'cyan'], [7, 3.6, 1.4, 'violet']];
+  towers.forEach(([x, y, h, c], i) => s.box(x, y, .3, 1.6, 1.6, h, GLASS[c], { depth: x + y + 1, anim: 'grow', dur: 3.4 + i * .35, delay: i * .45, core: i === 1 }));
+  s.ring(5.1, 3.1, .31, 92, '#22d6f4');
+  s.beam([[.8, .4], [9.4, .4], [9.4, 5.6], [.8, 5.6], [.8, .4]], { dur: 9, orbs: 2, r: 5, violet: true });
+  // the front layer: a glass screen floating above the modules
+  s.box(1.0, .5, 3.9, 8.4, 5.0, .1, GLASS.ice, { depth: 40, anim: 'bob', dur: 5, alpha: .55 });
+  towers.forEach(([x, y, h], i) => s.label(x + .8, y + .8, .3 + h, `0${i + 1}`, 0, -22 - (i % 2) * 6, { tone: i % 3 === 2 ? 'violet' : undefined }));
+  s.label(5.1, 5.7, .3, 'SPRING MODULITH', -6, 26);
+  s.label(9.4, .5, 4.0, 'NEXT.JS', 20, -14);
+  s.label(9.4, 3.0, .3, 'WEEKLY SCORECARD', 36, 14, { tone: 'violet' });
+  s.motes(14, 3, [0, 10, 380, 250]);
+  return s;
+}
+
+/* 05 — Secure RAG: documents → retrieval → access control → model → response. */
+function rag() {
+  const s = new Scene(5, 21, 140, 50);
+  s.floor(-1, -1, 11, 7);
+  const route = [[1.4, 3], [9.2, 3]];
+  s.beam(route, { dur: 4, orbs: 3, r: 5 });
+  for (let k = 0; k < 3; k++) s.box(0, 2.2, k * .32, 1.8, 1.6, .26, GLASS.ice, { depth: 2.2 + k * .01, dur: 3.4, delay: k * .3 });
+  for (let k = 0; k < 3; k++) s.box(2.9, 2.1, k * .5, 1.7, 1.7, .34, k === 1 ? GLASS.blue : GLASS.plate, { depth: 5 + k * .01, dur: 3.8, delay: k * .25, core: k === 2 });
+  s.box(5.7, .9, 0, .45, .45, 2.3, GLASS.plate, { depth: 8, anim: 'none' });
+  s.box(5.7, 4.2, 0, .45, .45, 2.3, GLASS.plate, { depth: 9, anim: 'none' });
+  s.plane(5.92, 1.2, 4.6, 0, 2.3, '#22d6f4', 0, { depth: 8.5 });
+  s.box(7.3, 2.2, 0, 1.6, 1.6, 1.3, GLASS.cyan, { depth: 12, dur: 4, core: true });
+  s.ring(8.1, 3, 0, 44, '#22d6f4');
+  s.box(9.6, 2.4, 0, 1.2, 1.2, .5, GLASS.violet, { depth: 14, dur: 3.2, delay: .4 });
+  s.label(.9, 3.0, .8, 'DOCUMENTS', -46, -26);
+  s.label(3.75, 3.0, 1.5, 'RETRIEVAL', -6, -54);
+  s.label(5.92, 2.9, 2.3, 'ACCESS CONTROL', 58, -40);
+  s.label(8.1, 3.0, 1.3, 'MODEL', 22, -34);
+  s.label(10.2, 3.0, .5, 'RESPONSE', 20, 30, { tone: 'violet' });
+  s.motes(12, 4, [0, 20, 380, 250]);
+  return s;
+}
+
+/* 06 — AI Business Workflow Agent: the agent between several systems, with a human approval step. */
+function agent() {
+  const s = new Scene(6, 21, 152, 56);
+  s.floor(-1, -1, 11, 7);
+  const spokes = [[[3.4, 3.2], [1.8, 3.2]], [[4.3, 2.2], [4.3, -.4]], [[4.3, 4.4], [4.3, 6.3]]];
+  spokes.forEach((r, i) => { s.beam(r, { dur: 2.4, orbs: 1, delay: i * .7 }); s.beam([...r].reverse(), { dur: 2.4, orbs: 1, delay: i * .7 + 1.2 }); });
+  s.beam([[5.2, 3.2], [9.0, 3.2]], { violet: true, dur: 2.6, orbs: 1, delay: .5 });
+  s.beam([[9.0, 3.2], [5.2, 3.2]], { violet: true, dur: 2.6, orbs: 1, delay: 1.9 });
+  s.box(3.3, 2.2, 0, 2, 2, 1.5, GLASS.cyan, { depth: 8, dur: 4, core: true });
+  s.ring(4.3, 3.2, 0, 52, '#22d6f4');
+  s.box(0, 2.6, 0, 1.6, 1.2, .6, GLASS.ice, { depth: 2, dur: 3.2 });
+  s.box(3.6, -1.8, 0, 1.4, 1.2, .6, GLASS.ice, { depth: 0, dur: 3.5, delay: .4 });
+  s.box(3.6, 5.7, 0, 1.4, 1.2, .6, GLASS.ice, { depth: 12, dur: 3.7, delay: .8 });
+  s.box(9, 2.6, 0, 1.6, 1.2, .9, GLASS.violet, { depth: 14, dur: 3.3, delay: .2, core: true });
+  // the person who approves: a small glass figure on the violet block
+  const [hx, hy] = s.P(9.8, 3.2, 1.55);
+  s.over += `<circle cx="${hx}" cy="${hy}" r="4.2" fill="#fff" fill-opacity=".85"/><path d="M${hx - 6} ${hy + 11} Q${hx} ${hy + 1} ${hx + 6} ${hy + 11} Z" fill="#fff" fill-opacity=".6"/>`;
+  s.label(4.3, 3.2, 1.5, 'AGENT', 0, -46);
+  s.label(.8, 3.2, .6, 'SYSTEM', -8, -34);
+  s.label(4.3, -1.2, .6, 'SYSTEM', 34, -10);
+  s.label(4.3, 6.3, .6, 'SYSTEM', 40, 22);
+  s.label(9.8, 3.2, 1.9, 'HUMAN APPROVAL', 10, -36, { tone: 'violet' });
+  s.motes(12, 6, [0, 20, 380, 250]);
+  return s;
+}
+
+/* 07 — AI Document Processing: pages → extraction → validation → structured data for downstream systems. */
+function documents() {
+  const s = new Scene(7, 21, 120, 54);
+  s.floor(-1, -1, 11, 7);
+  const route = [[1.6, 3.1], [10, 3.1]];
+  s.beam(route, { dur: 4, orbs: 0 });
+  for (let k = 0; k < 3; k++) s.over += '';
+  for (let k = 0; k < 4; k++) s.box(0, 2.3, k * .3, 1.6, 1.6, .24, GLASS.ice, { depth: 2.3 + k * .01, dur: 3.4, delay: k * .25 });
+  s.box(3.6, 1.3, 0, .45, .45, 2, GLASS.plate, { depth: 6, anim: 'none' });
+  s.box(3.6, 4.6, 0, .45, .45, 2, GLASS.plate, { depth: 8, anim: 'none' });
+  s.plane(3.82, 1.6, 4.9, 0, 2, '#22d6f4', 0, { depth: 7 });
+  s.box(5.4, 1.3, 0, .45, .45, 2, GLASS.plate, { depth: 8.5, anim: 'none' });
+  s.box(5.4, 4.6, 0, .45, .45, 2, GLASS.plate, { depth: 10, anim: 'none' });
+  s.plane(5.62, 1.6, 4.9, 0, 2, '#9bf6ff', 1.2, { depth: 9 });
+  let n = 0;
+  for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) {
+    const h = .5 + ((i * 3 + j) % 4) * .35;
+    s.box(7.2 + i * 1.2, 1.5 + j * 1.2, 0, .95, .95, h, (i + j) % 2 === 0 ? GLASS.cyan : (i + j) % 3 === 0 ? GLASS.violet : GLASS.blue, { depth: 11 + i * 1.3 + j * 1.2, anim: 'grow', dur: 3.2 + n * .2, delay: n * .3 }); n++;
+  }
+  // pages travel along the route: little glass sheets
+  const dp = path(s.P, [[1.8, 3.1], [7, 3.1]], .35);
+  for (let k = 0; k < 3; k++) s.over += `<g class="pk" style="offset-path:path('${dp}');--d:4s;--l:${k * 1.3}s"><polygon points="-7,0 0,-3.8 7,0 0,3.8" fill="#eaf2ff" fill-opacity=".9"/><polygon points="-7,0 0,3.8 7,0 7,1.6 0,5.4 -7,1.6" fill="#8fa6d6" fill-opacity=".8"/></g>`;
+  s.label(.8, 3.1, 1.1, 'INCOMING DOCUMENTS', -6, -44);
+  s.label(3.82, 4.9, .6, 'EXTRACTION', -14, 30);
+  s.label(5.62, 3.1, 2, 'VALIDATION', 30, -24, { tone: 'violet' });
+  s.label(8.6, 3.2, 1.2, 'DOWNSTREAM SYSTEMS', 30, -42);
+  s.motes(12, 8, [0, 20, 380, 250]);
+  return s;
+}
+
+/* 08 — LLM Gateway: clients → one gateway (routing, limits) → several models; an audit trail kept alongside. */
+function gateway() {
+  const s = new Scene(8, 21, 140, 50);
+  s.floor(-1, -1, 11, 7);
+  const fan = [.3, 2.5, 4.7].map(y => [[5.6, 3.1], [6.8, 3.1], [6.8, y + .6], [7.6, y + .6]]);
+  for (let k = 0; k < 3; k++) s.beam([[1.7, 3.1], [3.5, 3.1]], { dur: 1.6, orbs: 1, delay: k * .5, r: 4.5 });
+  fan.forEach((f, i) => s.beam(f, { violet: i === 1, dur: 2.6, orbs: 1, delay: i * .7 + .4 }));
+  s.beam([[4.55, 4.2], [4.55, 6.0]], { amber: true, dur: 2.4, orbs: 1, r: 4 });
+  s.box(0, 1.2, 0, 1.8, 3.8, .5, GLASS.ice, { depth: 2, dur: 3.4 });
+  s.box(3.5, 2.1, 0, 2.1, 2.1, 1.3, GLASS.blue, { depth: 8, dur: 3.8, core: true });
+  s.ring(4.55, 3.15, 0, 48, '#5aa6ff');
+  [[.3, 2.4, GLASS.cyan], [2.5, 1.5, GLASS.violet], [4.7, 2, GLASS.blue]].forEach(([y, h, c], i) => s.box(7.6, y, 0, 1.8, 1.4, h, c, { depth: 9 + y, anim: 'grow', dur: 3.4 + i * .4, delay: i * .5, core: true }));
+  // the audit trail: a stack of thin log slabs
+  for (let k = 0; k < 4; k++) s.box(3.7, 5.9, k * .16, 1.7, 1.0, .12, GLASS.amber, { depth: 12 + k * .01, dur: 3.6, delay: k * .2, alpha: .9 });
+  s.label(.9, 3.1, .5, 'CLIENTS', -42, -28);
+  s.label(4.55, 3.15, 1.3, 'GATEWAY · ROUTING · LIMITS', 30, -58);
+  s.label(8.5, .6, 2.4, 'LANGUAGE MODELS', 22, -22);
+  s.label(4.55, 6.4, .5, 'AUDIT TRAIL', -46, 22);
+  s.motes(12, 1, [0, 20, 380, 250]);
+  return s;
+}
+const SCENES = { hybris, pim, logistics, compass, rag, agent, documents, gateway };
+
+/* ---------- page ---------- */
+const grid = document.getElementById('grid');
+PROJECTS.forEach((p, i) => {
+  const [status, tone] = STATUS[p.s];
+  grid.insertAdjacentHTML('beforeend', `<article class="frame ${tone}"><div class="inner">
+    <div class="img"><span class="idx">0${i + 1}</span><span class="badge"><i></i>${status}</span>
+      <div class="aurora"><i></i><i></i><i></i></div><svg class="scene" aria-hidden="true" preserveAspectRatio="xMidYMid meet"></svg><div class="grain"></div></div>
+    <div class="cap"><h3>${p.t}</h3><p>${p.d}</p><div class="cat">${p.c}</div></div></div></article>`);
+  const svg = grid.querySelectorAll('svg.scene')[i];
+  svg.setAttribute('viewBox', '0 0 400 260');
+  svg.innerHTML = SCENES[p.scene]().render();
+});
+
+/* Fit each picture: the viewBox becomes everything the scene draws (labels included) plus a margin. */
+function fit() {
+  grid.querySelectorAll('svg.scene').forEach(svg => {
+    svg.setAttribute('viewBox', '0 0 400 260');
+    const inv = svg.getScreenCTM().inverse();
+    let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    svg.querySelectorAll('polygon,polyline,ellipse,path,line,rect,text,circle').forEach(el => {
+      if (el.closest('defs,mask,.pk,.mote,use,[mask]') || el.matches('.pulse') || el.getAttribute('fill')?.startsWith('url(#floorGlow')) return;
+      const r = el.getBoundingClientRect(); if (!r.width && !r.height) return;
+      const a = new DOMPoint(r.left, r.top).matrixTransform(inv), b = new DOMPoint(r.right, r.bottom).matrixTransform(inv);
+      x0 = Math.min(x0, a.x); y0 = Math.min(y0, a.y); x1 = Math.max(x1, b.x); y1 = Math.max(y1, b.y);
+    });
+    const m = 12, W = svg.clientWidth, H = svg.clientHeight, ratio = W / H;
+    let w = x1 - x0 + 2 * m, h = y1 - y0 + 2 * m;
+    if (w / h < ratio) w = h * ratio; else h = w / ratio;
+    const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+    svg.setAttribute('viewBox', `${(cx - w / 2).toFixed(1)} ${(cy - h / 2).toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}`);
+  });
+}
+(document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => requestAnimationFrame(fit));
+addEventListener('resize', fit);
+</script>
+</body>
+</html>
