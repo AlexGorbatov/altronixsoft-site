@@ -94,7 +94,7 @@ export const sapCommerce: Part<"sapCommerce"> = {
   title: "SAP-Commerce-Cloud-Leistungen",
   metaTitle: "SAP Commerce Cloud (Hybris) Entwicklung",
   metaDescription:
-    "SAP Commerce Cloud (Hybris): Entwicklung, Support, Integrationen und Upgrades durch Senior-Java-/Spring-Engineers. Starten Sie mit einem kostenlosen 30-Minuten-Check-up.",
+    "SAP Commerce Cloud (Hybris): Entwicklung, Support, Integrationen und Upgrades durch Senior-Java-/Spring-Engineers. Starten Sie mit einem unverbindlichen Gespräch.",
   h1: "SAP-Commerce-Cloud-Entwicklung und -Support",
   intro:
     "Wir entwickeln, erweitern und betreuen SAP-Commerce-Cloud-Plattformen (Hybris) für E-Commerce- und Produktdaten-Teams. Die Arbeit ist Backend- und Integrationsentwicklung in Java und Spring, geleitet von Senior Engineers.",
@@ -133,7 +133,7 @@ export const sapCommerce: Part<"sapCommerce"> = {
   start: [
     {
       title: "Architektur-Check-up",
-      text: "Ein 30-minütiges Gespräch über Ihre Plattform, um zu entscheiden, was als Nächstes sinnvoll ist.",
+      text: "Ein Gespräch über Ihre Plattform, um zu entscheiden, was als Nächstes sinnvoll ist.",
     },
     {
       title: "Technisches Review",

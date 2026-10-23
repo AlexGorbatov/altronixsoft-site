@@ -3,9 +3,10 @@ import type { Part } from "../content";
 /** Deutsch: Startseite, Leistungen, Zusammenarbeit, Unternehmen, Prozess. */
 export const hero: Part<"hero"> = {
   eyebrow: "Software-Engineering für Unternehmen",
-  title: ["Solide Ingenieurskunst.", "Praxisnahe KI."],
-  lead: "Wir entwickeln und modernisieren Software für Unternehmen und ambitionierte Startups: SAP Commerce Cloud, Integrationen und KI-gestützte Produkte. Senior Engineers begleiten jedes Projekt von der Architektur bis zum Produktivbetrieb.",
-  facts: ["Von der Architektur bis zum Betrieb", "Starten Sie mit einem kostenlosen 30-minütigen Architektur-Check-up"],
+  title: ["Komplexe Systeme.", "Klare Lösungen."],
+  lead: "Wir entwickeln und modernisieren Software — von individuellen Plattformen und Integrationen bis zu SAP Commerce und KI-Lösungen.",
+  leadMore: "Sie arbeiten direkt mit erfahrenen Engineers zusammen, von der Planung bis zum Launch.",
+  facts: ["Von der Architektur bis zum Betrieb", "Starten Sie mit einem unverbindlichen Gespräch"],
 };
 
 export const navigation: Part<"navigation"> = [
@@ -19,8 +20,8 @@ export const navigation: Part<"navigation"> = [
 export const site: Part<"site"> = {
   title: "SAP Commerce, Java und KI-Entwicklung | Altronix Software",
   description:
-    "Altronix Software entwickelt und modernisiert Unternehmenssoftware: Java/Spring, SAP Commerce Cloud, Integrationen und KI. Starten Sie mit einem kostenlosen Check-up.",
-  tagline: "Solide Ingenieurskunst. Praxisnahe KI.",
+    "Altronix Software entwickelt und modernisiert Unternehmenssoftware: Java/Spring, SAP Commerce Cloud, Integrationen und KI. Starten Sie mit einem unverbindlichen Gespräch.",
+  tagline: "Komplexe Systeme. Klare Lösungen.",
 };
 
 export const services: Part<"services"> = [
@@ -31,7 +32,7 @@ export const services: Part<"services"> = [
     intro:
       "Wir konzipieren und entwickeln individuelle Software rund um Ihre Geschäftsprozesse, vom ersten MVP bis zum Produktivbetrieb: Webanwendungen, interne Plattformen, APIs und Integrationen.",
     metaDescription:
-      "Individuelle Software für Ihre Geschäftsprozesse, vom MVP bis zum Produktivbetrieb: Web-Apps, interne Plattformen, APIs und Integrationen. Starten Sie mit einem kostenlosen Check-up.",
+      "Individuelle Software für Ihre Geschäftsprozesse, vom MVP bis zum Produktivbetrieb: Web-Apps, interne Plattformen, APIs und Integrationen. Starten Sie mit einem unverbindlichen Gespräch.",
     capabilities: [
       "SaaS-Produkte",
       "Webanwendungen",
@@ -50,7 +51,7 @@ export const services: Part<"services"> = [
     intro:
       "Wir verbessern die Systeme, die Ihr Geschäft heute tragen, ohne unnötige Neuentwicklungen: Java-/Spring-Modernisierung, Entwicklung und Support für SAP Commerce Cloud, Cloud-Migration und Enterprise-Integrationen.",
     metaDescription:
-      "Bestehende Systeme ohne komplette Neuentwicklung modernisieren: Java/Spring, SAP Commerce Cloud, Cloud-Migration, Integrationen. Starten Sie mit einem kostenlosen 30-Minuten-Check-up.",
+      "Bestehende Systeme ohne komplette Neuentwicklung modernisieren: Java/Spring, SAP Commerce Cloud, Cloud-Migration, Integrationen. Starten Sie mit einem unverbindlichen Gespräch.",
     capabilities: [
       "Java-/Spring-Modernisierung",
       "Entwicklung und Support für SAP Commerce Cloud",
@@ -69,7 +70,7 @@ export const services: Part<"services"> = [
     intro:
       "Wir setzen KI dort ein, wo sie ein echtes Geschäftsproblem löst, und binden sie mit klaren Kontrollen an Ihre bestehenden Systeme an: Agenten, Retrieval über internes Wissen sowie Dokumenten- und Workflow-Automatisierung.",
     metaDescription:
-      "KI-Agenten, Retrieval über internes Wissen, Dokumenten- und Workflow-Automatisierung, mit Kontrollen an Ihre Systeme angebunden. Starten Sie mit einem kostenlosen Check-up.",
+      "KI-Agenten, Retrieval über internes Wissen, Dokumenten- und Workflow-Automatisierung, mit Kontrollen an Ihre Systeme angebunden. Starten Sie mit einem unverbindlichen Gespräch.",
     capabilities: [
       "KI-Agenten",
       "RAG und Wissenssysteme",
@@ -126,7 +127,7 @@ export const engagementModels: Part<"engagementModels"> = [
 
 export const checkup: Part<"checkup"> = {
   title: "Architektur-Check-up",
-  meta: "30 Minuten · kostenlos",
+  meta: "Unverbindlich",
   text: "Ein Gespräch, in dem wir Ihr System ansehen und entscheiden, ob ein Technisches Review sinnvoll ist. Keine Vorbereitung nötig.",
   cta: { label: "Check-up anfragen" },
 };

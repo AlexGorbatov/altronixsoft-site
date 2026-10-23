@@ -82,8 +82,10 @@
   margin: 26px 0 24px;
   font-size: 72px;
   font-weight: 800;
-  line-height: 0.98;
+  line-height: 1.12;
   letter-spacing: -0.057em;
+  /* The tight letter spacing pulls words together; give the gap between them back. */
+  word-spacing: 0.16em;
 }
 /* One light sweep on load, then the gradient rests (no perpetual motion on the biggest text). */
 .title span {
@@ -93,12 +95,19 @@
   color: transparent;
 }
 
+.leadGroup {
+  margin: 0 0 30px;
+}
 .lead {
   max-width: 650px;
-  margin: 0 0 30px;
+  margin: 0;
   font-size: 18px;
   line-height: 1.72;
   color: var(--text-strong);
+}
+
+.lead + .lead {
+  margin-top: 14px;
 }
 
 /* Buttons: stacked at one width on phones, one row from 640px (same rule as .actions in globals.css). */
@@ -191,5 +200,12 @@
   }
   .meta {
     gap: 8px 16px;
+  }
+}
+
+/* Very narrow phones: a smaller size keeps the title to three lines. */
+@media (max-width: 380px) {
+  .title {
+    font-size: 38px;
   }
 }
