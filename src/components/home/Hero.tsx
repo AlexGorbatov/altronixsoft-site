@@ -23,7 +23,10 @@ export async function Hero() {
             <br />
             {secondLine}
           </h1>
-          <p className={styles.lead}>{hero.lead}</p>
+          <div className={styles.leadGroup}>
+            <p className={styles.lead}>{hero.lead}</p>
+            <p className={styles.lead}>{hero.leadMore}</p>
+          </div>
           <div className={styles.actions}>
             <Button href={localizedPath(lang, CONTACT_HREF)}>
               <CtaLabel label={copy.ui.cta} />

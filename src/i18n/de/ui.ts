@@ -4,9 +4,9 @@ import type { Part } from "../content";
 /** Deutsch: Oberfläche, Beschriftungen, Formular. Anrede durchgehend mit „Sie“. */
 export const copy: Part<"copy"> = {
   shared: {
-    typicalStart: "Üblicher Einstieg: ein 30-minütiger Architektur-Check-up, danach ein Technisches Review.",
+    typicalStart: "Üblicher Einstieg: ein Architektur-Check-up, danach ein Technisches Review.",
     startParagraph:
-      "Die meisten Projekte beginnen mit einem 30-minütigen Architektur-Check-up und einem kurzen Technischen Review, bevor ein größerer Umfang folgt.",
+      "Die meisten Projekte beginnen mit einem Architektur-Check-up und einem kurzen Technischen Review, bevor ein größerer Umfang folgt.",
     allFormsLink: "Alle Formen der Zusammenarbeit ansehen",
   },
   contact: {
@@ -60,7 +60,7 @@ export const copy: Part<"copy"> = {
     title: "Beschreiben Sie das System und das Problem.",
     text: "Nennen Sie den Workflow, die Plattform oder das Produkt. Wir antworten mit dem kürzesten Weg in den Produktivbetrieb.",
     orEmail: "Oder schreiben Sie an",
-    booking: "30-Minuten-Gespräch buchen",
+    booking: "Gespräch buchen",
   },
   pages: {
     home: "Startseite",
@@ -109,7 +109,7 @@ export const copy: Part<"copy"> = {
     rowLabel: "Leistungen",
     capabilitiesLabel: "Kompetenzen",
     detailsLink: "Details zur Leistung",
-    sapCta: "Kostenlosen Check-up anfragen",
+    sapCta: "Check-up anfragen",
     sapLink: "SAP-Leistungen",
     aiCases: {
       eyebrow: "KI-Anwendungsfälle",
@@ -178,7 +178,7 @@ export const copy: Part<"copy"> = {
     next: {
       label: "Sie sind dran",
       title: "Haben Sie ein Projekt im Sinn?",
-      text: "Beschreiben Sie das System und das Problem. Starten Sie mit einem kostenlosen 30-Minuten-Architektur-Check-up.",
+      text: "Beschreiben Sie das System und das Problem. Starten Sie mit einem unverbindlichen Gespräch.",
     },
   },
   engagement: {

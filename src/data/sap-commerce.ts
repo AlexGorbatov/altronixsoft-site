@@ -9,7 +9,7 @@ export const sapCommerce = {
   /** Search and sharing title: "development" and "Hybris" are the terms people search for. `title` stays for the breadcrumb. */
   metaTitle: "SAP Commerce Cloud (Hybris) development",
   metaDescription:
-    "SAP Commerce Cloud (Hybris) development, support, integrations and upgrades by senior Java/Spring engineers. Start with a free 30-minute check-up call.",
+    "SAP Commerce Cloud (Hybris) development, support, integrations and upgrades by senior Java/Spring engineers. Start with a no-obligation conversation.",
   h1: "SAP Commerce Cloud development and support",
   intro:
     "We build, extend and support SAP Commerce Cloud (Hybris) platforms for e-commerce and product-data teams. The work is backend and integration engineering in Java and Spring, led by senior engineers.",
@@ -52,7 +52,7 @@ export const sapCommerce = {
   ],
   relevant: ["Java", "Spring", "SAP Commerce Cloud (Hybris)", "Enterprise APIs", "PIM", "Cloud"],
   start: [
-    { title: "Architecture check-up", text: "A 30-minute call to look at your platform and decide what makes sense next." },
+    { title: "Architecture check-up", text: "A call to look at your platform and decide what makes sense next." },
     { title: "Technical review", text: "A short review of your code, architecture and integrations, with a written report." },
     { title: "Delivery", text: "Fixed-scope work or a dedicated team, led by a senior engineer." },
   ],

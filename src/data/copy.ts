@@ -8,8 +8,8 @@ import { siteConfig } from "@/data/site";
 export const copy = {
   /** One wording for how engagements start; reused by the contact block, service pages and the SAP page. */
   shared: {
-    typicalStart: "Typical start: a 30-minute architecture check-up, then a technical review.",
-    startParagraph: "Most engagements begin with a 30-minute architecture check-up and a short technical review, before a larger scope.",
+    typicalStart: "Typical start: an architecture check-up, then a technical review.",
+    startParagraph: "Most engagements begin with an architecture check-up and a short technical review, before a larger scope.",
     allFormsLink: "See all engagement formats",
   },
   /** Next to the contact form: what makes a first message easy to answer. */
@@ -68,7 +68,7 @@ export const copy = {
     title: "Describe the system and the problem.",
     text: "Name the workflow, platform or product. We reply with the shortest path to production.",
     orEmail: "Or email",
-    booking: "Book a 30-minute call",
+    booking: "Book a call",
   },
   /** Service, SAP and case study pages. */
   pages: {
@@ -120,7 +120,7 @@ export const copy = {
     rowLabel: "Services",
     capabilitiesLabel: "Capabilities",
     detailsLink: "Service details",
-    sapCta: "Request a free check-up",
+    sapCta: "Request a check-up",
     sapLink: "SAP services",
     aiCases: {
       eyebrow: "AI use cases",
@@ -191,7 +191,7 @@ export const copy = {
     next: {
       label: "Your turn",
       title: "Have a project in mind?",
-      text: "Describe the system and the problem. Start with a free 30-minute architecture check-up.",
+      text: "Describe the system and the problem. Start with a no-obligation conversation.",
     },
   },
   engagement: {

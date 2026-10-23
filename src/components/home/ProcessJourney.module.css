@@ -7,16 +7,56 @@
  */
 .scroll {
   --map-h: 390px;
+  /* Length of the impulse loop; the start of each part is its --t (see SEQ in ProcessJourney.tsx). */
+  --cycle: 9.6s;
   position: relative;
   background:
     radial-gradient(900px 560px at 50% 44%, rgba(92, 72, 190, 0.14), transparent 72%),
     radial-gradient(700px 420px at 8% 68%, rgba(26, 124, 251, 0.08), transparent 74%);
 }
 
+/*
+ * The frame: a 1px border of light that turns slowly, like the project cards (--a is registered in
+ * globals.css), with corner marks around it. It only moves while the section is on screen.
+ */
+.frame {
+  position: relative;
+  padding: 1px;
+  border-radius: 25px;
+  background: conic-gradient(from var(--a), rgba(255, 255, 255, 0.16) 0 48%, #3b82f6 64%, #8b5cf6 84%, rgba(255, 255, 255, 0.16) 100%);
+  box-shadow: 0 30px 80px -42px rgba(99, 102, 241, 0.42);
+  animation: frameSpin 8s linear infinite;
+  animation-play-state: paused;
+}
+.scroll[data-live="true"] .frame {
+  animation-play-state: running;
+}
+@keyframes frameSpin {
+  to {
+    --a: 395deg;
+  }
+}
+.frame::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  pointer-events: none;
+  border-radius: 29px;
+  opacity: 0.55;
+  background:
+    linear-gradient(#3b82f6, #3b82f6) 0 0 / 16px 1.5px no-repeat,
+    linear-gradient(#3b82f6, #3b82f6) 0 0 / 1.5px 16px no-repeat,
+    linear-gradient(#8b5cf6, #8b5cf6) 100% 0 / 16px 1.5px no-repeat,
+    linear-gradient(#8b5cf6, #8b5cf6) 100% 0 / 1.5px 16px no-repeat,
+    linear-gradient(#3b82f6, #3b82f6) 0 100% / 16px 1.5px no-repeat,
+    linear-gradient(#3b82f6, #3b82f6) 0 100% / 1.5px 16px no-repeat,
+    linear-gradient(#8b5cf6, #8b5cf6) 100% 100% / 16px 1.5px no-repeat,
+    linear-gradient(#8b5cf6, #8b5cf6) 100% 100% / 1.5px 16px no-repeat;
+}
+
 .shell {
   position: relative;
   padding: 44px 44px 30px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 24px;
   background: linear-gradient(180deg, rgba(12, 20, 39, 0.96), rgba(8, 14, 28, 0.98));
   box-shadow:
@@ -52,7 +92,8 @@
   position: relative;
   z-index: 2;
   max-width: 760px;
-  margin: 0 0 34px;
+  margin: 0 auto 34px;
+  text-align: center;
 }
 .head h2 {
   margin: 12px 0 10px;
@@ -60,10 +101,16 @@
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.04em;
+  /* The title picks up the colour of the pulse: white into soft violet. */
+  background: linear-gradient(90deg, #fff 0%, #ebe4ff 55%, #cdbcff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 .head p {
   max-width: 58ch;
-  margin: 0;
+  margin: 0 auto;
   font-size: 16px;
   line-height: 1.65;
   color: var(--text-secondary);
@@ -77,8 +124,9 @@
 }
 .line {
   position: absolute;
-  left: 2%;
-  right: 2%;
+  /* From the middle of the first column to the middle of the last (4 columns, 24px gaps). */
+  left: calc((100% - 72px) / 8);
+  right: calc((100% - 72px) / 8);
   top: 8px;
   height: 2px;
   background: rgba(255, 255, 255, 0.08);
@@ -105,13 +153,15 @@
   position: relative;
   min-width: 0;
   padding: 14px 6px 0;
+  text-align: center;
   transform: translateY(4px);
   transition: transform 0.35s var(--ease-out);
 }
 .dot {
   position: absolute;
   top: -30px;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 13px;
   height: 13px;
   border: 2px solid var(--text-muted);
@@ -132,13 +182,14 @@
   color: #8c9bb2;
   transition: all 0.32s ease;
 }
-/* Upcoming phases: dimmed by colour so text stays >= 4.5:1 on the shell background. */
+/* Titles stand out in every state; the step that is not reached yet is only one tier quieter. */
 .phase h3 {
   margin: 13px 0 6px;
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   line-height: 1.25;
-  color: var(--text-muted);
+  letter-spacing: -0.02em;
+  color: var(--text-secondary);
   transition: color 0.32s ease;
 }
 .phase p {
@@ -161,7 +212,7 @@
   color: inherit;
   font: inherit;
   letter-spacing: inherit;
-  text-align: left;
+  text-align: inherit;
   cursor: pointer;
 }
 .stepButton::after {
@@ -179,7 +230,7 @@
   transform: none;
 }
 .completed h3 {
-  color: #c3ccda;
+  color: var(--text-primary);
 }
 .completed p {
   color: #97a5b9;
@@ -200,7 +251,7 @@
 .active .dot {
   opacity: 1;
   top: -31.5px;
-  left: -1.5px;
+  left: 50%;
   width: 16px;
   height: 16px;
   border-color: #88f1fb;
@@ -217,6 +268,7 @@
 }
 .active h3 {
   color: #fff;
+  text-shadow: 0 0 26px rgba(70, 157, 255, 0.55);
 }
 .active p {
   color: #c9d3e1;
@@ -224,6 +276,7 @@
 
 .hint {
   margin: 22px 0 0;
+  text-align: center;
   font-size: 13px;
   color: var(--text-muted);
 }
@@ -265,12 +318,26 @@
     box-shadow 0.32s ease;
 }
 .zoneLabel {
-  padding: 10px 12px 9px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.055);
-  font: 500 11px/1 var(--font-mono);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 12px 10px;
+  border-bottom: 1px solid rgba(var(--g), 0.3);
+  background: linear-gradient(180deg, rgba(var(--g), 0.1), transparent);
+  font: 500 12px/1 var(--font-mono);
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: var(--text-secondary);
+  text-align: center;
+  color: var(--lc);
+}
+.zoneLabel::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 10px currentColor;
 }
 
 /* Zones use % top/height so they scale with the map and stay aligned with the wires. */
@@ -296,8 +363,10 @@
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.018);
-  font-size: 12px;
-  color: var(--text-secondary);
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-strong);
   transition: all 0.28s ease;
 }
 
@@ -323,8 +392,10 @@
   border-radius: 9px;
   background: rgba(255, 255, 255, 0.025);
   text-align: center;
-  font-size: 12px;
-  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
   transition: all 0.32s ease;
 }
 .coreArrow {
@@ -358,7 +429,8 @@
 .outputCard b {
   display: block;
   margin-bottom: 4px;
-  font-size: 12.5px;
+  font-size: 14px;
+  color: var(--text-primary);
 }
 .outputCard span {
   display: block;
@@ -383,8 +455,8 @@
 .badge b {
   display: block;
   margin-bottom: 3px;
-  font-size: 12.5px;
-  color: var(--text-secondary);
+  font-size: 14px;
+  color: var(--text-primary);
   transition: color 0.35s ease;
 }
 .badge span {
@@ -403,7 +475,7 @@
 }
 .wires path {
   fill: none;
-  stroke: rgba(81, 118, 173, 0.23);
+  stroke: rgba(98, 122, 200, 0.26);
   stroke-width: 1.4;
   stroke-dasharray: 7 7;
   animation: journeyFlow 1.5s linear infinite;
@@ -445,7 +517,7 @@
 .scroll[data-active="1"] .coreNode:first-child,
 .scroll[data-active="2"] .coreNode {
   color: #e7f2ff;
-  border-color: rgba(45, 211, 234, 0.24);
+  border-color: rgba(139, 92, 246, 0.3);
   background: linear-gradient(145deg, rgba(42, 115, 205, 0.11), rgba(93, 74, 190, 0.08));
 }
 .scroll[data-active="2"] .coreNode:last-child {
@@ -478,24 +550,24 @@
 
 /* Wires light up progressively (each stays lit once reached) */
 .scroll:is([data-active="0"], [data-active="1"], [data-active="2"], [data-active="3"]) .wireA {
-  stroke: #3f9dff;
+  stroke: #3f8bff;
   opacity: 0.95;
-  filter: drop-shadow(0 0 5px rgba(47, 133, 255, 0.45));
+  filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5));
 }
 .scroll:is([data-active="1"], [data-active="2"], [data-active="3"]) .wireB {
-  stroke: #2dd3ea;
+  stroke: #6a7bf5;
   opacity: 0.95;
-  filter: drop-shadow(0 0 6px rgba(45, 211, 234, 0.45));
+  filter: drop-shadow(0 0 6px rgba(91, 112, 244, 0.5));
 }
 .scroll:is([data-active="2"], [data-active="3"]) .wireC {
-  stroke: #7167f1;
+  stroke: #8466f4;
   opacity: 0.95;
-  filter: drop-shadow(0 0 6px rgba(113, 103, 241, 0.5));
+  filter: drop-shadow(0 0 6px rgba(120, 100, 243, 0.5));
 }
 .scroll[data-active="3"] .wireD {
-  stroke: #806cf6;
+  stroke: #9466f6;
   opacity: 1;
-  filter: drop-shadow(0 0 7px rgba(128, 108, 246, 0.55));
+  filter: drop-shadow(0 0 7px rgba(139, 92, 246, 0.55));
 }
 
 /* ------------------------------------------------------------------ footer */
@@ -504,12 +576,13 @@
   z-index: 3;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 20px;
   padding-top: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.055);
 }
 .status {
+  text-align: center;
   font: 500 12px/1.35 var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -522,11 +595,211 @@
 .status .current {
   color: var(--label);
 }
+/* ----------------------------------------------------------------- impulse
+   A pulse of light through the diagram, from the first item of "Your context" to the last, then along the
+   wires to Problem, on to Architecture, and out to what we deliver. Every part runs the same loop (--cycle)
+   with its own start (--t), so the light is lit for a moment and passes on. The glow is a layer on top of the
+   part (::after), so the part's resting look, including what the selected step gives it, is never touched.
+   Paused until the section is on screen. */
+.zone::after,
+.chip::after,
+.coreNode::after,
+.outputCard::after,
+.badge::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border: 1px solid rgba(var(--g), 0.6);
+  border-radius: inherit;
+  background: rgba(var(--g), 0.1);
+  box-shadow:
+    0 0 0 1px rgba(var(--g), 0.16),
+    0 14px 34px -16px rgba(var(--g), 0.65);
+  opacity: 0;
+  pointer-events: none;
+  animation: impulseGlow var(--cycle) ease-in-out infinite;
+  animation-delay: var(--t, 0s);
+  animation-play-state: paused;
+}
+.chip,
+.coreNode,
+.outputCard {
+  position: relative;
+}
+.badge::after {
+  background: rgba(var(--g), 0.14);
+  box-shadow:
+    0 0 0 1px rgba(var(--g), 0.2),
+    0 14px 38px -14px rgba(var(--g), 0.7);
+}
+
+/* The colour runs from blue (your context) through indigo (the core) to violet (what we deliver), like the timeline. */
+.scroll {
+  --g: 59, 130, 246;
+}
+.sourceZone,
+.sourceZone .chip {
+  --g: 59, 130, 246;
+  --lc: #9dbfff;
+}
+.coreZone {
+  --g: 96, 112, 244;
+}
+.coreNode:first-of-type {
+  --g: 79, 120, 245;
+}
+.coreNode:last-of-type {
+  --g: 113, 103, 241;
+}
+.coreArrow {
+  --g: 96, 112, 244;
+}
+.outputZone,
+.outputZone .outputCard,
+.badge {
+  --g: 139, 92, 246;
+  --lc: var(--violet-soft);
+}
+.coreArrow {
+  animation: impulseArrow var(--cycle) ease-in-out infinite;
+  animation-delay: var(--t, 0s);
+  animation-play-state: paused;
+}
+.zoneLabel {
+  animation: impulseLabel var(--cycle) ease-in-out infinite;
+  animation-delay: var(--t, 0s);
+  animation-play-state: paused;
+}
+.sourceZone .zoneLabel {
+  --t: 0s;
+}
+.outputZone .zoneLabel {
+  --t: 5.3s;
+}
+.scroll[data-live="true"] :is(.zone, .chip, .coreNode, .outputCard, .badge, .phase)::after,
+.scroll[data-live="true"] :is(.coreArrow, .zoneLabel, .wires .pulse) {
+  animation-play-state: running;
+}
+
+/* Lit from 3% to 9% of the loop (about 0.6 s), gone by 16%. */
+@keyframes impulseGlow {
+  0% {
+    opacity: 0;
+  }
+  3%,
+  9% {
+    opacity: 1;
+  }
+  16%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes impulseArrow {
+  0%,
+  16%,
+  100% {
+    color: #6f8fc8;
+    text-shadow: none;
+    transform: none;
+  }
+  3%,
+  9% {
+    color: #aab4ff;
+    text-shadow: 0 0 12px rgba(var(--g), 0.75);
+    transform: translateX(4px);
+  }
+}
+@keyframes impulseLabel {
+  0%,
+  16%,
+  100% {
+    color: var(--lc);
+    text-shadow: none;
+  }
+  3%,
+  9% {
+    color: #fff;
+    text-shadow: 0 0 14px rgba(var(--g), 0.8);
+  }
+}
+
+/* The light itself, travelling along a wire: one short dash that runs from the start to the end. */
+.wires .pulse {
+  fill: none;
+  stroke: #dfe7ff;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-dasharray: 9 91;
+  stroke-dashoffset: 9;
+  opacity: 0;
+  filter: drop-shadow(0 0 6px rgba(var(--g), 0.9));
+  animation: pulseTravel var(--cycle) linear infinite;
+  animation-delay: var(--t, 0s);
+  animation-play-state: paused;
+}
+@keyframes pulseTravel {
+  0% {
+    stroke-dashoffset: 9;
+    opacity: 0;
+  }
+  0.6% {
+    opacity: 1;
+  }
+  10% {
+    stroke-dashoffset: -100;
+    opacity: 1;
+  }
+  10.6%,
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+}
+
+/* A phone has no diagram: the four steps take the impulse, one after another. */
+@media (max-width: 640px) {
+  .phase::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border: 1px solid rgba(var(--g), 0.6);
+    border-radius: inherit;
+    background: rgba(var(--g), 0.1);
+    box-shadow: 0 12px 30px -16px rgba(var(--g), 0.65);
+    opacity: 0;
+    pointer-events: none;
+    animation: impulseGlow var(--cycle) ease-in-out infinite;
+    animation-delay: calc(var(--n, 0) * 1.7s);
+    animation-play-state: paused;
+  }
+  .phase:nth-child(1) {
+    --n: 0;
+    --g: 59, 130, 246;
+  }
+  .phase:nth-child(2) {
+    --n: 1;
+    --g: 79, 120, 245;
+  }
+  .phase:nth-child(3) {
+    --n: 2;
+    --g: 113, 103, 241;
+  }
+  .phase:nth-child(4) {
+    --n: 3;
+    --g: 139, 92, 246;
+  }
+}
+
 /* Reduced motion: keep the step changes (they follow the user's own click)
    but drop the flowing dashes and pulses. */
 @media (prefers-reduced-motion: reduce) {
-  .wires path {
+  .wires path,
+  .frame {
     animation: none;
+  }
+  .wires .pulse {
+    display: none;
   }
 }
 
@@ -595,7 +868,6 @@
   }
   .head {
     margin-bottom: 20px;
-    text-align: left;
   }
   .head h2 {
     font-size: 32px;
@@ -630,6 +902,7 @@
     gap: 8px;
   }
   .phase {
+    text-align: left;
     padding: 10px 12px 10px 14px;
     border: 1px solid rgba(255, 255, 255, 0.055);
     border-radius: 11px;
@@ -638,10 +911,16 @@
   .dot {
     left: -27px;
     top: 17px;
+    transform: none;
   }
   .active .dot {
     left: -28.5px;
     top: 15.5px;
+  }
+  .line {
+    /* Reset: on a phone the line is vertical. */
+    left: 7px;
+    right: auto;
   }
   .kicker {
     min-height: 22px;
