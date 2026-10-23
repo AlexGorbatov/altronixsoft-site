@@ -131,6 +131,7 @@ export const copy: Part<"copy"> = {
     teamLabel: "Команда",
     durationLabel: "Тривалість",
     resultLabel: "Результат",
+    diagramNote: "Спрощена анімована діаграма. Системи й назви узагальнено, щоб захистити конфіденційність клієнтів.",
   },
   engagement: {
     eyebrow: "Співпраця",

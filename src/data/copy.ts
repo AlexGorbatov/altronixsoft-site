@@ -142,6 +142,7 @@ export const copy = {
     teamLabel: "Team",
     durationLabel: "Duration",
     resultLabel: "Result",
+    diagramNote: "Simplified, animated diagram. Systems and names are generalised to protect client confidentiality.",
   },
   engagement: {
     eyebrow: "Engagement",

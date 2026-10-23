@@ -1,138 +1,300 @@
+import type { CSSProperties, ReactNode } from "react";
 import type { ProjectVisual as Variant } from "@/data/projects";
+import { type Point, polygonPoints, project, routePath } from "@/lib/iso";
+import { cn } from "@/lib/utils";
+import styles from "./ProjectVisual.module.css";
 
-const LINE = "#263957";
-const TILE = "#1a2b48";
-const CYAN = "#22d6f4";
-const VIOLET = "#b79bfd";
+/** Top, left and right face colours of a block. */
+type Face = readonly [string, string, string];
 
-/** One abstract scene per project theme. Illustrative only — no real UI, data or client marks. */
-function Scene({ variant }: { variant: Variant }) {
-  if (variant === "commerce") {
-    // Catalogue grid + order panel
-    return (
-      <>
-        {[0, 62, 124].flatMap((x) =>
-          [0, 50].map((y) => (
-            <g key={`${x}-${y}`}>
-              <rect x={x} y={y} width="54" height="42" rx="6" fill={TILE} />
-              <rect x={x + 8} y={y + 30} width="26" height="4" rx="2" fill={CYAN} opacity=".45" />
-            </g>
-          )),
-        )}
-        <rect x="196" y="0" width="104" height="92" rx="8" fill="#0b1425" stroke={LINE} />
-        <rect x="206" y="12" width="60" height="6" rx="3" fill={LINE} />
-        <rect x="206" y="26" width="82" height="6" rx="3" fill={LINE} />
-        <rect x="206" y="40" width="48" height="6" rx="3" fill={LINE} />
-        <rect x="206" y="68" width="84" height="16" rx="5" fill={CYAN} opacity=".35" />
-      </>
-    );
-  }
+const DARK: Face = ["#2f4572", "#1a2a4b", "#121d36"];
+const CYAN: Face = ["#5fe6f8", "#0f90b2", "#096683"];
+const BLUE: Face = ["#5aa6ff", "#1b66e0", "#12449b"];
+const VIOLET: Face = ["#c4aafd", "#7249dc", "#4e30a6"];
+const VIOLET_DEEP: Face = ["#8f78e8", "#4e35a8", "#38257c"];
 
-  if (variant === "integration") {
-    // External systems → platform (REST / SOAP), data feed through Data Hub, CI/CD pipeline underneath
-    const label = { fontFamily: "var(--font-mono), monospace", fontSize: 7.5, letterSpacing: 0.5, fill: "#7b90b0" };
-    return (
-      <>
-        {[0, 22, 44].map((y) => (
-          <g key={y}>
-            <path d={`M46 ${y + 8} C84 ${y + 8} 82 33 118 33`} fill="none" stroke={CYAN} strokeOpacity=".5" strokeDasharray="4 4" />
-            <rect x="0" y={y} width="46" height="16" rx="4" fill={TILE} />
-            <rect x="8" y={y + 6} width="20" height="4" rx="2" fill={LINE} />
-          </g>
-        ))}
-        <text x="78" y="70" textAnchor="middle" {...label}>
-          REST · SOAP
-        </text>
-        <rect x="118" y="11" width="64" height="44" rx="8" fill={CYAN} fillOpacity=".12" stroke={CYAN} strokeOpacity=".6" />
-        <rect x="130" y="23" width="40" height="5" rx="2.5" fill={CYAN} opacity=".6" />
-        <rect x="130" y="35" width="26" height="5" rx="2.5" fill={LINE} />
-        <path d="M254 33 H182" fill="none" stroke={VIOLET} strokeOpacity=".6" strokeDasharray="4 4" />
-        <rect x="254" y="11" width="46" height="44" rx="6" fill={TILE} />
-        {[22, 32, 42].map((y) => (
-          <rect key={y} x="262" y={y} width="30" height="4" rx="2" fill={VIOLET} opacity=".4" />
-        ))}
-        <text x="277" y="70" textAnchor="middle" {...label}>
-          DATA HUB
-        </text>
-        <path d="M34 86 H260" stroke={LINE} strokeWidth="1.2" />
-        {[60, 110, 160, 210, 260].map((x, i) => (
-          <circle key={x} cx={x} cy="86" r="3.2" fill="#101b31" stroke={i === 4 ? VIOLET : CYAN} strokeWidth="1.4" />
-        ))}
-        <text x="0" y="89" {...label}>
-          CI/CD
-        </text>
-      </>
-    );
-  }
+const C_CYAN = "#22d6f4";
+const C_CYAN_LIGHT = "#5fe6f8";
+const C_VIOLET = "#8b5cf6";
+const C_VIOLET_LIGHT = "#c4aafd";
+const C_BLUE = "#5aa6ff";
+const C_BLUE_ROUTE = "#1a7cfb";
+const LABEL = { fontFamily: "var(--font-mono), monospace", fontSize: 7.5, letterSpacing: 1.1, fill: "var(--text-muted)" };
 
-  if (variant === "data") {
-    // Sources → central hub → consumers
-    const rows = [6, 34, 62];
-    return (
-      <>
-        {rows.map((y) => (
-          <g key={y}>
-            <path d={`M46 ${y + 11} C86 ${y + 11} 84 46 118 46`} fill="none" stroke={CYAN} strokeOpacity=".5" strokeDasharray="4 4" />
-            <path d={`M182 46 C216 46 214 ${y + 11} 254 ${y + 11}`} fill="none" stroke={VIOLET} strokeOpacity=".5" strokeDasharray="4 4" />
-            <rect x="0" y={y} width="46" height="22" rx="5" fill={TILE} />
-            <rect x="8" y={y + 9} width="22" height="4" rx="2" fill={LINE} />
-            <rect x="254" y={y} width="46" height="22" rx="5" fill={TILE} />
-            <rect x="262" y={y + 9} width="22" height="4" rx="2" fill={LINE} />
-          </g>
-        ))}
-        <rect x="118" y="24" width="64" height="44" rx="8" fill={CYAN} fillOpacity=".12" stroke={CYAN} strokeOpacity=".6" />
-        <rect x="130" y="38" width="40" height="5" rx="2.5" fill={CYAN} opacity=".6" />
-        <rect x="130" y="50" width="26" height="5" rx="2.5" fill={LINE} />
-      </>
-    );
-  }
+const timing = (d?: number, l?: number): CSSProperties =>
+  ({ ...(d !== undefined && { "--d": `${d}s` }), ...(l !== undefined && { "--l": `${l}s` }) }) as CSSProperties;
 
-  // logistics: route through a few stops
-  const stops: Array<[number, number]> = [
-    [22, 66],
-    [92, 26],
-    [172, 60],
-    [252, 22],
-  ];
-  return (
-    <>
-      {[20, 46, 72].map((y) => (
-        <path key={y} d={`M0 ${y} H300`} stroke={LINE} strokeOpacity=".5" />
-      ))}
-      <path
-        d="M22 66 C52 66 62 26 92 26 S142 60 172 60 S222 22 252 22"
-        fill="none"
-        stroke={CYAN}
-        strokeOpacity=".7"
-        strokeWidth="1.6"
-        strokeDasharray="5 4"
-      />
-      {stops.map(([x, y], i) => (
-        <g key={`${x}-${y}`}>
-          <circle cx={x} cy={y} r="8" fill={i === 2 ? VIOLET : CYAN} opacity=".14" />
-          <circle cx={x} cy={y} r="4.5" fill="#101b31" stroke={i === 2 ? VIOLET : CYAN} strokeWidth="1.6" />
+type Item = { depth: number; node: ReactNode };
+
+type BoxOptions = {
+  dur?: number;
+  delay?: number;
+  glow?: boolean;
+  /** Glow pulse delay when it differs from the float delay. */
+  glowDelay?: number;
+  /** No floating (a fixed base plate). */
+  still?: boolean;
+  /** Paint order, back to front. Defaults to x + y; scenes with stacked blocks set it by hand. */
+  depth?: number;
+};
+
+/** One isometric scene: a grid floor, routes, blocks, travelling packets. Units are grid cells. */
+function makeScene(sc: number, ox: number, oy: number) {
+  const P = (x: number, y: number, z = 0) => project(sc, ox, oy, x, y, z);
+  const items: Item[] = [];
+  const floor: ReactNode[] = [];
+  const overlay: ReactNode[] = [];
+
+  return {
+    P,
+    floor(x0: number, y0: number, x1: number, y1: number) {
+      const lines: ReactNode[] = [];
+      for (let i = x0; i <= x1; i++) {
+        const [a, b] = P(i, y0);
+        const [c, d] = P(i, y1);
+        lines.push(<line key={`x${i}`} x1={a} y1={b} x2={c} y2={d} />);
+      }
+      for (let j = y0; j <= y1; j++) {
+        const [a, b] = P(x0, j);
+        const [c, d] = P(x1, j);
+        lines.push(<line key={`y${j}`} x1={a} y1={b} x2={c} y2={d} />);
+      }
+      floor.push(
+        <g key={`floor${floor.length}`} stroke="rgba(120,160,230,.13)" strokeWidth=".7">
+          {lines}
+        </g>,
+      );
+    },
+    route(points: readonly Point[], color = C_CYAN, opacity = 0.55) {
+      floor.push(
+        <path
+          key={`route${floor.length}`}
+          className={styles.dash}
+          d={routePath(sc, ox, oy, points)}
+          fill="none"
+          stroke={color}
+          strokeOpacity={opacity}
+          strokeWidth="1.3"
+          strokeLinejoin="round"
+        />,
+      );
+    },
+    ring(x: number, y: number, rx: number, color: string, delay = 0) {
+      const [cx, cy] = P(x, y);
+      floor.push(
+        <ellipse
+          key={`ring${floor.length}`}
+          className={styles.ring}
+          style={timing(undefined, delay)}
+          cx={cx}
+          cy={cy}
+          rx={rx}
+          ry={rx / 2}
+          fill="none"
+          stroke={color}
+          strokeWidth="1.2"
+        />,
+      );
+    },
+    box(x: number, y: number, z: number, w: number, d: number, h: number, face: Face, o: BoxOptions = {}) {
+      const top = [P(x, y, z + h), P(x + w, y, z + h), P(x + w, y + d, z + h), P(x, y + d, z + h)];
+      const left = [P(x, y + d, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z), P(x, y + d, z)];
+      const right = [P(x + w, y, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z), P(x + w, y, z)];
+      const node = (
+        <g className={o.still ? undefined : styles.bob} style={timing(o.dur, o.delay)}>
+          <polygon points={polygonPoints(left)} fill={face[1]} />
+          <polygon points={polygonPoints(right)} fill={face[2]} />
+          <polygon points={polygonPoints(top)} fill={face[0]} />
+          {o.glow && <polygon className={styles.glow} style={timing(undefined, o.glowDelay ?? o.delay)} points={polygonPoints(top)} fill="#fff" />}
+          <polygon points={polygonPoints(top)} fill="none" stroke="rgba(255,255,255,.28)" strokeWidth=".7" />
         </g>
-      ))}
-    </>
+      );
+      items.push({ depth: o.depth ?? x + y, node });
+    },
+    packet(route: readonly Point[], color: string, duration = 3.2, delay = 0, r = 3) {
+      overlay.push(
+        <g
+          key={`pk${overlay.length}`}
+          className={styles.pk}
+          style={{ offsetPath: `path('${routePath(sc, ox, oy, route, 0.3)}')`, ...timing(duration, delay) }}
+        >
+          <circle r={r * 2.4} fill={color} opacity=".22" />
+          <circle r={r} fill={color} />
+        </g>,
+      );
+    },
+    node(content: ReactNode) {
+      overlay.push(<g key={`n${overlay.length}`}>{content}</g>);
+    },
+    render() {
+      const sorted = [...items].sort((a, b) => a.depth - b.depth);
+      return (
+        <>
+          {floor}
+          {sorted.map((it, i) => (
+            <g key={`b${i}`}>{it.node}</g>
+          ))}
+          {overlay}
+        </>
+      );
+    },
+  };
+}
+
+function Label({ at, children }: { at: Point; children: string }) {
+  return (
+    <text x={at[0]} y={at[1]} {...LABEL}>
+      {children}
+    </text>
   );
 }
 
-export function ProjectVisual({ variant }: { variant: Variant }) {
+/**
+ * The scenes below use the numbers of the approved diagram generator (docs/design-ref/iso-diagrams-generator.py):
+ * scale, origin, block coordinates, routes, paint order and timings.
+ */
+
+/** External systems → platform → Data Hub, with a CI/CD track underneath. */
+function Integration() {
+  const s = makeScene(22, 176, 28);
+  s.floor(-1, -1, 11, 8);
+  const ys = [0.6, 2.6, 4.6];
+  const feeds = ys.map((y): Point[] => [[1.8, y + 0.6], [4, y + 0.6], [4, 3.6], [5, 3.6]]);
+  const out: Point[] = [[7, 3.6], [9, 3.6]];
+  const track: Point[] = [[0.5, 7.2], [10.5, 7.2]];
+  feeds.forEach((f) => s.route(f));
+  s.route(out, C_VIOLET, 0.7);
+  s.route(track, C_BLUE_ROUTE, 0.5);
+  s.ring(6, 3.6, 24, C_CYAN, 0);
+  s.ring(6, 3.6, 24, C_CYAN, 1.5);
+  ys.forEach((y, i) => s.box(0, y, 0, 1.8, 1.2, 0.7, DARK, { dur: 3.2 + i * 0.4, delay: i * 0.5, depth: y }));
+  s.box(5, 2.6, 0, 2, 2, 1.5, CYAN, { dur: 4, glow: true, glowDelay: 0, depth: 7 });
+  [DARK, VIOLET, BLUE].forEach((f, k) => s.box(9, 2.8, k * 0.9, 1.8, 1.6, 0.55, f, { dur: 3.6, delay: k * 0.3, depth: 10 + k }));
+  feeds.forEach((f, i) => s.packet(f, C_CYAN_LIGHT, 3.2, i * 0.9));
+  s.packet(out, C_VIOLET_LIGHT, 1.6, 0.6);
+  for (let i = 0; i < 5; i++) {
+    const [cx, cy] = s.P(0.8 + i * 2.35, 7.2);
+    const color = i === 4 ? C_VIOLET_LIGHT : C_CYAN_LIGHT;
+    s.node(
+      <>
+        <ellipse cx={cx} cy={cy} rx="7" ry="3.5" fill="#07101f" stroke={color} strokeWidth="1.5" />
+        <ellipse className={styles.tick} style={timing(undefined, i)} cx={cx} cy={cy} rx="3" ry="1.5" fill={color} />
+      </>,
+    );
+  }
+  s.packet(track, C_BLUE, 5, 0, 2.6);
+  s.node(<Label at={s.P(0, -0.9)}>REST · SOAP</Label>);
+  s.node(<Label at={s.P(8.6, 5.4)}>DATA HUB</Label>);
+  s.node(<Label at={s.P(-0.2, 8.4)}>CI/CD</Label>);
+  return s.render();
+}
+
+/** Sources → central hub → consumers. */
+function Data() {
+  const s = makeScene(18, 172, 24);
+  s.floor(-1, -1, 11, 7);
+  const ys = [0.4, 2.4, 4.4];
+  const ins = ys.map((y): Point[] => [[1.6, y + 0.6], [3.5, y + 0.6], [3.5, 3.4], [4.6, 3.4]]);
+  const outs = ys.map((y): Point[] => [[6.8, 3.4], [8, 3.4], [8, y + 0.6], [9.2, y + 0.6]]);
+  ys.forEach((_, i) => {
+    s.route(ins[i]);
+    s.route(outs[i], C_VIOLET, 0.6);
+  });
+  ys.forEach((y, i) => {
+    s.box(0, y, 0, 1.6, 1.2, 0.6, DARK, { dur: 3.3 + i * 0.3, delay: i * 0.4, depth: y });
+    s.box(9.2, y, 0, 1.6, 1.2, 0.6, VIOLET_DEEP, { dur: 3.5 + i * 0.3, delay: i * 0.5 + 0.3, depth: 9.2 + y });
+  });
+  s.box(4.6, 2.6, 0, 2.2, 1.8, 1.4, CYAN, { dur: 4, glow: true, glowDelay: 0, depth: 6 });
+  s.ring(5.7, 3.5, 22, C_CYAN, 0);
+  ys.forEach((_, i) => {
+    s.packet(ins[i], C_CYAN_LIGHT, 2.8, i * 0.8);
+    s.packet(outs[i], C_VIOLET_LIGHT, 2.6, i * 0.8 + 1.2);
+  });
+  return s.render();
+}
+
+/** A route through four stops. */
+function Logistics() {
+  const s = makeScene(20, 150, 34);
+  s.floor(-1, -1, 11, 7);
+  const route: Point[] = [[0.5, 0.5], [0.5, 3], [3.5, 3], [3.5, 1], [7, 1], [7, 5], [10, 5]];
+  s.route(route);
+  const stops: Point[] = [[0.5, 3], [3.5, 1], [7, 5], [10, 5]];
+  stops.forEach(([x, y], i) =>
+    s.box(x - 0.6, y - 0.6, 0, 1.2, 1.2, 1 + i * 0.25, i === 2 ? VIOLET : CYAN, {
+      dur: 3.2 + i * 0.3,
+      delay: i * 0.4,
+      glow: true,
+      glowDelay: i * 0.5,
+      depth: x + y,
+    }),
+  );
+  s.box(-0.1, -0.1, 0, 1.2, 1.2, 0.45, DARK, { still: true, depth: 1 });
+  s.packet(route, C_CYAN_LIGHT, 6, 0, 3.2);
+  s.packet(route, C_CYAN_LIGHT, 6, 3, 3.2);
+  s.node(<Label at={s.P(0, -1.2)}>OPERATIONS</Label>);
+  return s.render();
+}
+
+/** Catalogue tiles → order panel. Not in the approved generator; drawn in the same style. */
+function Commerce() {
+  const s = makeScene(21, 164, 36);
+  s.floor(-1, -1, 11, 7);
+  const lane = (y: number): Point[] => [[3.4, y], [5.2, y], [5.2, 3], [6.6, 3]];
+  const ys = [1.1, 3, 4.9];
+  ys.forEach((y) => s.route(lane(y), C_CYAN, 0.45));
+  for (let col = 0; col < 2; col++) {
+    ys.forEach((y, i) => s.box(col * 1.7, y - 0.6, 0, 1.3, 1.2, 0.5, col === 0 ? DARK : BLUE, { dur: 3.2 + i * 0.3, delay: (col + i) * 0.3 }));
+  }
+  s.ring(8, 3, 22, C_CYAN, 0);
+  s.box(6.6, 1.8, 0, 2.8, 2.4, 1.1, CYAN, { dur: 4, glow: true, depth: 100 });
+  s.box(7.1, 2.2, 1.1, 1.8, 1.6, 0.4, VIOLET, { dur: 4, delay: 0.3, depth: 101 });
+  ys.forEach((y, i) => s.packet(lane(y), C_CYAN_LIGHT, 3, i * 0.9));
+  return s.render();
+}
+
+function Scene({ variant }: { variant: Variant }) {
+  if (variant === "commerce") return <Commerce />;
+  if (variant === "integration") return <Integration />;
+  if (variant === "data") return <Data />;
+  return <Logistics />;
+}
+
+const VIEW_WIDTH = 400;
+/** The integration scene carries a CI/CD track, so its canvas is taller. */
+const viewHeight = (variant: Variant) => (variant === "integration" ? 250 : 230);
+
+interface ProjectVisualProps {
+  variant: Variant;
+  /** `featured`: the wide case card and the case page (10px inset). `compact`: grid cards (6px inset). */
+  size?: "featured" | "compact";
+  className?: string;
+}
+
+/**
+ * One animated isometric scene per project theme, inside its panel. The panel takes the width of its
+ * container and keeps the scene's aspect ratio, so nothing shifts while it loads.
+ * Illustrative only: no real UI, data or client marks.
+ */
+export function ProjectVisual({ variant, size = "compact", className }: ProjectVisualProps) {
+  const height = viewHeight(variant);
   return (
     <div
       aria-hidden="true"
-      className="relative h-[180px] overflow-hidden bg-[linear-gradient(135deg,#111d35,#0c1426)] p-[18px] after:absolute after:-right-[70px] after:-bottom-20 after:size-[180px] after:animate-[float_8s_ease-in-out_infinite_alternate] after:rounded-full after:bg-[rgba(139, 92, 246,.16)] after:blur-[32px] after:content-['']"
+      className={cn(
+        "rounded-xl border border-line bg-[radial-gradient(ellipse_at_50%_40%,#10203f,#0a1224)]",
+        size === "featured" ? "p-2 lg:p-2.5" : "p-1.5",
+        className,
+      )}
     >
-      <div className="flex h-full flex-col rounded-xl border border-white/10 bg-[#101b31] p-[14px]">
-        <div className="mb-3 flex gap-[6px]">
-          {[0, 1, 2].map((dot) => (
-            <i key={dot} className="size-[7px] rounded-full bg-[#38516e]" />
-          ))}
-        </div>
-        <svg viewBox="0 0 300 92" preserveAspectRatio="xMidYMid meet" className="min-h-0 w-full flex-1">
-          <Scene variant={variant} />
-        </svg>
-      </div>
+      <svg
+        viewBox={`0 0 ${VIEW_WIDTH} ${height}`}
+        focusable="false"
+        className="block h-auto w-full"
+        style={{ aspectRatio: `${VIEW_WIDTH} / ${height}` }}
+      >
+        <Scene variant={variant} />
+      </svg>
     </div>
   );
 }

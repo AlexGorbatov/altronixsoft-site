@@ -102,9 +102,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
         <h1 className="mt-3 text-[36px] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[52px]">{study.title}</h1>
         <p className="mt-5 text-[17px] leading-[1.75] text-muted">{study.summary}</p>
 
-        <div className="mt-8 overflow-hidden rounded-2xl border border-line bg-[#0d182c]">
-          <ProjectVisual variant={study.visual} />
-        </div>
+        <ProjectVisual variant={study.visual} size="featured" className="mt-8" />
 
         <Facts study={study} copy={copy} />
 

@@ -1,0 +1,106 @@
+/*
+ * Isometric project scenes. Everything here is decorative, so every animation is safe to stop:
+ * globals.css pauses them for the Pause motion button and removes them for prefers-reduced-motion.
+ * Custom properties: --d = duration, --l = delay.
+ */
+.pk {
+  offset-rotate: 0deg;
+  offset-distance: 0;
+  opacity: 0;
+  animation: travel var(--d, 3.2s) linear infinite;
+  animation-delay: var(--l, 0s);
+}
+@keyframes travel {
+  0% {
+    offset-distance: 0;
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+.dash {
+  stroke-dasharray: 4 4;
+  animation: dash 1.2s linear infinite;
+}
+@keyframes dash {
+  to {
+    stroke-dashoffset: -8;
+  }
+}
+.bob {
+  animation: bob var(--d, 3.4s) ease-in-out infinite;
+  animation-delay: var(--l, 0s);
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+.glow {
+  opacity: 0;
+  animation: glow 2.6s ease-in-out infinite;
+  animation-delay: var(--l, 0s);
+}
+@keyframes glow {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.28;
+  }
+}
+.ring {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ring 3s ease-out infinite;
+  animation-delay: var(--l, 0s);
+}
+@keyframes ring {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+.tick {
+  opacity: 0.25;
+  animation: tick 5s linear infinite;
+  animation-delay: var(--l, 0s);
+}
+@keyframes tick {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  10%,
+  20% {
+    opacity: 1;
+  }
+  35% {
+    opacity: 0.25;
+  }
+}
+/* With reduced motion the global rule removes the animations; keep the packets visible mid-route. */
+@media (prefers-reduced-motion: reduce) {
+  .pk {
+    opacity: 1;
+    offset-distance: 50%;
+  }
+}
