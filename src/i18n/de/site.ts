@@ -90,9 +90,11 @@ export const aiUseCases: Part<"aiUseCases"> = [
 ];
 
 export const industries: Part<"industries"> = [
-  { title: "E-Commerce", line: "Commerce-Plattformen, SAP Commerce Cloud und die Integrationen drumherum." },
-  { title: "Produktinformation (PIM)", line: "Produktdatenplattformen und die Workflows, die sie speisen." },
-  { title: "Logistik", line: "Operative Backends, APIs und Workflow-Integration." },
+  { title: "Retail & E-Commerce", line: "Commerce-Plattformen, Produktkataloge, SAP Commerce Cloud und Enterprise-Integrationen." },
+  { title: "Logistik & Lieferkette", line: "Operative Plattformen, Backend-Systeme, Workflow-Automatisierung und API-Integrationen." },
+  { title: "Technologie & SaaS", line: "Individuelle Softwareprodukte, Cloud-Plattformen und KI-gestützte Geschäftsanwendungen." },
+  { title: "Blockchain & Web3", line: "Blockchain-Infrastruktur, Multi-Chain-APIs, Datenaggregation und Integrationen dezentraler Anwendungen." },
+  { title: "Gaming & digitale Unterhaltung", line: "Integrationen von Gaming-Plattformen, Tracking der Spieleraktivität, Kampagnensysteme und Backend-Services." },
 ];
 
 export const engagementModels: Part<"engagementModels"> = [
