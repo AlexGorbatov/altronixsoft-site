@@ -37,10 +37,11 @@ const siteName = (url: string, withPath = false) => {
 };
 
 /** A link to the live product. No `noreferrer`: the visit should arrive as a referral. */
-function LiveLink({ url, className, children }: { url: string; className?: string; children: ReactNode }) {
+function LiveLink({ url, className, newTab, children }: { url: string; className?: string; newTab: string; children: ReactNode }) {
   return (
     <a href={referral(url)} target="_blank" rel="noopener" className={className}>
       {children}
+      <span className="sr-only"> {newTab}</span>
     </a>
   );
 }
@@ -103,7 +104,7 @@ function BlockGrid({ id, title, intro, items }: BlockGridProps) {
         {title}
       </h2>
       {intro && filled(intro) && <p className="mt-2 text-body leading-[1.75] text-muted">{intro}</p>}
-      <ol className="mt-5 grid gap-5 sm:grid-cols-2">
+      <ol aria-labelledby={id} className="mt-5 grid gap-5 sm:grid-cols-2">
         {items.map((layer, i) => (
           <li key={layer.title}>
             <FramedCard accent={LAYER_ACCENTS[i % LAYER_ACCENTS.length]} innerClassName="relative p-5">
@@ -131,7 +132,7 @@ function Facts({ study, copy }: { study: CaseStudy; copy: Content["copy"] }) {
   if (study.liveUrl && filled(study.liveUrl)) {
     facts.push([
       work.websiteLabel,
-      <LiveLink key="site" url={study.liveUrl} className="link-quiet">
+      <LiveLink key="site" url={study.liveUrl} className="link-quiet" newTab={copy.casePage.newTab}>
         {siteName(study.liveUrl, true)} <span aria-hidden="true">↗</span>
       </LiveLink>,
     ]);
@@ -193,7 +194,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
         <p className="mt-5 text-[17px] leading-[1.75] text-muted">{study.summary}</p>
         {study.liveUrl && filled(study.liveUrl) && (
           <FramedCard accent="violet" compact className="mt-6 sm:w-fit" innerClassName="flex">
-            <LiveLink url={study.liveUrl} className="btn btn-primary w-full">
+            <LiveLink url={study.liveUrl} className="btn btn-primary w-full" newTab={copy.casePage.newTab}>
               {copy.casePage.visit.replace("{site}", siteName(study.liveUrl))} <span aria-hidden="true">↗</span>
             </LiveLink>
           </FramedCard>

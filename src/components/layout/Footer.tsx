@@ -5,6 +5,7 @@ import { getContent } from "@/i18n/server";
 import { filled } from "@/lib/todo";
 import { Container } from "@/components/ui/Container";
 import { CopyEmail } from "@/components/ui/CopyEmail";
+import { MotionToggle } from "@/components/ui/MotionToggle";
 import { Logo } from "./Logo";
 
 const linkClass = "inline-flex min-h-11 items-center transition-colors hover:text-white";
@@ -54,6 +55,10 @@ export async function Footer() {
             email={siteConfig.email}
             labels={{ copy: ui.copyEmail, copied: ui.emailCopied, status: ui.copied }}
           />
+        </div>
+        <div className="mt-2 flex border-t border-white/[.06] pt-4">
+          {/* On every page: the diagrams and the hero keep moving, so the pause control cannot live on the home page only. */}
+          <MotionToggle labels={{ pause: ui.motionPause, play: ui.motionPlay }} />
         </div>
         <div className="mt-2 flex flex-col justify-between gap-2 pt-3 text-xs text-subtle lg:flex-row lg:gap-5">
           <span>

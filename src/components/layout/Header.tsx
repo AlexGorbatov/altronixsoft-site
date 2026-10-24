@@ -71,6 +71,9 @@ export function Header({ lang, navigation, labels }: HeaderProps) {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     drawerRef.current?.querySelector<HTMLElement>("a")?.focus();
+    // The page behind the menu cannot be reached with the keyboard, a pointer-less switch or a screen reader.
+    const behind = Array.from(document.querySelectorAll<HTMLElement>("main, footer"));
+    behind.forEach((el) => el.setAttribute("inert", ""));
 
     const onKeyDown = (event: globalThis.KeyboardEvent) => {
       if (event.key === "Escape") close();
@@ -82,6 +85,7 @@ export function Header({ lang, navigation, labels }: HeaderProps) {
     desktop.addEventListener("change", onBreakpoint);
     return () => {
       document.body.style.overflow = previousOverflow;
+      behind.forEach((el) => el.removeAttribute("inert"));
       document.removeEventListener("keydown", onKeyDown);
       desktop.removeEventListener("change", onBreakpoint);
     };

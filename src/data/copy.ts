@@ -410,6 +410,8 @@ export const copy = {
     architecture: "Architecture",
     /** The button to the live product; {site} is its domain. */
     visit: "Visit {site}",
+    /** Read out after a link that opens another site in a new tab. */
+    newTab: "(opens in a new tab)",
     similarTitle: "Working on something similar?",
     similarText: "Tell us about the system and what has to change. We start with a short technical review.",
     more: "More work",
