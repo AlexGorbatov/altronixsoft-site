@@ -2,10 +2,13 @@ import type { ProjectVisual } from "@/data/projects";
 import { FramedCard, type FrameAccent } from "@/components/ui/FramedCard";
 import { cn } from "@/lib/utils";
 import { AgentFlow } from "./AgentFlow";
+import { CrmFlow } from "./CrmFlow";
 import { HybrisFlow } from "./HybrisFlow";
 import { LobbyFlow } from "./LobbyFlow";
 import { NexusCardFlow } from "./NexusCardFlow";
+import { PayFlow } from "./PayFlow";
 import { PimFlow } from "./PimFlow";
+import { RagFlow } from "./RagFlow";
 import { NexusFlow } from "./NexusFlow";
 import styles from "./ProjectScene.module.css";
 import type { Accent } from "./sceneKit";
@@ -33,6 +36,9 @@ export function ProjectScene({ variant, labels, accent, className }: ProjectScen
   if (variant === "lobby") return <LobbyFlow labels={labels.lobbyFlow} mode="card" className={className} />;
   if (variant === "agent") return <AgentFlow labels={labels.agentFlow} mode="card" className={className} />;
   if (variant === "pim") return <PimFlow labels={labels.pimFlow} mode="card" className={className} />;
+  if (variant === "documents") return <RagFlow labels={labels.ragFlow} mode="card" className={className} />;
+  if (variant === "payments") return <PayFlow labels={labels.payFlow} mode="card" className={className} />;
+  if (variant === "logistics") return <CrmFlow labels={labels.crmFlow} mode="card" className={className} />;
   const { viewBox, node } = buildScene(variant, labels, accent);
   return (
     <svg
@@ -84,6 +90,12 @@ export function ScenePanel({ variant, labels, accent, className }: ProjectSceneP
         <AgentFlow labels={labels.agentFlow} mode="panel" />
       ) : variant === "pim" ? (
         <PimFlow labels={labels.pimFlow} mode="panel" />
+      ) : variant === "documents" ? (
+        <RagFlow labels={labels.ragFlow} mode="panel" />
+      ) : variant === "payments" ? (
+        <PayFlow labels={labels.payFlow} mode="panel" />
+      ) : variant === "logistics" ? (
+        <CrmFlow labels={labels.crmFlow} mode="panel" />
       ) : (
         <ProjectScene variant={variant} labels={labels} accent={accent} className="relative z-[1] aspect-[400/240] w-full" />
       )}

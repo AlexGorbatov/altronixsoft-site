@@ -1,6 +1,5 @@
 import type { ProjectVisual } from "@/data/projects";
 import type { Content } from "@/i18n/content";
-import type { Point } from "@/lib/iso";
 import { type Accent, GLASS, type Glass, makeScene } from "./sceneKit";
 
 /** The names on the pictures, in the language of the page. */
@@ -45,32 +44,6 @@ function hybris(t: SceneLabels["hybris"], accent: Accent) {
   return s.render();
 }
 
-/** 03 Logistics: an API in front of the backend systems, workflows, trucks to operations; the cloud above. */
-function logistics(t: SceneLabels["logistics"], accent: Accent) {
-  const s = makeScene("logistics", 22, 150, 56, accent);
-  const A = s.accent;
-  s.floor(-1, -1, 11, 7);
-  const route: Point[] = [[1.8, 1.2], [6.2, 1.2], [6.2, 4.8], [9.6, 4.8]];
-  s.road(route);
-  s.beam(route, { tone: "amber", dur: 7, orbs: 2, r: 4 });
-  s.box(0, 0, 0, 3, 2.2, 1.2, GLASS.ice, { depth: 2, anim: "none", core: true });
-  s.roof(0, 0, 0, 3, 2.2, 1.2, 0.6, GLASS.blue, { depth: 2.1 });
-  for (let k = 0; k < 2; k++) s.box(3.6 + k * 0.7, 2.8, 0, 0.6, 0.6, 0.35 + k * 0.2, GLASS.ice, { depth: 6 + k, dur: 3 + k * 0.4 });
-  s.plane(2.2, -0.2, 2.4, 0, 1.4, { depth: 3 });
-  s.box(9.2, 4.2, 0, 1.2, 1.2, 0.9, GLASS.blue, { depth: 12, dur: 3.4, delay: 0.3, core: true });
-  s.box(5.7, 5.4, 0, 1, 1, 0.7, A.glass, { depth: 8, dur: 3.6, delay: 0.6, core: true });
-  s.box(6.9, 0.2, 0, 1.1, 1, 0.5, A.glass, { depth: 7, dur: 3.2, core: true });
-  // The cloud: a faint glass layer above everything.
-  s.box(1.2, 0.6, 3.4, 8.6, 4.4, 0.12, GLASS.plate, { depth: 30, anim: "none", alpha: 0.22 });
-  s.label(1.5, 1.1, 1.2, t.backend, -6, -42);
-  s.label(2.2, 1.1, 1.4, t.api, 52, -2);
-  s.label(4.1, 3.1, 0.55, t.workflows, -20, 30);
-  s.label(9.8, 4.8, 0.9, t.operations, 22, -32, true);
-  s.label(8.6, 1.4, 3.5, t.cloud, 18, -8);
-  s.motes(12, 2);
-  return s.render();
-}
-
 /**
  * 04 Nexus: three chains → the upstream providers → the Nexus API (failover, cache) → REST, WebSocket and MCP.
  * Every block stands on whole grid cells and every beam runs along the grid; the names sit on free sides.
@@ -102,75 +75,13 @@ function chain(t: SceneLabels["chain"], accent: Accent) {
   return s.render();
 }
 
-/** 07 AI Document Processing: pages → extraction → validation → structured data for downstream systems. */
-function documents(t: SceneLabels["documents"], accent: Accent) {
-  const s = makeScene("documents", 21, 120, 54, accent);
-  const A = s.accent;
-  s.floor(-1, -1, 11, 7);
-  s.beam([[1.6, 3.1], [10, 3.1]], { dur: 4, orbs: 0 });
-  for (let k = 0; k < 4; k++) s.box(0, 2.3, k * 0.3, 1.6, 1.6, 0.24, GLASS.ice, { depth: 2.3 + k * 0.01, dur: 3.4, delay: k * 0.25 });
-  s.box(3.6, 1.3, 0, 0.45, 0.45, 2, GLASS.plate, { depth: 6, anim: "none" });
-  s.box(3.6, 4.6, 0, 0.45, 0.45, 2, GLASS.plate, { depth: 8, anim: "none" });
-  s.plane(3.82, 1.6, 4.9, 0, 2, { depth: 7 });
-  s.box(5.4, 1.3, 0, 0.45, 0.45, 2, GLASS.plate, { depth: 8.5, anim: "none" });
-  s.box(5.4, 4.6, 0, 0.45, 0.45, 2, GLASS.plate, { depth: 10, anim: "none" });
-  s.plane(5.62, 1.6, 4.9, 0, 2, { color: A.lite, delay: 1.2, depth: 9 });
-  let n = 0;
-  for (let i = 0; i < 3; i++) {
-    for (let j = 0; j < 3; j++) {
-      const h = 0.5 + ((i * 3 + j) % 4) * 0.35;
-      const face = (i + j) % 2 === 0 ? A.glass : (i + j) % 3 === 0 ? GLASS.blue : GLASS.blue;
-      s.box(7.2 + i * 1.2, 1.5 + j * 1.2, 0, 0.95, 0.95, h, face, { depth: 11 + i * 1.3 + j * 1.2, anim: "grow", dur: 3.2 + n * 0.2, delay: n * 0.3 });
-      n++;
-    }
-  }
-  // Pages travel along the route as little glass sheets.
-  for (let k = 0; k < 3; k++) s.sheet([[1.8, 3.1], [7, 3.1]], 4, k * 1.3);
-  s.label(0.8, 3.1, 1.1, t.incoming, -6, -44);
-  s.label(3.82, 4.9, 0.6, t.extraction, -14, 30);
-  s.label(5.62, 3.1, 2, t.validation, 30, -24, true);
-  s.label(8.6, 3.2, 1.2, t.downstream, 30, -42);
-  s.motes(12, 8);
-  return s.render();
-}
-
-/** 08 LLM Gateway: clients → one gateway (routing, limits) → several models; an audit trail kept alongside. */
-function gateway(t: SceneLabels["gateway"], accent: Accent) {
-  const s = makeScene("gateway", 21, 140, 50, accent);
-  const A = s.accent;
-  s.floor(-1, -1, 11, 7);
-  const fan = [0.3, 2.5, 4.7].map((y): Point[] => [[5.6, 3.1], [6.8, 3.1], [6.8, y + 0.6], [7.6, y + 0.6]]);
-  for (let k = 0; k < 3; k++) s.beam([[1.7, 3.1], [3.5, 3.1]], { dur: 1.6, orbs: 1, delay: k * 0.5, r: 4.5 });
-  fan.forEach((f, i) => s.beam(f, { tone: i === 1 ? "ice" : undefined, dur: 2.6, orbs: 1, delay: i * 0.7 + 0.4 }));
-  s.beam([[4.55, 4.2], [4.55, 6.0]], { tone: "amber", dur: 2.4, orbs: 1, r: 4 });
-  s.box(0, 1.2, 0, 1.8, 3.8, 0.5, GLASS.ice, { depth: 2, dur: 3.4 });
-  s.box(3.5, 2.1, 0, 2.1, 2.1, 1.3, GLASS.blue, { depth: 8, dur: 3.8, core: true });
-  s.ellipse(4.55, 3.15, 0, 48, "#5aa6ff");
-  const models: [number, number, Glass][] = [[0.3, 2.4, A.glass], [2.5, 1.5, GLASS.ice], [4.7, 2, GLASS.blue]];
-  models.forEach(([y, h, face], i) => s.box(7.6, y, 0, 1.8, 1.4, h, face, { depth: 9 + y, anim: "grow", dur: 3.4 + i * 0.4, delay: i * 0.5, core: true }));
-  // The audit trail: a stack of thin log slabs.
-  for (let k = 0; k < 4; k++) s.box(3.7, 5.9, k * 0.16, 1.7, 1, 0.12, GLASS.amber, { depth: 12 + k * 0.01, dur: 3.6, delay: k * 0.2, alpha: 0.9 });
-  s.label(0.9, 3.1, 0.5, t.clients, -42, -28);
-  s.label(4.55, 3.15, 1.3, t.gateway, 30, -58);
-  s.label(8.5, 0.6, 2.4, t.models, 22, -22);
-  s.label(4.55, 6.4, 0.5, t.audit, -64, 22);
-  s.motes(12, 1);
-  return s.render();
-}
-
 /** The scene of one project, with its names in the given language. */
-export function buildScene(variant: Exclude<ProjectVisual, "lobby" | "agent" | "pim">, labels: SceneLabels, accent: Accent) {
+export function buildScene(variant: Exclude<ProjectVisual, "lobby" | "agent" | "pim" | "documents" | "payments" | "logistics">, labels: SceneLabels, accent: Accent) {
   switch (variant) {
     case "shop":
       return hybris(labels.hybris, accent);
-    case "logistics":
-      return logistics(labels.logistics, accent);
     case "chain":
       return chain(labels.chain, accent);
-    case "documents":
-      return documents(labels.documents, accent);
-    case "gateway":
-      return gateway(labels.gateway, accent);
   }
 }
 
@@ -189,8 +100,8 @@ export function sceneChain(variant: ProjectVisual, labels: SceneLabels): string[
       return [t.filesShort, t.parsersShort, t.mappingShort, "Kafka", "MySQL", t.storefront];
     }
     case "logistics": {
-      const t = labels.logistics;
-      return [t.api, t.backend, t.workflows, t.operations];
+      const t = labels.crmFlow;
+      return [t.webShort, t.apiShort, t.crmShort, "Quartz", t.emailsShort];
     }
     case "chain": {
       const t = labels.chain;
@@ -205,12 +116,12 @@ export function sceneChain(variant: ProjectVisual, labels: SceneLabels): string[
       return [t.emailShort, t.understand, t.enrich, t.price, t.policy, t.approvalShort];
     }
     case "documents": {
-      const t = labels.documents;
-      return [t.incoming, t.extraction, t.validation, t.downstream];
+      const t = labels.ragFlow;
+      return [t.userShort, t.tokenShort, t.aclShort, "pgvector", "LLM", t.answer];
     }
-    case "gateway": {
-      const t = labels.gateway;
-      return [t.clients, t.gateway, t.models];
+    case "payments": {
+      const t = labels.payFlow;
+      return [t.webShort, t.orderShort, "Kafka", t.paymentShort, "Stripe"];
     }
   }
 }
