@@ -20,11 +20,20 @@ import type { ReactNode } from "react";
 /** The live product, tagged as a referral from this site so the partner sees where the visit came from. */
 function referral(url: string) {
   const link = new URL(url);
+  // Only a partner's site gets the tags; a code repository is just linked.
+  if (link.host === "github.com") return link.toString();
   link.searchParams.set("utm_source", "altronixsoft.com");
   link.searchParams.set("utm_medium", "referral");
   link.searchParams.set("utm_campaign", "partner");
   return link.toString();
 }
+
+/** The domain of a site as people say it: "lobby9.com", not "www.lobby9.com". */
+const siteName = (url: string, withPath = false) => {
+  const { host, pathname } = new URL(url);
+  const name = host.replace(/^www\./, "");
+  return withPath && pathname.length > 1 ? name + pathname.replace(/\/$/, "") : name;
+};
 
 /** A link to the live product. No `noreferrer`: the visit should arrive as a referral. */
 function LiveLink({ url, className, children }: { url: string; className?: string; children: ReactNode }) {
@@ -122,7 +131,7 @@ function Facts({ study, copy }: { study: CaseStudy; copy: Content["copy"] }) {
     facts.push([
       work.websiteLabel,
       <LiveLink key="site" url={study.liveUrl} className="link-quiet">
-        {new URL(study.liveUrl).host} <span aria-hidden="true">↗</span>
+        {siteName(study.liveUrl, true)} <span aria-hidden="true">↗</span>
       </LiveLink>,
     ]);
   }
@@ -176,7 +185,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
         {study.liveUrl && filled(study.liveUrl) && (
           <FramedCard accent="violet" compact className="mt-6 sm:w-fit" innerClassName="flex">
             <LiveLink url={study.liveUrl} className="btn btn-primary w-full">
-              {copy.casePage.visit.replace("{site}", new URL(study.liveUrl).host)} <span aria-hidden="true">↗</span>
+              {copy.casePage.visit.replace("{site}", siteName(study.liveUrl))} <span aria-hidden="true">↗</span>
             </LiveLink>
           </FramedCard>
         )}

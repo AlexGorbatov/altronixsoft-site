@@ -178,6 +178,11 @@
 .link:has(.stretch:focus-visible) .scene {
   transform: scale(1.03);
 }
+/* A flat diagram (FlowDiagram) is not zoomed: its names would come too close to the edges of the picture. */
+.link:hover .scene:has([data-flow]),
+.link:has(.stretch:focus-visible) .scene:has([data-flow]) {
+  transform: none;
+}
 .link:hover .go,
 .link:has(.stretch:focus-visible) .go {
   border-color: var(--c);

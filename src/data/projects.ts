@@ -1,5 +1,5 @@
 /** The isometric scene drawn for a project (see `ProjectScene`). */
-export type ProjectVisual = "shop" | "pim" | "logistics" | "chain" | "rag" | "agent" | "documents" | "gateway";
+export type ProjectVisual = "shop" | "pim" | "logistics" | "chain" | "lobby" | "agent" | "documents" | "gateway";
 
 export interface CaseStudy {
   /** URL slug of /work/[slug]. */
@@ -112,18 +112,72 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: "product-information-platform",
-    title: "Product information platform",
+    title: "PIM system for E-Commerce Project",
     visual: "pim",
-    industry: "Product information (PIM)",
-    summary: "Centralized product information, integrations and enterprise workflows.",
-    context: "TODO(owner): industry and scale, e.g. SKUs / channels / countries",
-    challenge: "TODO(owner): the business or technical problem the client had",
-    whatWeDid: "TODO(owner): what the team built, changed or stabilised",
+    industry: "E-commerce · PIM",
+    summary: "Vendor catalogs in CSV, Excel, JSON and XML mapped into one product model and synced to the e-commerce storefront.",
+    context: "Product catalogs from multiple vendors for an e-commerce storefront.",
+    challenge:
+      "Every vendor sent its catalog in its own format and structure. The data had to become one unified product model, be imported in large batches, and reach the storefront with current products and stock.",
+    whatWeDid:
+      "We built the import backbone of the PIM: from a vendor's file to a product on the storefront. The work covered six areas.",
+    workItems: [
+      {
+        title: "Ingestion pipeline",
+        text: "A data ingestion pipeline that processes product catalogs from multiple vendors in CSV, Excel, JSON and XML.",
+      },
+      {
+        title: "Import framework",
+        text: "A flexible framework that maps, transforms and validates heterogeneous data into a unified product model.",
+      },
+      {
+        title: "Vendor parsers",
+        text: "Vendor-specific parsers, each driven by its own customizable mapping configuration.",
+      },
+      {
+        title: "Asynchronous processing",
+        text: "Imports run asynchronously on Spring Boot, Kafka and scheduled jobs, built for large batches.",
+      },
+      {
+        title: "Storefront sync",
+        text: "Real-time product sync and stock updates to the e-commerce storefront over REST APIs.",
+      },
+      {
+        title: "Tested logic",
+        text: "Unit and integration tests for the import logic, the business rules and the sync mechanisms.",
+      },
+    ],
     result: "TODO(owner): measurable result",
-    stack: ["Java", "Spring", "Enterprise APIs"],
+    stack: ["Java 17", "Spring Boot", "Spring REST", "Apache Kafka", "MySQL", "Apache POI", "OpenCSV", "Lombok"],
     duration: "TODO(owner): duration, e.g. N months",
     role: "Backend and integration engineering",
-    focus: "Data flows and workflow integrity",
+    focus: "A product import framework that turns vendor catalogs into one product model",
+    architecture: [
+      {
+        title: "Vendor catalogs",
+        text: "Product catalogs arrive from multiple vendors as CSV, Excel, JSON and XML files.",
+      },
+      {
+        title: "Vendor parsers",
+        text: "A parser per vendor with a customizable mapping configuration; Apache POI and OpenCSV read the Excel and CSV files.",
+      },
+      {
+        title: "Import framework",
+        text: "Mapping, transformation and validation turn heterogeneous data into the unified product model.",
+      },
+      {
+        title: "Asynchronous processing",
+        text: "Kafka and scheduled jobs run large batch imports in the background on Spring Boot.",
+      },
+      {
+        title: "Product store",
+        text: "The unified product model is stored in MySQL.",
+      },
+      {
+        title: "Storefront sync",
+        text: "Spring REST APIs sync products and stock updates to the e-commerce storefront in real time.",
+      },
+    ],
   },
   {
     slug: "logistics-operations-platform",
@@ -185,6 +239,148 @@ export const caseStudies: CaseStudy[] = [
     ],
     liveUrl: "https://nexus.gerowallet.io/",
   },
+  {
+    slug: "lobby9",
+    title: "Lobby9",
+    visual: "lobby",
+    industry: "Gaming · Social platform",
+    summary: "One gamer profile from linked PlayStation and Steam accounts, with stats, achievements, guides and campaigns.",
+    context: "A web platform for gamers who play across PlayStation, Steam and Xbox.",
+    challenge:
+      "A player's history is split across consoles and apps: each platform shows only its own part. The platform had to bring it into one profile that fills itself from the linked accounts, and build a community around it.",
+    whatWeDid:
+      "We built the platform around the gamer profile: linking accounts, gathering progress, and the community features on top. The work covered six areas.",
+    workItems: [
+      {
+        title: "Account linking",
+        text: "PlayStation and Steam accounts connected to a Lobby9 profile, with Xbox next on the roadmap.",
+      },
+      {
+        title: "Unified profile",
+        text: "Games, progress, stats and achievements from every linked account, gathered in one profile.",
+      },
+      {
+        title: "Social cards",
+        text: "A card generated from the player's progress, ready to share.",
+      },
+      {
+        title: "Feed and guides",
+        text: "A feed of guides, unlocked achievements and leaderboard places from the community.",
+      },
+      {
+        title: "Discussions",
+        text: "Threads where players talk about games and start their own.",
+      },
+      {
+        title: "Campaigns",
+        text: "Contests such as the guides campaign: create an account, connect a platform and share guides.",
+      },
+    ],
+    result:
+      "The platform is live: players link PlayStation and Steam, get their profile built from their play, and publish guides to the community feed.",
+    // Owner to add: the platform's own technology stack. Only the public integrations are listed until then.
+    stack: ["PlayStation", "Steam"],
+    duration: "TODO(owner): duration, e.g. N months",
+    role: "",
+    focus: "Account linking, a unified gamer profile and community features",
+    architecture: [
+      {
+        title: "Players",
+        text: "Gamers on the web: their profile, the feed, games, discussions and campaigns.",
+      },
+      {
+        title: "Platform connections",
+        text: "PlayStation and Steam accounts linked to the profile; Xbox is on the roadmap.",
+      },
+      {
+        title: "Unified profile",
+        text: "Games, progress, stats and achievements from every linked account, in one place.",
+      },
+      {
+        title: "Community",
+        text: "The feed of guides and achievements, discussions, and the Hall of Fame with leaderboard places.",
+      },
+      {
+        title: "Engagement",
+        text: "Campaigns and contests, and social cards that let players share their progress.",
+      },
+      {
+        title: "Roadmap",
+        text: "Next: a level system, Xbox, communities around games, a Battle Pass and an AI Copilot.",
+      },
+    ],
+    liveUrl: "https://www.lobby9.com/",
+  },
+  {
+    slug: "ai-business-workflow-agent",
+    title: "AI Business Workflow Agent",
+    visual: "agent",
+    industry: "AI · Agents",
+    summary: "Email in, approved freight quote out: a durable Spring AI workflow where code, not the model, sets every price.",
+    context: "Freight quote requests that arrive by email, in several languages.",
+    challenge:
+      "A freight quote request arrives as free text, and a wrong or manipulated price costs money. The agent had to answer with a correct price in seconds, ask a person when it should, and never let an email talk it into a discount.",
+    whatWeDid:
+      "We built a durable workflow around one rule: the language model reads and writes text, and code computes every number. The work covered six areas.",
+    workItems: [
+      {
+        title: "Understanding the email",
+        text: "A model reads the request in any of five languages and extracts the cargo, lane and date. If something is missing, the agent asks only for that and resumes the same request when the customer answers in the thread.",
+      },
+      {
+        title: "Enrichment and pricing",
+        text: "The customer is looked up in the CRM over MCP, and the lane is priced in code from carrier rates. The model never sets a price.",
+      },
+      {
+        title: "Policy and approval",
+        text: "YAML rules decide: a quote under the limits goes out on its own, while large orders, new customers, dangerous goods or overdue credit wait for an approver, who gets a short briefing and the price breakdown.",
+      },
+      {
+        title: "Prompt-injection guard",
+        text: "Email text is untrusted data. An instruction such as a 90% discount changes nothing: the price stays the same and the quote goes to a person.",
+      },
+      {
+        title: "Durable workflow",
+        text: "State in PostgreSQL, every step audited and replayable, timers instead of waiting threads, retries with backoff, and idempotent writes through an outbox.",
+      },
+      {
+        title: "Operator console",
+        text: "A Next.js console shows the requests, the approvals and what the agent did, next to Grafana dashboards and traces.",
+      },
+    ],
+    result:
+      "In the demo a request becomes a priced, audited quote in seconds, and every risky case waits for a person. Fifteen sample emails run end to end, and 40 labelled eval cases score intent, fields, routing and injection recall.",
+    stack: ["Java 25", "Spring Boot 4", "Spring AI", "MCP", "PostgreSQL", "Keycloak", "Next.js"],
+    duration: "TODO(owner): duration, e.g. N months",
+    role: "",
+    focus: "A workflow where the model reads and writes text and code decides every number",
+    architecture: [
+      {
+        title: "Inbox",
+        text: "Quote requests arrive by email, in any of five languages; replies leave through a mail outbox.",
+      },
+      {
+        title: "Understand",
+        text: "A model turns the email into structured fields. It is one of only three steps that call a model.",
+      },
+      {
+        title: "Enrich and price",
+        text: "The CRM is read over MCP, carrier rates come over REST, and code computes the price.",
+      },
+      {
+        title: "Policy",
+        text: "YAML rules route each quote: send automatically, or hold for human approval with a briefing.",
+      },
+      {
+        title: "Respond and record",
+        text: "A model writes the reply under a numeric guard; the CRM gets an opportunity and a follow-up reminder is scheduled.",
+      },
+      {
+        title: "Workflow engine",
+        text: "PostgreSQL state machine with db-scheduler timers; every model call and tool call is audited, and every external write carries an idempotency key.",
+      },
+    ],
+  },
 ];
 
 export function getCaseStudy(slug: string): CaseStudy | undefined {
@@ -217,10 +413,10 @@ export interface Project {
   draft?: boolean;
 }
 
-const [hybris, pim, logistics, nexus] = caseStudies;
+const [hybris, pim, logistics, nexus, lobby9, agent] = caseStudies;
 
 /**
- * The portfolio, in display order. The four client projects take their text from the case studies above, so
+ * The portfolio, in display order. The first six projects take their text from the case studies above, so
  * a case and its tile never say different things. Everything marked `TODO(owner)` is a draft or a missing
  * link: a tile without a real link is shown without a way through, only with its status.
  */
@@ -276,34 +472,30 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    slug: "secure-rag",
-    title: "Secure RAG",
-    category: "AI · Retrieval",
-    summary: "Enterprise retrieval-augmented generation in Java, with access control in front of the model.",
-    kind: "ai",
-    status: "open-source",
-    visual: "rag",
-    // Owner to check: the repository did not answer when this link was last tried (not found or private), and
-    // "open source" needs a licence in it.
-    href: "https://github.com/AlexGorbatov/secure-rag-java",
-    isExternal: true,
-    stack: ["Java", "RAG", "GitHub"],
+    slug: lobby9.slug,
+    title: lobby9.title,
+    category: lobby9.industry,
+    summary: lobby9.summary,
+    kind: "client",
+    status: "nda",
+    visual: "lobby",
+    href: `/work/${lobby9.slug}`,
+    isExternal: false,
+    stack: lobby9.stack,
     featured: true,
-    draft: true,
   },
   {
-    slug: "ai-business-workflow-agent",
-    title: "AI Business Workflow Agent",
-    category: "AI · Agents",
-    summary: "An agent that runs a business workflow across systems, with a human approval step.",
+    slug: agent.slug,
+    title: agent.title,
+    category: agent.industry,
+    summary: agent.summary,
     kind: "ai",
-    status: "in-development",
+    status: "nda",
     visual: "agent",
-    href: "TODO(owner): AI Business Workflow Agent repository URL",
-    isExternal: true,
-    stack: ["Java", "Agents", "Workflows"],
+    href: `/work/${agent.slug}`,
+    isExternal: false,
+    stack: agent.stack,
     featured: true,
-    draft: true,
   },
   {
     slug: "ai-document-processing",

@@ -51,6 +51,40 @@ export function route(a: Rect, b: Rect, e: Pick<Edge, "axis" | "mid" | "offA" | 
   ].join(" ");
 }
 
+/**
+ * One size for every full-width lane of every diagram (the log line, a CI/CD lane), on every project and layout,
+ * so the bars match wherever they appear. A layout only says where a lane starts and how wide it is. The sizes are
+ * for a canvas 700 wide (cards, case pages) or 360 wide (phones); a wider canvas scales them up by its width / 700
+ * (`LogLane`'s `scale`), so the bar is the same size on screen.
+ */
+export const LANE = { h: 34, rx: 11, font: 10.5 } as const;
+
+/** Where a lane sits: its height and corners come from `LANE`. */
+export type LanePos = { x: number; y: number; w: number };
+
+/** The log line: what the loop is doing right now, one line per half of the loop. */
+export function LogLane({ x, y, w, lines, scale = 1 }: LanePos & { lines: [string, string]; scale?: number }) {
+  const h = LANE.h * scale;
+  const cy = y + h / 2;
+  return (
+    <g>
+      <rect className={styles.log} x={x} y={y} width={w} height={h} rx={LANE.rx * scale} />
+      <circle className={styles.logDot} cx={x + 14 * scale} cy={cy} r={3 * scale} />
+      {lines.map((line, i) => (
+        <text
+          key={line}
+          className={`${styles.logText} ${i === 0 ? styles.phaseA : styles.phaseB}`}
+          x={x + 26 * scale}
+          y={cy + 3.5 * scale}
+          fontSize={LANE.font * scale}
+        >
+          {line}
+        </text>
+      ))}
+    </g>
+  );
+}
+
 export interface FlowBlock {
   title: string;
   sub?: string;
@@ -58,17 +92,25 @@ export interface FlowBlock {
   accent?: boolean;
   /** Text in the middle of the block instead of on its left. */
   centred?: boolean;
+  /** Not there yet (e.g. on the roadmap): a dashed, dimmed block. */
+  muted?: boolean;
 }
 
 export interface FlowLayout<N extends string, E extends string> {
   viewBox: [number, number];
+  /**
+   * Empty canvas added above and below the drawing. A card picture has a fixed height, so every wide diagram on a
+   * card must share one canvas size (700 × 324) to be drawn at the same scale: a shorter drawing gets `bleed` on
+   * both sides, which keeps its bars the same size as everyone else's.
+   */
+  bleed?: number;
   /** A compact layout may leave blocks and wires out; hops and flashes on them are then skipped. */
   rects: Partial<Record<N, Rect>>;
   edges: Partial<Record<E, Edge<N>>>;
   /** Frames that group blocks, each with its name. */
   panels: { rect: Rect; title: string; at: [number, number] }[];
   /** The log line: what the loop is doing right now. */
-  log: Rect;
+  log: LanePos;
   font: { title: number; sub: number };
 }
 
@@ -89,7 +131,7 @@ interface FlowDiagramProps<N extends string, E extends string> {
   /** When a block lights up: as a hop reaches it. */
   flashes: { block: N; at: number }[];
   /** Steady flows outside the loop: `count` packets every 2.4 s along a wire. */
-  streams?: { edge: E; count: number; back?: boolean }[];
+  streams?: { edge: E; count: number; back?: boolean; delay?: number }[];
   /** The log line in the first and in the second half of the loop. */
   log: [string, string];
   /** For a picture inside a card that already names the project: hidden from assistive technology. */
@@ -122,13 +164,15 @@ export function FlowDiagram<N extends string, E extends string>({
   ) as Record<E, string>;
   const drawn = (edge: E) => edge in d;
   const [vw, vh] = layout.viewBox;
+  const bleed = layout.bleed ?? 0;
   const uid = `${vw}x${vh}`;
 
   return (
     <svg
       className={className}
-      viewBox={`0 0 ${vw} ${vh}`}
+      viewBox={`0 ${-bleed} ${vw} ${vh + 2 * bleed}`}
       preserveAspectRatio="xMidYMid meet"
+      data-flow=""
       {...(label ? { role: "img", "aria-label": label } : { "aria-hidden": true, focusable: false })}
     >
       <defs>
@@ -156,7 +200,7 @@ export function FlowDiagram<N extends string, E extends string>({
         </radialGradient>
       </defs>
 
-      <rect width={vw} height={vh} fill={`url(#dots-${uid})`} />
+      <rect y={-bleed} width={vw} height={vh + 2 * bleed} fill={`url(#dots-${uid})`} />
 
       {layout.panels.map((panel) => (
         <g key={panel.title}>
@@ -200,7 +244,7 @@ export function FlowDiagram<N extends string, E extends string>({
         const anchor = b.centred ? "middle" : "start";
         const ty = b.sub ? r.y + r.h / 2 - 2 : r.y + r.h / 2 + 4.5;
         return (
-          <g key={id}>
+          <g key={id} className={b.muted ? styles.muted : undefined}>
             <rect className={b.accent ? styles.nodeAccent : styles.node} x={r.x} y={r.y} width={r.w} height={r.h} rx="11" />
             {flashes
               .filter((f) => f.block === id)
@@ -221,19 +265,7 @@ export function FlowDiagram<N extends string, E extends string>({
 
       {extras?.(d)}
 
-      <rect className={styles.log} x={layout.log.x} y={layout.log.y} width={layout.log.w} height={layout.log.h} rx="11" />
-      <circle className={styles.logDot} cx={layout.log.x + 14} cy={layout.log.y + layout.log.h / 2} r="3" />
-      {log.map((line, i) => (
-        <text
-          key={line}
-          className={`${styles.logText} ${i === 0 ? styles.phaseA : styles.phaseB}`}
-          x={layout.log.x + 26}
-          y={layout.log.y + layout.log.h / 2 + 3.5}
-          fontSize={font.sub + 0.5}
-        >
-          {line}
-        </text>
-      ))}
+      <LogLane {...layout.log} lines={log} />
 
       {/* Requests (cyan) and replies (violet) travelling hop by hop. */}
       {hops.filter((hop) => drawn(hop.edge)).map((hop) => (
@@ -251,7 +283,7 @@ export function FlowDiagram<N extends string, E extends string>({
           <g
             key={`${stream.edge}-${i}`}
             className={stream.back ? styles.stream : styles.streamFwd}
-            style={{ offsetPath: `path('${d[stream.edge]}')`, ...at((2.4 / stream.count) * i) }}
+            style={{ offsetPath: `path('${d[stream.edge]}')`, ...at((2.4 / stream.count) * i + (stream.delay ?? 0)) }}
           >
             <circle r="7" fill={`url(#pkReq-${uid})`} />
             <circle r="2" fill="#fff" />

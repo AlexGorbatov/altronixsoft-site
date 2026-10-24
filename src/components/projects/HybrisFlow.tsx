@@ -1,6 +1,6 @@
 import type { Content } from "@/i18n/content";
 import { cn } from "@/lib/utils";
-import { FlowDiagram, PipelineStages, flowStyles, type FlowBlock, type FlowLayout, type Hop } from "./FlowDiagram";
+import { FlowDiagram, LANE, PipelineStages, flowStyles, type FlowBlock, type FlowLayout, type Hop } from "./FlowDiagram";
 
 export type HybrisFlowLabels = Content["copy"]["portfolio"]["scene"]["hybrisFlow"];
 
@@ -12,7 +12,7 @@ const WIDE: FlowLayout<Block, Wire> = {
   viewBox: [700, 324],
   font: { title: 12.5, sub: 9.5 },
   panels: [],
-  log: { x: 12, y: 282, w: 676, h: 34 },
+  log: { x: 12, y: 282, w: 676 },
   rects: {
     third: { x: 12, y: 66, w: 140, h: 46 },
     hub: { x: 12, y: 150, w: 140, h: 46 },
@@ -22,7 +22,7 @@ const WIDE: FlowLayout<Block, Wire> = {
     checkout: { x: 378, y: 150, w: 86, h: 46 },
     occ: { x: 500, y: 66, w: 188, h: 46 },
     store: { x: 500, y: 150, w: 188, h: 46 },
-    ci: { x: 12, y: 236, w: 676, h: 34 },
+    ci: { x: 12, y: 236, w: 676, h: LANE.h },
   },
   edges: {
     integrate: { from: "third", to: "core", axis: "h", mid: 164, offB: -8 },
@@ -43,7 +43,7 @@ const TALL: FlowLayout<Block, Wire> = {
   viewBox: [360, 484],
   font: { title: 12, sub: 9.5 },
   panels: [],
-  log: { x: 12, y: 442, w: 336, h: 34 },
+  log: { x: 12, y: 442, w: 336 },
   rects: {
     third: { x: 12, y: 30, w: 160, h: 46 },
     hub: { x: 188, y: 30, w: 160, h: 46 },
@@ -53,7 +53,7 @@ const TALL: FlowLayout<Block, Wire> = {
     checkout: { x: 240, y: 212, w: 96, h: 46 },
     occ: { x: 12, y: 324, w: 160, h: 46 },
     store: { x: 188, y: 324, w: 160, h: 46 },
-    ci: { x: 12, y: 394, w: 336, h: 34 },
+    ci: { x: 12, y: 394, w: 336, h: LANE.h },
   },
   edges: {
     integrate: { from: "third", to: "core", axis: "v", mid: 117, offB: -60 },
@@ -77,7 +77,7 @@ const MINI: FlowLayout<Block, Wire> = {
   viewBox: [360, 200],
   font: { title: 13, sub: 9.5 },
   panels: [],
-  log: { x: 12, y: 160, w: 336, h: 28 },
+  log: { x: 12, y: 160, w: 336 },
   rects: {
     third: { x: 12, y: 34, w: 108, h: 44 },
     core: { x: 130, y: 34, w: 108, h: 44 },

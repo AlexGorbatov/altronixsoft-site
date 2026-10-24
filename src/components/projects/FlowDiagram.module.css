@@ -76,6 +76,14 @@
   fill: rgba(22, 30, 70, 0.9);
   stroke: rgba(124, 239, 255, 0.45);
 }
+/* A block that is not there yet (on the roadmap): dimmed, with a dashed rim. */
+.muted {
+  opacity: 0.6;
+}
+.muted .node {
+  stroke-dasharray: 4 3;
+}
+
 /* A block lights up as a packet reaches it. */
 .flash {
   fill: rgba(124, 239, 255, 0.08);
@@ -232,6 +240,12 @@
   animation: phaseA 12s linear infinite;
   animation-play-state: var(--ps, paused);
 }
+/* Only while the second half of the loop plays; hidden when the picture stands still. */
+.phaseBLive {
+  opacity: 0;
+  animation: phaseB 12s linear infinite;
+  animation-play-state: var(--ps, paused);
+}
 .phaseB {
   opacity: 1;
   animation: phaseB 12s linear infinite;
@@ -379,7 +393,16 @@
   }
 }
 
-/* On a project card: the full diagram from 640px up, a compact one with fewer, larger names on phones. */
+/*
+ * On a project card: the full diagram from 640px up, a compact one with fewer, larger names on phones and in the
+ * small picture of the list layout. The padding keeps the diagram clear of the card's edges, its number and its
+ * status badge, also while the card's hover zooms the picture in.
+ */
+.cardWide,
+.cardMini {
+  box-sizing: border-box;
+  padding: 46px 24px 18px;
+}
 .cardMini {
   display: none;
 }
@@ -389,5 +412,15 @@
   }
   .cardMini {
     display: block;
+    padding: 42px 14px 12px;
+  }
+}
+@media (min-width: 640px) {
+  :global([data-view="list"]) .cardWide {
+    display: none;
+  }
+  :global([data-view="list"]) .cardMini {
+    display: block;
+    padding: 34px 14px 10px;
   }
 }

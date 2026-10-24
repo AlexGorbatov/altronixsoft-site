@@ -45,34 +45,6 @@ function hybris(t: SceneLabels["hybris"], accent: Accent) {
   return s.render();
 }
 
-/** 02 PIM: data sources → PIM hub (workflow layers) → enterprise APIs → integrations. */
-function pim(t: SceneLabels["pim"], accent: Accent) {
-  const s = makeScene("pim", 21, 150, 50, accent);
-  const A = s.accent;
-  s.floor(-1, -1, 11, 7);
-  const ys = [0.3, 2.3, 4.3];
-  ys.forEach((y, i) => s.beam([[1.8, y + 0.5], [3.2, y + 0.5], [3.2, 3.1], [4.4, 3.1]], { dur: 2.8, delay: i * 0.8, orbs: 1 }));
-  s.beam([[6.4, 3.1], [7.4, 3.1], [7.4, 2.0], [8.2, 2.0]], { tone: "ice", dur: 2.2, orbs: 1, delay: 0.4 });
-  s.beam([[7.4, 3.1], [7.4, 4.6], [8.2, 4.6]], { tone: "ice", dur: 2.2, orbs: 1, delay: 1.3 });
-  ys.forEach((y, i) => s.box(0, y, 0, 1.7, 1, 0.35, GLASS.plate, { depth: y, dur: 3.2 + i * 0.3, delay: i * 0.3, core: i === 1 }));
-  const layers = [GLASS.ice, GLASS.blue, GLASS.blue, A.glass];
-  layers.forEach((face, k) => s.box(4.4, 2.4, k * 0.55, 1.9, 1.5, 0.42, face, { depth: 7 + k * 0.01, dur: 3.8, delay: k * 0.2, core: k === 3 }));
-  s.plane(6.7, 1.9, 4.3, 0, 1.2, { depth: 8 });
-  let n = 0;
-  for (let i = 0; i < 2; i++) {
-    for (let j = 0; j < 2; j++) {
-      s.box(8.2 + i * 1.5, 1.4 + j * 1.7, 0, 1.2, 1.3, 0.3, (i + j) % 2 ? GLASS.blue : A.glass, { depth: 10 + i + j, dur: 3.4, delay: n * 0.4 });
-      n++;
-    }
-  }
-  s.label(0.85, 1.3, 0.35, t.sources, -44, -26);
-  s.label(5.35, 3.1, 1.9, t.hub, 14, -46);
-  s.label(6.7, 4.3, 1.2, t.apis, 6, 36);
-  s.label(9.4, 2.7, 0.3, t.integrations, 28, -34, true);
-  s.motes(12, 9);
-  return s.render();
-}
-
 /** 03 Logistics: an API in front of the backend systems, workflows, trucks to operations; the cloud above. */
 function logistics(t: SceneLabels["logistics"], accent: Accent) {
   const s = makeScene("logistics", 22, 150, 56, accent);
@@ -127,68 +99,6 @@ function chain(t: SceneLabels["chain"], accent: Accent) {
   s.label(7, -2, 1.4, t.api, 0, -36, true);
   s.label(10, -4, 0, t.clients, 30, 42);
   s.motes(12, 2);
-  return s.render();
-}
-
-/** 05 Secure RAG: documents → retrieval → access control → model → response. */
-function rag(t: SceneLabels["rag"], accent: Accent) {
-  const s = makeScene("rag", 21, 140, 50, accent);
-  const A = s.accent;
-  s.floor(-1, -1, 11, 7);
-  s.beam([[1.4, 3], [9.2, 3]], { dur: 4, orbs: 3, r: 5 });
-  for (let k = 0; k < 3; k++) s.box(0, 2.2, k * 0.32, 1.8, 1.6, 0.26, GLASS.ice, { depth: 2.2 + k * 0.01, dur: 3.4, delay: k * 0.3 });
-  for (let k = 0; k < 3; k++) {
-    s.box(2.9, 2.1, k * 0.5, 1.7, 1.7, 0.34, k === 1 ? GLASS.blue : GLASS.plate, { depth: 5 + k * 0.01, dur: 3.8, delay: k * 0.25, core: k === 2 });
-  }
-  s.box(5.7, 0.9, 0, 0.45, 0.45, 2.3, GLASS.plate, { depth: 8, anim: "none" });
-  s.box(5.7, 4.2, 0, 0.45, 0.45, 2.3, GLASS.plate, { depth: 9, anim: "none" });
-  s.plane(5.92, 1.2, 4.6, 0, 2.3, { depth: 8.5 });
-  s.box(7.3, 2.2, 0, 1.6, 1.6, 1.3, A.glass, { depth: 12, dur: 4, core: true });
-  s.ellipse(8.1, 3, 0, 44, A.line);
-  s.box(9.6, 2.4, 0, 1.2, 1.2, 0.5, GLASS.blue, { depth: 14, dur: 3.2, delay: 0.4 });
-  s.label(0.9, 3.0, 0.8, t.documents, -46, -26);
-  s.label(3.75, 3.0, 1.5, t.retrieval, -6, -54);
-  s.label(5.92, 2.9, 2.3, t.access, 58, -40);
-  s.label(8.1, 3.0, 1.3, t.model, 22, -34);
-  s.label(10.2, 3.0, 0.5, t.response, 20, 30, true);
-  s.motes(12, 4);
-  return s.render();
-}
-
-/** 06 AI Business Workflow Agent: the agent between several systems, with a human approval step. */
-function agent(t: SceneLabels["agent"], accent: Accent) {
-  const s = makeScene("agent", 21, 152, 56, accent);
-  const A = s.accent;
-  s.floor(-1, -1, 11, 7);
-  const spokes: Point[][] = [[[3.4, 3.2], [1.8, 3.2]], [[4.3, 2.2], [4.3, -0.4]], [[4.3, 4.4], [4.3, 6.3]]];
-  spokes.forEach((r, i) => {
-    s.beam(r, { dur: 2.4, orbs: 1, delay: i * 0.7 });
-    s.beam([...r].reverse(), { dur: 2.4, orbs: 1, delay: i * 0.7 + 1.2 });
-  });
-  const approval: Point[] = [[5.2, 3.2], [9.0, 3.2]];
-  s.beam(approval, { tone: "ice", dur: 2.6, orbs: 1, delay: 0.5 });
-  s.beam([...approval].reverse(), { tone: "ice", dur: 2.6, orbs: 1, delay: 1.9 });
-  s.box(3.3, 2.2, 0, 2, 2, 1.5, A.glass, { depth: 8, dur: 4, core: true });
-  s.ellipse(4.3, 3.2, 0, 52, A.line);
-  s.box(0, 2.6, 0, 1.6, 1.2, 0.6, GLASS.ice, { depth: 2, dur: 3.2 });
-  s.box(3.6, -1.8, 0, 1.4, 1.2, 0.6, GLASS.ice, { depth: 0, dur: 3.5, delay: 0.4 });
-  s.box(3.6, 5.7, 0, 1.4, 1.2, 0.6, GLASS.ice, { depth: 12, dur: 3.7, delay: 0.8 });
-  s.box(9, 2.6, 0, 1.6, 1.2, 0.9, GLASS.blue, { depth: 14, dur: 3.3, delay: 0.2, core: true });
-  // The person who approves: a small glass figure on the violet block.
-  const [hx, hy] = s.P(9.8, 3.2, 1.55);
-  s.add(
-    <>
-      <circle cx={hx} cy={hy} r="4.2" fill="#fff" fillOpacity=".85" />
-      <path d={`M${hx - 6} ${hy + 11} Q${hx} ${hy + 1} ${hx + 6} ${hy + 11} Z`} fill="#fff" fillOpacity=".6" />
-    </>,
-    [[hx - 6, hy - 5], [hx + 6, hy + 11]],
-  );
-  s.label(4.3, 3.2, 1.5, t.agent, 0, -46);
-  s.label(0.8, 3.2, 0.6, t.system, -8, -34);
-  s.label(4.3, -1.2, 0.6, t.system, 34, -10);
-  s.label(4.3, 6.3, 0.6, t.system, 40, 22);
-  s.label(9.8, 3.2, 1.9, t.approval, 10, -36, true);
-  s.motes(12, 6);
   return s.render();
 }
 
@@ -249,20 +159,14 @@ function gateway(t: SceneLabels["gateway"], accent: Accent) {
 }
 
 /** The scene of one project, with its names in the given language. */
-export function buildScene(variant: ProjectVisual, labels: SceneLabels, accent: Accent) {
+export function buildScene(variant: Exclude<ProjectVisual, "lobby" | "agent" | "pim">, labels: SceneLabels, accent: Accent) {
   switch (variant) {
     case "shop":
       return hybris(labels.hybris, accent);
-    case "pim":
-      return pim(labels.pim, accent);
     case "logistics":
       return logistics(labels.logistics, accent);
     case "chain":
       return chain(labels.chain, accent);
-    case "rag":
-      return rag(labels.rag, accent);
-    case "agent":
-      return agent(labels.agent, accent);
     case "documents":
       return documents(labels.documents, accent);
     case "gateway":
@@ -281,8 +185,8 @@ export function sceneChain(variant: ProjectVisual, labels: SceneLabels): string[
       return [t.thirdParty, t.dataHub, t.hybris, t.occ, t.spartacus];
     }
     case "pim": {
-      const t = labels.pim;
-      return [t.sources, t.hub, t.apis, t.integrations];
+      const t = labels.pimFlow;
+      return [t.filesShort, t.parsersShort, t.mappingShort, "Kafka", "MySQL", t.storefront];
     }
     case "logistics": {
       const t = labels.logistics;
@@ -292,13 +196,13 @@ export function sceneChain(variant: ProjectVisual, labels: SceneLabels): string[
       const t = labels.chain;
       return [`${t.cardano} · ${t.midnight} · ${t.bitcoin}`, t.providers, t.api, t.clients];
     }
-    case "rag": {
-      const t = labels.rag;
-      return [t.documents, t.retrieval, t.access, t.model, t.response];
+    case "lobby": {
+      const t = labels.lobbyFlow;
+      return ["PlayStation · Steam", t.link, t.profile, t.feed];
     }
     case "agent": {
-      const t = labels.agent;
-      return [t.system, t.agent, t.approval];
+      const t = labels.agentFlow;
+      return [t.emailShort, t.understand, t.enrich, t.price, t.policy, t.approvalShort];
     }
     case "documents": {
       const t = labels.documents;

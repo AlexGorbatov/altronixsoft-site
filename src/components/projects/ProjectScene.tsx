@@ -1,7 +1,11 @@
 import type { ProjectVisual } from "@/data/projects";
 import { FramedCard, type FrameAccent } from "@/components/ui/FramedCard";
 import { cn } from "@/lib/utils";
+import { AgentFlow } from "./AgentFlow";
 import { HybrisFlow } from "./HybrisFlow";
+import { LobbyFlow } from "./LobbyFlow";
+import { NexusCardFlow } from "./NexusCardFlow";
+import { PimFlow } from "./PimFlow";
 import { NexusFlow } from "./NexusFlow";
 import styles from "./ProjectScene.module.css";
 import type { Accent } from "./sceneKit";
@@ -25,6 +29,10 @@ interface ProjectSceneProps {
 export function ProjectScene({ variant, labels, accent, className }: ProjectSceneProps) {
   // Projects that have a flat, live diagram of their architecture show it instead of the isometric scene.
   if (variant === "shop") return <HybrisFlow labels={labels.hybrisFlow} mode="card" className={className} />;
+  if (variant === "chain") return <NexusCardFlow labels={labels.nexusFlow} className={className} />;
+  if (variant === "lobby") return <LobbyFlow labels={labels.lobbyFlow} mode="card" className={className} />;
+  if (variant === "agent") return <AgentFlow labels={labels.agentFlow} mode="card" className={className} />;
+  if (variant === "pim") return <PimFlow labels={labels.pimFlow} mode="card" className={className} />;
   const { viewBox, node } = buildScene(variant, labels, accent);
   return (
     <svg
@@ -70,6 +78,12 @@ export function ScenePanel({ variant, labels, accent, className }: ProjectSceneP
         <NexusFlow labels={labels.nexusFlow} />
       ) : variant === "shop" ? (
         <HybrisFlow labels={labels.hybrisFlow} mode="panel" />
+      ) : variant === "lobby" ? (
+        <LobbyFlow labels={labels.lobbyFlow} mode="panel" />
+      ) : variant === "agent" ? (
+        <AgentFlow labels={labels.agentFlow} mode="panel" />
+      ) : variant === "pim" ? (
+        <PimFlow labels={labels.pimFlow} mode="panel" />
       ) : (
         <ProjectScene variant={variant} labels={labels} accent={accent} className="relative z-[1] aspect-[400/240] w-full" />
       )}
