@@ -77,7 +77,7 @@ export const caseStudies: CaseStudy[] = [
         text: "The CI/CD pipeline and nightly builds set up and improved, test coverage kept adequate, and production issues and bugs fixed.",
       },
     ],
-    result: "Every feature shipped on schedule through the CI/CD pipeline, and the store stayed stable under high production load.",
+    result: "Features were delivered on time through the CI/CD pipeline, and the platform stayed stable under high load.",
     stack: ["SAP Commerce (Hybris) 2011", "Java 11", "Spring", "OCC", "Spartacus", "Solr", "Data Hub", "CI/CD"],
     duration: "5 months",
     team: "5 people",
@@ -116,7 +116,7 @@ export const caseStudies: CaseStudy[] = [
     visual: "pim",
     industry: "E-commerce · PIM",
     summary: "Vendor catalogs in CSV, Excel, JSON and XML mapped into one product model and synced to the e-commerce storefront.",
-    context: "Product catalogs from multiple vendors for an e-commerce storefront.",
+    context: "Product information management (PIM) for an e-commerce storefront: catalogs from multiple vendors.",
     challenge:
       "Every vendor sent its catalog in its own format and structure. The data had to become one unified product model, be imported in large batches, and reach the storefront with current products and stock.",
     whatWeDid:
