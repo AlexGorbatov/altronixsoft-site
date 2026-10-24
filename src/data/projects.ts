@@ -42,7 +42,7 @@ export interface CaseStudy {
 export const caseStudies: CaseStudy[] = [
   {
     slug: "enterprise-ecommerce-platform",
-    title: "SAP Hybris e-commerce platform",
+    title: "SAP Commerce (Hybris) platform",
     visual: "shop",
     industry: "E-commerce",
     summary: "Integrations, Solr search, promotions and checkout on a high-load SAP Hybris store for a German furniture retailer.",
@@ -112,7 +112,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: "product-information-platform",
-    title: "PIM system for E-Commerce Project",
+    title: "PIM system for e-commerce",
     visual: "pim",
     industry: "E-commerce · PIM",
     summary: "Vendor catalogs in CSV, Excel, JSON and XML mapped into one product model and synced to the e-commerce storefront.",

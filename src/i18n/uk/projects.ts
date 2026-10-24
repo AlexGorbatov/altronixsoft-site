@@ -2,13 +2,13 @@ import type { Part } from "../content";
 
 /** Shared by the case studies and the portfolio tiles, so a case and its tile never say different things. */
 const hybris = {
-  title: "E-commerce-платформа на SAP Hybris",
+  title: "Платформа на SAP Commerce (Hybris)",
   industry: "Електронна комерція",
   summary:
     "Інтеграції, пошук Solr, акції та оформлення замовлень у високонавантаженому магазині на SAP Hybris для німецького меблевого рітейлера.",
 };
 const pim = {
-  title: "PIM-система для e-commerce-проєкту",
+  title: "PIM-система для e-commerce",
   industry: "Електронна комерція · PIM",
   summary:
     "Каталоги вендорів у CSV, Excel, JSON і XML зводяться в одну модель товару й синхронізуються з вітриною інтернет-магазину.",

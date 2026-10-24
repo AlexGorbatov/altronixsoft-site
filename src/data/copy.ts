@@ -137,24 +137,24 @@ export const copy = {
     teamLabel: "Team",
     durationLabel: "Duration",
     websiteLabel: "Website",
-    diagramNote: "Diagrams are simplified and animated. For client projects, systems and names are generalized to protect confidentiality.",
+    diagramNote: "Diagrams are simplified and animated. Where a client is under NDA, names and details are generalized.",
   },
   /** The portfolio: the "Selected projects" section on the home page and the /work page. */
   portfolio: {
     home: {
       eyebrow: "Selected work",
       title: "Selected projects.",
-      description: "A selection of client systems under NDA, our own products and AI projects.",
+      description: "Systems we have designed and built for clients, shown with diagrams. Client details are confidential.",
       viewAll: "View all projects",
       listLabel: "Selected projects",
     },
     page: {
       eyebrow: "Work",
       title: "Our projects.",
-      description: "Every project shows its status: under NDA, open source or in development.",
+      description: "Projects across e-commerce, logistics, AI and blockchain. Each one shows how the system is built; client details stay confidential.",
       metaTitle: "Our projects",
       metaDescription:
-        "Client systems under NDA, our own products and open-source AI work, each with its status. Client names are confidential.",
+        "Project case studies: SAP Commerce, PIM, logistics CRM, payments, AI agents and blockchain APIs. Architecture diagrams; client names generalized.",
       view: { label: "Layout", tiles: "Tiles", list: "List" },
       listLabel: "All projects",
     },
