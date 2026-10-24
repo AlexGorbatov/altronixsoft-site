@@ -68,14 +68,11 @@
 }
 
 /* Visible by default (SSR, no JS, reduced motion); the entrance only exists inside the animation. */
-.copy > * {
-  animation: intro 0.4s var(--ease-out) backwards;
+.actions,
+.meta {
+  animation: intro 0.3s var(--ease-out) backwards;
 }
-.copy > :nth-child(1) { animation-delay: 0.02s; }
-.copy > :nth-child(2) { animation-delay: 0.06s; }
-.copy > :nth-child(3) { animation-delay: 0.1s; }
-.copy > :nth-child(4) { animation-delay: 0.14s; }
-.copy > :nth-child(5) { animation-delay: 0.4s; }
+/* Keep the headline and supporting text immediately visible for LCP. */
 
 .title {
   max-width: 760px;

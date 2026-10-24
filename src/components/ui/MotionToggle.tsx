@@ -31,7 +31,6 @@ export function MotionToggle({ labels, className }: { labels: { pause: string; p
     <button
       type="button"
       onClick={toggle}
-      aria-pressed={paused}
       className={`motion-toggle inline-flex min-h-11 shrink-0 items-center gap-2 rounded-lg border border-white/[.42] px-3 text-small font-semibold text-strong transition-colors hover:text-white ${className ?? ""}`}
     >
       <Icon size={16} aria-hidden />

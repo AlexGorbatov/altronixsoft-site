@@ -76,7 +76,7 @@ function untranslated(english: unknown, translated: unknown, trail: string[] = [
     if (translated !== english) return [];
     const key = trail[trail.length - 1];
     // A technology list ("stack") is a list of names, not words to translate.
-    if (NOT_TEXT_KEYS.has(key) || trail.includes("stack") || /TODO\(owner\)/.test(english) || !/\p{L}/u.test(english)) return [];
+    if (NOT_TEXT_KEYS.has(key) || (trail.includes("stack") || trail.includes("caseSlugs")) || /TODO\(owner\)/.test(english) || !/\p{L}/u.test(english)) return [];
     if (SAME_EVERYWHERE.has(english) || /^(https?:|\/|[\w.-]+@[\w.-]+)/.test(english)) return [];
     return [`${trail.join(".")}: "${english}"`];
   }
@@ -100,6 +100,7 @@ describe.each(locales.filter((code): code is Exclude<Locale, "en"> => code !== "
     const en = contentFor("en");
     const other = contentFor(locale);
     expect(other.services.map((s) => s.id)).toEqual(en.services.map((s) => s.id));
+    expect(other.services.map((s) => s.caseSlugs)).toEqual(en.services.map((s) => s.caseSlugs));
     expect(other.caseStudies.map((c) => c.slug)).toEqual(en.caseStudies.map((c) => c.slug));
     expect(other.projects.map((p) => [p.slug, p.kind, p.status, p.href, p.visual, p.isExternal, p.featured])).toEqual(
       en.projects.map((p) => [p.slug, p.kind, p.status, p.href, p.visual, p.isExternal, p.featured]),
@@ -107,6 +108,7 @@ describe.each(locales.filter((code): code is Exclude<Locale, "en"> => code !== "
     expect(other.navigation.map((n) => n.href)).toEqual(en.navigation.map((n) => n.href));
     expect(other.requestTypes.map((r) => r.value)).toEqual(en.requestTypes.map((r) => r.value));
     expect(other.sapCommerce.path).toBe(en.sapCommerce.path);
+    expect(other.sapCommerce.caseSlugs).toEqual(en.sapCommerce.caseSlugs);
   });
 
   it("keeps the placeholders that are still open hidden", () => {

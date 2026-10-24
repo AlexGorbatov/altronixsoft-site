@@ -78,21 +78,21 @@ const TALL: FlowLayout<Block, Wire> = {
 
 /** Phones and the list layout (card): six blocks with short names, and the log line. */
 const MINI: FlowLayout<Block, Wire> = {
-  viewBox: [360, 200],
+  viewBox: [360, 224],
   font: { title: 12.5, sub: 9.5 },
   panels: [],
-  log: { x: 12, y: 160, w: 336 },
+  log: { x: 12, y: 180, w: 336 },
   rects: {
-    psn: { x: 12, y: 34, w: 108, h: 44 },
-    link: { x: 130, y: 34, w: 108, h: 44 },
-    share: { x: 248, y: 34, w: 108, h: 44 },
-    steam: { x: 12, y: 104, w: 108, h: 44 },
-    feed: { x: 130, y: 104, w: 108, h: 44 },
-    fame: { x: 248, y: 104, w: 108, h: 44 },
+    psn: { x: 12, y: 24, w: 96, h: 44 },
+    link: { x: 132, y: 24, w: 96, h: 44 },
+    share: { x: 252, y: 24, w: 96, h: 44 },
+    steam: { x: 12, y: 112, w: 96, h: 44 },
+    feed: { x: 132, y: 112, w: 96, h: 44 },
+    fame: { x: 252, y: 112, w: 96, h: 44 },
   },
   edges: {
     psnIn: { from: "psn", to: "link", axis: "h" },
-    steamIn: { from: "steam", to: "link", axis: "h", mid: 125, offB: 8 },
+    steamIn: { from: "steam", to: "link", axis: "h", mid: 120, offB: 8 },
     toFeed: { from: "link", to: "feed", axis: "v" },
     toShare: { from: "link", to: "share", axis: "h" },
     toFame: { from: "feed", to: "fame", axis: "h" },
@@ -191,10 +191,7 @@ export function LobbyFlow({ labels: t, mode, className }: LobbyFlowProps) {
   };
   if (mode === "card") {
     return (
-      <>
-        <FlowDiagram layout={WIDE} blocks={blocks(t)} {...shared} className={cn(flowStyles.cardWide, className)} />
-        <FlowDiagram layout={MINI} blocks={miniBlocks(t)} {...shared} className={cn(flowStyles.cardMini, className)} />
-      </>
+      <FlowDiagram layout={MINI} blocks={miniBlocks(t)} {...shared} className={cn(flowStyles.cardMini, className)} />
     );
   }
   return (

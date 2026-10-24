@@ -38,7 +38,7 @@ export const copy = {
     footerServices: "Services:",
     footerContact: "Contact:",
     privacy: "Privacy Policy",
-    linkedinAria: "Altronix Software on LinkedIn (opens in a new tab)",
+    linkedinAria: "AltronixSoft on LinkedIn (opens in a new tab)",
     copyEmail: "Copy email address",
     emailCopied: "Email address copied",
     copied: "Copied",
@@ -47,7 +47,7 @@ export const copy = {
     language: "Language",
     technologies: "Technologies",
     experienceAria: "Experience and technologies",
-    heroAria: "About Altronix Software",
+    heroAria: "About AltronixSoft",
     seeOurWork: "See our work",
     registryCode: "Registry code",
     vat: "VAT",
@@ -65,8 +65,10 @@ export const copy = {
   },
   contactSection: {
     eyebrow: "Contact",
-    title: "Describe the system and the problem.",
-    text: "Name the workflow, platform or product. We reply with the shortest path to production.",
+    title: "Tell us what needs to change.",
+    text: "Describe the system, the problem and the outcome you need.",
+    nextTitle: "What happens next",
+    nextText: "The studio reviews your context, clarifies the scope with you and agrees whether a technical review, a proof of value or a delivery project is the right next step.",
     orEmail: "Or email",
     booking: "Book a call",
   },
@@ -79,7 +81,10 @@ export const copy = {
     serviceEyebrow: "Service",
     /** `{number}` is replaced with the service number, e.g. 01. */
     serviceNumber: "Service {number}",
-    whatWeDo: "What we do",
+    whatWeDo: "Technical capabilities",
+    whenToContact: "When to contact the studio",
+    deliverables: "What can be delivered",
+    relatedProjectsTitle: "Related engineering experience",
     howToStart: "How to start",
     otherServices: "Other services",
     relatedServices: "Related services",
@@ -89,7 +94,7 @@ export const copy = {
     sapStackTitle: "Engineering stack",
     sapStackBefore:
       "Backend and integration work in Java and Spring, applied to e-commerce and product information platforms. See",
-    sapStackLink: "client projects",
+    sapStackLink: "the SAP Commerce case study",
     technologiesAria: "Technologies",
   },
   /** Headings and labels of the plain-text /llms.txt summary. */
@@ -129,7 +134,7 @@ export const copy = {
     },
   },
   work: {
-    stackLabel: "Stack",
+    stackLabel: "Technologies and integrations",
     stackAria: "Technology stack",
     industryLabel: "Industry",
     contextLabel: "Context",
@@ -144,21 +149,21 @@ export const copy = {
     home: {
       eyebrow: "Selected work",
       title: "Selected projects.",
-      description: "Systems we have designed and built, for clients and as our own projects, shown with diagrams. Client details are confidential.",
+      description: "Client and partner projects with contributions from AltronixSoft, alongside its own reference implementations. Shown with architecture diagrams; confidential details are generalized.",
       viewAll: "View all projects",
       listLabel: "Selected projects",
     },
     page: {
       eyebrow: "Work",
-      title: "Our projects.",
-      description: "Projects across e-commerce, logistics, AI and blockchain. Each one shows how the system is built; client details stay confidential.",
+      title: "Projects.",
+      description: "Client and partner projects with contributions from AltronixSoft, plus its own reference implementations across e-commerce, logistics, AI and blockchain. Confidential details are generalized.",
       metaTitle: "Projects: SAP Commerce, AI, payments, CRM",
       metaDescription:
         "Project case studies: SAP Commerce, PIM, logistics CRM, payments, AI agents and blockchain APIs. Architecture diagrams; client names generalized.",
       view: { label: "Layout", tiles: "Tiles", list: "List" },
       listLabel: "All projects",
     },
-    status: { nda: "Client · NDA", own: "Own project", "open-source": "Open source", "in-development": "In development" },
+    status: { nda: "Commercial · NDA", partner: "Partner project", own: "Reference project", "open-source": "Open source", "in-development": "In development" },
     /** aria-label of a project link; {title} is replaced by the project's name. */
     openProject: "Open project: {title}",
     /** Same, for a link that opens another site in a new tab. */
@@ -240,7 +245,7 @@ export const copy = {
         logOrder: "Checkout → promotion rule → order placed",
         aria: "SAP Hybris architecture: third-party systems send data over REST and SOAP and in bulk through Data Hub; the commerce core uses Solr search, promotion rules and checkout, and serves users, carts and orders through the OCC API to the Spartacus storefront; CI/CD builds and deploys the platform.",
       },
-      /** The live diagram on the Nexus case page (flat, not isometric). */
+      /** The live diagram on the Nexus case page. */
       nexusFlow: {
         clients: "Clients",
         upstreams: "Upstreams",
@@ -251,17 +256,16 @@ export const copy = {
         gateway: "One endpoint",
         gatewaySub: "X-Api-Key · one key per chain",
         router: "Health-checked router",
-        routerSub: "routes around degraded upstreams",
+        routerSub: "selects a healthy upstream",
         cache: "Cache",
         cacheSub: "hot data",
         builder: "Tx builder",
         builderSub: "unsigned CBOR",
         indexers: "Indexers",
         healthy: "healthy",
-        degraded: "degraded",
-        logMiss: "Yaci degraded → routed to Koios · 200 OK",
+        logMiss: "Request → Koios · 200 OK",
         logHit: "MCP tool call → cache hit · 200 OK",
-        aria: "Nexus architecture: wallets, AI agents and live apps call one endpoint; a health-checked router serves each call from the cache or from a healthy upstream (Yaci, Koios, Blockfrost, indexers) over Cardano, Bitcoin and Midnight, and routes around a degraded one.",
+        aria: "Nexus architecture: wallets, AI agents and live apps call one endpoint; a health-checked router serves each call from the cache or from a healthy upstream (Yaci, Koios, Blockfrost, indexers) over Cardano, Bitcoin and Midnight.",
       },
       /** The live diagram of Lobby9 (flat, on its card and case page). Product names stay in the code. */
       lobbyFlow: {
@@ -405,7 +409,8 @@ export const copy = {
     back: "All projects",
     focus: "Focus",
     challenge: "Challenge",
-    whatWeDid: "What we did",
+    contribution: "Project context and contribution",
+    whatWeDid: "Engineering approach",
     result: "Result",
     architecture: "Architecture",
     /** The button to the live product; {site} is its domain. */

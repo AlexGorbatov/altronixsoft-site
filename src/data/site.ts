@@ -1,13 +1,13 @@
 export const siteConfig = {
-  name: "Altronix Software",
+  name: "AltronixSoft",
   /** Short form of the name, used by the company's profiles and its domain. */
   shortName: "AltronixSoft",
   /** The name exactly as in the Estonian commercial register (registry code 16645816). */
   legalName: "AltronixSoftware OÜ",
-  tagline: "Complex systems. Clear solutions.",
-  title: "SAP Commerce, Java and AI engineering | Altronix Software",
+  tagline: "Complex problems. Clear solutions.",
+  title: "Independent Software Engineering Studio | AltronixSoft",
   description:
-    "Altronix Software builds and modernizes enterprise software: Java/Spring, SAP Commerce Cloud, integrations and AI. Clear ownership. Transparent delivery.",
+    "Independent software engineering studio for custom software, Java/Spring, integrations, modernization, SAP Commerce and AI. Direct technical ownership.",
   // Canonical placeholder — replace once the production domain is confirmed.
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://altronixsoft.com",
   email: "info@altronixsoft.com",

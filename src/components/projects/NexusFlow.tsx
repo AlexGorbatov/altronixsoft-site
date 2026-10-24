@@ -127,7 +127,7 @@ const TALL: Layout = {
 };
 
 /**
- * The loop, in seconds of a 12 s cycle. A wallet's request finds Yaci degraded and is routed to Koios; then an
+ * The loop, in seconds of a 12 s cycle. A wallet's request is routed to Koios; then an
  * AI agent's tool call is answered from the cache. Each hop takes about 0.84 s (7 % of the cycle).
  */
 const HOPS: { edge: EdgeId; at: number; back?: boolean; reply?: boolean }[] = [
@@ -174,7 +174,7 @@ function Diagram({ layout, t, className }: { layout: Layout; t: NexusFlowLabels;
   ) as Record<EdgeId, string>;
   const [vw, vh] = layout.viewBox;
 
-  const node = (id: NodeId, title: string, sub?: string, opts: { accent?: boolean; chain?: boolean; subClass?: string } = {}) => {
+  const node = (id: NodeId, title: string, sub?: string, opts: { accent?: boolean; chain?: boolean } = {}) => {
     const r = nodes[id];
     const narrow = layout.narrowUpstreams && ["yaci", "koios", "blockfrost", "indexers"].includes(id);
     const centred = narrow || opts.chain || (layout === TALL && ["wallets", "agents", "live"].includes(id));
@@ -192,7 +192,7 @@ function Diagram({ layout, t, className }: { layout: Layout; t: NexusFlowLabels;
           {title}
         </text>
         {sub && !narrow && (
-          <text className={`${styles.sub} ${opts.subClass ?? ""}`} x={tx} y={ty + 16} textAnchor={anchor} fontSize="10.5">
+          <text className={styles.sub} x={tx} y={ty + 16} textAnchor={anchor} fontSize="10.5">
             {sub}
           </text>
         )}
@@ -205,27 +205,12 @@ function Diagram({ layout, t, className }: { layout: Layout; t: NexusFlowLabels;
     const dot = layout.narrowUpstreams ? { x: r.x + r.w - 9, y: r.y + 9 } : { x: r.x + r.w - 16, y: r.y + r.h / 2 };
     return (
       <g key={id}>
-        {node(id, title, t.healthy, { subClass: id === "yaci" ? styles.phaseB : undefined })}
-        {id === "yaci" && !layout.narrowUpstreams && (
-          // Yaci's status turns to "degraded" while the first request is routed around it.
-          <text className={`${styles.sub} ${styles.warn} ${styles.phaseA}`} x={r.x + 14} y={r.y + r.h / 2 + 13} fontSize="10.5">
-            {t.degraded}
-          </text>
-        )}
-        {id === "yaci" && <rect className={`${styles.degradedRim} ${styles.phaseA}`} x={r.x} y={r.y} width={r.w} height={r.h} rx="12" />}
+        {node(id, title, t.healthy)}
         <circle className={styles.ping} cx={dot.x} cy={dot.y} r="3" />
         <circle className={styles.dot} cx={dot.x} cy={dot.y} r="3" />
-        {id === "yaci" && <circle className={`${styles.dotWarn} ${styles.phaseA}`} cx={dot.x} cy={dot.y} r="3.2" />}
       </g>
     );
   };
-
-  // Where the request is turned away from Yaci: the middle of its route.
-  const yaciEdge = edges.toYaci;
-  const yr = nodes.yaci;
-  const block = layout.narrowUpstreams
-    ? { x: yr.x + yr.w / 2, y: yr.y - 10 }
-    : { x: (yaciEdge.mid ?? 612) + 19, y: yr.y + yr.h / 2 };
 
   return (
     <svg className={className} viewBox={`0 0 ${vw} ${vh}`} role="img" aria-label={t.aria}>
@@ -309,14 +294,6 @@ function Diagram({ layout, t, className }: { layout: Layout; t: NexusFlowLabels;
       {(Object.keys(d) as EdgeId[]).map((id) => (
         <path key={`${id}-flow`} className={id === "liveOut" ? styles.flowBack : styles.flow} d={d[id]} />
       ))}
-      <path className={`${styles.wireWarn} ${styles.phaseA}`} d={d.toYaci} />
-      <g className={styles.phaseA}>
-        <circle cx={block.x} cy={block.y} r="7" className={styles.blockMark} />
-        <path
-          d={`M${block.x - 3} ${block.y - 3} L${block.x + 3} ${block.y + 3} M${block.x + 3} ${block.y - 3} L${block.x - 3} ${block.y + 3}`}
-          className={styles.blockCross}
-        />
-      </g>
 
       {node("wallets", t.wallets, "REST · SDK")}
       {node("agents", t.agents, "MCP")}
@@ -361,7 +338,7 @@ function Diagram({ layout, t, className }: { layout: Layout; t: NexusFlowLabels;
 /**
  * Nexus as a live architecture diagram: clients → one endpoint → a health-checked router → cache or upstream
  * providers → chains, and the reply back. Flat and animated; it reads as a plain diagram without motion.
- * The animations run only inside an `ActiveWhenVisible` parent (it sets --ps), like the isometric scenes.
+ * The animations run only inside an `ActiveWhenVisible` parent (it sets --ps), like the other project diagrams.
  */
 export function NexusFlow({ labels }: { labels: NexusFlowLabels }) {
   return (

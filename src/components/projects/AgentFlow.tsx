@@ -81,17 +81,17 @@ const TALL: FlowLayout<Block, Wire> = {
 
 /** Phones (card) and the small picture of the list layout: six blocks, the approver's login among them, and the log line. */
 const MINI: FlowLayout<Block, Wire> = {
-  viewBox: [360, 200],
+  viewBox: [360, 224],
   font: { title: 12.5, sub: 9.5 },
   panels: [],
-  log: { x: 12, y: 160, w: 336 },
+  log: { x: 12, y: 180, w: 336 },
   rects: {
-    email: { x: 12, y: 34, w: 108, h: 44 },
-    understand: { x: 130, y: 34, w: 108, h: 44 },
-    price: { x: 248, y: 34, w: 108, h: 44 },
-    kc: { x: 12, y: 104, w: 108, h: 44 },
-    approval: { x: 130, y: 104, w: 108, h: 44 },
-    policy: { x: 248, y: 104, w: 108, h: 44 },
+    email: { x: 12, y: 24, w: 96, h: 44 },
+    understand: { x: 132, y: 24, w: 96, h: 44 },
+    price: { x: 252, y: 24, w: 96, h: 44 },
+    kc: { x: 12, y: 112, w: 96, h: 44 },
+    approval: { x: 132, y: 112, w: 96, h: 44 },
+    policy: { x: 252, y: 112, w: 96, h: 44 },
   },
   edges: {
     emailIn: { from: "email", to: "understand", axis: "h" },
@@ -218,10 +218,7 @@ export function AgentFlow({ labels: t, mode, className }: AgentFlowProps) {
   const shared = { hops: HOPS, flashes: FLASHES, log: [t.logAuto, t.logInjection] as [string, string] };
   if (mode === "card") {
     return (
-      <>
-        <FlowDiagram layout={WIDE} blocks={blocks(t)} {...shared} className={cn(flowStyles.cardWide, className)} extras={() => <Flagged layout={WIDE} />} />
-        <FlowDiagram layout={MINI} blocks={miniBlocks(t)} {...shared} className={cn(flowStyles.cardMini, className)} extras={() => <Flagged layout={MINI} />} />
-      </>
+      <FlowDiagram layout={MINI} blocks={miniBlocks(t)} {...shared} className={cn(flowStyles.cardMini, className)} extras={() => <Flagged layout={MINI} />} />
     );
   }
   return (

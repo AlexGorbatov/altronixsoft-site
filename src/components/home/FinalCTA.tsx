@@ -10,41 +10,34 @@ export async function FinalCTA() {
   const { lang, copy, requestTypes } = await getContent();
   const section = copy.contactSection;
   return (
-    <Section id="contact" tone="alt" labelledBy="cta-title">
+    <Section id="contact" tone="alt" labelledBy="cta-title" compact>
       <AnimatedReveal>
-        <div className="relative grid items-start gap-10 overflow-hidden rounded-3xl border border-white/[.12] bg-[radial-gradient(600px_300px_at_100%_0%,rgba(139,92,246,.22),transparent_70%),linear-gradient(120deg,#0d1b35,#161838_65%,#2d1f47)] p-[26px] sm:p-[42px] lg:grid-cols-[.85fr_1.15fr] lg:gap-14 lg:p-[56px]">
-          <div>
+        <div className="relative grid items-start gap-6 overflow-hidden rounded-3xl border border-white/[.12] bg-[radial-gradient(600px_300px_at_100%_0%,rgba(139,92,246,.22),transparent_70%),linear-gradient(120deg,#0d1b35,#161838_65%,#2d1f47)] p-5 sm:gap-8 sm:p-[42px] lg:grid-cols-[.85fr_1.15fr] lg:gap-x-14 lg:p-[56px]">
+          <div className="lg:col-start-1 lg:row-start-1">
             <div className="eyebrow">{section.eyebrow}</div>
-            <h2
-              id="cta-title"
-              className="mt-[14px] text-[32px] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[44px]"
-            >
+            <h2 id="cta-title" className="mt-3 text-[28px] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[44px]">
               {section.title}
             </h2>
-            <p className="mt-5 leading-[1.7] text-strong">
-              {section.text}
-            </p>
+            <p className="mt-3 leading-[1.7] text-strong">{section.text}</p>
+          </div>
 
+          <div className="min-w-0 lg:col-start-2 lg:row-span-2 lg:row-start-1">
+            <ContactForm lang={lang} form={copy.form} requestTypes={requestTypes} />
+          </div>
+
+          <div className="min-w-0 lg:col-start-1 lg:row-start-2">
+            <h3 className="text-body font-semibold">{section.nextTitle}</h3>
+            <p className="mt-2 text-small leading-[1.7] text-muted">{section.nextText}</p>
             {siteConfig.bookingUrl && (
-              <Button
-                href={siteConfig.bookingUrl}
-                variant="secondary"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 w-full sm:w-auto"
-              >
+              <Button href={siteConfig.bookingUrl} variant="secondary" target="_blank" rel="noopener noreferrer" className="mt-5 w-full sm:w-auto">
                 {section.booking}
               </Button>
             )}
-
-            <p className="mt-6 text-sm text-strong">
+            <p className="mt-5 text-sm text-strong">
               {section.orEmail}{" "}
-              <CopyEmail
-                email={siteConfig.email}
-                labels={{ copy: copy.ui.copyEmail, copied: copy.ui.emailCopied, status: copy.ui.copied }}
-              />
+              <CopyEmail email={siteConfig.email} labels={{ copy: copy.ui.copyEmail, copied: copy.ui.emailCopied, status: copy.ui.copied }} />
             </p>
-            <div className="mt-6 border-t border-white/10 pt-5">
+            <div className="mt-5 border-t border-white/10 pt-4">
               <p className="text-caption font-medium tracking-[0.1em] text-subtle uppercase">{copy.contact.hintTitle}</p>
               <ul className="mt-3 grid gap-2 text-small text-muted">
                 {copy.contact.hints.map((hint) => (
@@ -55,12 +48,7 @@ export async function FinalCTA() {
                 ))}
               </ul>
             </div>
-            <p className="mt-5 text-small text-muted">
-              {copy.shared.typicalStart}
-            </p>
           </div>
-
-          <ContactForm lang={lang} form={copy.form} requestTypes={requestTypes} />
         </div>
       </AnimatedReveal>
     </Section>

@@ -26,6 +26,15 @@ export const sapCommerce = {
       { value: "ERP · PIM", label: "integrations" },
     ],
   },
+  problems: [
+      "Search, checkout or promotions need changes on an existing SAP Commerce platform.",
+      "ERP, PIM and third-party systems need reliable APIs or product-data imports.",
+      "A running commerce system needs maintenance, an upgrade or a planned cloud migration."
+    ],
+  caseSlugs: [
+      "enterprise-ecommerce-platform",
+      "product-information-platform"
+    ],
   offerings: [
     {
       title: "Development",
@@ -54,6 +63,6 @@ export const sapCommerce = {
   start: [
     { title: "Architecture check-up", text: "A call to look at your platform and decide what makes sense next." },
     { title: "Technical review", text: "A short review of your code, architecture and integrations, with a written report." },
-    { title: "Delivery", text: "Fixed-scope work or a dedicated team, led by a senior engineer." },
+    { title: "Delivery", text: "A defined scope and a project team shaped around the required skills, with direct technical ownership." },
   ],
 };

@@ -1,57 +1,59 @@
 import type { ProjectVisual } from "@/data/projects";
 import { FramedCard, type FrameAccent } from "@/components/ui/FramedCard";
-import { cn } from "@/lib/utils";
 import { AgentFlow } from "./AgentFlow";
 import { CrmFlow } from "./CrmFlow";
 import { HybrisFlow } from "./HybrisFlow";
 import { LobbyFlow } from "./LobbyFlow";
 import { NexusCardFlow } from "./NexusCardFlow";
+import { NexusFlow } from "./NexusFlow";
 import { PayFlow } from "./PayFlow";
 import { PimFlow } from "./PimFlow";
 import { RagFlow } from "./RagFlow";
-import { NexusFlow } from "./NexusFlow";
 import styles from "./ProjectScene.module.css";
-import type { Accent } from "./sceneKit";
-import { buildScene, type SceneLabels } from "./scenes";
+import type { SceneLabels } from "./scenes";
 
-interface ProjectSceneProps {
+/** The colour of a project's status; it also colours the frame of the picture on the case page. */
+export type Accent = "violet" | "green" | "cyan";
+
+interface DiagramProps {
   variant: ProjectVisual;
   /** The names on the picture, in the language of the page. */
   labels: SceneLabels;
-  /** The colour of the project's status; it tints the central component, the main beams and the floor glow. */
-  accent: Accent;
+  /** `card`: the compact diagram of a project card. `panel`: the full diagram of the case page. */
+  mode: "card" | "panel";
   className?: string;
 }
 
 /**
- * One animated isometric scene per project: how the application is built, drawn as glass blocks, beams of data
- * and named components. Decorative for assistive technology (a card carries its title and status as text), and
- * free of real UI, data or client marks. It fills its container and keeps its proportions, centred; wrap it in
+ * One animated, flat architecture diagram per project (see FlowDiagram): how the system is built and how a request
+ * moves through it. Decorative for assistive technology on a card (the card carries the title, the status and the
+ * chain of names as text) and described on the case page. Free of real UI, data or client marks. Wrap it in
  * `ActiveWhenVisible` (or use `ScenePanel`) so it only animates while on screen.
  */
-export function ProjectScene({ variant, labels, accent, className }: ProjectSceneProps) {
-  // Projects that have a flat, live diagram of their architecture show it instead of the isometric scene.
-  if (variant === "shop") return <HybrisFlow labels={labels.hybrisFlow} mode="card" className={className} />;
-  if (variant === "chain") return <NexusCardFlow labels={labels.nexusFlow} className={className} />;
-  if (variant === "lobby") return <LobbyFlow labels={labels.lobbyFlow} mode="card" className={className} />;
-  if (variant === "agent") return <AgentFlow labels={labels.agentFlow} mode="card" className={className} />;
-  if (variant === "pim") return <PimFlow labels={labels.pimFlow} mode="card" className={className} />;
-  if (variant === "documents") return <RagFlow labels={labels.ragFlow} mode="card" className={className} />;
-  if (variant === "payments") return <PayFlow labels={labels.payFlow} mode="card" className={className} />;
-  if (variant === "logistics") return <CrmFlow labels={labels.crmFlow} mode="card" className={className} />;
-  const { viewBox, node } = buildScene(variant, labels, accent);
-  return (
-    <svg
-      viewBox={viewBox}
-      preserveAspectRatio="xMidYMid meet"
-      shapeRendering="geometricPrecision"
-      aria-hidden="true"
-      focusable="false"
-      className={cn("block", className)}
-    >
-      {node}
-    </svg>
-  );
+function Diagram({ variant, labels, mode, className }: DiagramProps) {
+  switch (variant) {
+    case "shop":
+      return <HybrisFlow labels={labels.hybrisFlow} mode={mode} className={className} />;
+    case "chain":
+      return mode === "card" ? <NexusCardFlow labels={labels.nexusFlow} className={className} /> : <NexusFlow labels={labels.nexusFlow} />;
+    case "lobby":
+      return <LobbyFlow labels={labels.lobbyFlow} mode={mode} className={className} />;
+    case "agent":
+      return <AgentFlow labels={labels.agentFlow} mode={mode} className={className} />;
+    case "pim":
+      return <PimFlow labels={labels.pimFlow} mode={mode} className={className} />;
+    case "documents":
+      return <RagFlow labels={labels.ragFlow} mode={mode} className={className} />;
+    case "payments":
+      return <PayFlow labels={labels.payFlow} mode={mode} className={className} />;
+    case "logistics":
+      return <CrmFlow labels={labels.crmFlow} mode={mode} className={className} />;
+  }
+}
+
+/** The diagram on a project card. */
+export function ProjectScene({ variant, labels, className }: Omit<DiagramProps, "mode">) {
+  return <Diagram variant={variant} labels={labels} mode="card" className={className} />;
 }
 
 /** The light behind a scene: drifting fields of colour and a faint grain. Put it inside a positioned, clipped box. */
@@ -70,8 +72,13 @@ export function SceneBackdrop() {
 
 const FRAME: Record<Accent, FrameAccent> = { violet: "violet", green: "green", cyan: "cyan" };
 
-/** A scene on its own: the panel on the case page, in the same frame of light as the project cards. */
-export function ScenePanel({ variant, labels, accent, className }: ProjectSceneProps) {
+/** The diagram on its own: the panel on the case page, in the same frame of light as the project cards. */
+export function ScenePanel({
+  variant,
+  labels,
+  accent,
+  className,
+}: Omit<DiagramProps, "mode"> & { /** The colour of the frame. */ accent: Accent }) {
   return (
     <FramedCard
       accent={FRAME[accent]}
@@ -79,26 +86,7 @@ export function ScenePanel({ variant, labels, accent, className }: ProjectSceneP
       innerClassName="isolate bg-[radial-gradient(ellipse_at_50%_55%,#0f2147,#0a1430_55%,#070f22)]"
     >
       <SceneBackdrop />
-      {/* Projects with a live, flat diagram of their whole flow show it here; the others keep the isometric scene. */}
-      {variant === "chain" ? (
-        <NexusFlow labels={labels.nexusFlow} />
-      ) : variant === "shop" ? (
-        <HybrisFlow labels={labels.hybrisFlow} mode="panel" />
-      ) : variant === "lobby" ? (
-        <LobbyFlow labels={labels.lobbyFlow} mode="panel" />
-      ) : variant === "agent" ? (
-        <AgentFlow labels={labels.agentFlow} mode="panel" />
-      ) : variant === "pim" ? (
-        <PimFlow labels={labels.pimFlow} mode="panel" />
-      ) : variant === "documents" ? (
-        <RagFlow labels={labels.ragFlow} mode="panel" />
-      ) : variant === "payments" ? (
-        <PayFlow labels={labels.payFlow} mode="panel" />
-      ) : variant === "logistics" ? (
-        <CrmFlow labels={labels.crmFlow} mode="panel" />
-      ) : (
-        <ProjectScene variant={variant} labels={labels} accent={accent} className="relative z-[1] aspect-[400/240] w-full" />
-      )}
+      <Diagram variant={variant} labels={labels} mode="panel" />
     </FramedCard>
   );
 }
