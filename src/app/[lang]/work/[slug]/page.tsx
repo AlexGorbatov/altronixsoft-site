@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { ScenePanel } from "@/components/projects/ProjectScene";
 import { Button } from "@/components/ui/Button";
-import { FramedCard } from "@/components/ui/FramedCard";
+import { FramedCard, type FrameAccent } from "@/components/ui/FramedCard";
 import { Tag } from "@/components/ui/Tag";
 import type { CaseStudy } from "@/data/projects";
 import { contactHref } from "@/data/site";
@@ -71,21 +71,31 @@ function Story({ title, text }: { title: string; text: string }) {
   );
 }
 
-/** The layers of the system, from the user down to the data. */
+/** Frame colours of the layers: from cyan at the user to violet at the data, as in the diagram above. */
+const LAYER_ACCENTS: FrameAccent[] = ["cyan", "cyan", "blue", "indigo", "violet", "violet"];
+
+/** The layers of the system, from the user down to the data, each in the frame of light of the project cards. */
 function Architecture({ layers, title }: { layers: NonNullable<CaseStudy["architecture"]>; title: string }) {
   return (
     <section aria-labelledby="architecture-title" className="mt-8">
       <h2 id="architecture-title" className="text-xl font-bold tracking-[-0.03em]">
         {title}
       </h2>
-      <ol className="mt-4 grid gap-3 sm:grid-cols-2">
+      <ol className="mt-5 grid gap-5 sm:grid-cols-2">
         {layers.map((layer, i) => (
-          <li key={layer.title} className="rounded-2xl border border-line bg-[rgba(13,24,44,.6)] p-5">
-            <span className="font-mono text-caption font-medium tracking-[0.1em] text-subtle">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <h3 className="mt-1 text-body font-semibold text-[#dbe4f1]">{layer.title}</h3>
-            <p className="mt-1.5 text-body leading-[1.7] text-muted">{layer.text}</p>
+          <li key={layer.title}>
+            <FramedCard accent={LAYER_ACCENTS[i % LAYER_ACCENTS.length]} innerClassName="relative p-5">
+              {/* A soft light in the frame's colour behind the text. */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute -top-12 -right-12 size-40 rounded-full bg-[var(--c)] opacity-[0.13] blur-3xl"
+              />
+              <span className="relative font-mono text-caption font-medium tracking-[0.1em] text-[var(--c)]">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="relative mt-1 text-body font-semibold text-[#dbe4f1]">{layer.title}</h3>
+              <p className="relative mt-1.5 text-body leading-[1.7] text-muted">{layer.text}</p>
+            </FramedCard>
           </li>
         ))}
       </ol>

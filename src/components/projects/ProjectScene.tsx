@@ -1,6 +1,7 @@
 import type { ProjectVisual } from "@/data/projects";
 import { FramedCard, type FrameAccent } from "@/components/ui/FramedCard";
 import { cn } from "@/lib/utils";
+import { NexusFlow } from "./NexusFlow";
 import styles from "./ProjectScene.module.css";
 import type { Accent } from "./sceneKit";
 import { buildScene, type SceneLabels } from "./scenes";
@@ -61,7 +62,12 @@ export function ScenePanel({ variant, labels, accent, className }: ProjectSceneP
       innerClassName="isolate bg-[radial-gradient(ellipse_at_50%_55%,#0f2147,#0a1430_55%,#070f22)]"
     >
       <SceneBackdrop />
-      <ProjectScene variant={variant} labels={labels} accent={accent} className="relative z-[1] aspect-[400/240] w-full" />
+      {/* Nexus gets a live, flat diagram of its whole request flow; the other cases keep their isometric scene. */}
+      {variant === "chain" ? (
+        <NexusFlow labels={labels.nexusFlow} />
+      ) : (
+        <ProjectScene variant={variant} labels={labels} accent={accent} className="relative z-[1] aspect-[400/240] w-full" />
+      )}
     </FramedCard>
   );
 }
