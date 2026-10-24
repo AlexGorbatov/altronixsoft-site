@@ -152,7 +152,7 @@ export const copy = {
       eyebrow: "Work",
       title: "Our projects.",
       description: "Projects across e-commerce, logistics, AI and blockchain. Each one shows how the system is built; client details stay confidential.",
-      metaTitle: "Our projects",
+      metaTitle: "Projects: SAP Commerce, AI, payments, CRM",
       metaDescription:
         "Project case studies: SAP Commerce, PIM, logistics CRM, payments, AI agents and blockchain APIs. Architecture diagrams; client names generalized.",
       view: { label: "Layout", tiles: "Tiles", list: "List" },
@@ -415,6 +415,7 @@ export const copy = {
     similarTitle: "Working on something similar?",
     similarText: "Tell us about the system and what has to change. We start with a short technical review.",
     more: "More work",
+    relatedService: "Related service",
     /** Appended to the case title in the page title: "<title>: case study". */
     metaSuffix: "case study",
   },

@@ -16,6 +16,12 @@ export interface CaseStudy {
   challenge: string;
   /** What the team did: one paragraph, or the sentence above `workItems` when the work is split into areas. */
   whatWeDid: string;
+  /** Search and sharing title (without the site name). Defaults to `title`. */
+  metaTitle?: string;
+  /** Search description, about 150–160 characters. Defaults to `summary`. */
+  metaDescription?: string;
+  /** The service page this case belongs to; the case page links to it. */
+  relatedService?: "software" | "modernization" | "ai" | "sap-commerce";
   /** The work split into areas, each shown as its own block under "What we did". */
   workItems?: { title: string; text: string }[];
   /** Measurable outcome. Cases without a filled `result` still render; dev mode warns about them. */
@@ -83,6 +89,9 @@ export const caseStudies: CaseStudy[] = [
     team: "5 people",
     role: "",
     focus: "Integrations, storefront APIs and search on a high-load store",
+    metaDescription:
+      "How we built integrations, OCC web services, Solr search and checkout for a high-load SAP Commerce (Hybris) store for a German furniture retailer.",
+    relatedService: "sap-commerce",
     architecture: [
       {
         title: "Storefront",
@@ -152,6 +161,9 @@ export const caseStudies: CaseStudy[] = [
     duration: "TODO(owner): duration, e.g. N months",
     role: "Backend and integration engineering",
     focus: "A product import framework that turns vendor catalogs into one product model",
+    metaDescription:
+      "A PIM system for e-commerce: vendor catalogs in CSV, Excel, JSON and XML mapped into one product model with Spring Boot and Kafka, synced to the storefront.",
+    relatedService: "modernization",
     architecture: [
       {
         title: "Vendor catalogs",
@@ -221,6 +233,9 @@ export const caseStudies: CaseStudy[] = [
     duration: "TODO(owner): duration, e.g. N months",
     role: "Backend engineering",
     focus: "Microservices, REST APIs and scheduled jobs for a SaaS CRM",
+    metaDescription:
+      "A microservice SaaS CRM for transport logistics: Spring Boot REST APIs, Amazon S3 image storage and Quartz jobs for scheduled email notifications and reports.",
+    relatedService: "software",
     architecture: [
       {
         title: "Web app",
@@ -265,6 +280,10 @@ export const caseStudies: CaseStudy[] = [
     duration: "TODO(owner): duration, e.g. N months",
     role: "",
     focus: "Multi-provider failover, one API surface across three chains, and non-custodial transaction building",
+    metaTitle: "Nexus multi-chain API",
+    metaDescription:
+      "Nexus is a managed multi-chain API for Cardano, Midnight and Bitcoin: provider failover, OpenAPI 3.1 and one account across chains. See how it is built.",
+    relatedService: "software",
     architecture: [
       {
         title: "Clients",
@@ -337,6 +356,10 @@ export const caseStudies: CaseStudy[] = [
     duration: "TODO(owner): duration, e.g. N months",
     role: "",
     focus: "Account linking, a unified gamer profile and community features",
+    metaTitle: "Lobby9 gamer profile platform",
+    metaDescription:
+      "Lobby9 links PlayStation and Steam accounts into one gamer profile with stats, achievements, guides and campaigns. See the platform architecture.",
+    relatedService: "software",
     architecture: [
       {
         title: "Players",
@@ -408,6 +431,9 @@ export const caseStudies: CaseStudy[] = [
     duration: "TODO(owner): duration, e.g. N months",
     role: "",
     focus: "A workflow where the model reads and writes text and code decides every number",
+    metaDescription:
+      "An AI workflow agent that turns freight quote emails into approved quotes: the model reads text, code sets every price, a human approves. Spring AI and MCP.",
+    relatedService: "ai",
     architecture: [
       {
         title: "Inbox",
@@ -478,6 +504,9 @@ export const caseStudies: CaseStudy[] = [
     duration: "TODO(owner): duration, e.g. N months",
     role: "",
     focus: "Document-level access control enforced inside the vector search",
+    metaDescription:
+      "A permission-aware RAG assistant in Java: access control enforced inside the pgvector search, Keycloak sign-in and answers with citations. Spring AI.",
+    relatedService: "ai",
     architecture: [
       {
         title: "Employees",
@@ -548,6 +577,9 @@ export const caseStudies: CaseStudy[] = [
     duration: "TODO(owner): duration, e.g. N months",
     role: "",
     focus: "A reliable order and payment flow across two services, with no double charges or refunds",
+    metaDescription:
+      "An order and payment flow across two Spring Boot services and Kafka with Stripe: outbox, idempotency and refunds that never charge twice.",
+    relatedService: "software",
     architecture: [
       {
         title: "Web interface",
