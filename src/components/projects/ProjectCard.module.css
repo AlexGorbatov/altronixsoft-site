@@ -31,6 +31,9 @@
 .openSource {
   --c: var(--success);
 }
+.own {
+  --c: var(--cyan);
+}
 .inDevelopment {
   --c: var(--cyan);
 }
@@ -122,6 +125,9 @@
 }
 .openSource .badge {
   color: var(--success);
+}
+.own .badge {
+  color: var(--cyan);
 }
 .inDevelopment .badge {
   color: var(--label);

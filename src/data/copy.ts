@@ -144,7 +144,7 @@ export const copy = {
     home: {
       eyebrow: "Selected work",
       title: "Selected projects.",
-      description: "Systems we have designed and built for clients, shown with diagrams. Client details are confidential.",
+      description: "Systems we have designed and built, for clients and as our own projects, shown with diagrams. Client details are confidential.",
       viewAll: "View all projects",
       listLabel: "Selected projects",
     },
@@ -158,7 +158,7 @@ export const copy = {
       view: { label: "Layout", tiles: "Tiles", list: "List" },
       listLabel: "All projects",
     },
-    status: { nda: "Client · NDA", "open-source": "Open source", "in-development": "In development" },
+    status: { nda: "Client · NDA", own: "Own project", "open-source": "Open source", "in-development": "In development" },
     /** aria-label of a project link; {title} is replaced by the project's name. */
     openProject: "Open project: {title}",
     /** Same, for a link that opens another site in a new tab. */

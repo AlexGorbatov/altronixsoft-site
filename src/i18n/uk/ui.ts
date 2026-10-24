@@ -132,7 +132,7 @@ export const copy: Part<"copy"> = {
     home: {
       eyebrow: "Обрані роботи",
       title: "Обрані проєкти.",
-      description: "Системи, які ми спроєктували й побудували для клієнтів, із діаграмами. Дані клієнтів конфіденційні.",
+      description: "Системи, які ми спроєктували й побудували для клієнтів і як власні проєкти, із діаграмами. Дані клієнтів конфіденційні.",
       viewAll: "Усі проєкти",
       listLabel: "Обрані проєкти",
     },
@@ -147,7 +147,7 @@ export const copy: Part<"copy"> = {
       view: { label: "Вигляд", tiles: "Плитки", list: "Список" },
       listLabel: "Усі проєкти",
     },
-    status: { nda: "Клієнт · NDA", "open-source": "Відкритий код", "in-development": "У розробці" },
+    status: { nda: "Клієнт · NDA", own: "Власний проєкт", "open-source": "Відкритий код", "in-development": "У розробці" },
     openProject: "Відкрити проєкт: {title}",
     openProjectExternal: "Відкрити проєкт: {title} (відкриється в новій вкладці)",
     scene: {

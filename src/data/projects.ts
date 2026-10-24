@@ -116,9 +116,9 @@ export const caseStudies: CaseStudy[] = [
     visual: "pim",
     industry: "E-commerce · PIM",
     summary: "Vendor catalogs in CSV, Excel, JSON and XML mapped into one product model and synced to the e-commerce storefront.",
-    context: "Product information management (PIM) for an e-commerce storefront: catalogs from multiple vendors.",
+    context: "Our own reference project: product information management (PIM) for an e-commerce storefront, fed by catalogs from multiple vendors.",
     challenge:
-      "Every vendor sent its catalog in its own format and structure. The data had to become one unified product model, be imported in large batches, and reach the storefront with current products and stock.",
+      "Vendors send their catalogs in their own formats and structures. The data has to become one unified product model, be imported in large batches, and reach the storefront with current products and stock.",
     whatWeDid:
       "We built the import backbone of the PIM: from a vendor's file to a product on the storefront. The work covered six areas.",
     workItems: [
@@ -184,10 +184,10 @@ export const caseStudies: CaseStudy[] = [
     title: "SaaS CRM for transport logistics",
     visual: "logistics",
     industry: "Logistics · SaaS CRM",
-    summary: "A microservice SaaS CRM for a transport logistics company, with S3 image storage and scheduled emails and reports.",
-    context: "A SaaS CRM platform for a transport logistics company.",
+    summary: "A microservice SaaS CRM for transport logistics, with S3 image storage and scheduled emails and reports.",
+    context: "Our own reference project: a SaaS CRM platform for transport logistics companies.",
     challenge:
-      "A transport logistics company needed a CRM delivered as SaaS: able to grow, safe to expose over APIs, able to handle high-resolution images, and able to send notifications and reports without anyone pressing a button.",
+      "A transport logistics company needs a CRM delivered as SaaS: able to grow, safe to expose over APIs, able to handle high-resolution images, and able to send notifications and reports without anyone pressing a button.",
     whatWeDid:
       "We designed and built the backend of the CRM platform. The work covered six areas.",
     workItems: [
@@ -371,7 +371,7 @@ export const caseStudies: CaseStudy[] = [
     visual: "agent",
     industry: "AI · Agents",
     summary: "Email in, approved freight quote out: a durable Spring AI workflow where code, not the model, sets every price.",
-    context: "Freight quote requests that arrive by email, in several languages.",
+    context: "Our own reference project: freight quote requests that arrive by email, in several languages.",
     challenge:
       "A freight quote request arrives as free text, and a wrong or manipulated price costs money. The agent had to answer with a correct price in seconds, ask a person when it should, and never let an email talk it into a discount.",
     whatWeDid:
@@ -441,7 +441,7 @@ export const caseStudies: CaseStudy[] = [
     visual: "documents",
     industry: "AI · Retrieval",
     summary: "A company document assistant that answers each person only from the documents they may read, with sources cited.",
-    context: "An internal document assistant for a company where employees may read different documents.",
+    context: "Our own reference project: an internal document assistant for a company where employees may read different documents.",
     challenge:
       "Employees ask questions about internal documents, but not everyone may read everything. A regular RAG chatbot can leak a document through its answer, however the question is phrased. The assistant had to answer each person only from the documents they are entitled to.",
     whatWeDid:
@@ -511,7 +511,7 @@ export const caseStudies: CaseStudy[] = [
     visual: "payments",
     industry: "E-commerce · Payments",
     summary: "An order and payment flow across two Spring Boot services and Kafka, with Stripe, built to survive failures.",
-    context: "The order and payment flow of an online shop: customers, admins and operations staff each have their own part.",
+    context: "Our own reference project: the order and payment flow of an online shop, with separate customer, admin and operations roles.",
     challenge:
       "Taking a payment crosses systems that fail halfway: a webhook arrives twice or out of order, Kafka goes down, a process crashes. The flow had to never charge or refund twice, and an order had to reflect the truth about its payment.",
     whatWeDid:
@@ -583,8 +583,8 @@ export function getCaseStudy(slug: string): CaseStudy | undefined {
 
 /** What kind of work a project is: delivered for a client, our own product, or AI work. */
 export type ProjectKind = "client" | "product" | "ai";
-/** Drives the frame colour and the badge: violet / green / cyan. */
-export type ProjectStatus = "nda" | "open-source" | "in-development";
+/** Drives the frame colour and the badge: violet (client, NDA) / cyan (our own project, or in development) / green (open source). */
+export type ProjectStatus = "nda" | "own" | "open-source" | "in-development";
 
 /** One tile of the portfolio (home: the `featured` ones; /work: all of them, in this order). */
 export interface Project {
@@ -633,8 +633,8 @@ export const projects: Project[] = [
     title: pim.title,
     category: pim.industry,
     summary: pim.summary,
-    kind: "client",
-    status: "nda",
+    kind: "product",
+    status: "own",
     visual: "pim",
     href: `/work/${pim.slug}`,
     isExternal: false,
@@ -645,8 +645,8 @@ export const projects: Project[] = [
     title: logistics.title,
     category: logistics.industry,
     summary: logistics.summary,
-    kind: "client",
-    status: "nda",
+    kind: "product",
+    status: "own",
     visual: "logistics",
     href: `/work/${logistics.slug}`,
     isExternal: false,
@@ -684,7 +684,7 @@ export const projects: Project[] = [
     category: agent.industry,
     summary: agent.summary,
     kind: "ai",
-    status: "nda",
+    status: "own",
     visual: "agent",
     href: `/work/${agent.slug}`,
     isExternal: false,
@@ -697,7 +697,7 @@ export const projects: Project[] = [
     category: rag.industry,
     summary: rag.summary,
     kind: "ai",
-    status: "nda",
+    status: "own",
     visual: "documents",
     href: `/work/${rag.slug}`,
     isExternal: false,
@@ -708,8 +708,8 @@ export const projects: Project[] = [
     title: payments.title,
     category: payments.industry,
     summary: payments.summary,
-    kind: "client",
-    status: "nda",
+    kind: "product",
+    status: "own",
     visual: "payments",
     href: `/work/${payments.slug}`,
     isExternal: false,
