@@ -11,7 +11,9 @@ import { contactHref } from "@/data/site";
 import { hasLocale, localizedPath } from "@/i18n/config";
 import { contentFor, type Content } from "@/i18n/content";
 import { getContent } from "@/i18n/server";
-import { hasResult, warnIfIncomplete } from "@/lib/cases";
+import { isIndexable, warnIfIncomplete } from "@/lib/cases";
+import { JsonLdScript } from "@/components/JsonLdScript";
+import { breadcrumbSchema, caseStudySchema } from "@/lib/jsonld";
 import { pageMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
 import { DevTodo } from "@/components/ui/DevTodo";
@@ -58,11 +60,11 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/work/[slug
   if (!study) return {};
   return pageMetadata({
     lang,
-    title: `${study.title}: ${copy.casePage.metaSuffix}`,
-    description: study.summary,
+    title: `${study.metaTitle ?? study.title}: ${copy.casePage.metaSuffix}`,
+    description: study.metaDescription ?? study.summary,
     path: `/work/${study.slug}`,
-    // A case without a measurable result is not ready to be indexed yet.
-    noindex: !hasResult(study),
+    // A case whose story is not written yet is not ready to be indexed.
+    noindex: !isIndexable(study),
   });
 }
 
@@ -168,15 +170,36 @@ function Facts({ study, copy }: { study: CaseStudy; copy: Content["copy"] }) {
 
 export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/[slug]">) {
   const { slug } = await params;
-  const { lang, copy, caseStudies } = await getContent();
+  const { lang, copy, caseStudies, services, sapCommerce } = await getContent();
   const study = caseStudies.find((item) => item.slug === slug);
   if (!study) notFound();
   warnIfIncomplete([study]);
 
   const others = caseStudies.filter((item) => item.slug !== study.slug);
 
+  const path = `/work/${study.slug}`;
+  const graph = [
+    breadcrumbSchema(lang, [{ name: copy.casePage.back, path: "/work" }, { name: study.title, path }]),
+    caseStudySchema({
+      lang,
+      path,
+      name: study.title,
+      description: study.metaDescription ?? study.summary,
+      about: study.industry,
+      keywords: study.stack,
+    }),
+  ];
+  const related =
+    study.relatedService === "sap-commerce"
+      ? { title: sapCommerce.title, path: sapCommerce.path }
+      : (() => {
+          const service = services.find((item) => item.id === study.relatedService);
+          return service ? { title: service.title, path: `/services/${service.id}` } : null;
+        })();
+
   return (
     <PageShell>
+      <JsonLdScript graph={graph} />
       <article className="mx-auto max-w-[820px]">
         <Link href={localizedPath(lang, "/work")} className="link-quiet">
           <span aria-hidden="true">←</span> {copy.casePage.back}
@@ -218,6 +241,15 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
           <BlockGrid id="architecture-title" title={copy.casePage.architecture} items={study.architecture} />
         )}
         <Story title={copy.casePage.result} text={study.result} />
+
+        {related && (
+          <p className="mt-10 text-body text-muted">
+            {copy.casePage.relatedService}:{" "}
+            <Link href={localizedPath(lang, related.path)} className="link-quiet">
+              {related.title} <span aria-hidden="true">→</span>
+            </Link>
+          </p>
+        )}
 
         <section aria-labelledby="similar-title" className="mt-12 rounded-2xl border border-line bg-[rgba(13,24,44,.6)] p-6 sm:p-8">
           <h2 id="similar-title" className="text-2xl font-bold tracking-[-0.03em]">

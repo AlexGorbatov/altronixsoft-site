@@ -68,7 +68,7 @@ const SAME_EVERYWHERE = new Set([
 /** Keys that hold identifiers, links or numbers rather than words. */
 const NOT_TEXT_KEYS = new Set([
   "id", "slug", "number", "type", "icon", "visual", "value", "href", "path", "demoUrl", "repoUrl", "liveUrl", "screenshot",
-  "tag", "stack", "relevant", "technologies", "showLabs", "name", "kind", "status", "featured",
+  "tag", "stack", "relevant", "technologies", "showLabs", "name", "kind", "status", "featured", "relatedService",
 ]);
 
 function untranslated(english: unknown, translated: unknown, trail: string[] = []): string[] {

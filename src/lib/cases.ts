@@ -3,6 +3,12 @@ import { filled } from "@/lib/todo";
 
 export const hasResult = (study: CaseStudy) => filled(study.result);
 
+/**
+ * A case is ready for search engines once its story is written (challenge and what we did). A measurable result makes
+ * it stronger but is not required: a case without one is still indexed, and `warnIfIncomplete` reminds the owner.
+ */
+export const isIndexable = (study: CaseStudy) => filled(study.challenge) && filled(study.whatWeDid);
+
 /** Development-only reminder: a case without a measurable result still renders, but the owner should fill it in. */
 export function warnIfIncomplete(studies: readonly CaseStudy[]): void {
   if (process.env.NODE_ENV !== "development") return;

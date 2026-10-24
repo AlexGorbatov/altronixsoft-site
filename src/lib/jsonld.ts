@@ -28,3 +28,27 @@ export function breadcrumbSchema(lang: Locale, trail: { name: string; path: stri
     itemListElement: items.map((item, i) => ({ "@type": "ListItem", position: i + 1, name: item.name, item: item.url })),
   };
 }
+
+/** A case study: a piece of work the company did, published on its own page. */
+export function caseStudySchema(input: {
+  lang: Locale;
+  path: string;
+  name: string;
+  description: string;
+  about: string;
+  keywords: string[];
+}) {
+  const url = `${siteConfig.url}${localizedPath(input.lang, input.path)}`;
+  return {
+    "@type": "CreativeWork",
+    "@id": `${url}#case`,
+    name: input.name,
+    description: input.description,
+    url,
+    inLanguage: input.lang,
+    about: input.about,
+    keywords: input.keywords.join(", "),
+    publisher: { "@id": `${siteConfig.url}/#organization` },
+    isPartOf: { "@id": `${siteConfig.url}/#website` },
+  };
+}
