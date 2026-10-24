@@ -60,11 +60,11 @@ export function LanguageSwitcher({ lang, label, className }: { lang: Locale; lab
         aria-controls={listId}
         aria-label={`${label}: ${localeMeta[lang].name}`}
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex min-h-11 items-center gap-1.5 rounded-[10px] border border-line px-3 text-sm font-semibold text-strong transition-colors hover:text-white"
+        className="inline-flex min-h-11 items-center gap-1.5 rounded-[10px] border border-line px-2 text-sm font-semibold text-strong transition-colors hover:text-white min-[360px]:px-3"
       >
         <Globe size={16} aria-hidden />
         <Flag locale={lang} className="h-[15px] w-[22px]" />
-        <ChevronDown size={14} aria-hidden className={cn("transition-transform", open && "rotate-180")} />
+        <ChevronDown size={14} aria-hidden className={cn("transition-transform max-[359px]:hidden", open && "rotate-180")} />
       </button>
 
       <ul

@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import { useId, type CSSProperties, type ReactNode } from "react";
 import styles from "./FlowDiagram.module.css";
 
 /**
@@ -165,7 +165,8 @@ export function FlowDiagram<N extends string, E extends string>({
   const drawn = (edge: E) => edge in d;
   const [vw, vh] = layout.viewBox;
   const bleed = layout.bleed ?? 0;
-  const uid = `${vw}x${vh}`;
+  // Unique per diagram: the gradients are referenced by id, and a page holds many diagrams.
+  const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
 
   return (
     <svg

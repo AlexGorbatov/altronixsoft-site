@@ -114,7 +114,7 @@ export function Header({ lang, navigation, labels }: HeaderProps) {
         scrolled || open ? "bg-[rgba(7,16,31,.92)]" : "bg-[rgba(7,16,31,.76)]",
       )}
     >
-      <Container className="flex h-full items-center justify-between gap-[26px]">
+      <Container className="flex h-full items-center justify-between gap-3 min-[360px]:gap-[26px]">
         <Link href={localizedPath(lang, "/")} className="rounded-md py-2">
           <Logo />
           <span className="sr-only"> — {labels.home}</span>
@@ -128,7 +128,7 @@ export function Header({ lang, navigation, labels }: HeaderProps) {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 min-[360px]:gap-3">
           <LanguageSwitcher lang={lang} label={labels.language} />
 
           <Button href={contactHref} data-quiet={onHome && heroInView} className="hidden lg:inline-flex">
