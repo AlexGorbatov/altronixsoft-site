@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import type { Content } from "@/i18n/content";
-import { route, type Edge as FlowEdge, type Rect } from "./FlowDiagram";
+import { LogLane, route, type Edge as FlowEdge, type LanePos, type Rect } from "./FlowDiagram";
 import styles from "./FlowDiagram.module.css";
 
 export type NexusFlowLabels = Content["copy"]["portfolio"]["scene"]["nexusFlow"];
@@ -21,7 +21,7 @@ interface Layout {
   nodes: Record<NodeId, Rect>;
   edges: Record<EdgeId, Edge>;
   panel: Rect;
-  log: Rect;
+  log: LanePos;
   /** Group headings: [x, y, text-anchor]. */
   titles: Record<"clients" | "nexus" | "upstreams" | "chains", [number, number, "start" | "middle"]>;
   /** Upstream nodes are narrow here: their status is shown by the dot alone. */
@@ -31,8 +31,9 @@ interface Layout {
 /** Desktop and tablet: the request flows from left to right. */
 const WIDE: Layout = {
   viewBox: [1000, 470],
-  panel: { x: 250, y: 70, w: 340, h: 372 },
-  log: { x: 270, y: 392, w: 300, h: 32 },
+  panel: { x: 250, y: 70, w: 340, h: 318 },
+  // A full-width row under the diagram, as on the cards; on this wider canvas the lane is scaled to match them.
+  log: { x: 24, y: 410, w: 952 },
   nodes: {
     wallets: { x: 24, y: 104, w: 176, h: 60 },
     agents: { x: 24, y: 214, w: 176, h: 60 },
@@ -81,7 +82,7 @@ const TALL: Layout = {
   viewBox: [360, 628],
   panel: { x: 12, y: 136, w: 336, h: 250 },
   // Under the chains: inside the panel the wires to the upstreams would cross it.
-  log: { x: 12, y: 584, w: 336, h: 32 },
+  log: { x: 12, y: 584, w: 336 },
   nodes: {
     wallets: { x: 12, y: 30, w: 104, h: 56 },
     agents: { x: 128, y: 30, w: 104, h: 56 },
@@ -333,14 +334,7 @@ function Diagram({ layout, t, className }: { layout: Layout; t: NexusFlowLabels;
       {node("midnight", "Midnight", undefined, { chain: true })}
 
       {/* The log line of the panel: what the loop is doing right now. */}
-      <rect className={styles.log} x={layout.log.x} y={layout.log.y} width={layout.log.w} height={layout.log.h} rx="9" />
-      <circle className={styles.logDot} cx={layout.log.x + 14} cy={layout.log.y + layout.log.h / 2} r="3" />
-      <text className={`${styles.logText} ${styles.phaseA}`} x={layout.log.x + 26} y={layout.log.y + layout.log.h / 2 + 3.5} fontSize="10.5">
-        {t.logMiss}
-      </text>
-      <text className={`${styles.logText} ${styles.phaseB}`} x={layout.log.x + 26} y={layout.log.y + layout.log.h / 2 + 3.5} fontSize="10.5">
-        {t.logHit}
-      </text>
+      <LogLane {...layout.log} lines={[t.logMiss, t.logHit]} scale={vw > 700 ? vw / 700 : 1} />
 
       {/* Requests (cyan) and replies (violet) travelling hop by hop. */}
       {HOPS.map((hop) => (

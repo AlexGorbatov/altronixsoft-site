@@ -10,8 +10,8 @@ import { Labs } from "./Labs";
 export async function SelectedProjects() {
   const { lang, copy, projects } = await getContent();
   const { home } = copy.portfolio;
-  // The number on a card is its place in the whole portfolio, so the home page shows 01, 04, 05, 06.
-  const featured = projects.flatMap((project, index) => (project.featured ? [{ project, index }] : []));
+  // The cards are numbered 01–04 by their place in this section; the /work page numbers the whole portfolio.
+  const featured = projects.filter((project) => project.featured);
 
   return (
     <section id="work" aria-labelledby="work-title" className="section">
@@ -48,10 +48,10 @@ export async function SelectedProjects() {
         </AnimatedReveal>
 
         <ul aria-label={home.listLabel} className="grid gap-[22px] lg:grid-cols-2 lg:gap-8">
-          {featured.map(({ project, index }, i) => (
+          {featured.map((project, i) => (
             <li key={project.slug} className="min-w-0">
               <AnimatedReveal delay={Math.min(i + 1, 4) as 1 | 2 | 3 | 4} className="h-full">
-                <ProjectCard project={project} index={index} size="large" lang={lang} copy={copy.portfolio} />
+                <ProjectCard project={project} index={i} size="large" lang={lang} copy={copy.portfolio} />
               </AnimatedReveal>
             </li>
           ))}

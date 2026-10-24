@@ -58,10 +58,10 @@ const SAME_EVERYWHERE = new Set([
   "Java", "Spring", "Azure", "AWS", "PostgreSQL", "Docker", "Kubernetes", "Enterprise APIs", "SAP Commerce Cloud",
   "SAP Commerce Cloud (Hybris)", "Altronix Labs", "RAG", "PIM", "API", "APIs", "Repository", "Stack", "Team",
   "ERP · PIM", "Cloud", "Proof of Value", "Data Hub", "CI/CD", "OCC", "Solr", "Spartacus", "SAP Hybris 2011", "SAP Commerce (Hybris) 2011", "Java 11",
-  "Migration", "Hybris", "Nexus", "Secure RAG", "LLM Gateway",
+  "Migration", "Hybris", "Nexus", "Lobby9", "Stripe", "Kafka", "PostgreSQL", "OpenAPI", "CRM", "Amazon S3", "MySQL",
   // Names on the architecture pictures that are the same in every language.
   "SAP Hybris", "OCC API", "Spring Modulith", "Next.js", "Workflows", "PIM · Workflows", "Agent", "System",
-  "Retrieval", "Cardano", "Midnight", "Bitcoin", "Yaci · Koios · Blockfrost", "Clients", "Upstreams", "Chains", "Wallets & dApps", "Cache", "Checkout", "Storefront", "REST · WebSocket · MCP", "OpenAPI 3.1", "Clients", "Gateway · Routing · Limits", "Blockchain & Web3",
+  "Retrieval", "Cardano", "Midnight", "Bitcoin", "Yaci · Koios · Blockfrost", "Clients", "Upstreams", "Chains", "Wallets & dApps", "HR · all-staff", "Keycloak", "login · PKCE · JWT", "OAuth2 resource server", "JWT", "PostgreSQL + pgvector", "Cache", "Checkout", "Storefront", "REST · WebSocket · MCP", "OpenAPI 3.1", "Clients", "Gateway · Routing · Limits", "Blockchain & Web3",
   // Loanwords and terms that are the same in German as in English.
   "Workflow", "Website", "Problem", "(optional)", "Support", "Compliance",
 ]);

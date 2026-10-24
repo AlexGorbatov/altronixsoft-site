@@ -13,6 +13,7 @@ import { contentFor, type Content } from "@/i18n/content";
 import { getContent } from "@/i18n/server";
 import { hasResult, warnIfIncomplete } from "@/lib/cases";
 import { pageMetadata } from "@/lib/metadata";
+import { cn } from "@/lib/utils";
 import { DevTodo } from "@/components/ui/DevTodo";
 import { filled, todoLabel } from "@/lib/todo";
 import type { ReactNode } from "react";
@@ -20,11 +21,20 @@ import type { ReactNode } from "react";
 /** The live product, tagged as a referral from this site so the partner sees where the visit came from. */
 function referral(url: string) {
   const link = new URL(url);
+  // Only a partner's site gets the tags; a code repository is just linked.
+  if (link.host === "github.com") return link.toString();
   link.searchParams.set("utm_source", "altronixsoft.com");
   link.searchParams.set("utm_medium", "referral");
   link.searchParams.set("utm_campaign", "partner");
   return link.toString();
 }
+
+/** The domain of a site as people say it: "lobby9.com", not "www.lobby9.com". */
+const siteName = (url: string, withPath = false) => {
+  const { host, pathname } = new URL(url);
+  const name = host.replace(/^www\./, "");
+  return withPath && pathname.length > 1 ? name + pathname.replace(/\/$/, "") : name;
+};
 
 /** A link to the live product. No `noreferrer`: the visit should arrive as a referral. */
 function LiveLink({ url, className, children }: { url: string; className?: string; children: ReactNode }) {
@@ -122,7 +132,7 @@ function Facts({ study, copy }: { study: CaseStudy; copy: Content["copy"] }) {
     facts.push([
       work.websiteLabel,
       <LiveLink key="site" url={study.liveUrl} className="link-quiet">
-        {new URL(study.liveUrl).host} <span aria-hidden="true">↗</span>
+        {siteName(study.liveUrl, true)} <span aria-hidden="true">↗</span>
       </LiveLink>,
     ]);
   }
@@ -171,12 +181,20 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
           <span aria-hidden="true">←</span> {copy.casePage.back}
         </Link>
         <div className="eyebrow mt-4 flex w-fit">{study.industry}</div>
-        <h1 className="mt-3 text-[36px] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[52px]">{study.title}</h1>
+        <h1
+          className={cn(
+            "mt-3 text-[36px] leading-[1.1] font-bold tracking-[-0.04em]",
+            // A long title gets a smaller size from 640px up, so it stays on one line.
+            study.title.length > 30 ? "sm:text-[40px]" : "sm:text-[52px]",
+          )}
+        >
+          {study.title}
+        </h1>
         <p className="mt-5 text-[17px] leading-[1.75] text-muted">{study.summary}</p>
         {study.liveUrl && filled(study.liveUrl) && (
           <FramedCard accent="violet" compact className="mt-6 sm:w-fit" innerClassName="flex">
             <LiveLink url={study.liveUrl} className="btn btn-primary w-full">
-              {copy.casePage.visit.replace("{site}", new URL(study.liveUrl).host)} <span aria-hidden="true">↗</span>
+              {copy.casePage.visit.replace("{site}", siteName(study.liveUrl))} <span aria-hidden="true">↗</span>
             </LiveLink>
           </FramedCard>
         )}

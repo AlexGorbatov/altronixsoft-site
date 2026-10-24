@@ -162,8 +162,6 @@ export const copy: Part<"copy"> = {
         spartacus: "Spartacus",
         cicd: "CI/CD",
       },
-      pim: { sources: "Datenquellen", hub: "PIM · Workflows", apis: "Enterprise APIs", integrations: "Integrationen" },
-      logistics: { backend: "Backend-Systeme", api: "API", workflows: "Workflows", operations: "Betrieb", cloud: "Cloud" },
       chain: { cardano: "Cardano", midnight: "Midnight", bitcoin: "Bitcoin", providers: "Yaci · Koios · Blockfrost", api: "Nexus API · Failover", clients: "REST · WebSocket · MCP" },
       hybrisFlow: {
         thirdParty: "Drittsysteme",
@@ -203,15 +201,6 @@ export const copy: Part<"copy"> = {
         logHit: "MCP-Tool-Aufruf → Cache-Treffer · 200 OK",
         aria: "Nexus-Architektur: Wallets, KI-Agenten und Live-Apps rufen einen Endpunkt auf; ein Router mit Health Checks beantwortet jeden Aufruf aus dem Cache oder über einen gesunden Upstream (Yaci, Koios, Blockfrost, Indexer) über Cardano, Bitcoin und Midnight und umgeht einen gestörten.",
       },
-      rag: { documents: "Dokumente", retrieval: "Retrieval", access: "Zugriffskontrolle", model: "Modell", response: "Antwort" },
-      agent: { agent: "Agent", system: "System", approval: "Menschliche Freigabe" },
-      documents: {
-        incoming: "Eingehende Dokumente",
-        extraction: "Extraktion",
-        validation: "Validierung",
-        downstream: "Nachgelagerte Systeme",
-      },
-      gateway: { clients: "Clients", gateway: "Gateway · Routing · Limits", models: "Sprachmodelle", audit: "Audit-Trail" },
     },
     noLink: "Noch kein öffentlicher Link",
     next: {

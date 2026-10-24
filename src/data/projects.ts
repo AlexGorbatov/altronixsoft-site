@@ -1,5 +1,5 @@
 /** The isometric scene drawn for a project (see `ProjectScene`). */
-export type ProjectVisual = "shop" | "pim" | "logistics" | "chain" | "rag" | "agent" | "documents" | "gateway";
+export type ProjectVisual = "shop" | "pim" | "logistics" | "chain" | "lobby" | "agent" | "documents" | "payments";
 
 export interface CaseStudy {
   /** URL slug of /work/[slug]. */
@@ -112,33 +112,141 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: "product-information-platform",
-    title: "Product information platform",
+    title: "PIM system for E-Commerce Project",
     visual: "pim",
-    industry: "Product information (PIM)",
-    summary: "Centralized product information, integrations and enterprise workflows.",
-    context: "TODO(owner): industry and scale, e.g. SKUs / channels / countries",
-    challenge: "TODO(owner): the business or technical problem the client had",
-    whatWeDid: "TODO(owner): what the team built, changed or stabilised",
-    result: "TODO(owner): measurable result",
-    stack: ["Java", "Spring", "Enterprise APIs"],
+    industry: "E-commerce · PIM",
+    summary: "Vendor catalogs in CSV, Excel, JSON and XML mapped into one product model and synced to the e-commerce storefront.",
+    context: "Product catalogs from multiple vendors for an e-commerce storefront.",
+    challenge:
+      "Every vendor sent its catalog in its own format and structure. The data had to become one unified product model, be imported in large batches, and reach the storefront with current products and stock.",
+    whatWeDid:
+      "We built the import backbone of the PIM: from a vendor's file to a product on the storefront. The work covered six areas.",
+    workItems: [
+      {
+        title: "Ingestion pipeline",
+        text: "A data ingestion pipeline that processes product catalogs from multiple vendors in CSV, Excel, JSON and XML.",
+      },
+      {
+        title: "Import framework",
+        text: "A flexible framework that maps, transforms and validates heterogeneous data into a unified product model.",
+      },
+      {
+        title: "Vendor parsers",
+        text: "Vendor-specific parsers, each driven by its own customizable mapping configuration.",
+      },
+      {
+        title: "Asynchronous processing",
+        text: "Imports run asynchronously on Spring Boot, Kafka and scheduled jobs, built for large batches.",
+      },
+      {
+        title: "Storefront sync",
+        text: "Real-time product sync and stock updates to the e-commerce storefront over REST APIs.",
+      },
+      {
+        title: "Tested logic",
+        text: "Unit and integration tests for the import logic, the business rules and the sync mechanisms.",
+      },
+    ],
+    result: "",
+    stack: ["Java 17", "Spring Boot", "Spring REST", "Apache Kafka", "MySQL", "Apache POI", "OpenCSV", "Lombok"],
     duration: "TODO(owner): duration, e.g. N months",
     role: "Backend and integration engineering",
-    focus: "Data flows and workflow integrity",
+    focus: "A product import framework that turns vendor catalogs into one product model",
+    architecture: [
+      {
+        title: "Vendor catalogs",
+        text: "Product catalogs arrive from multiple vendors as CSV, Excel, JSON and XML files.",
+      },
+      {
+        title: "Vendor parsers",
+        text: "A parser per vendor with a customizable mapping configuration; Apache POI and OpenCSV read the Excel and CSV files.",
+      },
+      {
+        title: "Import framework",
+        text: "Mapping, transformation and validation turn heterogeneous data into the unified product model.",
+      },
+      {
+        title: "Asynchronous processing",
+        text: "Kafka and scheduled jobs run large batch imports in the background on Spring Boot.",
+      },
+      {
+        title: "Product store",
+        text: "The unified product model is stored in MySQL.",
+      },
+      {
+        title: "Storefront sync",
+        text: "Spring REST APIs sync products and stock updates to the e-commerce storefront in real time.",
+      },
+    ],
   },
   {
     slug: "logistics-operations-platform",
-    title: "Logistics operations platform",
+    title: "SaaS CRM for transport logistics",
     visual: "logistics",
-    industry: "Logistics",
-    summary: "Backend systems for logistics workflows, APIs and day-to-day operations.",
-    context: "TODO(owner): industry and scale, e.g. shipments / users / countries",
-    challenge: "TODO(owner): the business or technical problem the client had",
-    whatWeDid: "TODO(owner): what the team built, changed or stabilised",
-    result: "TODO(owner): measurable result",
-    stack: ["Java", "Spring", "Cloud"],
+    industry: "Logistics · SaaS CRM",
+    summary: "A microservice SaaS CRM for a transport logistics company, with S3 image storage and scheduled emails and reports.",
+    context: "A SaaS CRM platform for a transport logistics company.",
+    challenge:
+      "A transport logistics company needed a CRM delivered as SaaS: able to grow, safe to expose over APIs, able to handle high-resolution images, and able to send notifications and reports without anyone pressing a button.",
+    whatWeDid:
+      "We designed and built the backend of the CRM platform. The work covered six areas.",
+    workItems: [
+      {
+        title: "Microservice architecture",
+        text: "A scalable microservice architecture for the CRM platform.",
+      },
+      {
+        title: "REST APIs",
+        text: "Secure and efficient REST APIs on Spring Boot.",
+      },
+      {
+        title: "Image storage",
+        text: "Integration with Amazon S3 for uploading and managing high-resolution images.",
+      },
+      {
+        title: "Scheduled jobs",
+        text: "Quartz jobs for automated email notifications and report generation.",
+      },
+      {
+        title: "API contracts",
+        text: "API contracts in OpenAPI/Swagger, defined together with the frontend developers.",
+      },
+      {
+        title: "Tested code",
+        text: "Unit and integration tests with JUnit and Mockito, for high code quality.",
+      },
+    ],
+    result: "",
+    stack: ["Java 17", "Spring Boot", "Spring REST", "MySQL", "Amazon S3", "Quartz", "Apache POI", "OpenCSV", "Lombok"],
     duration: "TODO(owner): duration, e.g. N months",
     role: "Backend engineering",
-    focus: "Operational workflows and API design",
+    focus: "Microservices, REST APIs and scheduled jobs for a SaaS CRM",
+    architecture: [
+      {
+        title: "Web app",
+        text: "The SaaS frontend, built against an OpenAPI/Swagger contract agreed with the backend team.",
+      },
+      {
+        title: "REST APIs",
+        text: "Secure and efficient REST APIs on Spring Boot and Spring REST.",
+      },
+      {
+        title: "CRM microservices",
+        text: "The CRM split into services that are designed to scale.",
+      },
+      {
+        title: "Quartz scheduler",
+        text: "Scheduled jobs trigger automated email notifications and generate reports.",
+      },
+      {
+        title: "Amazon S3",
+        text: "High-resolution images are uploaded to and managed in Amazon S3.",
+      },
+      {
+        title: "MySQL",
+        text: "The CRM's data is stored in MySQL.",
+      },
+    ],
   },
   {
     slug: "nexus",
@@ -185,6 +293,288 @@ export const caseStudies: CaseStudy[] = [
     ],
     liveUrl: "https://nexus.gerowallet.io/",
   },
+  {
+    slug: "lobby9",
+    title: "Lobby9",
+    visual: "lobby",
+    industry: "Gaming · Social platform",
+    summary: "One gamer profile from linked PlayStation and Steam accounts, with stats, achievements, guides and campaigns.",
+    context: "A web platform for gamers who play across PlayStation, Steam and Xbox.",
+    challenge:
+      "A player's history is split across consoles and apps: each platform shows only its own part. The platform had to bring it into one profile that fills itself from the linked accounts, and build a community around it.",
+    whatWeDid:
+      "We built the platform around the gamer profile: linking accounts, gathering progress, and the community features on top. The work covered six areas.",
+    workItems: [
+      {
+        title: "Account linking",
+        text: "PlayStation and Steam accounts connected to a Lobby9 profile, with Xbox next on the roadmap.",
+      },
+      {
+        title: "Unified profile",
+        text: "Games, progress, stats and achievements from every linked account, gathered in one profile.",
+      },
+      {
+        title: "Social cards",
+        text: "A card generated from the player's progress, ready to share.",
+      },
+      {
+        title: "Feed and guides",
+        text: "A feed of guides, unlocked achievements and leaderboard places from the community.",
+      },
+      {
+        title: "Discussions",
+        text: "Threads where players talk about games and start their own.",
+      },
+      {
+        title: "Campaigns",
+        text: "Contests such as the guides campaign: create an account, connect a platform and share guides.",
+      },
+    ],
+    result:
+      "The platform is live: players link PlayStation and Steam, get their profile built from their play, and publish guides to the community feed.",
+    // Owner to add: the platform's own technology stack. Only the public integrations are listed until then.
+    stack: ["PlayStation", "Steam"],
+    duration: "TODO(owner): duration, e.g. N months",
+    role: "",
+    focus: "Account linking, a unified gamer profile and community features",
+    architecture: [
+      {
+        title: "Players",
+        text: "Gamers on the web: their profile, the feed, games, discussions and campaigns.",
+      },
+      {
+        title: "Platform connections",
+        text: "PlayStation and Steam accounts linked to the profile; Xbox is on the roadmap.",
+      },
+      {
+        title: "Unified profile",
+        text: "Games, progress, stats and achievements from every linked account, in one place.",
+      },
+      {
+        title: "Community",
+        text: "The feed of guides and achievements, discussions, and the Hall of Fame with leaderboard places.",
+      },
+      {
+        title: "Engagement",
+        text: "Campaigns and contests, and social cards that let players share their progress.",
+      },
+      {
+        title: "Roadmap",
+        text: "Next: a level system, Xbox, communities around games, a Battle Pass and an AI Copilot.",
+      },
+    ],
+    liveUrl: "https://www.lobby9.com/",
+  },
+  {
+    slug: "ai-business-workflow-agent",
+    title: "AI Business Workflow Agent",
+    visual: "agent",
+    industry: "AI · Agents",
+    summary: "Email in, approved freight quote out: a durable Spring AI workflow where code, not the model, sets every price.",
+    context: "Freight quote requests that arrive by email, in several languages.",
+    challenge:
+      "A freight quote request arrives as free text, and a wrong or manipulated price costs money. The agent had to answer with a correct price in seconds, ask a person when it should, and never let an email talk it into a discount.",
+    whatWeDid:
+      "We built a durable workflow around one rule: the language model reads and writes text, and code computes every number. The work covered six areas.",
+    workItems: [
+      {
+        title: "Understanding the email",
+        text: "A model reads the request in any of five languages and extracts the cargo, lane and date. If something is missing, the agent asks only for that and resumes the same request when the customer answers in the thread.",
+      },
+      {
+        title: "Enrichment and pricing",
+        text: "The customer is looked up in the CRM over MCP, and the lane is priced in code from carrier rates. The model never sets a price.",
+      },
+      {
+        title: "Policy and approval",
+        text: "YAML rules decide: a quote under the limits goes out on its own, while large orders, new customers, dangerous goods or overdue credit wait for an approver, who gets a short briefing and the price breakdown.",
+      },
+      {
+        title: "Security and guardrails",
+        text: "Operators and approvers sign in through Keycloak with their own roles. Email text is untrusted data: an instruction such as a 90% discount changes nothing, and the quote goes to a person. Every external write goes through a tool gateway with an approval token and an idempotency key.",
+      },
+      {
+        title: "Durable workflow",
+        text: "State in PostgreSQL, every step audited and replayable, timers instead of waiting threads, retries with backoff, and idempotent writes through an outbox.",
+      },
+      {
+        title: "Operator console",
+        text: "A Next.js console shows the requests, the approvals and what the agent did, next to Grafana dashboards and traces.",
+      },
+    ],
+    result:
+      "In the demo a request becomes a priced, audited quote in seconds, and every risky case waits for a person. Fifteen sample emails run end to end, and 40 labelled eval cases score intent, fields, routing and injection recall.",
+    stack: ["Java 25", "Spring Boot 4", "Spring AI", "MCP", "PostgreSQL", "Keycloak", "Next.js"],
+    duration: "TODO(owner): duration, e.g. N months",
+    role: "",
+    focus: "A workflow where the model reads and writes text and code decides every number",
+    architecture: [
+      {
+        title: "Inbox",
+        text: "Quote requests arrive by email, in any of five languages; replies leave through a mail outbox.",
+      },
+      {
+        title: "Understand",
+        text: "A model turns the email into structured fields. It is one of only three steps that call a model.",
+      },
+      {
+        title: "Enrich and price",
+        text: "The CRM is read over MCP, carrier rates come over REST, and code computes the price.",
+      },
+      {
+        title: "Policy and approval",
+        text: "YAML rules route each quote: send it automatically, or hold it for an approver who signs in through Keycloak (OIDC with PKCE) and sees a briefing.",
+      },
+      {
+        title: "Respond and record",
+        text: "A model writes the reply under a numeric guard; every external write goes through a tool gateway that demands an approval token and an idempotency key.",
+      },
+      {
+        title: "Workflow engine",
+        text: "PostgreSQL state machine with db-scheduler timers and a Spring Security resource server; every model call and tool call is audited.",
+      },
+    ],
+  },
+  {
+    slug: "ai-document-processing",
+    title: "Permission-aware RAG assistant",
+    visual: "documents",
+    industry: "AI · Retrieval",
+    summary: "A company document assistant that answers each person only from the documents they may read, with sources cited.",
+    context: "An internal document assistant for a company where employees may read different documents.",
+    challenge:
+      "Employees ask questions about internal documents, but not everyone may read everything. A regular RAG chatbot can leak a document through its answer, however the question is phrased. The assistant had to answer each person only from the documents they are entitled to.",
+    whatWeDid:
+      "We built a RAG service around need-to-know access: the access decision is made before the language model runs. The work covered six areas.",
+    workItems: [
+      {
+        title: "Upload and ingestion",
+        text: "Users upload PDF, DOCX, Markdown and text files. Apache Tika reads them, each chunk is stored with its owner and group list, and a document can only be shared with the uploader's own groups.",
+      },
+      {
+        title: "Access from the token",
+        text: "The user is identified by a signed JWT from Keycloak or Microsoft Entra ID. Access rights come only from the token, never from request parameters.",
+      },
+      {
+        title: "Filtered retrieval",
+        text: "The access filter runs inside the pgvector similarity search, in the same SQL query. Forbidden chunks never reach the model, the answer or the citations.",
+      },
+      {
+        title: "Answers with citations",
+        text: "The model answers from the permitted chunks, and the citations are built from the chunks actually retrieved, never from what the model writes.",
+      },
+      {
+        title: "Hidden documents, untrusted text",
+        text: "A document the user may not read returns 404, so its existence is not revealed. Retrieved text and model output are untrusted: an instruction hidden in a document cannot widen access.",
+      },
+      {
+        title: "Tested and operated",
+        text: "Access matrix tests check, over HTTP against a real pgvector database, that one user cannot reach another's documents through search, chat, GET or DELETE. Health checks, logging and timeouts cover operations.",
+      },
+    ],
+    result:
+      "In a demo run, the same question about a salary band gets different answers: an HR employee receives it with the source cited, while an engineer is told there is no information, and their document list does not even show that the document exists.",
+    stack: ["Java 25", "Spring Boot 4.1", "Spring AI 2.0", "PostgreSQL + pgvector", "Spring Security", "Keycloak", "Apache Tika", "Next.js"],
+    duration: "TODO(owner): duration, e.g. N months",
+    role: "",
+    focus: "Document-level access control enforced inside the vector search",
+    architecture: [
+      {
+        title: "Employees",
+        text: "People ask questions and upload documents in a single-page web app served by the same service.",
+      },
+      {
+        title: "Keycloak",
+        text: "Users sign in through Keycloak (authorization code with PKCE) and receive a signed JWT; Microsoft Entra ID can replace it by profile. Groups and roles are read from the token.",
+      },
+      {
+        title: "Spring Boot service",
+        text: "One application with upload, search and chat endpoints; Spring Security acts as the OAuth2 resource server.",
+      },
+      {
+        title: "Access-filtered search",
+        text: "The access filter is a jsonpath predicate in the same SQL query as the vector similarity search.",
+      },
+      {
+        title: "PostgreSQL and pgvector",
+        text: "Documents, access lists and embeddings live in one database, so they can never drift apart.",
+      },
+      {
+        title: "Model provider",
+        text: "OpenAI, Azure OpenAI or a local model, chosen by Spring profile; business logic depends only on Spring AI abstractions.",
+      },
+    ],
+  },
+  {
+    slug: "order-payment-platform",
+    title: "Order and payment platform",
+    visual: "payments",
+    industry: "E-commerce · Payments",
+    summary: "An order and payment flow across two Spring Boot services and Kafka, with Stripe, built to survive failures.",
+    context: "The order and payment flow of an online shop: customers, admins and operations staff each have their own part.",
+    challenge:
+      "Taking a payment crosses systems that fail halfway: a webhook arrives twice or out of order, Kafka goes down, a process crashes. The flow had to never charge or refund twice, and an order had to reflect the truth about its payment.",
+    whatWeDid:
+      "We built the order and payment flow as two Spring Boot services that never call each other: they talk through Kafka. The work covered six areas.",
+    workItems: [
+      {
+        title: "Order service",
+        text: "A catalog, a cart, orders with a status history and cancellation. An order stays PENDING_PAYMENT until a PaymentSucceeded event arrives from Kafka.",
+      },
+      {
+        title: "Payment service",
+        text: "Payments with Stripe: PaymentIntents, 3-D Secure, declines and retries, full refunds and disputes. Stripe is called only by background workers, never inside a database transaction.",
+      },
+      {
+        title: "Event-driven saga",
+        text: "A choreography saga over Kafka, with a transactional outbox and inbox so that no event is lost or handled twice.",
+      },
+      {
+        title: "Idempotency and recovery",
+        text: "Idempotency at every boundary, including an HTTP Idempotency-Key. Duplicate requests, repeated or out-of-order webhooks, a crash or a Kafka outage mid-payment do not charge or refund twice, and a late payment on a cancelled order is refunded automatically.",
+      },
+      {
+        title: "Back office and operations",
+        text: "Admins see every order with filters and refund it; operations staff work with dead letters and reconciliation against Stripe.",
+      },
+      {
+        title: "Access and testing",
+        text: "Sign-in through Keycloak (OIDC, JWT, PKCE) with the services as Spring Security resource servers. Unit, architecture and integration tests, plus end-to-end scenarios and chaos tests, none of which needs a Stripe account.",
+      },
+    ],
+    result:
+      "Six scenarios run end to end: a successful payment, a decline followed by a retry, 3-D Secure, a late payment that is refunded automatically, an admin refund and a dispute that flags the order. Stripe stays in test mode.",
+    stack: ["Java 21", "Spring Boot", "Apache Kafka", "PostgreSQL", "Keycloak", "Stripe", "Next.js", "Testcontainers"],
+    duration: "TODO(owner): duration, e.g. N months",
+    role: "",
+    focus: "A reliable order and payment flow across two services, with no double charges or refunds",
+    architecture: [
+      {
+        title: "Web interface",
+        text: "A Next.js app for the shop, the order page, the back office and operations, with Stripe Elements for card entry.",
+      },
+      {
+        title: "Keycloak",
+        text: "Sign-in through OIDC with PKCE; both services check the JWT as Spring Security resource servers.",
+      },
+      {
+        title: "Order service",
+        text: "Orders, the catalog and the saga participant; an order waits in PENDING_PAYMENT for the payment event.",
+      },
+      {
+        title: "Kafka",
+        text: "The only way the two services talk: events through a transactional outbox and inbox.",
+      },
+      {
+        title: "Payment service",
+        text: "Payments, refunds, the Stripe gateway, webhooks and reconciliation; Stripe is called by background workers, outside transactions.",
+      },
+      {
+        title: "PostgreSQL",
+        text: "State, outbox and inbox live in PostgreSQL, migrated with Flyway.",
+      },
+    ],
+  },
 ];
 
 export function getCaseStudy(slug: string): CaseStudy | undefined {
@@ -217,10 +607,10 @@ export interface Project {
   draft?: boolean;
 }
 
-const [hybris, pim, logistics, nexus] = caseStudies;
+const [hybris, pim, logistics, nexus, lobby9, agent, rag, payments] = caseStudies;
 
 /**
- * The portfolio, in display order. The four client projects take their text from the case studies above, so
+ * The portfolio, in display order. The first eight projects take their text from the case studies above, so
  * a case and its tile never say different things. Everything marked `TODO(owner)` is a draft or a missing
  * link: a tile without a real link is shown without a way through, only with its status.
  */
@@ -276,60 +666,54 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    slug: "secure-rag",
-    title: "Secure RAG",
-    category: "AI · Retrieval",
-    summary: "Enterprise retrieval-augmented generation in Java, with access control in front of the model.",
-    kind: "ai",
-    status: "open-source",
-    visual: "rag",
-    // Owner to check: the repository did not answer when this link was last tried (not found or private), and
-    // "open source" needs a licence in it.
-    href: "https://github.com/AlexGorbatov/secure-rag-java",
-    isExternal: true,
-    stack: ["Java", "RAG", "GitHub"],
+    slug: lobby9.slug,
+    title: lobby9.title,
+    category: lobby9.industry,
+    summary: lobby9.summary,
+    kind: "client",
+    status: "nda",
+    visual: "lobby",
+    href: `/work/${lobby9.slug}`,
+    isExternal: false,
+    stack: lobby9.stack,
     featured: true,
-    draft: true,
   },
   {
-    slug: "ai-business-workflow-agent",
-    title: "AI Business Workflow Agent",
-    category: "AI · Agents",
-    summary: "An agent that runs a business workflow across systems, with a human approval step.",
+    slug: agent.slug,
+    title: agent.title,
+    category: agent.industry,
+    summary: agent.summary,
     kind: "ai",
-    status: "in-development",
+    status: "nda",
     visual: "agent",
-    href: "TODO(owner): AI Business Workflow Agent repository URL",
-    isExternal: true,
-    stack: ["Java", "Agents", "Workflows"],
+    href: `/work/${agent.slug}`,
+    isExternal: false,
+    stack: agent.stack,
     featured: true,
-    draft: true,
   },
   {
-    slug: "ai-document-processing",
-    title: "AI Document Processing",
-    category: "AI · Documents",
-    summary: "Turns incoming documents into structured, checked data that downstream systems can use.",
+    slug: rag.slug,
+    title: rag.title,
+    category: rag.industry,
+    summary: rag.summary,
     kind: "ai",
-    status: "in-development",
+    status: "nda",
     visual: "documents",
-    href: "TODO(owner): AI Document Processing repository URL",
-    isExternal: true,
-    stack: ["Java", "Extraction", "Validation"],
-    draft: true,
+    href: `/work/${rag.slug}`,
+    isExternal: false,
+    stack: rag.stack,
   },
   {
-    slug: "llm-gateway",
-    title: "LLM Gateway",
-    category: "AI · Infrastructure",
-    summary: "One entry point to several language models, with routing, limits and an audit trail.",
-    kind: "ai",
-    status: "in-development",
-    visual: "gateway",
-    href: "TODO(owner): LLM Gateway repository URL",
-    isExternal: true,
-    stack: ["Java", "Routing", "Audit"],
-    draft: true,
+    slug: payments.slug,
+    title: payments.title,
+    category: payments.industry,
+    summary: payments.summary,
+    kind: "client",
+    status: "nda",
+    visual: "payments",
+    href: `/work/${payments.slug}`,
+    isExternal: false,
+    stack: payments.stack,
   },
 ];
 
