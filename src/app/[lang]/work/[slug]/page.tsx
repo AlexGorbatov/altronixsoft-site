@@ -16,8 +16,7 @@ import { JsonLdScript } from "@/components/JsonLdScript";
 import { breadcrumbSchema, caseStudySchema } from "@/lib/jsonld";
 import { pageMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
-import { DevTodo } from "@/components/ui/DevTodo";
-import { filled, todoLabel } from "@/lib/todo";
+import { filled } from "@/lib/todo";
 import type { ReactNode } from "react";
 
 /** The live product, tagged as a referral from this site so the partner sees where the visit came from. */
@@ -68,18 +67,13 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/work/[slug
   });
 }
 
-/** A narrative block: real text in production; in development an open TODO is shown as a dashed note. */
+/** A narrative block only renders verified, filled content. */
 function Story({ title, text }: { title: string; text: string }) {
-  const todo = todoLabel(text);
-  if (!filled(text) && !todo) return null;
+  if (!filled(text)) return null;
   return (
     <section aria-label={title} className="mt-8">
       <h2 className="text-xl font-bold tracking-[-0.03em]">{title}</h2>
-      {filled(text) ? (
-        <p className="mt-2 text-body leading-[1.75] text-muted">{text}</p>
-      ) : (
-        <DevTodo value={text} className="mt-2 block" />
-      )}
+      <p className="mt-2 text-body leading-[1.75] text-muted">{text}</p>
     </section>
   );
 }
@@ -215,6 +209,13 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
           {study.title}
         </h1>
         <p className="mt-5 text-[17px] leading-[1.75] text-muted">{study.summary}</p>
+        {filled(study.contribution) && (
+          <section aria-labelledby="contribution-title" className="mt-6 rounded-2xl border border-line bg-white/[.02] p-5 sm:p-6">
+            {study.relationship && <p className="text-small font-medium leading-relaxed text-label">{study.relationship}</p>}
+            <h2 id="contribution-title" className="mt-2 text-xl font-bold tracking-[-0.03em]">{copy.casePage.contribution}</h2>
+            <p className="mt-2 text-body leading-[1.75] text-muted">{study.contribution}</p>
+          </section>
+        )}
         {study.liveUrl && filled(study.liveUrl) && (
           <FramedCard accent="violet" compact className="mt-6 sm:w-fit" innerClassName="flex">
             <LiveLink url={study.liveUrl} className="btn btn-primary w-full" newTab={copy.casePage.newTab}>

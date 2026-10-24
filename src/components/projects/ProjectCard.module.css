@@ -25,7 +25,8 @@
   }
 }
 
-.nda {
+.nda,
+.partner {
   --c: var(--violet);
 }
 .openSource {
@@ -72,14 +73,14 @@
 
 /* The picture: a fixed height, so every card in a row is the same size. */
 .large {
-  --h: 230px;
+  --h: 250px;
 }
 .standard {
   --h: 200px;
 }
 @media (min-width: 640px) {
   .large {
-    --h: 320px;
+    --h: 344px;
   }
   .standard {
     --h: 290px;
@@ -120,7 +121,8 @@
   border-radius: 50%;
   background: currentColor;
 }
-.nda .badge {
+.nda .badge,
+.partner .badge {
   color: var(--violet-soft);
 }
 .openSource .badge {
@@ -200,11 +202,10 @@
   --r: -45deg;
 }
 
-/* One line, cut with an ellipsis. Not `truncate`: the global `text-wrap: balance` on headings would let it wrap. */
+/* Full project names remain readable on narrow cards and in the list layout. */
 .title {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-wrap: nowrap;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
 }
 
 /*

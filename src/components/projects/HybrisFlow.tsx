@@ -74,22 +74,22 @@ const TALL: FlowLayout<Block, Wire> = {
  * Promotions, checkout and CI/CD are left out; the second half of the loop then only lights the core.
  */
 const MINI: FlowLayout<Block, Wire> = {
-  viewBox: [360, 200],
+  viewBox: [360, 224],
   font: { title: 13, sub: 9.5 },
   panels: [],
-  log: { x: 12, y: 160, w: 336 },
+  log: { x: 12, y: 180, w: 336 },
   rects: {
-    third: { x: 12, y: 34, w: 108, h: 44 },
-    core: { x: 130, y: 34, w: 108, h: 44 },
-    occ: { x: 248, y: 34, w: 108, h: 44 },
-    hub: { x: 12, y: 104, w: 108, h: 44 },
-    solr: { x: 130, y: 104, w: 108, h: 44 },
-    store: { x: 248, y: 104, w: 108, h: 44 },
+    third: { x: 12, y: 24, w: 96, h: 44 },
+    core: { x: 132, y: 24, w: 96, h: 44 },
+    occ: { x: 252, y: 24, w: 96, h: 44 },
+    hub: { x: 12, y: 112, w: 96, h: 44 },
+    solr: { x: 132, y: 112, w: 96, h: 44 },
+    store: { x: 252, y: 112, w: 96, h: 44 },
   },
   edges: {
-    integrate: { from: "third", to: "core", axis: "h", mid: 125, offB: -8 },
+    integrate: { from: "third", to: "core", axis: "h", mid: 120, offB: -8 },
     bulk: { from: "third", to: "hub", axis: "v" },
-    load: { from: "hub", to: "core", axis: "h", mid: 125, offB: 8 },
+    load: { from: "hub", to: "core", axis: "h", mid: 120, offB: 8 },
     search: { from: "core", to: "solr", axis: "v" },
     api: { from: "core", to: "occ", axis: "h" },
     serve: { from: "occ", to: "store", axis: "v" },
@@ -192,10 +192,7 @@ export function HybrisFlow({ labels: t, mode, className }: HybrisFlowProps) {
 
   if (mode === "card") {
     return (
-      <>
-        <FlowDiagram layout={wide} {...shared} className={cn(flowStyles.cardWide, className)} extras={wideStages} />
-        <FlowDiagram layout={MINI} {...shared} blocks={MINI_BLOCKS} className={cn(flowStyles.cardMini, className)} />
-      </>
+      <FlowDiagram layout={MINI} {...shared} blocks={MINI_BLOCKS} className={cn(flowStyles.cardMini, className)} />
     );
   }
   return (

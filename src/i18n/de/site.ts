@@ -2,11 +2,11 @@ import type { Part } from "../content";
 
 /** Deutsch: Startseite, Leistungen, Zusammenarbeit, Unternehmen, Prozess. */
 export const hero: Part<"hero"> = {
-  eyebrow: "Software-Engineering für Unternehmen",
-  title: ["Komplexe Systeme.", "Klare Lösungen."],
-  lead: "Wir entwickeln und modernisieren Software — von individuellen Plattformen und Integrationen bis zu SAP Commerce und KI-Lösungen.",
-  leadMore: "Sie arbeiten direkt mit erfahrenen Engineers zusammen, von der Planung bis zum Launch.",
-  facts: ["Von der Architektur bis zum Betrieb", "Klare Verantwortung. Transparente Umsetzung."],
+  eyebrow: "Unabhängiges Software-Engineering-Studio",
+  title: ["Komplexe Aufgaben.", "Klare Lösungen."],
+  lead: "Wir entwickeln, integrieren und modernisieren komplexe Software: individuelle Plattformen, Java-/Spring-Services, SAP Commerce und KI-Anbindung.",
+  leadMore: "Sie arbeiten direkt mit den für die Umsetzung verantwortlichen Engineers. Weitere Spezialisten kommen entsprechend dem Projektbedarf hinzu.",
+  facts: ["Direkte technische Verantwortung", "Teams nach Projektbedarf"],
 };
 
 export const navigation: Part<"navigation"> = [
@@ -18,10 +18,10 @@ export const navigation: Part<"navigation"> = [
 ];
 
 export const site: Part<"site"> = {
-  title: "SAP Commerce, Java und KI-Entwicklung | Altronix Software",
+  title: "Unabhängiges Software-Engineering-Studio | AltronixSoft",
   description:
-    "Altronix Software entwickelt und modernisiert Unternehmenssoftware: Java/Spring, SAP Commerce Cloud, Integrationen und KI. Klare Verantwortung. Transparente Umsetzung.",
-  tagline: "Komplexe Systeme. Klare Lösungen.",
+    "Unabhängiges Engineering-Studio für individuelle Software, Java/Spring, Integrationen, Modernisierung, SAP Commerce und KI. Direkte technische Verantwortung.",
+  tagline: "Komplexe Aufgaben. Klare Lösungen.",
 };
 
 export const services: Part<"services"> = [
@@ -33,6 +33,26 @@ export const services: Part<"services"> = [
       "Wir konzipieren und entwickeln individuelle Software rund um Ihre Geschäftsprozesse, vom ersten MVP bis zum Produktivbetrieb: Webanwendungen, interne Plattformen, APIs und Integrationen.",
     metaDescription:
       "Individuelle Software für Ihre Geschäftsprozesse, vom MVP bis zum Produktivbetrieb: Web-Apps, interne Plattformen, APIs und Integrationen. Klare Verantwortung. Transparente Umsetzung.",
+    problems: [
+      "Ein Produkt oder interner Ablauf braucht eine passende Anwendung, ein Backend oder eine API.",
+      "Geschäftsdaten sind auf Werkzeuge verteilt, die zusammenarbeiten müssen.",
+      "Ein MVP braucht einen praktikablen Weg zu einem wartbaren Produktivsystem."
+    ],
+    deliverables: [
+      {
+        title: "Anwendungen und Plattformen",
+        text: "SaaS-Produkte, interne Plattformen und Webanwendungen für den konkreten Ablauf und seine Nutzer."
+      },
+      {
+        title: "Backend und APIs",
+        text: "Java-/Spring-Services, API-Verträge, Zugriffskontrollen und die Geschäftslogik der Anwendung."
+      },
+      {
+        title: "Integration und Umsetzung",
+        text: "Anbindungen an bestehende Systeme, automatisierte Tests, Deployment-Abläufe und Dokumentation für die Übergabe."
+      }
+    ],
+    start: "Ausgangspunkt sind Geschäftsablauf, vorhandene Systeme und Erfolgskriterien. Ein Check-up oder klar abgegrenztes technisches Review bestimmt das kleinste nützliche Release, Integrationsgrenzen und den nächsten Umsetzungsschritt.",
     capabilities: [
       "SaaS-Produkte",
       "Webanwendungen",
@@ -52,6 +72,26 @@ export const services: Part<"services"> = [
       "Wir verbessern die Systeme, die Ihr Geschäft heute tragen, ohne unnötige Neuentwicklungen: Java-/Spring-Modernisierung, Entwicklung und Support für SAP Commerce Cloud, Cloud-Migration und Enterprise-Integrationen.",
     metaDescription:
       "Bestehende Systeme ohne komplette Neuentwicklung modernisieren: Java/Spring, SAP Commerce Cloud, Cloud-Migration, Integrationen. Klare Verantwortung. Transparente Umsetzung.",
+    problems: [
+      "Änderungen dauern zu lange, weil Abhängigkeiten, Anwendungsgrenzen oder Integrationen schwer wartbar sind.",
+      "Ein Java-/Spring- oder SAP-Commerce-System soll sich weiterentwickeln, ohne alles gleichzeitig zu ersetzen.",
+      "Commerce-, Produktdaten- und operative Systeme brauchen einen verlässlicheren Datenaustausch."
+    ],
+    deliverables: [
+      {
+        title: "Schrittweise Modernisierung",
+        text: "Bestehende Architektur und Abhängigkeiten prüfen, dann Änderungen mit klaren Grenzen und Regressionstests planen."
+      },
+      {
+        title: "Systemintegrationen",
+        text: "REST- und SOAP-APIs, Produktdatenimporte und Synchronisierung zwischen Commerce-, PIM- und operativen Systemen."
+      },
+      {
+        title: "Wartung im Betrieb",
+        text: "Gezielte Fehlerbehebungen, Verbesserungen an Suche und Checkout, CI/CD-Anpassungen und Unterstützung geplanter Cloud-Migrationen."
+      }
+    ],
+    start: "Ausgangspunkt sind die bestehende Architektur, die blockierte Änderung und betriebliche Grenzen. Ein technisches Review klärt, was geändert werden sollte, was bestehen bleibt und wie der Übergang überprüft wird.",
     capabilities: [
       "Java-/Spring-Modernisierung",
       "Entwicklung und Support für SAP Commerce Cloud",
@@ -63,7 +103,7 @@ export const services: Part<"services"> = [
     cta: { label: "Modernisierung besprechen" },
   },
   {
-    title: "KI-Lösungen und Automatisierung",
+    title: "KI-Integration und Automatisierung",
     metaTitle: "KI-Agenten, RAG und Workflow-Automatisierung",
     shortTitle: "KI und Automatisierung",
     description: "KI-Agenten, Suche und Dokumentenautomatisierung in Ihren Systemen.",
@@ -71,6 +111,26 @@ export const services: Part<"services"> = [
       "Wir setzen KI dort ein, wo sie ein echtes Geschäftsproblem löst, und binden sie mit klaren Kontrollen an Ihre bestehenden Systeme an: Agenten, Retrieval über internes Wissen sowie Dokumenten- und Workflow-Automatisierung.",
     metaDescription:
       "KI-Agenten, Retrieval über internes Wissen, Dokumenten- und Workflow-Automatisierung, mit Kontrollen an Ihre Systeme angebunden. Klare Verantwortung. Transparente Umsetzung.",
+    problems: [
+      "Mitarbeiter brauchen Antworten aus internen Dokumenten, ohne zusätzliche Zugriffsrechte zu erhalten.",
+      "Ein wiederkehrender E-Mail- oder Dokumentenablauf braucht Datenextraktion, Validierung und kontrollierte Folgeaktionen.",
+      "Ein KI-Prototyp soll mit Freigaberegeln und nachvollziehbarer Fehlerbehandlung an reale Systeme angebunden werden."
+    ],
+    deliverables: [
+      {
+        title: "Wissen und Retrieval",
+        text: "RAG über interne Dokumente mit Zugriffsfiltern während der Suche und Quellenverweisen in den Antworten."
+      },
+      {
+        title: "Workflow-Integration",
+        text: "Agenten und LLM-Anbindungen an bestehende APIs und Werkzeuge, mit Geschäftsregeln und menschlicher Freigabe bei Bedarf."
+      },
+      {
+        title: "Evaluation und Kontrollen",
+        text: "Repräsentative Evaluationsfälle, Audit-Protokolle, deterministische Geschäftsberechnungen und Prüfungen nicht vertrauenswürdiger Eingaben."
+      }
+    ],
+    start: "Ausgangspunkt sind ein begrenzter Ablauf, repräsentative Daten und ein Maßstab für Korrektheit. Das erste Review oder der Proof of Value legt Zugriffsrechte, Freigabepunkte und Fehlerfälle vor der größeren Umsetzung fest.",
     capabilities: [
       "KI-Agenten",
       "RAG und Wissenssysteme",
@@ -136,29 +196,29 @@ export const checkup: Part<"checkup"> = {
 
 export const about: Part<"about"> = {
   eyebrow: "Über uns",
-  title: "Senior Engineers für Unternehmen und ambitionierte Startups.",
-  lead: "Altronix Software ist ein Engineering-Unternehmen unter der Leitung von Enterprise-Architekten. Startups bringen uns ein Produkt, das wir vom MVP bis zum Produktivbetrieb führen. Unternehmen bringen uns Systeme, die wir modernisieren, integrieren und betreuen. KI ist Teil mancher Systeme, nicht der Ausgangspunkt.",
+  title: "Ein fokussiertes Studio für komplexe Software.",
+  lead: "AltronixSoft ist ein kleines, unabhängiges Software-Engineering-Studio. Praktische Erfahrung mit Java/Spring und Unternehmenssystemen bildet die Grundlage für individuelle Produkte, Integrationen und Modernisierung. Das Team richtet sich nach dem Arbeitsumfang; weitere Engineering-Spezialisten kommen bei Bedarf hinzu.",
   stats: [{ value: "Seit 2023", label: "in der Zusammenarbeit mit Kunden" }],
   operateTitle: "So arbeiten wir",
   operate: [
     {
-      title: "Ein Senior Engineer leitet jedes Projekt.",
-      text: "Sie arbeiten direkt mit der Person, die für die Umsetzung verantwortlich ist.",
+      title: "Direkte technische Verantwortung.",
+      text: "Sie arbeiten direkt mit dem Engineer, der den technischen Umfang und die Umsetzungsentscheidungen verantwortet.",
     },
     {
-      title: "Zuerst das Review.",
-      text: "Ein Review oder Proof of Value mit festem Umfang kommt vor jeder größeren Verpflichtung.",
+      title: "Spezialisten nach Bedarf.",
+      text: "Weitere Engineering-Spezialisten kommen entsprechend dem Projektumfang hinzu, statt einer festen Teamstruktur zu folgen.",
     },
     {
-      title: "NDA vor Arbeitsbeginn.",
-      text: "Wir unterzeichnen eine Vertraulichkeitsvereinbarung, bevor wir an Ihrem System arbeiten.",
+      title: "Umfang und Vertraulichkeit zuerst.",
+      text: "Arbeitsumfang, Zugriffsanforderungen und Vertraulichkeitsbedingungen werden vor der Umsetzung vereinbart.",
     },
     {
       title: "Sie erhalten Code und Dokumentation.",
       text: "Die Übergabe erfolgt nach den Vertragsbedingungen.",
     },
     {
-      title: "Schriftliche Kommunikation.",
+      title: "Dokumentierte Entscheidungen.",
       text: "Regelmäßige Statusberichte und dokumentierte Entscheidungen.",
     },
   ],
@@ -182,13 +242,13 @@ export const requestTypes: Part<"requestTypes"> = [
 
 /** Beschriftungen im Diagramm der Startseite; Reihenfolge wie im Original. */
 export const flowNodes: Part<"flowNodes"> = [
-  { label: "Anfrage erhalten", sub: "Auslöser" },
-  { label: "KI-Agent", sub: "Versteht die Anfrage" },
-  { label: "KI-Agent", sub: "Versteht die Anfrage" },
-  { label: "KI-Agent", sub: "Versteht die Anfrage" },
-  { label: "Prüft ERP", sub: "Aufträge und Bestand" },
-  { label: "Prüft CRM", sub: "Kundenhistorie" },
-  { label: "Prüft Dokumente", sub: "Richtlinien" },
-  { label: "Geschäftsregeln", sub: "Freigabe durch Menschen" },
-  { label: "Aktion ausgeführt", sub: "Protokolliert" },
+  { label: "Geschäftsbedarf", sub: "Eingangsdaten" },
+  { label: "Software", sub: "Geschäftslogik" },
+  { label: "Integration", sub: "APIs und Daten" },
+  { label: "Automatisierung", sub: "Regeln und KI" },
+  { label: "ERP und Commerce", sub: "Aufträge und Bestand" },
+  { label: "CRM und APIs", sub: "Kundendaten" },
+  { label: "Daten und Dokumente", sub: "Wissen und Richtlinien" },
+  { label: "Umsetzungskontrolle", sub: "Tests und Freigaben" },
+  { label: "Laufende Software", sub: "Betrieb und Monitoring" },
 ];

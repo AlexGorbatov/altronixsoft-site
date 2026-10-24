@@ -14,6 +14,11 @@ export interface Service {
   intro: string;
   /** Meta description, 150–160 characters at most. */
   metaDescription: string;
+  problems: string[];
+  deliverables: { title: string; text: string }[];
+  start: string;
+  /** Existing case slugs, kept identical across translations. */
+  caseSlugs: string[];
   capabilities: string[];
   cta: { label: string; type: RequestType };
 }
@@ -28,7 +33,33 @@ export const services: Service[] = [
     intro:
       "We design and build custom software around your business processes, from the first MVP to production: web applications, internal platforms, APIs and integrations.",
     metaDescription:
-      "Custom software built around your business processes, from MVP to production: web apps, internal platforms, APIs and integrations. Clear ownership. Transparent delivery.",
+      "Custom software built around your business processes, from MVP to production: web apps, internal platforms, APIs and integrations. Direct engineering ownership.",
+    problems: [
+      "A product or internal workflow needs a purpose-built application, backend or API.",
+      "Business data is split between tools that need to work together.",
+      "An MVP needs a practical route to a maintainable production release."
+    ],
+    deliverables: [
+      {
+        title: "Applications and platforms",
+        text: "SaaS products, internal platforms and web applications built around the workflow and its users."
+      },
+      {
+        title: "Backend and APIs",
+        text: "Java/Spring services, API contracts, access controls and the business logic behind the application."
+      },
+      {
+        title: "Integration and delivery",
+        text: "Connections to existing systems, automated tests, deployment workflows and documentation for handover."
+      }
+    ],
+    start: "Start with the business workflow, current systems and success criteria. A check-up or scoped technical review identifies the smallest useful release, integration boundaries and the next delivery step.",
+    caseSlugs: [
+      "lobby9",
+      "nexus",
+      "logistics-operations-platform",
+      "order-payment-platform"
+    ],
     capabilities: [
       "SaaS products",
       "Web applications",
@@ -49,7 +80,31 @@ export const services: Service[] = [
     intro:
       "We improve the systems that already run your business, without unnecessary rewrites: Java / Spring modernization, SAP Commerce Cloud development and support, cloud migration and enterprise integrations.",
     metaDescription:
-      "Modernize existing systems without full rewrites: Java/Spring, SAP Commerce Cloud support, cloud migration, integrations. Clear ownership. Transparent delivery.",
+      "Modernize existing systems without full rewrites: Java/Spring, SAP Commerce Cloud support, cloud migration, integrations. Direct engineering ownership.",
+    problems: [
+      "Changes are slow because dependencies, application boundaries or integrations are difficult to maintain.",
+      "A Java/Spring or SAP Commerce system needs to evolve without replacing everything at once.",
+      "Commerce, product data and operational systems need more dependable data exchange."
+    ],
+    deliverables: [
+      {
+        title: "Incremental modernization",
+        text: "Review the current architecture and dependencies, then plan changes around explicit boundaries and regression checks."
+      },
+      {
+        title: "System integrations",
+        text: "REST and SOAP APIs, product-data imports and synchronization between commerce, PIM and operational systems."
+      },
+      {
+        title: "Production maintenance",
+        text: "Targeted fixes, search and checkout improvements, CI/CD changes and support for planned cloud migrations."
+      }
+    ],
+    start: "Begin with the current architecture, the change that is blocked and the operational constraints. A technical review establishes which parts should change, which should stay, and how to verify the transition.",
+    caseSlugs: [
+      "enterprise-ecommerce-platform",
+      "product-information-platform"
+    ],
     capabilities: [
       "Java / Spring modernization",
       "SAP Commerce Cloud development and support",
@@ -63,14 +118,38 @@ export const services: Service[] = [
   {
     id: "ai",
     number: "03",
-    title: "AI solutions and automation",
+    title: "AI integration and automation",
     metaTitle: "AI agents, RAG and workflow automation",
     shortTitle: "AI and automation",
     description: "AI agents, search and document automation inside your systems.",
     intro:
       "We add AI where it solves a real business problem and connect it to your existing systems with proper controls: agents, retrieval over internal knowledge, and document and workflow automation.",
     metaDescription:
-      "AI agents, retrieval over internal knowledge, document and workflow automation, connected to your systems with controls. Clear ownership. Transparent delivery.",
+      "AI agents, retrieval over internal knowledge, document and workflow automation, connected to your systems with controls. Direct engineering ownership.",
+    problems: [
+      "Employees need answers from internal documents without widening their access to information.",
+      "A repeated email or document workflow needs extraction, validation and a controlled next action.",
+      "An AI prototype needs to connect to real systems with approval rules and predictable failure handling."
+    ],
+    deliverables: [
+      {
+        title: "Knowledge and retrieval",
+        text: "RAG over internal documents with access-filtered retrieval and answers linked to their sources."
+      },
+      {
+        title: "Workflow integration",
+        text: "Agents and LLM integrations connected to existing APIs and tools, with business rules and human approval where needed."
+      },
+      {
+        title: "Evaluation and controls",
+        text: "Representative evaluation cases, audit trails, deterministic business calculations and checks around untrusted input."
+      }
+    ],
+    start: "Choose a bounded workflow, representative data and a way to judge correctness. The starting review or proof of value defines access controls, approval points and failure cases before a larger implementation.",
+    caseSlugs: [
+      "ai-business-workflow-agent",
+      "ai-document-processing"
+    ],
     capabilities: [
       "AI agents",
       "RAG and knowledge systems",

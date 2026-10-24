@@ -1,6 +1,6 @@
 /*
  * The flat architecture diagrams (FlowDiagram, NexusFlow). Glass blocks, wires with flowing dashes, and a 12 s
- * loop of requests and replies. Like the isometric scenes, every animation waits for --ps (set while the block is
+ * loop of requests and replies. Like every project diagram, each animation waits for --ps (set while the block is
  * on screen), stops for the Pause motion button and is removed for prefers-reduced-motion (globals.css). Without
  * motion the picture is the finished diagram: the second half of the loop stands still, with no packets.
  */
@@ -115,7 +115,7 @@
   stroke-dasharray: 4 3;
 }
 
-/* Health of an upstream: a green dot with a slow ping; Yaci's turns amber in the first half of the loop. */
+/* Health of an upstream: a green dot with a slow ping. */
 .dot {
   fill: #52d8ae;
 }
@@ -399,17 +399,13 @@
  * card's edges, its number and its status badge, also while the card's hover lifts it. On a wide card the picture is
  * capped and centred, so it never grows past a comfortable size.
  */
-.cardWide,
 .cardMini {
   box-sizing: border-box;
   padding: 46px 24px 18px;
 }
-.cardWide {
-  display: none;
-}
 .cardMini {
   display: block;
-  max-width: 480px;
+  max-width: 520px;
   margin-inline: auto;
 }
 @media (max-width: 639px) {

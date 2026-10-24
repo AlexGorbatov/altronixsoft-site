@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
-import { DevTodo } from "@/components/ui/DevTodo";
 import { hasLocale, localizedPath } from "@/i18n/config";
 import { contentFor } from "@/i18n/content";
 import { getContent } from "@/i18n/server";
@@ -15,10 +14,10 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/privacy">)
   return pageMetadata({ lang, title: privacy.title, description: privacy.metaDescription, path: "/privacy" });
 }
 
-/** In development an open TODO shows as a dashed note so it is not forgotten; in production it is omitted. */
+/** Unverified policy details stay internal in every environment. */
 function Line({ text }: { text: string }) {
   if (filled(text)) return <p>{text}</p>;
-  return <DevTodo value={text} className="block" />;
+  return null;
 }
 
 export default async function PrivacyPage() {

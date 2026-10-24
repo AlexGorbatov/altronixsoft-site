@@ -187,10 +187,7 @@ export function PayFlow({ labels: t, mode, className }: PayFlowProps) {
   const shared = { hops: HOPS, flashes: FLASHES, log: [t.logPaid, t.logRefund] as [string, string] };
   if (mode === "card") {
     return (
-      <>
-        <FlowDiagram layout={wide} blocks={blocks(t)} {...shared} className={cn(flowStyles.cardWide, className)} />
-        <FlowDiagram layout={MINI} blocks={miniBlocks(t)} {...shared} className={cn(flowStyles.cardMini, className)} />
-      </>
+      <FlowDiagram layout={MINI} blocks={miniBlocks(t)} {...shared} className={cn(flowStyles.cardMini, className)} />
     );
   }
   return (

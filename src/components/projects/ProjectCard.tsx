@@ -7,19 +7,16 @@ import { filled } from "@/lib/todo";
 import { cn } from "@/lib/utils";
 import { ActiveWhenVisible } from "./ActiveWhenVisible";
 import { ProjectScene, SceneBackdrop } from "./ProjectScene";
-import type { Accent } from "./sceneKit";
 import { sceneChain } from "./scenes";
 import styles from "./ProjectCard.module.css";
 
 const STATUS_CLASS: Record<ProjectStatus, string> = {
   nda: styles.nda,
+  partner: styles.partner,
   "open-source": styles.openSource,
   own: styles.own,
   "in-development": styles.inDevelopment,
 };
-
-/** A project's picture takes the colour of its status, like its frame. */
-const STATUS_ACCENT: Record<ProjectStatus, Accent> = { nda: "violet", own: "cyan", "open-source": "green", "in-development": "cyan" };
 
 const MONO = "font-mono text-caption leading-[1.2] font-medium uppercase";
 
@@ -27,7 +24,7 @@ interface ProjectCardProps {
   project: Project;
   /** Zero-based position in the full portfolio; shown as 01–08. */
   index: number;
-  /** `large`: 320px picture (home). `standard`: 290px picture (portfolio page). Phones get 230 / 200. */
+  /** `large`: 344px picture (home). `standard`: 290px picture (portfolio page). Phones get 250 / 200. */
   size: "large" | "standard";
   lang: Locale;
   copy: Content["copy"]["portfolio"];
@@ -63,20 +60,20 @@ export function ProjectCard({ project, index, size, lang, copy }: ProjectCardPro
           </span>
           <SceneBackdrop />
           <div className={styles.scene}>
-            <ProjectScene variant={project.visual} labels={copy.scene} accent={STATUS_ACCENT[project.status]} className="size-full" />
+            <ProjectScene variant={project.visual} labels={copy.scene} className="size-full" />
           </div>
         </div>
 
         <div className={cn(styles.cap, "flex min-h-[132px] flex-1 items-end justify-between gap-4 px-[18px] pt-4 pb-[18px] sm:px-6 sm:pt-5 sm:pb-[22px]")}>
           <div className="min-w-0">
             <h3 className={cn(styles.title, "text-xl leading-[1.2] font-bold tracking-[-0.03em] sm:text-2xl")}>{project.title}</h3>
-            <p className="mt-2 line-clamp-2 min-h-[44px] text-small leading-[1.55] text-muted">{project.summary}</p>
+            <p className="mt-2 min-h-[44px] text-small leading-[1.55] text-muted">{project.summary}</p>
             {/* On a phone the names on the picture are hidden; the same architecture, as one line. */}
-            <p className="mt-1 truncate font-mono text-caption leading-[1.4] text-label sm:sr-only">
+            <p className="mt-1 break-words font-mono text-caption leading-[1.5] text-label sm:sr-only">
               {sceneChain(project.visual, copy.scene).join(" → ")}
             </p>
             <div className="mt-[10px] flex items-center gap-3">
-              <span className={cn(MONO, "truncate tracking-[0.1em] text-subtle")}>{project.category}</span>
+              <span className={cn(MONO, "leading-relaxed tracking-[0.1em] text-subtle")}>{project.category}</span>
               {/* In the list layout the status sits here instead of on the picture. */}
               <span className={cn(MONO, styles.badge, styles.inline, "tracking-[0.08em]")}>
                 <i aria-hidden="true" />

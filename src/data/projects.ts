@@ -1,4 +1,4 @@
-/** The isometric scene drawn for a project (see `ProjectScene`). */
+/** The architecture diagram drawn for a project (see `ProjectScene`). */
 export type ProjectVisual = "shop" | "pim" | "logistics" | "chain" | "lobby" | "agent" | "documents" | "payments";
 
 export interface CaseStudy {
@@ -14,15 +14,19 @@ export interface CaseStudy {
   /** Industry and scale: users / orders / SKUs / countries. */
   context: string;
   challenge: string;
-  /** What the team did: one paragraph, or the sentence above `workItems` when the work is split into areas. */
+  /** Completed work, described neutrally: one paragraph, or the introduction to `workItems`. */
   whatWeDid: string;
+  /** Verified project relationship, separate from product ownership or sole delivery. */
+  relationship?: string;
+  /** The recorded level of participation; never infer an unverified personal/company history. */
+  contribution?: string;
   /** Search and sharing title (without the site name). Defaults to `title`. */
   metaTitle?: string;
   /** Search description, about 150–160 characters. Defaults to `summary`. */
   metaDescription?: string;
   /** The service page this case belongs to; the case page links to it. */
   relatedService?: "software" | "modernization" | "ai" | "sap-commerce";
-  /** The work split into areas, each shown as its own block under "What we did". */
+  /** The work split into areas, each shown as its own block under "Work completed". */
   workItems?: { title: string; text: string }[];
   /** Measurable outcome. Cases without a filled `result` still render; dev mode warns about them. */
   result: string;
@@ -41,7 +45,7 @@ export interface CaseStudy {
 }
 
 /**
- * Commercial delivery experience, presented anonymously: no client names, no invented numbers.
+ * Commercial, partner and reference project experience. Confidential client details are generalized; public product links and existing technical facts are retained.
  * Every `TODO(owner)` value is hidden on the site until it is replaced with a real fact
  * (see `filled()` in `src/lib/todo.ts`).
  */
@@ -52,6 +56,8 @@ export const caseStudies: CaseStudy[] = [
     visual: "shop",
     industry: "E-commerce",
     summary: "Integrations, Solr search, promotions and checkout on a high-load SAP Hybris store for a German furniture retailer.",
+    relationship: "Commercial project experience",
+    contribution: "The recorded work covers backend and integrations within a five-person project team: third-party data exchange, storefront APIs, search, promotions, checkout and delivery tooling.",
     context: "Furniture and home decor retailer in Germany.",
     challenge:
       "The retailer's SAP Hybris store had to exchange data with external third-party systems, take in large volumes of data, and stay stable under high production load while new features kept shipping.",
@@ -90,7 +96,7 @@ export const caseStudies: CaseStudy[] = [
     role: "",
     focus: "Integrations, storefront APIs and search on a high-load store",
     metaDescription:
-      "How we built integrations, OCC web services, Solr search and checkout for a high-load SAP Commerce (Hybris) store for a German furniture retailer.",
+      "Integrations, OCC web services, Solr search and checkout enhancements for a high-load SAP Commerce (Hybris) store for a German furniture retailer.",
     relatedService: "sap-commerce",
     architecture: [
       {
@@ -125,11 +131,13 @@ export const caseStudies: CaseStudy[] = [
     visual: "pim",
     industry: "E-commerce · PIM",
     summary: "Vendor catalogs in CSV, Excel, JSON and XML mapped into one product model and synced to the e-commerce storefront.",
-    context: "Our own reference project: product information management (PIM) for an e-commerce storefront, fed by catalogs from multiple vendors.",
+    relationship: "Studio reference implementation",
+    contribution: "An AltronixSoft reference implementation demonstrating vendor-catalog ingestion, product-data mapping and storefront synchronization.",
+    context: "An AltronixSoft reference project: product information management (PIM) for an e-commerce storefront, fed by catalogs from multiple vendors.",
     challenge:
       "Vendors send their catalogs in their own formats and structures. The data has to become one unified product model, be imported in large batches, and reach the storefront with current products and stock.",
     whatWeDid:
-      "We built the import backbone of the PIM: from a vendor's file to a product on the storefront. The work covered six areas.",
+      "The PIM import pipeline was implemented from vendor files through to products on the storefront. The work covered six areas.",
     workItems: [
       {
         title: "Ingestion pipeline",
@@ -197,11 +205,13 @@ export const caseStudies: CaseStudy[] = [
     visual: "logistics",
     industry: "Logistics · SaaS CRM",
     summary: "A microservice SaaS CRM for transport logistics, with S3 image storage and scheduled emails and reports.",
-    context: "Our own reference project: a SaaS CRM platform for transport logistics companies.",
+    relationship: "Studio reference implementation",
+    contribution: "An AltronixSoft reference implementation demonstrating a logistics CRM backend, API contracts, image storage and scheduled processing.",
+    context: "An AltronixSoft reference project: a SaaS CRM platform for transport logistics companies.",
     challenge:
       "A transport logistics company needs a CRM delivered as SaaS: able to grow, safe to expose over APIs, able to handle high-resolution images, and able to send notifications and reports without anyone pressing a button.",
     whatWeDid:
-      "We designed and built the backend of the CRM platform. The work covered six areas.",
+      "The CRM platform's backend was designed and implemented. The work covered six areas.",
     workItems: [
       {
         title: "Microservice architecture",
@@ -269,11 +279,34 @@ export const caseStudies: CaseStudy[] = [
     visual: "chain",
     industry: "Blockchain · Data API",
     summary: "Managed multi-chain data and transaction API for Cardano, Midnight and Bitcoin, with provider failover and OpenAPI 3.1.",
+    relationship: "Partner product · GeroWallet / A.D. Labs",
+    contribution: "AltronixSoft participated in engineering work on this partner product. The API capabilities and architecture below describe the wider Nexus platform.",
     context: "Blockchain infrastructure for wallets, dApps, exchanges and AI agents on Cardano, Bitcoin and Midnight.",
     challenge:
-      "Give wallets, dApps and AI agents one dependable way into three different blockchains: chain data, market data and transactions behind one base URL and one API key, without depending on a single upstream provider and without ever holding a user's private keys.",
-    whatWeDid:
-      "We built one API surface over Cardano, Bitcoin and Midnight. Every request is served behind several upstreams, Yaci, Koios, Blockfrost and our own indexers: per-provider health checks pick a healthy one for each call, and hot data is served from cache. On top sit chain data in ten endpoint groups, market data across 11 Cardano DEXes, wallet analytics, best-price swap routing and server-side transaction building that returns unsigned CBOR, so keys never leave the client. The same data is pushed over WebSocket streaming and offered to AI agents through a hosted MCP server, and the whole surface is described by an OpenAPI 3.1 spec, with a typed TypeScript SDK generated from it.",
+      "Give wallets, dApps and AI agents one dependable way into three different blockchains: chain data, market data and transactions behind one base URL and one authentication header, with keys scoped by chain and network, without depending on a single upstream provider and without ever holding a user's private keys.",
+    whatWeDid: "A common API surface connects three blockchains, multiple upstream providers and several access channels. The engineering approach covers five areas.",
+    workItems: [
+      {
+        title: "One API across three chains",
+        text: "Cardano, Bitcoin and Midnight share one base URL and the X-Api-Key authentication header. Each API key is scoped to one chain and one network."
+      },
+      {
+        title: "Provider routing and caching",
+        text: "Requests are served through Yaci, Koios, Blockfrost and the platform's own indexers. Per-provider health checks select a healthy upstream for each call; frequently requested data is served from cache."
+      },
+      {
+        title: "Data and analytics",
+        text: "The API exposes chain data in ten endpoint groups, market data across 11 Cardano DEXes, wallet analytics and best-price swap routing."
+      },
+      {
+        title: "Non-custodial transactions",
+        text: "Server-side transaction building returns unsigned CBOR. Transactions are signed on the client, so private keys never reach the platform."
+      },
+      {
+        title: "Developer and agent access",
+        text: "REST and WebSocket streaming serve applications; a hosted MCP server exposes the same data to AI agents. An OpenAPI 3.1 specification describes the endpoints and generates a typed TypeScript SDK."
+      }
+    ],
     result:
       "The client's own non-custodial wallet runs on the platform in production: its swap routing, market data and transaction building go through the same API that external developers use.",
     stack: ["Cardano", "Bitcoin", "Midnight", "REST", "WebSocket", "MCP", "OpenAPI 3.1", "TypeScript SDK", "Kubernetes", "PostgreSQL"],
@@ -303,7 +336,7 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         title: "Upstreams and chains",
-        text: "Yaci, Koios, Blockfrost and our own indexers, over Cardano, Bitcoin and Midnight.",
+        text: "Yaci, Koios, Blockfrost and the platform's own indexers, over Cardano, Bitcoin and Midnight.",
       },
       {
         title: "Non-custodial by design",
@@ -318,11 +351,13 @@ export const caseStudies: CaseStudy[] = [
     visual: "lobby",
     industry: "Gaming · Social platform",
     summary: "One gamer profile from linked PlayStation and Steam accounts, with stats, achievements, guides and campaigns.",
+    relationship: "Partner project · Lobby9",
+    contribution: "AltronixSoft participated in engineering work on the platform. The gamer profile, integrations and community capabilities below describe Lobby9 as a whole.",
     context: "A web platform for gamers who play across PlayStation, Steam and Xbox.",
     challenge:
       "A player's history is split across consoles and apps: each platform shows only its own part. The platform had to bring it into one profile that fills itself from the linked accounts, and build a community around it.",
     whatWeDid:
-      "We built the platform around the gamer profile: linking accounts, gathering progress, and the community features on top. The work covered six areas.",
+      "Account linking, progress aggregation and community features were implemented around a unified gamer profile. The work covered six areas.",
     workItems: [
       {
         title: "Account linking",
@@ -394,11 +429,13 @@ export const caseStudies: CaseStudy[] = [
     visual: "agent",
     industry: "AI · Agents",
     summary: "Email in, approved freight quote out: a durable Spring AI workflow where code, not the model, sets every price.",
-    context: "Our own reference project: freight quote requests that arrive by email, in several languages.",
+    relationship: "Studio reference implementation",
+    contribution: "An AltronixSoft reference implementation demonstrating controlled email-to-quote automation, deterministic pricing and human approval.",
+    context: "An AltronixSoft reference project: freight quote requests that arrive by email, in several languages.",
     challenge:
       "A freight quote request arrives as free text, and a wrong or manipulated price costs money. The agent had to answer with a correct price in seconds, ask a person when it should, and never let an email talk it into a discount.",
     whatWeDid:
-      "We built a durable workflow around one rule: the language model reads and writes text, and code computes every number. The work covered six areas.",
+      "A durable workflow was implemented with a clear separation of responsibilities: the language model reads and writes text, and code computes every number. The work covered six areas.",
     workItems: [
       {
         title: "Understanding the email",
@@ -467,11 +504,13 @@ export const caseStudies: CaseStudy[] = [
     visual: "documents",
     industry: "AI · Retrieval",
     summary: "A company document assistant that answers each person only from the documents they may read, with sources cited.",
-    context: "Our own reference project: an internal document assistant for a company where employees may read different documents.",
+    relationship: "Studio reference implementation",
+    contribution: "An AltronixSoft reference implementation demonstrating document retrieval with access controls and answers linked to permitted sources.",
+    context: "An AltronixSoft reference project: an internal document assistant for a company where employees may read different documents.",
     challenge:
       "Employees ask questions about internal documents, but not everyone may read everything. A regular RAG chatbot can leak a document through its answer, however the question is phrased. The assistant had to answer each person only from the documents they are entitled to.",
     whatWeDid:
-      "We built a RAG service around need-to-know access: the access decision is made before the language model runs. The work covered six areas.",
+      "A RAG service was implemented with need-to-know access controls: access is checked before the language model runs. The work covered six areas.",
     workItems: [
       {
         title: "Upload and ingestion",
@@ -540,11 +579,13 @@ export const caseStudies: CaseStudy[] = [
     visual: "payments",
     industry: "E-commerce · Payments",
     summary: "An order and payment flow across two Spring Boot services and Kafka, with Stripe, built to survive failures.",
-    context: "Our own reference project: the order and payment flow of an online shop, with separate customer, admin and operations roles.",
+    relationship: "Studio reference implementation",
+    contribution: "An AltronixSoft reference implementation demonstrating event-driven ordering and payments, idempotency and recovery scenarios in Stripe test mode.",
+    context: "An AltronixSoft reference project: the order and payment flow of an online shop, with separate customer, admin and operations roles.",
     challenge:
       "Taking a payment crosses systems that fail halfway: a webhook arrives twice or out of order, Kafka goes down, a process crashes. The flow had to never charge or refund twice, and an order had to reflect the truth about its payment.",
     whatWeDid:
-      "We built the order and payment flow as two Spring Boot services that never call each other: they talk through Kafka. The work covered six areas.",
+      "The order and payment flow was implemented as two Spring Boot services that communicate through Kafka, without direct calls between them. The work covered six areas.",
     workItems: [
       {
         title: "Order service",
@@ -616,7 +657,7 @@ export function getCaseStudy(slug: string): CaseStudy | undefined {
 /** What kind of work a project is: delivered for a client, our own product, or AI work. */
 export type ProjectKind = "client" | "product" | "ai";
 /** Drives the frame colour and the badge: violet (client, NDA) / cyan (our own project, or in development) / green (open source). */
-export type ProjectStatus = "nda" | "own" | "open-source" | "in-development";
+export type ProjectStatus = "nda" | "partner" | "own" | "open-source" | "in-development";
 
 /** One tile of the portfolio (home: the `featured` ones; /work: all of them, in this order). */
 export interface Project {
@@ -690,7 +731,7 @@ export const projects: Project[] = [
     category: nexus.industry,
     summary: nexus.summary,
     kind: "client",
-    status: "nda",
+    status: "partner",
     visual: "chain",
     href: `/work/${nexus.slug}`,
     isExternal: false,
@@ -703,7 +744,7 @@ export const projects: Project[] = [
     category: lobby9.industry,
     summary: lobby9.summary,
     kind: "client",
-    status: "nda",
+    status: "partner",
     visual: "lobby",
     href: `/work/${lobby9.slug}`,
     isExternal: false,
@@ -763,7 +804,7 @@ export const labs = {
   name: "Altronix Labs",
   eyebrow: "Reference implementations",
   description:
-    "Where we validate architecture, integration patterns and emerging technologies, AI included, hands-on.",
+    "Reference implementations for testing architecture, integration patterns and emerging technologies, including AI.",
   projects: [
     {
       title: "Enterprise Knowledge Assistant",

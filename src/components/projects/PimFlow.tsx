@@ -191,10 +191,7 @@ export function PimFlow({ labels: t, mode, className }: PimFlowProps) {
   const tall = { ...TALL, panels: [{ ...TALL.panels[0], title: t.pipeline }] };
   if (mode === "card") {
     return (
-      <>
-        <FlowDiagram layout={wide} blocks={blocks(t)} {...shared} className={cn(flowStyles.cardWide, className)} />
-        <FlowDiagram layout={MINI} blocks={miniBlocks(t)} {...shared} className={cn(flowStyles.cardMini, className)} />
-      </>
+      <FlowDiagram layout={MINI} blocks={miniBlocks(t)} {...shared} className={cn(flowStyles.cardMini, className)} />
     );
   }
   return (

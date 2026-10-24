@@ -6,12 +6,16 @@ import { localizedPath } from "@/i18n/config";
 import { getContent } from "@/i18n/server";
 import { Labs } from "./Labs";
 
-/** The home page's view of the portfolio: the projects marked `featured`, in the order of the data. */
+const featuredOrder: Record<string, number> = { lobby9: 0, nexus: 1 };
+
+/** The home page's featured portfolio, with Lobby9 and Nexus shown first. */
 export async function SelectedProjects() {
   const { lang, copy, projects } = await getContent();
   const { home } = copy.portfolio;
   // The cards are numbered 01–04 by their place in this section; the /work page numbers the whole portfolio.
-  const featured = projects.filter((project) => project.featured);
+  const featured = projects
+    .filter((project) => project.featured)
+    .sort((a, b) => (featuredOrder[a.slug] ?? 2) - (featuredOrder[b.slug] ?? 2));
 
   return (
     <section id="work" aria-labelledby="work-title" className="section">

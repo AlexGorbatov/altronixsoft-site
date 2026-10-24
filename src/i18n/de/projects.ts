@@ -31,11 +31,13 @@ const nexus = {
 export const caseStudies: Part<"caseStudies"> = [
   {
     ...hybris,
+    relationship: "Erfahrung aus einem kommerziellen Projekt",
+    contribution: "Die beschriebene Arbeit umfasst Backend und Integrationen in einem fünfköpfigen Projektteam: Datenaustausch mit Drittsystemen, Storefront-APIs, Suche, Aktionen, Checkout und Delivery-Werkzeuge.",
     context: "Händler für Möbel und Wohndekoration in Deutschland.",
     challenge:
       "Die SAP-Hybris-Plattform an externe Drittsysteme anbinden, große Datenmengen einspielen und ein hochbelastetes Produktivsystem stabil halten.",
     whatWeDid:
-      "Wir haben die Integrationen mit Drittsystemen über REST- und SOAP-Webservices umgesetzt und große Datenmengen über den Data Hub in die Plattform geladen. Wir haben die OCC-Webservices konfiguriert, die Benutzer-, Konto-, Warenkorb- und Bestelldaten für das Frontend bereitstellen, die Solr-Suche um neue Filter für die Produktlisten, die Extraktion von Kategorien und Facetten erweitert sowie Vorlagen für Aktionsregeln und den Prozess der E-Mail-Benachrichtigungen angepasst. Wir haben die CI/CD-Pipeline und die Nightly Builds aufgesetzt und verbessert, den Checkout und die Warenkorbverwaltung angepasst, für eine angemessene Testabdeckung gesorgt sowie Produktionsprobleme und Fehler behoben. Das Team arbeitete nach Scrum, mit regelmäßigen Code-Reviews und Mentoring.",
+      "Integrationen mit Drittsystemen wurden über REST- und SOAP-Webservices umgesetzt und große Datenmengen über den Data Hub in die Plattform geladen. Konfiguriert wurden die OCC-Webservices, die Benutzer-, Konto-, Warenkorb- und Bestelldaten für das Frontend bereitstellen. Die Solr-Suche wurde um neue Filter für die Produktlisten, die Extraktion von Kategorien und Facetten erweitert. Vorlagen für Aktionsregeln und der Prozess der E-Mail-Benachrichtigungen wurden angepasst. Die CI/CD-Pipeline und die Nightly Builds wurden eingerichtet und verbessert, der Checkout und die Warenkorbverwaltung angepasst, eine angemessene Testabdeckung sichergestellt sowie Produktionsprobleme und Fehler behoben. Das Team arbeitete nach Scrum, mit regelmäßigen Code-Reviews und Mentoring.",
     result:
       "Funktionen wurden dank des CI/CD-Prozesses pünktlich geliefert, und die Plattform blieb unter hoher Last stabil.",
     duration: "5 Monate",
@@ -44,21 +46,48 @@ export const caseStudies: Part<"caseStudies"> = [
   },
   {
     ...pim,
+    relationship: "Referenzimplementierung des Studios",
+    contribution: "Eine Referenzimplementierung von AltronixSoft für den Import von Lieferantenkatalogen, Produktdaten-Mapping und die Synchronisierung mit dem Shop.",
     role: "Backend- und Integrationsentwicklung",
     focus: "Datenflüsse und Workflow-Integrität",
   },
   {
     ...logistics,
+    relationship: "Referenzimplementierung des Studios",
+    contribution: "Eine Referenzimplementierung von AltronixSoft für ein Logistik-CRM-Backend, API-Verträge, Bildspeicherung und geplante Verarbeitung.",
     role: "Backend-Entwicklung",
     focus: "Operative Workflows und API-Design",
   },
   {
     ...nexus,
+    relationship: "Partnerprodukt · GeroWallet / A.D. Labs",
+    contribution: "AltronixSoft war an der Engineering-Arbeit an diesem Partnerprodukt beteiligt. Die folgenden API-Funktionen und die Architektur beschreiben die umfassendere Nexus-Plattform.",
     context: "Blockchain-Infrastruktur für Wallets, dApps, Börsen und KI-Agenten auf Cardano, Bitcoin und Midnight.",
     challenge:
-      "Wallets, dApps und KI-Agenten einen verlässlichen Zugang zu drei verschiedenen Blockchains geben: Chain-Daten, Marktdaten und Transaktionen hinter einer Basis-URL und einem API-Schlüssel, ohne Abhängigkeit von einem einzelnen Upstream-Provider und ohne jemals die privaten Schlüssel der Nutzer zu halten.",
-    whatWeDid:
-      "Wir haben eine API-Oberfläche über Cardano, Bitcoin und Midnight gebaut. Jede Anfrage läuft hinter mehreren Upstreams, Yaci, Koios, Blockfrost und eigenen Indexern: Health Checks pro Provider wählen für jeden Aufruf einen gesunden aus, und häufig abgefragte Daten kommen aus dem Cache. Darauf liegen Chain-Daten in zehn Endpunktgruppen, Marktdaten über 11 Cardano-DEXes, Wallet-Analysen, Swap-Routing zum besten Preis und serverseitiger Transaktionsaufbau, der unsigniertes CBOR zurückgibt, sodass die Schlüssel den Client nie verlassen. Dieselben Daten werden per WebSocket-Streaming gepusht und KI-Agenten über einen gehosteten MCP-Server angeboten; die gesamte Oberfläche ist durch eine OpenAPI-3.1-Spezifikation beschrieben, aus der ein typisiertes TypeScript-SDK generiert wird.",
+      "Wallets, dApps und KI-Agenten einen verlässlichen Zugang zu drei verschiedenen Blockchains geben: Chain-Daten, Marktdaten und Transaktionen hinter einer Basis-URL und einem Authentifizierungsheader, mit Schlüsseln für eine bestimmte Chain und ein Netzwerk, ohne Abhängigkeit von einem einzelnen Upstream-Provider und ohne jemals die privaten Schlüssel der Nutzer zu halten.",
+    whatWeDid: "Eine einheitliche API verbindet drei Blockchains, mehrere Datenanbieter und verschiedene Zugangswege. Der Engineering-Ansatz umfasst fünf Bereiche.",
+    workItems: [
+      {
+        title: "Eine API für drei Chains",
+        text: "Cardano, Bitcoin und Midnight nutzen eine Basis-URL und den Authentifizierungsheader X-Api-Key. Jeder Schlüssel gilt für eine Chain und ein Netzwerk."
+      },
+      {
+        title: "Provider-Routing und Caching",
+        text: "Anfragen werden über Yaci, Koios, Blockfrost und die Indexer der Plattform bedient. Health Checks pro Provider wählen für jeden Aufruf einen gesunden Upstream; häufig angefragte Daten kommen aus dem Cache."
+      },
+      {
+        title: "Daten und Analysen",
+        text: "Die API bietet Chain-Daten in zehn Endpunktgruppen, Marktdaten über 11 Cardano-DEXes, Wallet-Analysen und Swap-Routing zum besten Preis."
+      },
+      {
+        title: "Transaktionen ohne Schlüsselverwahrung",
+        text: "Der serverseitige Transaktionsaufbau liefert unsigniertes CBOR. Signiert wird auf dem Client; private Schlüssel erreichen die Plattform nicht."
+      },
+      {
+        title: "Zugang für Entwickler und Agenten",
+        text: "Anwendungen nutzen REST und WebSocket-Streaming; ein gehosteter MCP-Server bietet KI-Agenten dieselben Daten. Eine OpenAPI-3.1-Spezifikation beschreibt die Endpunkte und dient zur Generierung eines typisierten TypeScript-SDKs."
+      }
+    ],
     result:
       "Die eigene Non-Custodial-Wallet des Kunden läuft produktiv auf der Plattform: Swap-Routing, Marktdaten und Transaktionsaufbau laufen über dieselbe API, die auch externe Entwickler nutzen.",
     duration: "TODO(owner): duration, e.g. N months",
@@ -89,6 +118,22 @@ export const caseStudies: Part<"caseStudies"> = [
         text: "Transaktionen werden unsigniert aufgebaut und auf dem Client signiert, sodass private Schlüssel die Plattform nie erreichen.",
       },
     ],
+  },
+  {
+    relationship: "Partnerprojekt · Lobby9",
+    contribution: "AltronixSoft war an der Engineering-Arbeit an der Plattform beteiligt. Spielerprofil, Integrationen und Community-Funktionen beschreiben Lobby9 als Ganzes.",
+  },
+  {
+    relationship: "Referenzimplementierung des Studios",
+    contribution: "Eine Referenzimplementierung von AltronixSoft für kontrollierte E-Mail-Angebotsprozesse, deterministische Preisberechnung und menschliche Freigabe.",
+  },
+  {
+    relationship: "Referenzimplementierung des Studios",
+    contribution: "Eine Referenzimplementierung von AltronixSoft für Dokumenten-Retrieval mit Zugriffskontrollen und Antworten mit Verweisen auf erlaubte Quellen.",
+  },
+  {
+    relationship: "Referenzimplementierung des Studios",
+    contribution: "Eine Referenzimplementierung von AltronixSoft für ereignisgesteuerte Bestellungen und Zahlungen, Idempotenz und Wiederherstellungsszenarien im Stripe-Testmodus.",
   },
 ];
 
@@ -123,7 +168,7 @@ export const projects: Part<"projects"> = [
 export const labs: Part<"labs"> = {
   eyebrow: "Referenzimplementierungen",
   description:
-    "Hier erproben wir Architektur, Integrationsmuster und neue Technologien, auch KI, praktisch.",
+    "Referenzimplementierungen zum Erproben von Architektur, Integrationsmustern und neuen Technologien, einschließlich KI.",
   projects: [
     { title: "Enterprise-Wissensassistent", tag: "RAG" },
     { title: "KI-Plattform zur Projektanalyse", tag: "Analyse" },
@@ -153,6 +198,11 @@ export const sapCommerce: Part<"sapCommerce"> = {
     { label: "Zertifizierungen" },
     { label: "Typischer Projektrahmen" },
   ],
+  problems: [
+      "Suche, Checkout oder Aktionen einer bestehenden SAP-Commerce-Plattform müssen angepasst werden.",
+      "ERP-, PIM- und Drittsysteme brauchen zuverlässige APIs oder Produktdatenimporte.",
+      "Ein laufendes Commerce-System braucht Wartung, ein Upgrade oder eine geplante Cloud-Migration."
+    ],
   offerings: [
     {
       title: "Entwicklung",
@@ -182,7 +232,7 @@ export const sapCommerce: Part<"sapCommerce"> = {
     },
     {
       title: "Umsetzung",
-      text: "Arbeit mit festem Umfang oder ein dediziertes Team, geleitet von einem Senior Engineer.",
+      text: "Ein vereinbarter Umfang und ein Projektteam mit den benötigten Fähigkeiten, mit direkter technischer Verantwortung.",
     },
   ],
 };

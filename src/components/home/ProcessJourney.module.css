@@ -204,6 +204,9 @@
 }
 /* The title is a real button (keyboard + screen readers); ::after stretches its click area over the whole step. */
 .stepButton {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  white-space: normal;
   /* Taller hit area without moving the layout. */
   padding: 12px 0;
   margin: -12px 0;

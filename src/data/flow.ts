@@ -33,17 +33,23 @@ export const PULSE_S = 1.6;
 
 const ROWS = [112, 276, 440] as const;
 const checks = [
-  { id: "erp", icon: "data", label: "Checks ERP", sub: "Orders and stock" },
-  { id: "crm", icon: "people", label: "Checks CRM", sub: "Customer history" },
-  { id: "docs", icon: "docs", label: "Checks documents", sub: "Policies" },
+  { id: "erp", icon: "data", label: "ERP and commerce", sub: "Orders and stock" },
+  { id: "crm", icon: "people", label: "CRM and APIs", sub: "Customer data" },
+  { id: "docs", icon: "docs", label: "Data and documents", sub: "Knowledge and policies" },
+] as const;
+
+const engineeringSteps = [
+  { icon: "action", label: "Custom software", sub: "Business logic" },
+  { icon: "data", label: "Integrations", sub: "APIs and data" },
+  { icon: "rules", label: "Automation", sub: "Rules and AI" },
 ] as const;
 
 export const flowNodes: FlowNode[] = [
-  { id: "trigger", kind: "square", icon: "request", x: 68, cy: 276, label: "Request received", sub: "Trigger" },
-  ...ROWS.map((cy, i): FlowNode => ({ id: `agent${i}`, kind: "card", icon: "ai", x: 270, cy, label: "AI agent", sub: "Understands request" })),
+  { id: "trigger", kind: "square", icon: "request", x: 68, cy: 276, label: "Business need", sub: "System input" },
+  ...ROWS.map((cy, i): FlowNode => ({ id: `agent${i}`, kind: "card", x: 270, cy, ...engineeringSteps[i] })),
   ...ROWS.map((cy, i): FlowNode => ({ id: checks[i].id, kind: "square", icon: checks[i].icon, x: 500, cy, label: checks[i].label, sub: checks[i].sub })),
-  { id: "rules", kind: "square", icon: "rules", x: 710, cy: 276, label: "Business rules", sub: "Human approval" },
-  { id: "action", kind: "square", icon: "action", x: 900, cy: 276, label: "Action executed", sub: "Audit logged" },
+  { id: "rules", kind: "square", icon: "rules", x: 710, cy: 276, label: "Delivery controls", sub: "Tests and approvals" },
+  { id: "action", kind: "square", icon: "action", x: 900, cy: 276, label: "Working software", sub: "Deployed and monitored" },
 ];
 
 export const flowLinks: FlowLink[] = [

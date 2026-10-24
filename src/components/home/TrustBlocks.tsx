@@ -1,20 +1,19 @@
 import { getContent } from "@/i18n/server";
-import { filled, todoLabel } from "@/lib/todo";
+import { filled } from "@/lib/todo";
 import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
-import { DevTodo } from "@/components/ui/DevTodo";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 /**
  * Support and Security. Only filled items render; a block with none is hidden, and the whole section is
- * hidden in production until something is filled. In development open TODOs show as dashed notes.
+ * hidden until something is filled. Unverified placeholders stay internal in every environment.
  */
 export async function TrustBlocks() {
   const { trust } = await getContent();
   const blocks = trust.blocks
     .map((block) => ({
       ...block,
-      shown: block.items.filter((item) => filled(item.text) || todoLabel(item.text)),
+      shown: block.items.filter((item) => filled(item.text)),
     }))
     .filter((block) => block.shown.length > 0);
   if (blocks.length === 0) return null;
@@ -33,7 +32,7 @@ export async function TrustBlocks() {
                   <div key={item.title} className="border-t border-line pt-4">
                     <dt className="text-body font-bold text-white">{item.title}</dt>
                     <dd className="mt-1 text-small leading-[1.6] text-muted">
-                      {filled(item.text) ? item.text : <DevTodo value={item.text} />}
+                      {item.text}
                     </dd>
                   </div>
                 ))}

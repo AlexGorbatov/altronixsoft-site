@@ -16,8 +16,8 @@ export interface AboutPerson {
  */
 export const about = {
   eyebrow: "About",
-  title: "Senior engineers for enterprises and ambitious startups.",
-  lead: "Altronix Software is an engineering company led by enterprise architects. Startups bring us a product to take from MVP to production. Enterprises bring us systems to modernize, integrate and support. AI is part of some systems, not the starting point.",
+  title: "A focused studio for complex software.",
+  lead: "AltronixSoft is a small, independent software engineering studio. Hands-on Java/Spring and enterprise systems experience supports custom products, integrations and modernization. The team is shaped around the scope, with additional engineering specialists brought in when required.",
 
   /** Key numbers. Only filled values are rendered. */
   stats: [
@@ -28,23 +28,23 @@ export const about = {
   operateTitle: "How we operate",
   operate: [
     {
-      title: "A senior engineer leads each engagement.",
-      text: "You work directly with the person responsible for delivery.",
+      title: "Direct technical ownership.",
+      text: "You work directly with the engineer responsible for the technical scope and delivery decisions.",
     },
     {
-      title: "Review first.",
-      text: "A fixed-scope review or proof of value comes before any larger commitment.",
+      title: "Specialists when the work needs them.",
+      text: "Additional engineering specialists join according to the project scope, rather than a fixed team structure.",
     },
     {
-      title: "NDA before work begins.",
-      text: "We sign a non-disclosure agreement before we start on your system.",
+      title: "Scope and confidentiality first.",
+      text: "The scope, access requirements and confidentiality terms are agreed before implementation.",
     },
     {
       title: "You get the code and documentation.",
       text: "Handed over under the contract terms.",
     },
     {
-      title: "Written communication.",
+      title: "Decisions documented.",
       text: "Regular status updates and documented decisions.",
     },
   ],

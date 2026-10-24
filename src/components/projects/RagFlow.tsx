@@ -196,10 +196,7 @@ export function RagFlow({ labels: t, mode, className }: RagFlowProps) {
   const shared = { hops: HOPS, flashes: FLASHES, log: [t.logAlice, t.logBob] as [string, string] };
   if (mode === "card") {
     return (
-      <>
-        <FlowDiagram layout={wide} blocks={blocks(t)} {...shared} className={cn(flowStyles.cardWide, className)} extras={() => <Blocked at={BLOCK_MARK.wide} />} />
-        <FlowDiagram layout={MINI} blocks={miniBlocks(t)} {...shared} className={cn(flowStyles.cardMini, className)} extras={() => <Blocked at={BLOCK_MARK.mini} />} />
-      </>
+      <FlowDiagram layout={MINI} blocks={miniBlocks(t)} {...shared} className={cn(flowStyles.cardMini, className)} extras={() => <Blocked at={BLOCK_MARK.mini} />} />
     );
   }
   return (

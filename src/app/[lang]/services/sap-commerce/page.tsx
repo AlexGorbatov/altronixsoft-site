@@ -3,7 +3,7 @@ import Link from "next/link";
 import { JsonLdScript } from "@/components/JsonLdScript";
 import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/Button";
-import { DevTodo } from "@/components/ui/DevTodo";
+import { RelatedProjects } from "@/components/projects/RelatedProjects";
 import { Tag } from "@/components/ui/Tag";
 import { contactHref } from "@/data/site";
 import { hasLocale, localizedPath } from "@/i18n/config";
@@ -11,7 +11,7 @@ import { contentFor } from "@/i18n/content";
 import { getContent } from "@/i18n/server";
 import { breadcrumbSchema, serviceSchema } from "@/lib/jsonld";
 import { pageMetadata } from "@/lib/metadata";
-import { filled, todoLabel } from "@/lib/todo";
+import { filled } from "@/lib/todo";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/services/sap-commerce">): Promise<Metadata> {
   const { lang } = await params;
@@ -38,7 +38,7 @@ export default async function SapCommercePage() {
     }),
     breadcrumbSchema(lang, [{ name: sapCommerce.title, path: sapCommerce.path }]),
   ];
-  const details = sapCommerce.details.filter((row) => filled(row.value) || todoLabel(row.value));
+  const details = sapCommerce.details.filter((row) => filled(row.value));
 
   return (
     <PageShell>
@@ -60,7 +60,14 @@ export default async function SapCommercePage() {
           </Button>
         </div>
 
-        <section aria-labelledby="what-title" className="mt-14">
+        <section aria-labelledby="problems-title" className="mt-10">
+          <h2 id="problems-title" className="text-2xl font-bold tracking-[-0.03em]">{pages.whenToContact}</h2>
+          <ul className="mt-4 grid list-disc gap-3 pl-5 text-body leading-[1.7] text-muted marker:text-label">
+            {sapCommerce.problems.map((problem) => <li key={problem}>{problem}</li>)}
+          </ul>
+        </section>
+
+        <section aria-labelledby="what-title" className="mt-12">
           <h2 id="what-title" className="text-[28px] leading-[1.15] font-bold tracking-[-0.03em] sm:text-[32px]">
             {pages.sapWhatWeDo}
           </h2>
@@ -80,7 +87,7 @@ export default async function SapCommercePage() {
           </h2>
           <p className="mt-3 max-w-[68ch] text-body leading-[1.7] text-muted">
             {pages.sapStackBefore}{" "}
-            <Link href={localizedPath(lang, "/#work")} className="text-label underline underline-offset-2 hover:text-white">
+            <Link href={localizedPath(lang, "/work/enterprise-ecommerce-platform")} className="text-label underline underline-offset-2 hover:text-white">
               {pages.sapStackLink}
             </Link>
             .
@@ -98,7 +105,7 @@ export default async function SapCommercePage() {
                 <div key={row.label} className="border-t border-line pt-4">
                   <dt className="text-body font-bold text-white">{row.label}</dt>
                   <dd className="mt-1 text-small leading-[1.6] text-muted">
-                    {filled(row.value) ? row.value : <DevTodo value={row.value} />}
+                    {row.value}
                   </dd>
                 </div>
               ))}
@@ -123,6 +130,8 @@ export default async function SapCommercePage() {
             <Button href={localizedPath(lang, contactHref("architecture-checkup"))}>{copy.services.sapCta} →</Button>
           </div>
         </section>
+
+        <RelatedProjects slugs={sapCommerce.caseSlugs} />
 
         <nav aria-label={pages.relatedServices} className="mt-14">
           <h2 className="mono-label text-label">{pages.relatedServices}</h2>
