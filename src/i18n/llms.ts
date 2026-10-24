@@ -4,7 +4,7 @@ import { localizedPath, type Locale } from "./config";
 import { contentFor } from "./content";
 
 /**
- * The plain-text company summary served at /llms.txt (English) and /de/llms.txt, /uk/llms.txt. Built from the
+ * The plain-text company summary served at /llms.txt (English) and /uk/llms.txt. Built from the
  * same content as the pages, so the facts live in one place. Facts only: nothing here is stated that the site
  * does not already say. Add the legal name, prices or hours only after they are confirmed.
  */

@@ -1,10 +1,10 @@
 import type { CSSProperties } from "react";
 import type { Content } from "@/i18n/content";
-import styles from "./NexusFlow.module.css";
+import { route, type Edge as FlowEdge, type Rect } from "./FlowDiagram";
+import styles from "./FlowDiagram.module.css";
 
 export type NexusFlowLabels = Content["copy"]["portfolio"]["scene"]["nexusFlow"];
 
-type Rect = { x: number; y: number; w: number; h: number };
 type NodeId =
   | "wallets" | "agents" | "live"
   | "gateway" | "router" | "cache" | "builder"
@@ -14,7 +14,7 @@ type EdgeId =
   | "walletsIn" | "agentsIn" | "liveOut" | "toRouter" | "toCache" | "toBuilder"
   | "toYaci" | "toKoios" | "toBlockfrost" | "toIndexers"
   | "yaciChain" | "koiosChain" | "blockfrostChain" | "indexersChain" | "indexersBitcoin" | "indexersMidnight";
-type Edge = { from: NodeId; to: NodeId; axis: "h" | "v"; mid?: number; offA?: number; offB?: number };
+type Edge = FlowEdge<NodeId>;
 
 interface Layout {
   viewBox: [number, number];
@@ -124,37 +124,6 @@ const TALL: Layout = {
   },
   narrowUpstreams: true,
 };
-
-/** An orthogonal route with rounded corners between the facing sides of two boxes. */
-function route(a: Rect, b: Rect, e: Edge): string {
-  const ca = { x: a.x + a.w / 2, y: a.y + a.h / 2 };
-  const cb = { x: b.x + b.w / 2, y: b.y + b.h / 2 };
-  const flip = (p: [number, number]) => (e.axis === "h" ? p : ([p[1], p[0]] as [number, number]));
-  // Work in (along, across) coordinates: along the flow, and across it.
-  const [a1, a2, b1, b2] =
-    e.axis === "h"
-      ? [a.x, a.x + a.w, b.x, b.x + b.w]
-      : [a.y, a.y + a.h, b.y, b.y + b.h];
-  const forward = (e.axis === "h" ? cb.x > ca.x : cb.y > ca.y);
-  const s = forward ? a2 : a1;
-  const t = forward ? b1 : b2;
-  const u = (e.axis === "h" ? ca.y : ca.x) + (e.offA ?? 0);
-  const v = (e.axis === "h" ? cb.y : cb.x) + (e.offB ?? 0);
-  const P = (along: number, across: number) => flip([along, across]).map((n) => n.toFixed(1)).join(" ");
-  if (Math.abs(u - v) < 0.5) return `M${P(s, u)} L${P(t, v)}`;
-  const m = e.mid ?? (s + t) / 2;
-  const da = Math.sign(t - s);
-  const dc = Math.sign(v - u);
-  const r = Math.min(10, Math.abs(v - u) / 2, Math.abs(m - s), Math.abs(t - m));
-  return [
-    `M${P(s, u)}`,
-    `L${P(m - da * r, u)}`,
-    `Q${P(m, u)} ${P(m, u + dc * r)}`,
-    `L${P(m, v - dc * r)}`,
-    `Q${P(m, v)} ${P(m + da * r, v)}`,
-    `L${P(t, v)}`,
-  ].join(" ");
-}
 
 /**
  * The loop, in seconds of a 12 s cycle. A wallet's request finds Yaci degraded and is routed to Koios; then an

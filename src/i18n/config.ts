@@ -1,5 +1,9 @@
-/** Languages of the site. English is the source language and the fallback for anything not translated. */
-export const locales = ["en", "de", "uk"] as const;
+/**
+ * Languages of the site. English is the source language and the fallback for anything not translated.
+ * German is switched off for now (owner's decision): its translation stays in src/i18n/de. To bring it back, add
+ * "de" here, its line in `localeMeta`, `de` in the translations of content.ts and its flag in Flag.tsx.
+ */
+export const locales = ["en", "uk"] as const;
 export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = "en";
 
@@ -9,13 +13,12 @@ export const hasLocale = (value: string | null | undefined): value is Locale =>
 /** Names shown in the language switcher (always in the language itself) and the codes used in markup. */
 export const localeMeta: Record<Locale, { name: string; short: string; og: string }> = {
   en: { name: "English", short: "EN", og: "en_GB" },
-  de: { name: "Deutsch", short: "DE", og: "de_DE" },
   uk: { name: "Українська", short: "UA", og: "uk_UA" },
 };
 
 /**
- * Prefix a locale-free path with the locale: "/" -> "/de", "/#work" -> "/de#work", "/?type=x#contact" ->
- * "/de?type=x#contact", "/services/ai" -> "/de/services/ai". Absolute and hash-only links are returned as they are.
+ * Prefix a locale-free path with the locale: "/" -> "/uk", "/#work" -> "/uk#work", "/?type=x#contact" ->
+ * "/uk?type=x#contact", "/services/ai" -> "/uk/services/ai". Absolute and hash-only links are returned as they are.
  */
 export function localizedPath(locale: Locale, path: string): string {
   if (!path.startsWith("/")) return path;
@@ -24,7 +27,7 @@ export function localizedPath(locale: Locale, path: string): string {
   return `/${locale}${path}`;
 }
 
-/** Split "/de/services/ai" into the locale and the locale-free path ("/services/ai"). */
+/** Split "/uk/services/ai" into the locale and the locale-free path ("/services/ai"). */
 export function splitLocale(pathname: string): { locale: Locale | undefined; path: string } {
   const [, first = "", ...rest] = pathname.split("/");
   if (!hasLocale(first)) return { locale: undefined, path: pathname || "/" };
@@ -32,7 +35,7 @@ export function splitLocale(pathname: string): { locale: Locale | undefined; pat
 }
 
 /**
- * Pick the best supported locale from an Accept-Language header ("de-AT,de;q=0.9,en;q=0.8").
+ * Pick the best supported locale from an Accept-Language header ("uk-UA,uk;q=0.9,en;q=0.8").
  * Matches on the primary subtag; Russian and Belarusian speakers are not guessed at, they get English.
  */
 export function negotiateLocale(acceptLanguage: string | null | undefined): Locale {

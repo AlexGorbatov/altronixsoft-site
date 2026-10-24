@@ -15,11 +15,10 @@ import { aiUseCases, services, technologies } from "@/data/services";
 import { siteConfig } from "@/data/site";
 import { trust } from "@/data/trust";
 import type { Locale } from "./config";
-import { de } from "./de";
 import { overlay, type Overlay } from "./merge";
 import { uk } from "./uk";
 
-/** Everything on the site that is text. English is the source; `de` and `uk` are translations laid over it. */
+/** Everything on the site that is text. English is the source; `uk` is a translation laid over it. */
 const en = {
   copy,
   hero,
@@ -48,7 +47,7 @@ export type Translation = Overlay<Content>;
 /** The translation of one part of the content, e.g. `Part<"copy">`. */
 export type Part<K extends keyof Content> = Overlay<Content[K]>;
 
-const translations: Record<Exclude<Locale, "en">, Translation> = { de, uk };
+const translations: Record<Exclude<Locale, "en">, Translation> = { uk };
 const cache = new Map<Locale, Content>();
 
 /** The site's text in one language. Anything a translation leaves out stays English. */

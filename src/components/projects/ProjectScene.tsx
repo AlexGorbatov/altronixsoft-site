@@ -1,6 +1,7 @@
 import type { ProjectVisual } from "@/data/projects";
 import { FramedCard, type FrameAccent } from "@/components/ui/FramedCard";
 import { cn } from "@/lib/utils";
+import { HybrisFlow } from "./HybrisFlow";
 import { NexusFlow } from "./NexusFlow";
 import styles from "./ProjectScene.module.css";
 import type { Accent } from "./sceneKit";
@@ -22,6 +23,8 @@ interface ProjectSceneProps {
  * `ActiveWhenVisible` (or use `ScenePanel`) so it only animates while on screen.
  */
 export function ProjectScene({ variant, labels, accent, className }: ProjectSceneProps) {
+  // Projects that have a flat, live diagram of their architecture show it instead of the isometric scene.
+  if (variant === "shop") return <HybrisFlow labels={labels.hybrisFlow} mode="card" className={className} />;
   const { viewBox, node } = buildScene(variant, labels, accent);
   return (
     <svg
@@ -62,9 +65,11 @@ export function ScenePanel({ variant, labels, accent, className }: ProjectSceneP
       innerClassName="isolate bg-[radial-gradient(ellipse_at_50%_55%,#0f2147,#0a1430_55%,#070f22)]"
     >
       <SceneBackdrop />
-      {/* Nexus gets a live, flat diagram of its whole request flow; the other cases keep their isometric scene. */}
+      {/* Projects with a live, flat diagram of their whole flow show it here; the others keep the isometric scene. */}
       {variant === "chain" ? (
         <NexusFlow labels={labels.nexusFlow} />
+      ) : variant === "shop" ? (
+        <HybrisFlow labels={labels.hybrisFlow} mode="panel" />
       ) : (
         <ProjectScene variant={variant} labels={labels} accent={accent} className="relative z-[1] aspect-[400/240] w-full" />
       )}

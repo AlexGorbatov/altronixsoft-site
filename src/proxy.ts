@@ -1,14 +1,23 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { hasLocale, negotiateLocale } from "@/i18n/config";
 
+/** Languages the site no longer offers: their addresses go to the same page in English. */
+const RETIRED = new Set(["de"]);
+
 /**
- * Every page lives under /en, /de or /uk. A request without a language prefix ("/", "/services/ai") is sent to
- * the visitor's language, chosen from the Accept-Language header, falling back to English. No cookie is set:
+ * Every page lives under /en or /uk. A request without a language prefix ("/", "/services/ai") is sent to the
+ * visitor's language, chosen from the Accept-Language header, falling back to English. No cookie is set:
  * the language a visitor picks is carried by the address itself, so the site stays free of cookies.
  */
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  if (hasLocale(pathname.split("/")[1])) return NextResponse.next();
+  const first = pathname.split("/")[1];
+  if (hasLocale(first)) return NextResponse.next();
+  if (RETIRED.has(first)) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/en${pathname.slice(first.length + 1)}`;
+    return NextResponse.redirect(url, 308);
+  }
 
   const locale = negotiateLocale(request.headers.get("accept-language"));
   const url = request.nextUrl.clone();

@@ -14,7 +14,10 @@ export interface CaseStudy {
   /** Industry and scale: users / orders / SKUs / countries. */
   context: string;
   challenge: string;
+  /** What the team did: one paragraph, or the sentence above `workItems` when the work is split into areas. */
   whatWeDid: string;
+  /** The work split into areas, each shown as its own block under "What we did". */
+  workItems?: { title: string; text: string }[];
   /** Measurable outcome. Cases without a filled `result` still render; dev mode warns about them. */
   result: string;
   stack: string[];
@@ -42,18 +45,70 @@ export const caseStudies: CaseStudy[] = [
     title: "SAP Hybris e-commerce platform",
     visual: "shop",
     industry: "E-commerce",
-    summary: "OCC web services, Solr search, promotions and integrations for a furniture and home decor retailer.",
+    summary: "Integrations, Solr search, promotions and checkout on a high-load SAP Hybris store for a German furniture retailer.",
     context: "Furniture and home decor retailer in Germany.",
     challenge:
-      "Connect the SAP Hybris platform to external third-party systems, move large volumes of data into it, and keep a high-load production system stable.",
+      "The retailer's SAP Hybris store had to exchange data with external third-party systems, take in large volumes of data, and stay stable under high production load while new features kept shipping.",
     whatWeDid:
-      "We built the integrations with third-party systems over REST and SOAP web services and loaded large data volumes into the platform through Data Hub. We configured the OCC web services that provide user, account, cart and order data to the frontend, extended Solr search with new product listing filters, category extraction and facets, and customized promotion rule templates and the email notification process. We set up and improved the CI/CD pipeline and nightly builds, customized the checkout flow and cart management, kept test coverage adequate, and handled production issues and bug fixes. The team worked in Scrum, with regular code reviews and mentoring.",
-    result: "Features were delivered on time through the CI/CD process, and the platform stayed stable under high load.",
-    stack: ["SAP Hybris 2011", "Java 11", "Spring", "OCC", "Spartacus", "Solr", "Data Hub", "CI/CD"],
+      "A team of five worked on the store for five months, in Scrum, with regular code reviews and mentoring. The work covered six areas.",
+    workItems: [
+      {
+        title: "Integrations and data",
+        text: "REST and SOAP integrations with third-party systems, and large data volumes loaded into the platform through Data Hub.",
+      },
+      {
+        title: "Storefront APIs",
+        text: "OCC web services that serve user, account, cart and order data to the Spartacus frontend.",
+      },
+      {
+        title: "Search",
+        text: "Solr search extended with new product listing filters, category extraction and facets.",
+      },
+      {
+        title: "Promotions and notifications",
+        text: "Custom promotion rule templates and a reworked email notification process.",
+      },
+      {
+        title: "Checkout",
+        text: "A customized checkout flow and cart management.",
+      },
+      {
+        title: "Delivery",
+        text: "The CI/CD pipeline and nightly builds set up and improved, test coverage kept adequate, and production issues and bugs fixed.",
+      },
+    ],
+    result: "Every feature shipped on schedule through the CI/CD pipeline, and the store stayed stable under high production load.",
+    stack: ["SAP Commerce (Hybris) 2011", "Java 11", "Spring", "OCC", "Spartacus", "Solr", "Data Hub", "CI/CD"],
     duration: "5 months",
     team: "5 people",
     role: "",
-    focus: "OCC web services, Solr search and promotion rules",
+    focus: "Integrations, storefront APIs and search on a high-load store",
+    architecture: [
+      {
+        title: "Storefront",
+        text: "The Spartacus frontend: product listings with search filters, the cart and the checkout.",
+      },
+      {
+        title: "Storefront APIs",
+        text: "OCC web services that serve users, accounts, carts and orders to the storefront.",
+      },
+      {
+        title: "Commerce core",
+        text: "SAP Commerce (Hybris) 2011 on Java 11 and Spring: cart and checkout, orders, promotion rules and email notifications.",
+      },
+      {
+        title: "Search",
+        text: "Solr, with product listing filters, category extraction and facets.",
+      },
+      {
+        title: "Integrations and data",
+        text: "REST and SOAP web services to third-party systems, and Data Hub for large data loads.",
+      },
+      {
+        title: "Delivery",
+        text: "A CI/CD pipeline with nightly builds and test coverage.",
+      },
+    ],
   },
   {
     slug: "product-information-platform",

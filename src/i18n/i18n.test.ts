@@ -5,20 +5,20 @@ import { overlay } from "./merge";
 
 describe("localizedPath", () => {
   it("prefixes paths with the language", () => {
-    expect(localizedPath("de", "/")).toBe("/de");
-    expect(localizedPath("de", "/#work")).toBe("/de#work");
+    expect(localizedPath("uk", "/")).toBe("/uk");
+    expect(localizedPath("uk", "/#work")).toBe("/uk#work");
     expect(localizedPath("uk", "/?type=project#contact")).toBe("/uk?type=project#contact");
     expect(localizedPath("en", "/services/ai")).toBe("/en/services/ai");
   });
   it("leaves absolute and hash-only links alone", () => {
-    expect(localizedPath("de", "#work")).toBe("#work");
-    expect(localizedPath("de", "https://example.com/x")).toBe("https://example.com/x");
+    expect(localizedPath("uk", "#work")).toBe("#work");
+    expect(localizedPath("uk", "https://example.com/x")).toBe("https://example.com/x");
   });
 });
 
 describe("splitLocale", () => {
   it("separates the language from the path", () => {
-    expect(splitLocale("/de")).toEqual({ locale: "de", path: "/" });
+    expect(splitLocale("/uk")).toEqual({ locale: "uk", path: "/" });
     expect(splitLocale("/uk/services/ai")).toEqual({ locale: "uk", path: "/services/ai" });
     expect(splitLocale("/services/ai")).toEqual({ locale: undefined, path: "/services/ai" });
   });
@@ -26,15 +26,18 @@ describe("splitLocale", () => {
 
 describe("negotiateLocale", () => {
   it("picks the best supported language from Accept-Language", () => {
-    expect(negotiateLocale("de-DE,de;q=0.9,en;q=0.8")).toBe("de");
+    expect(negotiateLocale("uk-UA,uk;q=0.9,en;q=0.8")).toBe("uk");
     expect(negotiateLocale("uk-UA,uk;q=0.9")).toBe("uk");
-    expect(negotiateLocale("fr-FR,fr;q=0.9,de;q=0.5")).toBe("de");
+    expect(negotiateLocale("fr-FR,fr;q=0.9,uk;q=0.5")).toBe("uk");
   });
   it("falls back to English", () => {
     expect(negotiateLocale("")).toBe("en");
     expect(negotiateLocale(null)).toBe("en");
     expect(negotiateLocale("ru-RU,ru;q=0.9")).toBe("en");
-    expect(negotiateLocale("de;q=0")).toBe("en");
+    expect(negotiateLocale("uk;q=0")).toBe("en");
+    // German is switched off: German speakers get English.
+    expect(negotiateLocale("de-DE,de;q=0.9")).toBe("en");
+    expect(splitLocale("/de/work")).toEqual({ locale: undefined, path: "/de/work" });
   });
 });
 
@@ -54,11 +57,11 @@ describe("overlay", () => {
 const SAME_EVERYWHERE = new Set([
   "Java", "Spring", "Azure", "AWS", "PostgreSQL", "Docker", "Kubernetes", "Enterprise APIs", "SAP Commerce Cloud",
   "SAP Commerce Cloud (Hybris)", "Altronix Labs", "RAG", "PIM", "API", "APIs", "Repository", "Stack", "Team",
-  "ERP · PIM", "Cloud", "Proof of Value", "Data Hub", "CI/CD", "OCC", "Solr", "Spartacus", "SAP Hybris 2011", "Java 11",
+  "ERP · PIM", "Cloud", "Proof of Value", "Data Hub", "CI/CD", "OCC", "Solr", "Spartacus", "SAP Hybris 2011", "SAP Commerce (Hybris) 2011", "Java 11",
   "Migration", "Hybris", "Nexus", "Secure RAG", "LLM Gateway",
   // Names on the architecture pictures that are the same in every language.
   "SAP Hybris", "OCC API", "Spring Modulith", "Next.js", "Workflows", "PIM · Workflows", "Agent", "System",
-  "Retrieval", "Cardano", "Midnight", "Bitcoin", "Yaci · Koios · Blockfrost", "Clients", "Upstreams", "Chains", "Wallets & dApps", "Cache", "REST · WebSocket · MCP", "OpenAPI 3.1", "Clients", "Gateway · Routing · Limits", "Blockchain & Web3",
+  "Retrieval", "Cardano", "Midnight", "Bitcoin", "Yaci · Koios · Blockfrost", "Clients", "Upstreams", "Chains", "Wallets & dApps", "Cache", "Checkout", "Storefront", "REST · WebSocket · MCP", "OpenAPI 3.1", "Clients", "Gateway · Routing · Limits", "Blockchain & Web3",
   // Loanwords and terms that are the same in German as in English.
   "Workflow", "Website", "Problem", "(optional)", "Support", "Compliance",
 ]);

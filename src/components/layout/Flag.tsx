@@ -4,22 +4,12 @@ import { cn } from "@/lib/utils";
 
 /**
  * Small flags drawn as SVG, so they look the same on every system (emoji flags show up as the letters "GB" or
- * "DE" on Windows). Decorative: the language name is always written next to them or in the button's label.
- * English uses the Union Jack, German the German flag, Ukrainian the Ukrainian flag.
+ * "UA" on Windows). Decorative: the language name is always written next to them or in the button's label.
+ * English uses the Union Jack, Ukrainian the Ukrainian flag.
  */
 export function Flag({ locale, className }: { locale: Locale; className?: string }) {
   const id = useId();
   const frame = cn("shrink-0 rounded-[3px] ring-1 ring-white/25", className);
-
-  if (locale === "de") {
-    return (
-      <svg viewBox="0 0 5 3" aria-hidden="true" focusable="false" className={frame}>
-        <rect width="5" height="1" y="0" fill="#000" />
-        <rect width="5" height="1" y="1" fill="#DD0000" />
-        <rect width="5" height="1" y="2" fill="#FFCE00" />
-      </svg>
-    );
-  }
 
   if (locale === "uk") {
     return (

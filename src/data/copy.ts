@@ -177,6 +177,23 @@ export const copy = {
       pim: { sources: "Data sources", hub: "PIM · Workflows", apis: "Enterprise APIs", integrations: "Integrations" },
       logistics: { backend: "Backend systems", api: "API", workflows: "Workflows", operations: "Operations", cloud: "Cloud" },
       chain: { cardano: "Cardano", midnight: "Midnight", bitcoin: "Bitcoin", providers: "Yaci · Koios · Blockfrost", api: "Nexus API · failover", clients: "REST · WebSocket · MCP" },
+      /** The live diagram of the SAP Hybris case (flat, on its card and case page). Product names stay in the code. */
+      hybrisFlow: {
+        thirdParty: "Third parties",
+        dataHubSub: "bulk import",
+        core: "Commerce core",
+        solrSub: "facets",
+        promotions: "Promotions",
+        promotionsSub: "rules",
+        checkout: "Checkout",
+        checkoutSub: "orders",
+        occSub: "carts · orders",
+        storefrontSub: "storefront",
+        cicd: "CI/CD · builds",
+        logSearch: "Search → Solr facets → OCC → 200 OK",
+        logOrder: "Checkout → promotion rule → order placed",
+        aria: "SAP Hybris architecture: third-party systems send data over REST and SOAP and in bulk through Data Hub; the commerce core uses Solr search, promotion rules and checkout, and serves users, carts and orders through the OCC API to the Spartacus storefront; CI/CD builds and deploys the platform.",
+      },
       /** The live diagram on the Nexus case page (flat, not isometric). */
       nexusFlow: {
         clients: "Clients",

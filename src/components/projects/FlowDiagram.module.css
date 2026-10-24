@@ -1,8 +1,8 @@
 /*
- * The Nexus architecture diagram. Flat glass blocks, wires with flowing dashes, and a 12 s loop of requests and
- * replies. Like the isometric scenes, every animation waits for --ps (set while the block is on screen), stops
- * for the Pause motion button and is removed for prefers-reduced-motion (globals.css). Without motion the
- * picture is the finished diagram: every block healthy, the cache-hit line in the log, no packets.
+ * The flat architecture diagrams (FlowDiagram, NexusFlow). Glass blocks, wires with flowing dashes, and a 12 s
+ * loop of requests and replies. Like the isometric scenes, every animation waits for --ps (set while the block is
+ * on screen), stops for the Pause motion button and is removed for prefers-reduced-motion (globals.css). Without
+ * motion the picture is the finished diagram: the second half of the loop stands still, with no packets.
  */
 .root {
   position: relative;
@@ -325,5 +325,69 @@
   100% {
     offset-distance: 0%;
     opacity: 0;
+  }
+}
+
+/* A steady stream in the direction of the wire (the base .stream runs against it). */
+.streamFwd {
+  offset-rotate: 0deg;
+  offset-distance: 0;
+  opacity: 0;
+  animation: streamFwd 2.4s linear infinite;
+  animation-play-state: var(--ps, paused);
+}
+@keyframes streamFwd {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  88% {
+    opacity: 0.9;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+
+/* A pipeline stage that lights up in turn (CI/CD: build, test, deploy). */
+.stage {
+  fill: #0a1430;
+  stroke: rgba(124, 239, 255, 0.5);
+  stroke-width: 1.2;
+}
+.stageLit {
+  fill: #52d8ae;
+  opacity: 0;
+  animation: stage 3s linear infinite;
+  animation-play-state: var(--ps, paused);
+}
+@keyframes stage {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  5%,
+  30% {
+    opacity: 1;
+  }
+  36% {
+    opacity: 0;
+  }
+}
+
+/* On a project card: the full diagram from 640px up, a compact one with fewer, larger names on phones. */
+.cardMini {
+  display: none;
+}
+@media (max-width: 639px) {
+  .cardWide {
+    display: none;
+  }
+  .cardMini {
+    display: block;
   }
 }

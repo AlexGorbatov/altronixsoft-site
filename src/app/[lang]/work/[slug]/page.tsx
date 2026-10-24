@@ -71,18 +71,30 @@ function Story({ title, text }: { title: string; text: string }) {
   );
 }
 
-/** Frame colours of the layers: from cyan at the user to violet at the data, as in the diagram above. */
+/** Frame colours of the blocks, in order: from cyan to violet, as in the diagram above. */
 const LAYER_ACCENTS: FrameAccent[] = ["cyan", "cyan", "blue", "indigo", "violet", "violet"];
 
-/** The layers of the system, from the user down to the data, each in the frame of light of the project cards. */
-function Architecture({ layers, title }: { layers: NonNullable<CaseStudy["architecture"]>; title: string }) {
+interface BlockGridProps {
+  id: string;
+  title: string;
+  /** A sentence above the blocks; hidden while it is empty or an open TODO. */
+  intro?: string;
+  items: { title: string; text: string }[];
+}
+
+/**
+ * Numbered blocks, each in the frame of light of the project cards: the layers of an architecture, or the areas
+ * of the work.
+ */
+function BlockGrid({ id, title, intro, items }: BlockGridProps) {
   return (
-    <section aria-labelledby="architecture-title" className="mt-8">
-      <h2 id="architecture-title" className="text-xl font-bold tracking-[-0.03em]">
+    <section aria-labelledby={id} className="mt-8">
+      <h2 id={id} className="text-xl font-bold tracking-[-0.03em]">
         {title}
       </h2>
+      {intro && filled(intro) && <p className="mt-2 text-body leading-[1.75] text-muted">{intro}</p>}
       <ol className="mt-5 grid gap-5 sm:grid-cols-2">
-        {layers.map((layer, i) => (
+        {items.map((layer, i) => (
           <li key={layer.title}>
             <FramedCard accent={LAYER_ACCENTS[i % LAYER_ACCENTS.length]} innerClassName="relative p-5">
               {/* A soft light in the frame's colour behind the text. */}
@@ -178,8 +190,14 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
           <p className="mt-2 text-body leading-[1.75] text-muted">{study.focus}.</p>
         </section>
         <Story title={copy.casePage.challenge} text={study.challenge} />
-        <Story title={copy.casePage.whatWeDid} text={study.whatWeDid} />
-        {study.architecture && <Architecture layers={study.architecture} title={copy.casePage.architecture} />}
+        {study.workItems ? (
+          <BlockGrid id="work-title" title={copy.casePage.whatWeDid} intro={study.whatWeDid} items={study.workItems} />
+        ) : (
+          <Story title={copy.casePage.whatWeDid} text={study.whatWeDid} />
+        )}
+        {study.architecture && (
+          <BlockGrid id="architecture-title" title={copy.casePage.architecture} items={study.architecture} />
+        )}
         <Story title={copy.casePage.result} text={study.result} />
 
         <section aria-labelledby="similar-title" className="mt-12 rounded-2xl border border-line bg-[rgba(13,24,44,.6)] p-6 sm:p-8">
