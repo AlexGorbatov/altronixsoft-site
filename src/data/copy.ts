@@ -137,28 +137,28 @@ export const copy = {
     teamLabel: "Team",
     durationLabel: "Duration",
     websiteLabel: "Website",
-    diagramNote: "Diagrams are simplified and animated. For client projects, systems and names are generalized to protect confidentiality.",
+    diagramNote: "Diagrams are simplified and animated. Where a client is under NDA, names and details are generalized.",
   },
   /** The portfolio: the "Selected projects" section on the home page and the /work page. */
   portfolio: {
     home: {
       eyebrow: "Selected work",
       title: "Selected projects.",
-      description: "A selection of client systems under NDA, our own products and AI projects.",
+      description: "Systems we have designed and built, for clients and as our own projects, shown with diagrams. Client details are confidential.",
       viewAll: "View all projects",
       listLabel: "Selected projects",
     },
     page: {
       eyebrow: "Work",
       title: "Our projects.",
-      description: "Every project shows its status: under NDA, open source or in development.",
+      description: "Projects across e-commerce, logistics, AI and blockchain. Each one shows how the system is built; client details stay confidential.",
       metaTitle: "Our projects",
       metaDescription:
-        "Client systems under NDA, our own products and open-source AI work, each with its status. Client names are confidential.",
+        "Project case studies: SAP Commerce, PIM, logistics CRM, payments, AI agents and blockchain APIs. Architecture diagrams; client names generalized.",
       view: { label: "Layout", tiles: "Tiles", list: "List" },
       listLabel: "All projects",
     },
-    status: { nda: "Client · NDA", "open-source": "Open source", "in-development": "In development" },
+    status: { nda: "Client · NDA", own: "Own project", "open-source": "Open source", "in-development": "In development" },
     /** aria-label of a project link; {title} is replaced by the project's name. */
     openProject: "Open project: {title}",
     /** Same, for a link that opens another site in a new tab. */
@@ -410,6 +410,8 @@ export const copy = {
     architecture: "Architecture",
     /** The button to the live product; {site} is its domain. */
     visit: "Visit {site}",
+    /** Read out after a link that opens another site in a new tab. */
+    newTab: "(opens in a new tab)",
     similarTitle: "Working on something similar?",
     similarText: "Tell us about the system and what has to change. We start with a short technical review.",
     more: "More work",

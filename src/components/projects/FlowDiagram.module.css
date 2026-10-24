@@ -394,33 +394,33 @@
 }
 
 /*
- * On a project card: the full diagram from 640px up, a compact one with fewer, larger names on phones and in the
- * small picture of the list layout. The padding keeps the diagram clear of the card's edges, its number and its
- * status badge, also while the card's hover zooms the picture in.
+ * On a project card: the compact diagram (six blocks, short names) at every width, so its text stays readable; the
+ * full diagram, with its second lines of text, lives on the case page. The padding keeps the picture clear of the
+ * card's edges, its number and its status badge, also while the card's hover lifts it. On a wide card the picture is
+ * capped and centred, so it never grows past a comfortable size.
  */
 .cardWide,
 .cardMini {
   box-sizing: border-box;
   padding: 46px 24px 18px;
 }
-.cardMini {
+.cardWide {
   display: none;
 }
+.cardMini {
+  display: block;
+  max-width: 480px;
+  margin-inline: auto;
+}
 @media (max-width: 639px) {
-  .cardWide {
-    display: none;
-  }
   .cardMini {
-    display: block;
+    max-width: none;
     padding: 42px 14px 12px;
   }
 }
 @media (min-width: 640px) {
-  :global([data-view="list"]) .cardWide {
-    display: none;
-  }
   :global([data-view="list"]) .cardMini {
-    display: block;
+    max-width: none;
     padding: 34px 14px 10px;
   }
 }

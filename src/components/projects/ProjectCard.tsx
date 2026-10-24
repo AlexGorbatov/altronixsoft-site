@@ -14,11 +14,12 @@ import styles from "./ProjectCard.module.css";
 const STATUS_CLASS: Record<ProjectStatus, string> = {
   nda: styles.nda,
   "open-source": styles.openSource,
+  own: styles.own,
   "in-development": styles.inDevelopment,
 };
 
 /** A project's picture takes the colour of its status, like its frame. */
-const STATUS_ACCENT: Record<ProjectStatus, Accent> = { nda: "violet", "open-source": "green", "in-development": "cyan" };
+const STATUS_ACCENT: Record<ProjectStatus, Accent> = { nda: "violet", own: "cyan", "open-source": "green", "in-development": "cyan" };
 
 const MONO = "font-mono text-caption leading-[1.2] font-medium uppercase";
 

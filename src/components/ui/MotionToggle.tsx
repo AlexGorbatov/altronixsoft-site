@@ -1,30 +1,28 @@
 "use client";
 
 import { Pause, Play } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 /**
- * Pause / resume for the animations that never stop (hero canvas, technology marquee, process connectors).
- * WCAG 2.2.2. It sets `data-motion="paused"` on <html>; globals.css then pauses every animation.
- * Hidden when the visitor already asks for reduced motion, because nothing moves then.
+ * Pause / resume for the animations that never stop (hero canvas, technology marquee, process connectors, the
+ * architecture diagrams). WCAG 2.2.2. It sets `data-motion="paused"` on <html>; globals.css then pauses every
+ * animation. The state lives on <html>, so every button on the page (the technology strip and the footer) shows the
+ * same state, and the choice stays while the visitor moves between pages. Hidden when the visitor already asks for
+ * reduced motion, because nothing moves then.
  */
-export function MotionToggle({ labels }: { labels: { pause: string; play: string } }) {
-  const [paused, setPaused] = useState(false);
+function subscribe(onChange: () => void) {
+  const observer = new MutationObserver(onChange);
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-motion"] });
+  return () => observer.disconnect();
+}
+const isPaused = () => document.documentElement.dataset.motion === "paused";
 
-  // <html> survives client-side navigation but this button does not. Resume when it unmounts, so the page is
-  // never left paused without a control and the button always matches the page when it comes back.
-  useEffect(
-    () => () => {
-      delete document.documentElement.dataset.motion;
-    },
-    [],
-  );
+export function MotionToggle({ labels, className }: { labels: { pause: string; play: string }; className?: string }) {
+  const paused = useSyncExternalStore(subscribe, isPaused, () => false);
 
   function toggle() {
-    const next = !paused;
-    setPaused(next);
-    if (next) document.documentElement.dataset.motion = "paused";
-    else delete document.documentElement.dataset.motion;
+    if (paused) delete document.documentElement.dataset.motion;
+    else document.documentElement.dataset.motion = "paused";
   }
 
   const Icon = paused ? Play : Pause;
@@ -33,7 +31,8 @@ export function MotionToggle({ labels }: { labels: { pause: string; play: string
     <button
       type="button"
       onClick={toggle}
-      className="motion-toggle inline-flex min-h-11 shrink-0 items-center gap-2 rounded-lg border border-white/[.42] px-3 text-small font-semibold text-strong transition-colors hover:text-white"
+      aria-pressed={paused}
+      className={`motion-toggle inline-flex min-h-11 shrink-0 items-center gap-2 rounded-lg border border-white/[.42] px-3 text-small font-semibold text-strong transition-colors hover:text-white ${className ?? ""}`}
     >
       <Icon size={16} aria-hidden />
       {paused ? labels.play : labels.pause}
