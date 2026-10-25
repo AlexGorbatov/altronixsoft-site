@@ -109,12 +109,36 @@
 }
 .label,
 .cardTitle {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
   fill: #fff;
   font-size: 14px;
   font-weight: 600;
 }
 .cardTitle {
+  color: #fff;
   font-size: 15px;
+  line-height: 1.1;
+  text-align: center;
+}
+.cardContent {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+}
+.cardIcon {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: center;
+  width: 24px;
+  height: 24px;
+}
+.cardLine {
+  display: block;
+  white-space: nowrap;
 }
 .sub {
   fill: var(--text-muted);

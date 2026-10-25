@@ -87,6 +87,8 @@ export function LogLane({ x, y, w, lines, scale = 1 }: LanePos & { lines: [strin
 
 export interface FlowBlock {
   title: string;
+  /** Explicit lines for compact nodes; SVG text does not wrap inside its rectangle. */
+  titleLines?: string[];
   sub?: string;
   /** A central block: brighter glass and rim. */
   accent?: boolean;
@@ -244,6 +246,9 @@ export function FlowDiagram<N extends string, E extends string>({
         const tx = b.centred ? r.x + r.w / 2 : r.x + 12;
         const anchor = b.centred ? "middle" : "start";
         const ty = b.sub ? r.y + r.h / 2 - 2 : r.y + r.h / 2 + 4.5;
+        const lines = b.titleLines ?? [b.title];
+        const lineHeight = font.title * 1.15;
+        const halfLines = ((lines.length - 1) * lineHeight) / 2;
         return (
           <g key={id} className={b.muted ? styles.muted : undefined}>
             <rect className={b.accent ? styles.nodeAccent : styles.node} x={r.x} y={r.y} width={r.w} height={r.h} rx="11" />
@@ -253,10 +258,14 @@ export function FlowDiagram<N extends string, E extends string>({
                 <rect key={f.at} className={styles.flash} style={at(f.at)} x={r.x} y={r.y} width={r.w} height={r.h} rx="11" />
               ))}
             <text className={styles.title} x={tx} y={ty} textAnchor={anchor} fontSize={font.title}>
-              {b.title}
+              {b.titleLines ? lines.map((line, index) => (
+                <tspan key={index} x={tx} y={ty - halfLines + index * lineHeight}>
+                  {index > 0 ? " " : ""}{line}
+                </tspan>
+              )) : b.title}
             </text>
             {b.sub && (
-              <text className={styles.sub} x={tx} y={ty + font.sub + 5} textAnchor={anchor} fontSize={font.sub}>
+              <text className={styles.sub} x={tx} y={ty + halfLines + font.sub + 5} textAnchor={anchor} fontSize={font.sub}>
                 {b.sub}
               </text>
             )}

@@ -161,7 +161,7 @@ function miniBlocks(t: LobbyFlowLabels): Record<Block, FlowBlock> {
     steam: { title: "Steam", centred: true },
     link: { title: "Lobby9", accent: true, centred: true },
     feed: { title: t.feed, centred: true },
-    share: { title: t.share, centred: true },
+    share: { title: t.share, titleLines: t.share.split(" "), centred: true },
     fame: { title: t.fame, centred: true },
   };
 }
