@@ -25,6 +25,11 @@ export interface FlowLink {
 
 export const SEGMENT_W = 1200;
 export const FRAME_H = 560;
+/** Room for the icon and full translated labels, including the enlarged mobile text. */
+export const FLOW_CARD_WIDTH = 250;
+// Grow around the existing centre so captions keep their distance from the next column.
+const CARD_X = 336 - FLOW_CARD_WIDTH / 2;
+const CARD_RIGHT = CARD_X + FLOW_CARD_WIDTH;
 /** Seconds for the camera to pan one full segment; also the loop length of every pulse and glow. */
 export const CYCLE_S = 20;
 /** Window x (in canvas px) where a source node is when its pulse leaves. Tuned for a ~560px frame. */
@@ -46,15 +51,15 @@ const engineeringSteps = [
 
 export const flowNodes: FlowNode[] = [
   { id: "trigger", kind: "square", icon: "request", x: 68, cy: 276, label: "Business need", sub: "System input" },
-  ...ROWS.map((cy, i): FlowNode => ({ id: `agent${i}`, kind: "card", x: 270, cy, ...engineeringSteps[i] })),
+  ...ROWS.map((cy, i): FlowNode => ({ id: `agent${i}`, kind: "card", x: CARD_X, cy, ...engineeringSteps[i] })),
   ...ROWS.map((cy, i): FlowNode => ({ id: checks[i].id, kind: "square", icon: checks[i].icon, x: 500, cy, label: checks[i].label, sub: checks[i].sub })),
   { id: "rules", kind: "square", icon: "rules", x: 710, cy: 276, label: "Delivery controls", sub: "Tests and approvals" },
   { id: "action", kind: "square", icon: "action", x: 900, cy: 276, label: "Working software", sub: "Deployed and monitored" },
 ];
 
 export const flowLinks: FlowLink[] = [
-  ...ROWS.map((cy, i): FlowLink => ({ d: `M132 276 C 200 276, 200 ${cy}, 270 ${cy}`, srcX: 132, to: `agent${i}` })),
-  ...ROWS.map((cy, i): FlowLink => ({ d: `M402 ${cy} H 500`, srcX: 402, to: checks[i].id })),
+  ...ROWS.map((cy, i): FlowLink => ({ d: `M132 276 C 200 276, 200 ${cy}, ${CARD_X} ${cy}`, srcX: 132, to: `agent${i}` })),
+  ...ROWS.map((cy, i): FlowLink => ({ d: `M${CARD_RIGHT} ${cy} H 500`, srcX: CARD_RIGHT, to: checks[i].id })),
   ...ROWS.map((cy): FlowLink => ({ d: `M564 ${cy} C 640 ${cy}, 650 276, 710 276`, srcX: 564, to: "rules" })),
   { d: "M774 276 H 900", srcX: 774, to: "action" },
   { d: "M964 276 H 1200", srcX: 964, to: "trigger" },
@@ -69,5 +74,5 @@ export const pulseDelay = (srcX: number) => (((srcX - LAUNCH_X) / SPEED) % CYCLE
  * Static scene: the pulses run in sequence from the trigger to the action, then the loop restarts.
  * Index = order of the stage by its source x.
  */
-export const STATIC_STAGES: Record<number, number> = { 132: 0, 402: 1, 564: 2, 774: 3, 964: 4 };
+export const STATIC_STAGES: Record<number, number> = { 132: 0, [CARD_RIGHT]: 1, 564: 2, 774: 3, 964: 4 };
 export const STATIC_STEP_S = 1.3;

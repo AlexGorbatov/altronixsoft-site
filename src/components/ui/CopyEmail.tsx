@@ -32,7 +32,7 @@ export function CopyEmail({ email, labels, className }: CopyEmailProps) {
   }
 
   return (
-    <span className={cn("inline-flex items-center gap-1", className)}>
+    <span className={cn("inline-flex max-w-full flex-wrap items-center gap-x-1", className)}>
       <a
         href={`mailto:${email}`}
         className="inline-flex min-h-11 items-center rounded-sm font-semibold text-ink underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-cyan"
@@ -43,7 +43,7 @@ export function CopyEmail({ email, labels, className }: CopyEmailProps) {
         type="button"
         onClick={copy}
         aria-label={copied ? labels.copied : labels.copy}
-        className="grid size-11 place-items-center rounded-lg text-muted transition-colors hover:text-white"
+        className="grid size-11 shrink-0 place-items-center rounded-lg text-muted transition-colors hover:text-white"
       >
         {copied ? <Check size={16} aria-hidden className="text-success" /> : <Copy size={16} aria-hidden />}
       </button>

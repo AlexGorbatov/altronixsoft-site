@@ -75,7 +75,6 @@
 
 /* ------------------------------------------------------------------ base */
 html {
-  overflow-x: clip; /* belt and braces with body: the page never scrolls sideways */
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-h);
 }
@@ -86,8 +85,6 @@ body {
   color: var(--text-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  /* `clip` (not `hidden`) so position: sticky keeps working in the process section */
-  overflow-x: clip;
 }
 
 :focus-visible {
@@ -101,6 +98,7 @@ h1,
 h2,
 h3 {
   text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 
 ::selection {
@@ -213,14 +211,18 @@ h3 {
     align-items: center;
     justify-content: center;
     gap: 10px;
+    min-width: 0;
+    max-width: 100%;
     min-height: 48px;
-    padding: 0 22px;
+    padding: 12px 22px;
     border: 1px solid transparent;
     border-radius: 12px;
     overflow: hidden;
     font-size: 14px;
     font-weight: 700;
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: center;
     transition:
       transform 0.25s ease,
       border-color 0.25s ease,

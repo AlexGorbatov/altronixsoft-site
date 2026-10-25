@@ -28,7 +28,7 @@ export default async function PrivacyPage() {
         <Link href={localizedPath(lang, "/")} className="link-quiet">
           <span aria-hidden="true">←</span> {privacy.backHome}
         </Link>
-        <h1 className="mt-4 text-[36px] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[52px]">{privacy.title}</h1>
+        <h1 className="mt-4 text-[clamp(32px,10vw,36px)] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[52px]">{privacy.title}</h1>
         {filled(privacy.updated) && (
           <p className="mt-2 text-sm text-subtle">
             {privacy.updatedLabel}: {privacy.updated}

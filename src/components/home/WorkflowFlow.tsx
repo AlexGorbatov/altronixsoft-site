@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import { CYCLE_S, FRAME_H, PULSE_S, SEGMENT_W, STATIC_STAGES, STATIC_STEP_S, flowLinks, pulseDelay, type FlowNode } from "@/data/flow";
+import { CYCLE_S, FLOW_CARD_WIDTH, FRAME_H, PULSE_S, SEGMENT_W, STATIC_STAGES, STATIC_STEP_S, flowLinks, pulseDelay, type FlowNode } from "@/data/flow";
 import { getContent } from "@/i18n/server";
 import styles from "./WorkflowFlow.module.css";
 
@@ -81,7 +81,8 @@ function Segment({ copy, nodes }: { copy: number; nodes: FlowNode[] }) {
         </g>
       ))}
       {nodes.map((node) => {
-        const w = node.kind === "card" ? 132 : 64;
+        const w = node.kind === "card" ? FLOW_CARD_WIDTH : 64;
+        const titleLines = node.label.split(" ");
         const top = node.cy - 32;
         const cx = node.x + w / 2;
         return (
@@ -91,19 +92,27 @@ function Segment({ copy, nodes }: { copy: number; nodes: FlowNode[] }) {
             <rect x={node.x} y={top} width={w} height={64} rx={18} className={styles.glass} />
             <rect x={node.x} y={top} width={w} height={64} rx={18} className={styles.active} />
             <circle cx={cx} cy={node.cy} r={30} className={styles.ripple} />
-            <g
-              transform={`translate(${node.kind === "card" ? node.x + 14 : node.x + 20} ${node.cy - 12})`}
-              className={styles.icon}
-            >
-              {icons[node.icon]}
-            </g>
             {node.kind === "card" && (
-              <text x={node.x + 46} y={node.cy + 5} className={styles.cardTitle}>
-                {node.label}
-              </text>
+              <foreignObject x={node.x} y={top} width={w} height={64}>
+                <div className={styles.cardContent}>
+                  <svg viewBox="0 0 24 24" className={`${styles.icon} ${styles.cardIcon}`} aria-hidden="true">
+                    {icons[node.icon]}
+                  </svg>
+                  <span className={styles.cardTitle}>
+                    {titleLines.map((line, index) => (
+                      <span key={index} className={styles.cardLine}>
+                        {index > 0 ? " " : ""}{line}
+                      </span>
+                    ))}
+                  </span>
+                </div>
+              </foreignObject>
             )}
             {node.kind === "square" && (
               <>
+                <g transform={`translate(${node.x + 20} ${node.cy - 12})`} className={styles.icon}>
+                  {icons[node.icon]}
+                </g>
                 <text x={cx} y={top + 88} textAnchor="middle" className={styles.label}>
                   {node.label}
                 </text>
