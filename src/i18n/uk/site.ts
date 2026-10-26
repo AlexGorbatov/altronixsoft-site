@@ -10,7 +10,7 @@ export const hero: Part<"hero"> = {
 };
 
 export const navigation: Part<"navigation"> = [
-  { label: "Послуги" },
+  { label: "Послуги", children: [{ label: "Послуги ШІ" }] },
   { label: "Галузі" },
   { label: "Проєкти" },
   { label: "Процес" },

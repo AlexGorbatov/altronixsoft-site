@@ -124,7 +124,7 @@ function BlockGrid({ id, title, intro, items }: BlockGridProps) {
 
 function Facts({ study, copy }: { study: CaseStudy; copy: Content["copy"] }) {
   const { work } = copy;
-  const facts: [string, ReactNode][] = [[work.industryLabel, study.industry]];
+  const facts: [string, ReactNode][] = study.compactIntro ? [] : [[work.industryLabel, study.industry]];
   if (study.liveUrl && filled(study.liveUrl)) {
     facts.push([
       work.websiteLabel,
@@ -134,7 +134,7 @@ function Facts({ study, copy }: { study: CaseStudy; copy: Content["copy"] }) {
     ]);
   }
   if (filled(study.role)) facts.push([work.roleLabel, study.role]);
-  if (filled(study.context)) facts.push([work.contextLabel, study.context]);
+  if (!study.compactIntro && filled(study.context)) facts.push([work.contextLabel, study.context]);
   if (filled(study.team)) facts.push([work.teamLabel, study.team]);
   if (filled(study.duration)) facts.push([work.durationLabel, study.duration]);
 
@@ -210,7 +210,12 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
           {study.title}
         </h1>
         <p className="mt-5 text-[17px] leading-[1.75] text-muted">{study.summary}</p>
-        {filled(study.contribution) && (
+        {study.compactIntro ? (
+          <div className="mt-5">
+            {study.relationship && <p className="text-small font-medium leading-relaxed text-label">{study.relationship}</p>}
+            <p className="mt-2 text-body leading-[1.75] text-muted">{study.focus}.</p>
+          </div>
+        ) : filled(study.contribution) && (
           <section aria-labelledby="contribution-title" className="mt-6 rounded-2xl border border-line bg-white/[.02] p-5 sm:p-6">
             {study.relationship && <p className="text-small font-medium leading-relaxed text-label">{study.relationship}</p>}
             <h2 id="contribution-title" className="mt-2 text-xl font-bold tracking-[-0.03em]">{copy.casePage.contribution}</h2>
@@ -229,10 +234,10 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
 
         <Facts study={study} copy={copy} />
 
-        <section aria-label={copy.casePage.focus} className="mt-8">
+        {!study.compactIntro && <section aria-label={copy.casePage.focus} className="mt-8">
           <h2 className="text-xl font-bold tracking-[-0.03em]">{copy.casePage.focus}</h2>
           <p className="mt-2 text-body leading-[1.75] text-muted">{study.focus}.</p>
-        </section>
+        </section>}
         <Story title={copy.casePage.challenge} text={study.challenge} />
         {isAi && <Story title={copy.casePage.demonstrated} text={study.result} />}
         {study.workItems ? (

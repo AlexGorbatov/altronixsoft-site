@@ -162,14 +162,25 @@ export function Header({ lang, navigation, labels }: HeaderProps) {
       >
         <nav aria-label={labels.navMobile} className="mx-auto flex w-[min(calc(100%-32px),var(--container-max))] flex-col py-3 sm:w-[min(calc(100%-48px),var(--container-max))]">
           {navigation.map((item) => (
-            <Link
-              key={item.href}
-              href={localizedPath(lang, item.href)}
-              onClick={() => close(false)}
-              className="flex min-h-14 items-center border-b border-line text-lg font-semibold text-[#d5deea]"
-            >
-              {item.label}
-            </Link>
+            <div key={item.href}>
+              <Link
+                href={localizedPath(lang, item.href)}
+                onClick={() => close(false)}
+                className="flex min-h-14 items-center border-b border-line text-lg font-semibold text-[#d5deea]"
+              >
+                {item.label}
+              </Link>
+              {item.children?.map((child) => (
+                <Link
+                  key={child.href}
+                  href={localizedPath(lang, child.href)}
+                  onClick={() => close(false)}
+                  className="flex min-h-11 items-center border-b border-line pl-5 text-body font-medium text-label"
+                >
+                  {child.label}
+                </Link>
+              ))}
+            </div>
           ))}
           <Button href={contactHref} onClick={() => close(false)} className="mt-6 min-h-[52px] w-full">
             <CtaLabel label={labels.cta} />

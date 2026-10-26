@@ -63,7 +63,7 @@ export const LANE = { h: 34, rx: 11, font: 10.5 } as const;
 export type LanePos = { x: number; y: number; w: number };
 
 /** The log line: what the loop is doing right now, one line per half of the loop. */
-export function LogLane({ x, y, w, lines, scale = 1 }: LanePos & { lines: [string, string]; scale?: number }) {
+export function LogLane({ x, y, w, lines, scale = 1, fontSize = LANE.font }: LanePos & { lines: [string, string]; scale?: number; fontSize?: number }) {
   const h = LANE.h * scale;
   const cy = y + h / 2;
   return (
@@ -76,7 +76,7 @@ export function LogLane({ x, y, w, lines, scale = 1 }: LanePos & { lines: [strin
           className={`${styles.logText} ${i === 0 ? styles.phaseA : styles.phaseB}`}
           x={x + 26 * scale}
           y={cy + 3.5 * scale}
-          fontSize={LANE.font * scale}
+          fontSize={fontSize * scale}
         >
           {line}
         </text>
@@ -113,7 +113,7 @@ export interface FlowLayout<N extends string, E extends string> {
   panels: { rect: Rect; title: string; at: [number, number] }[];
   /** The log line: what the loop is doing right now. */
   log: LanePos;
-  font: { title: number; sub: number };
+  font: { title: number; sub: number; log?: number };
 }
 
 /** A hop of the loop: a packet runs along a wire, starting `at` seconds into the 12 s cycle (about 0.84 s). */
@@ -275,7 +275,7 @@ export function FlowDiagram<N extends string, E extends string>({
 
       {extras?.(d)}
 
-      <LogLane {...layout.log} lines={log} />
+      <LogLane {...layout.log} lines={log} fontSize={font.log} />
 
       {/* Requests (cyan) and replies (violet) travelling hop by hop. */}
       {hops.filter((hop) => drawn(hop.edge)).map((hop) => (

@@ -421,7 +421,7 @@ export const copy = {
     /** Read out after a link that opens another site in a new tab. */
     newTab: "(opens in a new tab)",
     similarTitle: "Working on something similar?",
-    similarText: "Tell us about the system and what has to change. We start with a short technical review.",
+    similarText: "Discuss the system and the outcome with an engineer. Agree the next step, scope and fee before any paid work begins.",
     more: "More work",
     relatedService: "Related service",
     /** Appended to the case title in the page title: "<title>: case study". */
@@ -435,7 +435,7 @@ export const copy = {
     optional: "(optional)",
     topic: "What do you want to discuss?",
     message: "Describe the system and the problem",
-    placeholder: "e.g. Our platform has become slow and hard to change. We want to understand why and plan the next steps.",
+    placeholder: "e.g. We want an AI assistant inside our SaaS, connected to our APIs and existing access rules. Our main constraint is…",
     honeypot: "Leave this field empty",
     consentBefore: `I understand that ${siteConfig.legalName} will use my details to reply to this inquiry, as described in the`,
     consentLink: "Privacy Policy",

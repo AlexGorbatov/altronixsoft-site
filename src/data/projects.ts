@@ -20,6 +20,8 @@ export interface CaseStudy {
   relationship?: string;
   /** The recorded level of participation; never infer an unverified personal/company history. */
   contribution?: string;
+  /** Present reference status and focus once, without the extended participation panel. */
+  compactIntro?: boolean;
   /** Search and sharing title (without the site name). Defaults to `title`. */
   metaTitle?: string;
   /** Search description, about 150–160 characters. Defaults to `summary`. */
@@ -425,6 +427,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: "ai-business-workflow-agent",
+    compactIntro: true,
     title: "AI Business Workflow Agent",
     visual: "agent",
     industry: "AI · Agents",
@@ -500,6 +503,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: "ai-document-processing",
+    compactIntro: true,
     title: "Permission-aware RAG assistant",
     visual: "documents",
     industry: "AI · Retrieval",
