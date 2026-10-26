@@ -9,6 +9,9 @@ for (const lang of locales) for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto(`/${lang}`, { waitUntil: "networkidle" });
     await ready(page);
+    await page.getByRole('link', { name: copy.ui.cta, exact: true }).first().click();
+    await expect(page.getByRole('combobox')).toHaveValue('other');
+    await page.goto(`/${lang}`, { waitUntil: 'networkidle' });
     if (width < 1024) {
       await page.getByRole('button', { name: copy.ui.menuOpen, exact: true }).click();
       const menu = page.locator('#mobile-navigation');
@@ -30,6 +33,12 @@ for (const lang of locales) for (const width of [320, 390, 768, 1440]) {
       await expect(page.getByRole('heading', { name: copy.casePage.contribution, exact: true })).toHaveCount(0);
       await expect(page.getByRole('heading', { name: copy.casePage.focus, exact: true })).toHaveCount(0);
       await expect(page.getByText(`${study.focus}.`, { exact: true })).toBeVisible();
+      const earlyContact = page.locator('main a[data-case-contact]');
+      await expect(earlyContact).toHaveCount(1);
+      const linkBox = (await earlyContact.boundingBox())!;
+      const diagramBox = (await page.locator('svg[data-flow]:visible').boundingBox())!;
+      expect(linkBox.y + linkBox.height).toBeLessThan(diagramBox.y);
+      expect(linkBox.height).toBeGreaterThanOrEqual(44);
       for (const item of study.workItems ?? []) await expect(page.getByText(item.text, { exact: true })).toBeVisible();
       const details = page.locator('details[data-case-architecture]');
       await details.locator('summary').click();
@@ -51,5 +60,9 @@ for (const lang of locales) for (const width of [320, 390, 768, 1440]) {
     await page.getByRole('link', { name: copy.pages.requestReview, exact: true }).click();
     await expect(page.getByRole('combobox')).toHaveValue('technical-review');
     await expect(page.getByRole('textbox', { name: copy.form.message, exact: true })).toHaveAttribute('placeholder', copy.form.placeholder);
+    await page.getByRole('textbox', { name: copy.form.message, exact: true }).fill('Keep this inquiry while changing the request topic.');
+    await page.getByRole('link', { name: copy.ui.cta, exact: true }).first().click();
+    await expect(page.getByRole('combobox')).toHaveValue('other');
+    await expect(page.getByRole('textbox', { name: copy.form.message, exact: true })).toHaveValue('Keep this inquiry while changing the request topic.');
   });
 }
