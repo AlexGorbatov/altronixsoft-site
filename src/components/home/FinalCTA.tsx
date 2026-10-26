@@ -12,7 +12,7 @@ export async function FinalCTA() {
   return (
     <Section id="contact" tone="alt" labelledBy="cta-title" compact>
       <AnimatedReveal>
-        <div className="relative grid items-start gap-6 overflow-hidden rounded-3xl border border-white/[.12] bg-[radial-gradient(600px_300px_at_100%_0%,rgba(139,92,246,.22),transparent_70%),linear-gradient(120deg,#0d1b35,#161838_65%,#2d1f47)] p-5 sm:gap-8 sm:p-[42px] lg:grid-cols-[.85fr_1.15fr] lg:gap-x-14 lg:p-[56px]">
+        <div className="relative grid items-start gap-6 overflow-hidden rounded-3xl border border-white/[.12] bg-[radial-gradient(600px_300px_at_100%_0%,rgba(139,92,246,.1),transparent_70%),linear-gradient(120deg,#0d1b35,#161838_65%,#211c36)] p-5 sm:gap-8 sm:p-[42px] lg:grid-cols-[.85fr_1.15fr] lg:gap-x-14 lg:p-[56px]">
           <div className="lg:col-start-1 lg:row-start-1">
             <div className="eyebrow">{section.eyebrow}</div>
             <h2 id="cta-title" className="mt-3 text-[28px] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[44px]">

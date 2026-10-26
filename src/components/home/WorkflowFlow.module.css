@@ -1,29 +1,22 @@
-/*
- * Automation canvas, panned sideways. All timing constants live in src/data/flow.ts (CYCLE_S = pan time
- * for one segment, which is also the loop length of every pulse and glow). The frame bleeds off the right
- * edge of the page and fades on its left side, so the chain starts and ends "beyond the page".
- * Layers (back to front): aura glow, drifting particles, the tilted stage with the SVG canvas.
- */
+/* Original panning hero composition and routes, with quieter colour and a slower synchronized cycle. */
 .flow {
   position: relative;
   height: 580px;
   overflow: hidden;
   width: min(calc(100% - 32px), 560px);
   margin: 40px auto 0;
-  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 20%, #000 100%);
-  mask-image: linear-gradient(to right, transparent 0, #000 20%, #000 100%);
 }
 .aura {
   position: absolute;
   inset: 8% -10% 8% 10%;
   border-radius: 50%;
   background:
-    radial-gradient(closest-side, rgba(34, 214, 244, 0.22), transparent 70%),
-    radial-gradient(closest-side at 70% 60%, rgba(139, 92, 246, 0.26), transparent 70%);
+    radial-gradient(closest-side, rgba(34, 214, 244, 0.07), transparent 70%),
+    radial-gradient(closest-side at 70% 60%, rgba(139, 92, 246, 0.09), transparent 70%);
   filter: blur(28px);
-  animation: breathe 9s ease-in-out infinite;
 }
 .particle {
+  display: none;
   position: absolute;
   border-radius: 50%;
   background: #bdeeff;
@@ -43,6 +36,7 @@
 }
 
 .halo {
+  display: none;
   fill: none;
   stroke: url(#wf-wire);
   stroke-width: 7;
@@ -52,18 +46,17 @@
 .wire {
   fill: none;
   stroke: url(#wf-wire);
-  stroke-width: 1.8;
+  stroke-width: 1.25;
 }
 /* Comet: a bright head with a soft trail, visible only during its own slot of the loop. */
 .pulse {
   fill: none;
   stroke: url(#wf-comet);
-  stroke-width: 4;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-dasharray: 14 186;
   stroke-dashoffset: 14;
   opacity: 0;
-  filter: drop-shadow(0 0 4px #7df3ff) drop-shadow(0 0 12px rgba(34, 214, 244, 0.85));
   animation: run var(--cycle) linear infinite;
   animation-delay: var(--delay);
 }
@@ -72,7 +65,7 @@
   fill: rgba(5, 8, 20, 0.9);
   transform: translateY(8px);
   filter: blur(10px);
-  opacity: 0.8;
+  opacity: 0.4;
 }
 .tile {
   fill: #0e1426;
@@ -86,11 +79,11 @@
 .active {
   fill: url(#wf-active);
   opacity: 0;
-  filter: drop-shadow(0 0 14px rgba(34, 214, 244, 0.8));
   animation: lit var(--cycle) ease-out infinite;
   animation-delay: var(--glow);
 }
 .ripple {
+  display: none;
   fill: none;
   stroke: #7df3ff;
   stroke-width: 2;
@@ -102,7 +95,7 @@
 }
 .icon {
   fill: none;
-  stroke: #bdf3ff;
+  stroke: #a2bfdc;
   stroke-width: 1.7;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -146,6 +139,7 @@
 }
 /* "Done" badge: pops in when the signal reaches the node, stays a while, then fades. */
 .badge {
+  display: none;
   opacity: 0;
   animation: badge var(--cycle) ease-out infinite;
   animation-delay: var(--glow);
@@ -274,8 +268,6 @@
   .flow:not([data-static]) {
     height: 288px;
     margin-top: 24px;
-    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 12%, #000 86%, transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0, #000 12%, #000 86%, transparent 100%);
   }
   .flow:not([data-static]) .stage {
     width: 161%; /* 100% / 0.62 */

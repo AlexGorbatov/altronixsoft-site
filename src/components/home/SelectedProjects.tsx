@@ -22,7 +22,7 @@ export async function SelectedProjects() {
       <div aria-hidden="true" className="grid-backdrop" />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-[40%] -left-[100px] h-[500px] w-[600px] bg-[radial-gradient(closest-side,rgba(139,92,246,.12),transparent)] lg:-left-[200px]"
+        className="pointer-events-none absolute top-[40%] -left-[100px] h-[500px] w-[600px] bg-[radial-gradient(closest-side,rgba(139,92,246,.06),transparent)] lg:-left-[200px]"
       />
       <Container className="relative">
         <AnimatedReveal className="mb-7 flex flex-col items-start gap-5 lg:mb-10 lg:flex-row lg:items-end lg:justify-between">
