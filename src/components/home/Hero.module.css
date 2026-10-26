@@ -10,9 +10,9 @@
   contain: paint;
   max-width: 100%;
   background:
-    radial-gradient(800px 520px at 84% 12%, rgba(143, 93, 211, 0.3), transparent 68%),
-    radial-gradient(700px 430px at 62% 78%, rgba(41, 88, 188, 0.18), transparent 70%),
-    linear-gradient(118deg, #07111f 0%, #0b1730 48%, #1b183a 70%, #34214c 100%);
+    radial-gradient(800px 520px at 84% 12%, rgba(143, 93, 211, 0.16), transparent 68%),
+    radial-gradient(700px 430px at 62% 78%, rgba(41, 88, 188, 0.1), transparent 70%),
+    linear-gradient(118deg, #07111f 0%, #0b1730 48%, #191a32 70%, #261f39 100%);
 }
 
 /* Faint engineering grid, masked toward the visual */
@@ -32,16 +32,13 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  transform: translate3d(0, var(--parallax-y, 0px), 0);
-  will-change: transform;
 }
 
 .orb {
   position: absolute;
   border-radius: 50%;
   filter: blur(30px);
-  opacity: 0.55;
-  animation: float 11s ease-in-out infinite alternate;
+  opacity: 0.28;
 }
 .orbA {
   width: 260px;
@@ -56,7 +53,6 @@
   right: -8%;
   bottom: 2%;
   background: rgba(139, 92, 246, 0.18);
-  animation-delay: -3s;
 }
 
 .grid {
@@ -86,7 +82,7 @@
 }
 /* One light sweep on load, then the gradient rests (no perpetual motion on the biggest text). */
 .title span {
-  background: var(--brand-gradient);
+  background: linear-gradient(90deg, #65bed3, #588eed 55%, #9c82d8);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -142,7 +138,7 @@
   height: 7px;
   border-radius: 50%;
   background: var(--cyan);
-  box-shadow: 0 0 12px rgba(34, 214, 244, 0.55);
+  box-shadow: none;
 }
 
 @keyframes intro {

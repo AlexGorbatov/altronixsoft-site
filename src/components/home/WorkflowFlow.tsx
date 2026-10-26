@@ -53,12 +53,12 @@ function Defs() {
         <stop offset="1" stopColor="#ffffff" stopOpacity="0.03" />
       </linearGradient>
       <linearGradient id="wf-edge" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stopColor="#22d6f4" stopOpacity="0.8" />
-        <stop offset="1" stopColor="#8b5cf6" stopOpacity="0.55" />
+        <stop offset="0" stopColor="#6e9fc7" stopOpacity="0.6" />
+        <stop offset="1" stopColor="#8b7abe" stopOpacity="0.45" />
       </linearGradient>
       <linearGradient id="wf-active" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stopColor="#22d6f4" stopOpacity="0.55" />
-        <stop offset="1" stopColor="#8b5cf6" stopOpacity="0.6" />
+        <stop offset="0" stopColor="#4d8dff" stopOpacity="0.16" />
+        <stop offset="1" stopColor="#8b5cf6" stopOpacity="0.18" />
       </linearGradient>
     </defs>
   );

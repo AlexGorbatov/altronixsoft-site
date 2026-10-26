@@ -18,7 +18,7 @@ const wires = [
 ];
 
 /**
- * The impulse. Once the diagram is on screen a pulse of light runs through it in a loop: it goes down the
+ * The impulse. Once the diagram is on screen a restrained pulse runs through it once: it goes down the
  * four items of "Your context" from the first to the last, travels along the wires to Problem, passes on to
  * Architecture, and then reaches what we deliver. Each part has its own start (seconds into the loop, CSS
  * `--t`); the loop length is `--cycle` in the stylesheet.
@@ -60,7 +60,7 @@ export function ProcessJourney({ copy, phases }: ProcessJourneyProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const userChose = useRef(false);
   const [interacted, setInteracted] = useState(false);
-  // True while the section is on screen: the impulse and the frame only move then.
+  // True while the section is on screen: the signal sequence plays only while visible.
   const [live, setLive] = useState(false);
 
   useEffect(() => {
@@ -70,17 +70,6 @@ export function ProcessJourney({ copy, phases }: ProcessJourneyProps) {
     observer.observe(section);
     return () => observer.disconnect();
   }, []);
-
-  // Every time the section comes into view, the impulse starts again from the first item, with all of its
-  // parts in step (they would drift apart if some had been running longer than others).
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!live || !section || typeof section.getAnimations !== "function") return;
-    for (const animation of section.getAnimations({ subtree: true })) {
-      const name = "animationName" in animation ? String(animation.animationName) : "";
-      if (/impulse|pulseTravel/.test(name)) animation.currentTime = 0;
-    }
-  }, [live]);
 
   useEffect(() => {
     const section = sectionRef.current;

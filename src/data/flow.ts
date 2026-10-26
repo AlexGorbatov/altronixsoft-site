@@ -31,12 +31,16 @@ export const FLOW_CARD_WIDTH = 250;
 const CARD_X = 336 - FLOW_CARD_WIDTH / 2;
 const CARD_RIGHT = CARD_X + FLOW_CARD_WIDTH;
 /** Seconds for the camera to pan one full segment; also the loop length of every pulse and glow. */
-export const CYCLE_S = 20;
+export const CYCLE_S = 28;
 /** Window x (in canvas px) where a source node is when its pulse leaves. Tuned for a ~560px frame. */
 export const LAUNCH_X = 330;
-export const PULSE_S = 1.6;
+export const PULSE_S = CYCLE_S * 0.08;
 
 const ROWS = [112, 276, 440] as const;
+// Mirror the output curve's handles across the shorter input gap without moving any nodes.
+const INPUT_GAP = CARD_X - 132;
+const INPUT_CENTER_HANDLE = 132 + INPUT_GAP * (60 / 146);
+const INPUT_ROW_HANDLE = CARD_X - INPUT_GAP * (76 / 146);
 const checks = [
   { id: "erp", icon: "data", label: "ERP and commerce", sub: "Orders and stock" },
   { id: "crm", icon: "people", label: "CRM and APIs", sub: "Customer data" },
@@ -58,7 +62,7 @@ export const flowNodes: FlowNode[] = [
 ];
 
 export const flowLinks: FlowLink[] = [
-  ...ROWS.map((cy, i): FlowLink => ({ d: `M132 276 C 200 276, 200 ${cy}, ${CARD_X} ${cy}`, srcX: 132, to: `agent${i}` })),
+  ...ROWS.map((cy, i): FlowLink => ({ d: `M132 276 C ${INPUT_CENTER_HANDLE} 276, ${INPUT_ROW_HANDLE} ${cy}, ${CARD_X} ${cy}`, srcX: 132, to: `agent${i}` })),
   ...ROWS.map((cy, i): FlowLink => ({ d: `M${CARD_RIGHT} ${cy} H 500`, srcX: CARD_RIGHT, to: checks[i].id })),
   ...ROWS.map((cy): FlowLink => ({ d: `M564 ${cy} C 640 ${cy}, 650 276, 710 276`, srcX: 564, to: "rules" })),
   { d: "M774 276 H 900", srcX: 774, to: "action" },
