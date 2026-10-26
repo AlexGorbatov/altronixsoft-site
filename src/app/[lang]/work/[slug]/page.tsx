@@ -107,7 +107,7 @@ function BlockGrid({ id, title, intro, items }: BlockGridProps) {
               {/* A soft light in the frame's colour behind the text. */}
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute -top-12 -right-12 size-40 rounded-full bg-[var(--c)] opacity-[0.13] blur-3xl"
+                className="pointer-events-none absolute -top-12 -right-12 size-40 rounded-full bg-[var(--c)] opacity-[0.06] blur-3xl"
               />
               <span className="relative font-mono text-caption font-medium tracking-[0.1em] text-[var(--c)]">
                 {String(i + 1).padStart(2, "0")}

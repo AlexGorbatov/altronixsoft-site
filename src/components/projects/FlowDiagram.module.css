@@ -1,9 +1,4 @@
-/*
- * The flat architecture diagrams (FlowDiagram, NexusFlow). Glass blocks, wires with flowing dashes, and a 12 s
- * loop of requests and replies. Like every project diagram, each animation waits for --ps (set while the block is
- * on screen), stops for the Pause motion button and is removed for prefers-reduced-motion (globals.css). Without
- * motion the picture is the finished diagram: the second half of the loop stands still, with no packets.
- */
+/* Original diagram layouts with a single request/reply demonstration. Pause/reduced-motion behavior is shared. */
 .root {
   position: relative;
   z-index: 1;
@@ -36,7 +31,7 @@
   font: 600 11px var(--font-mono);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  fill: #7f93b5;
+  fill: #98a9c4;
 }
 .panelTitle {
   font: 700 16px var(--font-sans);
@@ -50,7 +45,7 @@
 }
 .sub {
   font-family: var(--font-mono);
-  fill: #8ea4c8;
+  fill: #a7b6cf;
 }
 .warn {
   fill: #ffc06b;
@@ -69,16 +64,16 @@
 .node,
 .nodeAccent {
   fill: rgba(12, 22, 44, 0.86);
-  stroke: rgba(155, 190, 255, 0.22);
+  stroke: rgba(155, 190, 255, 0.32);
   stroke-width: 1;
 }
 .nodeAccent {
   fill: rgba(22, 30, 70, 0.9);
-  stroke: rgba(124, 239, 255, 0.45);
+  stroke: rgba(139, 169, 224, 0.5);
 }
 /* A block that is not there yet (on the roadmap): dimmed, with a dashed rim. */
 .muted {
-  opacity: 0.6;
+  opacity: 1;
 }
 .muted .node {
   stroke-dasharray: 4 3;
@@ -86,12 +81,12 @@
 
 /* A block lights up as a packet reaches it. */
 .flash {
-  fill: rgba(124, 239, 255, 0.08);
-  stroke: #7cefff;
+  fill: rgba(124, 165, 225, 0.04);
+  stroke: #91afe2;
   stroke-width: 1.4;
   opacity: 0;
-  filter: drop-shadow(0 0 6px rgba(34, 214, 244, 0.8));
-  animation: flash 12s linear infinite;
+  filter: none;
+  animation: flash 12s linear 1;
   animation-play-state: var(--ps, paused);
 }
 @keyframes flash {
@@ -127,7 +122,7 @@
   opacity: 0;
   transform-box: fill-box;
   transform-origin: center;
-  animation: ping 2.4s ease-out infinite;
+  animation: none;
   animation-play-state: var(--ps, paused);
 }
 @keyframes ping {
@@ -144,18 +139,18 @@
 /* ---------------------------------------------------------------- wires */
 .wire {
   fill: none;
-  stroke: rgba(124, 180, 255, 0.2);
+  stroke: rgba(124, 180, 255, 0.34);
   stroke-width: 1.2;
 }
 .flow,
 .flowBack {
   fill: none;
-  stroke: #5ad8ff;
-  stroke-opacity: 0.45;
-  stroke-width: 1.2;
+  stroke: #83aaf0;
+  stroke-opacity: 0.28;
+  stroke-width: 1;
   stroke-linecap: round;
   stroke-dasharray: 2 9;
-  animation: dash 1.2s linear infinite;
+  animation: dash 1.2s linear 1;
   animation-play-state: var(--ps, paused);
 }
 .flowBack {
@@ -190,7 +185,7 @@
   fill: #7cefff;
   opacity: 0;
   filter: blur(1.5px);
-  animation: sweep 6s ease-in-out infinite;
+  animation: none;
   animation-play-state: var(--ps, paused);
 }
 @keyframes sweep {
@@ -220,7 +215,7 @@
 }
 .logDot {
   fill: #52d8ae;
-  animation: blink 1.2s steps(2, jump-none) infinite;
+  animation: none;
   animation-play-state: var(--ps, paused);
 }
 @keyframes blink {
@@ -237,18 +232,18 @@
 /* Without motion, the second half is what stays on screen. */
 .phaseA {
   opacity: 0;
-  animation: phaseA 12s linear infinite;
+  animation: phaseA 12s linear 1;
   animation-play-state: var(--ps, paused);
 }
 /* Only while the second half of the loop plays; hidden when the picture stands still. */
 .phaseBLive {
   opacity: 0;
-  animation: phaseB 12s linear infinite;
+  animation: phaseB 12s linear 1;
   animation-play-state: var(--ps, paused);
 }
 .phaseB {
   opacity: 1;
-  animation: phaseB 12s linear infinite;
+  animation: phaseB 12s linear 1;
   animation-play-state: var(--ps, paused);
 }
 @keyframes phaseA {
@@ -279,14 +274,14 @@
   offset-rotate: 0deg;
   offset-distance: 0;
   opacity: 0;
-  animation: hop 12s linear infinite;
+  animation: hop 12s linear 1;
   animation-play-state: var(--ps, paused);
 }
 .hopBack {
   animation-name: hopBack;
 }
 .stream {
-  animation: stream 2.4s linear infinite;
+  animation: stream 2.4s linear 1;
   animation-play-state: var(--ps, paused);
 }
 @keyframes hop {
@@ -347,7 +342,7 @@
   offset-rotate: 0deg;
   offset-distance: 0;
   opacity: 0;
-  animation: streamFwd 2.4s linear infinite;
+  animation: streamFwd 2.4s linear 1;
   animation-play-state: var(--ps, paused);
 }
 @keyframes streamFwd {
@@ -376,7 +371,7 @@
 .stageLit {
   fill: #52d8ae;
   opacity: 0;
-  animation: stage 3s linear infinite;
+  animation: stage 3s linear 1;
   animation-play-state: var(--ps, paused);
 }
 @keyframes stage {

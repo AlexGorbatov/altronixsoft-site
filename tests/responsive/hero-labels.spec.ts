@@ -41,6 +41,7 @@ for (const locale of locales) for (const width of [320, 360, 375, 390, 414, 430,
     }));
     expect(labels.length).toBeGreaterThan(0);
     if (process.env.RESPONSIVE_SCREENSHOTS) {
+      await page.screenshot({ path: info.outputPath("hero.png"), animations: "disabled" });
       await page.locator('#hero > [aria-hidden="true"]').last().screenshot({ path: info.outputPath("hero-flow.png"), animations: "disabled" });
     }
     expect(labels.filter(label => !label.fits)).toEqual([]);
