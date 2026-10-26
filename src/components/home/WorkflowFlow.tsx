@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import { FLOW_CARD_WIDTH, STATIC_STAGES, STATIC_STEP_S, flowLinks, type FlowNode } from "@/data/flow";
+import { CYCLE_S, FLOW_CARD_WIDTH, FRAME_H, PULSE_S, SEGMENT_W, STATIC_STAGES, STATIC_STEP_S, flowLinks, pulseDelay, type FlowNode } from "@/data/flow";
 import { getContent } from "@/i18n/server";
 import styles from "./WorkflowFlow.module.css";
 
@@ -29,125 +29,168 @@ const icons: Record<FlowNode["icon"], ReactNode> = {
   ),
 };
 
-/** Each responsive SVG owns its gradients, including when its sibling is display:none. */
-function Defs({ id }: { id: string }) {
+const glowDelay = (nodeId: string) => {
+  const link = flowLinks.find((l) => l.to === nodeId);
+  return link ? (pulseDelay(link.srcX) + PULSE_S * 0.8) % CYCLE_S : 0;
+};
+
+/** Shared gradients. userSpaceOnUse so straight (zero-height) wires get a gradient too. */
+function Defs() {
   return (
     <defs>
-      <linearGradient id={`${id}-wire`} gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1060" y2="0">
-        <stop offset="0" stopColor="#4ea4cc" stopOpacity="0.6" />
+      <linearGradient id="wf-wire" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2={SEGMENT_W} y2="0">
+        <stop offset="0" stopColor="#22d6f4" stopOpacity="0.55" />
         <stop offset="0.55" stopColor="#4d8dff" stopOpacity="0.55" />
-        <stop offset="1" stopColor="#9274c4" stopOpacity="0.55" />
+        <stop offset="1" stopColor="#8b5cf6" stopOpacity="0.55" />
       </linearGradient>
-      <linearGradient id={`${id}-comet`} gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1060" y2="0">
-        <stop offset="0" stopColor="#83c5df" />
-        <stop offset="1" stopColor="#aa98d1" />
+      <linearGradient id="wf-comet" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2={SEGMENT_W} y2="0">
+        <stop offset="0" stopColor="#7df3ff" />
+        <stop offset="0.55" stopColor="#8fb8ff" />
+        <stop offset="1" stopColor="#c3a6ff" />
       </linearGradient>
-      <linearGradient id={`${id}-glass`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stopColor="#ffffff" stopOpacity="0.1" />
-        <stop offset="1" stopColor="#ffffff" stopOpacity="0.02" />
+      <linearGradient id="wf-glass" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#ffffff" stopOpacity="0.14" />
+        <stop offset="1" stopColor="#ffffff" stopOpacity="0.03" />
       </linearGradient>
-      <linearGradient id={`${id}-edge`} x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stopColor="#7195b6" stopOpacity="0.65" />
-        <stop offset="1" stopColor="#8875ba" stopOpacity="0.55" />
+      <linearGradient id="wf-edge" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stopColor="#6e9fc7" stopOpacity="0.6" />
+        <stop offset="1" stopColor="#8b7abe" stopOpacity="0.45" />
+      </linearGradient>
+      <linearGradient id="wf-active" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stopColor="#4d8dff" stopOpacity="0.16" />
+        <stop offset="1" stopColor="#8b5cf6" stopOpacity="0.18" />
       </linearGradient>
     </defs>
   );
 }
 
-const MOBILE_POSITIONS: Record<string, [number, number]> = {
-  trigger: [20, 48],
-  agent0: [36, 190], agent1: [36, 310], agent2: [36, 430],
-  erp: [330, 190], crm: [330, 310], docs: [330, 430],
-  rules: [68, 610], action: [286, 610],
-};
-
-// The same split, three parallel integrations, merge and final action, arranged vertically on phones.
-const MOBILE_PATHS = [
-  ...[190, 310, 430].map(cy => `M52 80 V94 Q52 112,34 112 Q18 112,18 130 V${cy - 18} Q18 ${cy},36 ${cy}`),
-  ...[190, 310, 430].map(cy => `M286 ${cy} H330`),
-  ...[190, 310, 430].map(cy => `M394 ${cy} H424 Q442 ${cy},442 ${cy + 18} V512 Q442 530,424 530 H52 C20 530,20 610,68 610`),
-  "M132 610 H286",
-];
-
-const splitCaption = (text: string) => {
-  const words = text.split(" ");
-  const middle = Math.ceil(words.length / 2);
-  return [words.slice(0, middle).join(" "), words.slice(middle).join(" ")];
-};
-
-function Scene({ nodes, mobile = false }: { nodes: FlowNode[]; mobile?: boolean }) {
-  const id = mobile ? "wf-tall" : "wf-wide";
-  const links = flowLinks;
+/** One repeating segment of the canvas. Rendered twice (side by side) so the pan loops seamlessly. */
+function Segment({ copy, nodes }: { copy: number; nodes: FlowNode[] }) {
   return (
-    <svg
-      className={`${styles.canvas} ${mobile ? styles.tall : styles.wide}`}
-      viewBox={mobile ? "0 0 450 710" : "0 45 1060 500"}
-      role="presentation"
-      style={{ "--wire": `url(#${id}-wire)`, "--comet": `url(#${id}-comet)`, "--glass": `url(#${id}-glass)`, "--edge": `url(#${id}-edge)` } as CSSProperties}
-    >
-      <Defs id={id} />
-      {links.map((link, i) => {
-        const d = mobile ? MOBILE_PATHS[i] : link.d;
-        return (
-          <g key={i}>
-            <path d={d} className={styles.wire} />
-            <path d={d} className={styles.pulse} pathLength={100}
-              style={{ "--sdelay": `${(STATIC_STAGES[link.srcX] ?? 0) * STATIC_STEP_S}s` } as CSSProperties} />
-          </g>
-        );
-      })}
-      {nodes.map(original => {
-        const [x, cy] = mobile ? MOBILE_POSITIONS[original.id] : [original.x, original.cy];
-        const node = { ...original, x, cy };
+    <g transform={`translate(${copy * SEGMENT_W} 0)`}>
+      {flowLinks.map((link, i) => (
+        <g key={`l${i}`}>
+          <path d={link.d} className={styles.halo} />
+          <path d={link.d} className={styles.wire} />
+          <path
+            d={link.d}
+            className={styles.pulse}
+            pathLength={100}
+            style={{ "--delay": `${pulseDelay(link.srcX)}s`, "--sdelay": `${(STATIC_STAGES[link.srcX] ?? 0) * STATIC_STEP_S}s` } as CSSProperties}
+          />
+        </g>
+      ))}
+      {nodes.map((node) => {
         const w = node.kind === "card" ? FLOW_CARD_WIDTH : 64;
-        const top = cy - 32, cx = x + w / 2;
-        const inlineCaption = mobile && node.id === "trigger";
-        const wrapCaption = !mobile && (node.id === "rules" || node.id === "action");
-        const labelLines = wrapCaption ? splitCaption(node.label) : [node.label];
-        const subLines = wrapCaption ? splitCaption(node.sub) : [node.sub];
-        const textX = inlineCaption ? 110 : cx;
-        const labelY = inlineCaption ? 45 : top + 88;
-        const subY = inlineCaption ? 67 : top + (node.kind === "card" ? 84 : mobile ? 112 : wrapCaption ? 144 : 116);
+        const titleLines = node.label.split(" ");
+        const top = node.cy - 32;
+        const cx = node.x + w / 2;
         return (
-          <g key={node.id}>
-            <rect x={x} y={top} width={w} height={64} rx={18} className={styles.tile} />
-            <rect x={x} y={top} width={w} height={64} rx={18} className={styles.glass} />
-            {node.kind === "card" ? (
-              <foreignObject x={x} y={top} width={w} height={64}>
+          <g key={node.id} className={styles.node} style={{ "--glow": `${glowDelay(node.id)}s` } as CSSProperties}>
+            <rect x={node.x} y={top} width={w} height={64} rx={18} className={styles.shadow} />
+            <rect x={node.x} y={top} width={w} height={64} rx={18} className={styles.tile} />
+            <rect x={node.x} y={top} width={w} height={64} rx={18} className={styles.glass} />
+            <rect x={node.x} y={top} width={w} height={64} rx={18} className={styles.active} />
+            <circle cx={cx} cy={node.cy} r={30} className={styles.ripple} />
+            {node.kind === "card" && (
+              <foreignObject x={node.x} y={top} width={w} height={64}>
                 <div className={styles.cardContent}>
-                  <svg viewBox="0 0 24 24" className={`${styles.icon} ${styles.cardIcon}`} aria-hidden="true">{icons[node.icon]}</svg>
+                  <svg viewBox="0 0 24 24" className={`${styles.icon} ${styles.cardIcon}`} aria-hidden="true">
+                    {icons[node.icon]}
+                  </svg>
                   <span className={styles.cardTitle}>
-                    {node.label.split(" ").map((line, index) => <span key={index} className={styles.cardLine}>{index > 0 ? " " : ""}{line}</span>)}
+                    {titleLines.map((line, index) => (
+                      <span key={index} className={styles.cardLine}>
+                        {index > 0 ? " " : ""}{line}
+                      </span>
+                    ))}
                   </span>
                 </div>
               </foreignObject>
-            ) : (
+            )}
+            {node.kind === "square" && (
               <>
-                <g transform={`translate(${x + 20} ${cy - 12})`} className={styles.icon}>{icons[node.icon]}</g>
-                <text x={textX} y={labelY} textAnchor={inlineCaption ? "start" : "middle"} className={styles.label}>
-                  {labelLines.map((line, index) => <tspan key={index} x={textX} y={labelY + index * 24}>{index > 0 ? " " : ""}{line}</tspan>)}
+                <g transform={`translate(${node.x + 20} ${node.cy - 12})`} className={styles.icon}>
+                  {icons[node.icon]}
+                </g>
+                <text x={cx} y={top + 88} textAnchor="middle" className={styles.label}>
+                  {node.label}
+                </text>
+                <text x={cx} y={top + 106} textAnchor="middle" className={styles.sub}>
+                  {node.sub}
                 </text>
               </>
             )}
-            <text x={textX} y={subY} textAnchor={inlineCaption ? "start" : "middle"} className={styles.sub}>
-              {subLines.map((line, index) => <tspan key={index} x={textX} y={subY + index * 22}>{index > 0 ? " " : ""}{line}</tspan>)}
-            </text>
+            {node.kind === "card" && (
+              <text x={cx} y={top + 84} textAnchor="middle" className={styles.sub}>
+                {node.sub}
+              </text>
+            )}
+            {/* Position and animation live on separate groups: a CSS transform would replace the SVG one. */}
+            <g transform={`translate(${node.x + w - 4} ${top + 4})`}>
+              <g className={styles.badge}>
+                <circle r={9} />
+                <path d="m-4 0.5 2.8 2.8L4.5-2.8" />
+              </g>
+            </g>
           </g>
         );
       })}
-    </svg>
+    </g>
   );
 }
 
-/** Keep every node in view. Only the connection pulses move, so labels stay readable throughout the cycle. */
-export async function WorkflowFlow() {
+/**
+ * Decorative hero visual: an automation canvas that pans sideways forever. Nodes enter from beyond the
+ * right edge, light pulses run along the curved wires, and everything leaves beyond the left edge.
+ * Pure SVG + CSS; reduced motion shows one static frame.
+ */
+const particles = Array.from({ length: 16 }, (_, i) => ({
+  left: (i * 37 + 11) % 100,
+  top: (i * 53 + 7) % 100,
+  size: 2 + (i % 3),
+  delay: (i % 8) * -1.7,
+  dur: 7 + (i % 5) * 2,
+}));
+
+/** The whole scene in one picture: trigger on the left, action on the right, nothing cropped. */
+const STATIC_VIEW = { x: 14, y: 50, w: 1022, h: 470 };
+
+export async function WorkflowFlow({ animated = false }: { animated?: boolean }) {
   const { flowNodes } = await getContent();
+  const vars = { "--cycle": `${CYCLE_S}s`, "--seg": `${SEGMENT_W}px`, "--pulse": `${PULSE_S}s` } as CSSProperties;
+
+  if (!animated) {
+    const { x, y, w, h } = STATIC_VIEW;
+    return (
+      <div className={styles.flow} data-static="" style={vars} aria-hidden="true">
+        <div className={styles.aura} />
+        <div className={styles.stage}>
+          <svg className={styles.canvas} viewBox={`${x} ${y} ${w} ${h}`} width="100%" role="presentation">
+            <Defs />
+            <Segment copy={0} nodes={flowNodes} />
+          </svg>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className={styles.flow} aria-hidden="true">
+    <div className={styles.flow} style={vars} aria-hidden="true">
       <div className={styles.aura} />
+      {particles.map((p, i) => (
+        <i
+          key={i}
+          className={styles.particle}
+          style={{ left: `${p.left}%`, top: `${p.top}%`, width: p.size, height: p.size, animationDelay: `${p.delay}s`, animationDuration: `${p.dur}s` }}
+        />
+      ))}
       <div className={styles.stage}>
-        <Scene nodes={flowNodes} />
-        <Scene nodes={flowNodes} mobile />
+        <svg className={styles.canvas} viewBox={`0 0 ${SEGMENT_W * 2} ${FRAME_H}`} width={SEGMENT_W * 2} height={FRAME_H}>
+          <Defs />
+          <Segment copy={0} nodes={flowNodes} />
+          <Segment copy={1} nodes={flowNodes} />
+        </svg>
       </div>
     </div>
   );

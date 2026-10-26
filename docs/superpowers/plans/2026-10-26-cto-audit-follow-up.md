@@ -1,5 +1,7 @@
 # CTO audit follow-up implementation plan
 
+**User correction, 26 October:** The fixed, scaled-down hero and added AI text link were rejected. Hero files are restored to `011959d`: original large panning composition, original responsive breakpoint, restrained effects and mirrored input curves. Preserve this composition; do not replace it with a full-scene miniature or a vertical mobile diagram. The other content improvements remain.
+
 > Implement inline in the current workspace; the user requested the audit fixes and confirmed that identities, demonstrations, evaluation results and commercial terms should be discussed on a client call.
 
 **Goal:** Make the existing dark site easier to evaluate for an AI integration project, without inventing proof or redesigning it.
