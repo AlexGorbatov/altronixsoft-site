@@ -47,7 +47,7 @@ const WIDE: FlowLayout<Block, Wire> = {
 /** Phones (case page): the same flow from top to bottom. */
 const TALL: FlowLayout<Block, Wire> = {
   viewBox: [360, 560],
-  font: { title: 12, sub: 9.5 },
+  font: { title: 13, sub: 10.5 },
   panels: [],
   log: { x: 12, y: 514, w: 336 },
   rects: {

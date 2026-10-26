@@ -9,7 +9,7 @@ export async function RelatedProjects({ slugs }: { slugs: readonly string[] }) {
   if (studies.length === 0) return null;
 
   return (
-    <section aria-labelledby="related-projects-title" className="mt-12">
+    <section id="related-projects" aria-labelledby="related-projects-title" className="mt-12">
       <h2 id="related-projects-title" className="text-2xl font-bold tracking-[-0.03em]">
         {copy.pages.relatedProjectsTitle}
       </h2>

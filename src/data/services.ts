@@ -17,6 +17,8 @@ export interface Service {
   problems: string[];
   deliverables: { title: string; text: string }[];
   start: string;
+  /** Optional concrete steps for agreeing a bounded first engagement. */
+  startSteps?: { title: string; text: string }[];
   /** Existing case slugs, kept identical across translations. */
   caseSlugs: string[];
   capabilities: string[];
@@ -123,7 +125,7 @@ export const services: Service[] = [
     shortTitle: "AI and automation",
     description: "AI agents, search and document automation inside your systems.",
     intro:
-      "We add AI where it solves a real business problem and connect it to your existing systems with proper controls: agents, retrieval over internal knowledge, and document and workflow automation.",
+      "AI integration for existing SaaS products and business systems: agents, knowledge search and document automation connected to your APIs, permissions and approval workflows.",
     metaDescription:
       "AI agents, retrieval over internal knowledge, document and workflow automation, connected to your systems with controls. Direct engineering ownership.",
     problems: [
@@ -145,7 +147,12 @@ export const services: Service[] = [
         text: "Representative evaluation cases, audit trails, deterministic business calculations and checks around untrusted input."
       }
     ],
-    start: "Choose a bounded workflow, representative data and a way to judge correctness. The starting review or proof of value defines access controls, approval points and failure cases before a larger implementation.",
+    start: "Start with a conversation about one workflow in your existing product. Agree the scope, fee, timeline and deliverables before any paid work begins.",
+    startSteps: [
+      { title: "Initial conversation", text: "Discuss your system, the intended outcome, relevant project experience and who would handle delivery." },
+      { title: "Scoped review or proof of value", text: "Define the APIs, representative data, access controls and acceptance checks. The agreed output is a written review or a working prototype with findings." },
+      { title: "Delivery decision", text: "Review the findings together and decide whether to proceed, adjust the scope or stop before a larger implementation." },
+    ],
     caseSlugs: [
       "ai-business-workflow-agent",
       "ai-document-processing"

@@ -19,6 +19,7 @@ export async function FinalCTA() {
               {section.title}
             </h2>
             <p className="mt-3 leading-[1.7] text-strong">{section.text}</p>
+            <p className="mt-4 text-small leading-[1.7] text-muted lg:hidden">{section.nextText}</p>
           </div>
 
           <div className="min-w-0 lg:col-start-2 lg:row-span-2 lg:row-start-1">
@@ -26,8 +27,8 @@ export async function FinalCTA() {
           </div>
 
           <div className="min-w-0 lg:col-start-1 lg:row-start-2">
-            <h3 className="text-body font-semibold">{section.nextTitle}</h3>
-            <p className="mt-2 text-small leading-[1.7] text-muted">{section.nextText}</p>
+            <h3 className="hidden text-body font-semibold lg:block">{section.nextTitle}</h3>
+            <p className="mt-2 hidden text-small leading-[1.7] text-muted lg:block">{section.nextText}</p>
             {siteConfig.bookingUrl && (
               <Button href={siteConfig.bookingUrl} variant="secondary" target="_blank" rel="noopener noreferrer" className="mt-5 w-full sm:w-auto">
                 {section.booking}

@@ -29,7 +29,7 @@ export const about = {
   operate: [
     {
       title: "Direct technical ownership.",
-      text: "You work directly with the engineer responsible for the technical scope and delivery decisions.",
+      text: "The initial conversation covers who would handle your project and the relevant engineering experience. You work directly with the engineer responsible for scope and delivery decisions.",
     },
     {
       title: "Specialists when the work needs them.",

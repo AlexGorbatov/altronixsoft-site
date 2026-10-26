@@ -67,8 +67,8 @@ export const copy = {
     eyebrow: "Contact",
     title: "Tell us what needs to change.",
     text: "Describe the system, the problem and the outcome you need.",
-    nextTitle: "What happens next",
-    nextText: "The studio reviews your context, clarifies the scope with you and agrees whether a technical review, a proof of value or a delivery project is the right next step.",
+    nextTitle: "Start with a technical conversation",
+    nextText: "On the first call, discuss your system, relevant project experience and who would handle delivery. Any paid review or proof of value is scoped and priced with you before work starts.",
     orEmail: "Or email",
     booking: "Book a call",
   },
@@ -86,6 +86,7 @@ export const copy = {
     deliverables: "What can be delivered",
     relatedProjectsTitle: "Related engineering experience",
     howToStart: "How to start",
+    exploreAiCases: "Explore the AI reference projects",
     otherServices: "Other services",
     relatedServices: "Related services",
     requestReview: "Request a technical review",
@@ -413,6 +414,8 @@ export const copy = {
     whatWeDid: "Engineering approach",
     result: "Result",
     architecture: "Architecture",
+    architectureDetails: "Architecture and implementation details",
+    demonstrated: "Demonstrated behaviour",
     /** The button to the live product; {site} is its domain. */
     visit: "Visit {site}",
     /** Read out after a link that opens another site in a new tab. */

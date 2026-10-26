@@ -1,127 +1,43 @@
-/*
- * Automation canvas, panned sideways. All timing constants live in src/data/flow.ts (CYCLE_S = pan time
- * for one segment, which is also the loop length of every pulse and glow). The frame bleeds off the right
- * edge of the page and fades on its left side, so the chain starts and ends "beyond the page".
- * Layers (back to front): aura glow, drifting particles, the tilted stage with the SVG canvas.
- */
+/* A fixed, complete diagram: motion belongs to the connections, never the labels. */
 .flow {
   position: relative;
-  height: 580px;
-  overflow: hidden;
-  width: min(calc(100% - 32px), 560px);
+  width: min(calc(100% - 32px), 800px);
   margin: 40px auto 0;
-  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 20%, #000 100%);
-  mask-image: linear-gradient(to right, transparent 0, #000 20%, #000 100%);
 }
 .aura {
   position: absolute;
-  inset: 8% -10% 8% 10%;
+  inset: 8% 2%;
   border-radius: 50%;
-  background:
-    radial-gradient(closest-side, rgba(34, 214, 244, 0.22), transparent 70%),
-    radial-gradient(closest-side at 70% 60%, rgba(139, 92, 246, 0.26), transparent 70%);
+  background: radial-gradient(closest-side, rgba(64, 109, 171, .1), transparent 75%);
   filter: blur(28px);
-  animation: breathe 9s ease-in-out infinite;
+  pointer-events: none;
 }
-.particle {
-  position: absolute;
-  border-radius: 50%;
-  background: #bdeeff;
-  box-shadow: 0 0 8px rgba(34, 214, 244, 0.9);
-  opacity: 0;
-  animation: drift 10s ease-in-out infinite;
-}
-/* Flat on purpose: any 3D tilt skews the tiles and slants the wires. */
-.stage {
-  position: absolute;
-  inset: 0;
-}
-.canvas {
-  display: block;
-  max-width: none;
-  animation: pan var(--cycle) linear infinite;
-}
-
-.halo {
-  fill: none;
-  stroke: url(#wf-wire);
-  stroke-width: 7;
-  opacity: 0.18;
-  filter: blur(3px);
-}
-.wire {
-  fill: none;
-  stroke: url(#wf-wire);
-  stroke-width: 1.8;
-}
-/* Comet: a bright head with a soft trail, visible only during its own slot of the loop. */
+.stage { position: relative; }
+.canvas { display: block; width: 100%; height: auto; overflow: visible; }
+.tall { display: none; }
+.wire { fill: none; stroke: var(--wire); stroke-width: 1.25; }
 .pulse {
   fill: none;
-  stroke: url(#wf-comet);
-  stroke-width: 4;
+  stroke: var(--comet);
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-dasharray: 14 186;
   stroke-dashoffset: 14;
   opacity: 0;
-  filter: drop-shadow(0 0 4px #7df3ff) drop-shadow(0 0 12px rgba(34, 214, 244, 0.85));
-  animation: run var(--cycle) linear infinite;
-  animation-delay: var(--delay);
+  animation: run 7s linear infinite;
+  animation-delay: var(--sdelay);
 }
-
-.shadow {
-  fill: rgba(5, 8, 20, 0.9);
-  transform: translateY(8px);
-  filter: blur(10px);
-  opacity: 0.8;
-}
-.tile {
-  fill: #0e1426;
-  stroke: url(#wf-edge);
-  stroke-width: 1.3;
-}
-.glass {
-  fill: url(#wf-glass);
-}
-/* Lit state: gradient wash + bloom, only during the node's slot. */
-.active {
-  fill: url(#wf-active);
-  opacity: 0;
-  filter: drop-shadow(0 0 14px rgba(34, 214, 244, 0.8));
-  animation: lit var(--cycle) ease-out infinite;
-  animation-delay: var(--glow);
-}
-.ripple {
-  fill: none;
-  stroke: #7df3ff;
-  stroke-width: 2;
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: ripple var(--cycle) ease-out infinite;
-  animation-delay: var(--glow);
-}
+.tile { fill: #0e1426; stroke: var(--edge); stroke-width: 1.3; }
+.glass { fill: var(--glass); }
 .icon {
   fill: none;
-  stroke: #bdf3ff;
+  stroke: #a2bfdc;
   stroke-width: 1.7;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.label,
-.cardTitle {
-  grid-column: 2;
-  grid-row: 1;
-  justify-self: center;
-  fill: #fff;
-  font-size: 14px;
-  font-weight: 600;
-}
-.cardTitle {
-  color: #fff;
-  font-size: 15px;
-  line-height: 1.1;
-  text-align: center;
-}
+.label { fill: #f0f4fc; font-size: 21px; font-weight: 600; }
+.sub { fill: var(--text-secondary); font-size: 19px; }
 .cardContent {
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr) 44px;
@@ -129,258 +45,32 @@
   height: 100%;
   align-items: center;
 }
-.cardIcon {
-  grid-column: 1;
+.cardIcon { grid-column: 1; grid-row: 1; justify-self: center; width: 24px; height: 24px; }
+.cardTitle {
+  grid-column: 2;
   grid-row: 1;
   justify-self: center;
-  width: 24px;
-  height: 24px;
-}
-.cardLine {
-  display: block;
-  white-space: nowrap;
-}
-.sub {
-  fill: var(--text-muted);
-  font-size: 12px;
-}
-/* "Done" badge: pops in when the signal reaches the node, stays a while, then fades. */
-.badge {
-  opacity: 0;
-  animation: badge var(--cycle) ease-out infinite;
-  animation-delay: var(--glow);
-}
-.badge circle {
-  fill: #22d6f4;
-  filter: drop-shadow(0 0 6px rgba(34, 214, 244, 0.9));
-}
-.badge path {
-  fill: none;
-  stroke: #04121f;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-@keyframes pan {
-  to {
-    transform: translateX(calc(var(--seg) * -1));
-  }
-}
-@keyframes run {
-  0% {
-    stroke-dashoffset: 14;
-    opacity: 1;
-  }
-  8% {
-    stroke-dashoffset: -100;
-    opacity: 1;
-  }
-  8.1%,
-  100% {
-    stroke-dashoffset: -100;
-    opacity: 0;
-  }
-}
-@keyframes lit {
-  0% {
-    opacity: 0;
-  }
-  3%,
-  9% {
-    opacity: 1;
-  }
-  18%,
-  100% {
-    opacity: 0;
-  }
-}
-@keyframes ripple {
-  0% {
-    opacity: 0.9;
-    transform: scale(0.9);
-  }
-  14%,
-  100% {
-    opacity: 0;
-    transform: scale(1.7);
-  }
-}
-@keyframes badge {
-  0% {
-    opacity: 0;
-    transform: scale(0.4);
-  }
-  3% {
-    opacity: 1;
-    transform: scale(1.25);
-  }
-  5%,
-  38% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  48%,
-  100% {
-    opacity: 0;
-  }
-}
-@keyframes breathe {
-  50% {
-    opacity: 0.65;
-    transform: scale(1.06);
-  }
-}
-@keyframes drift {
-  0%,
-  100% {
-    opacity: 0;
-    transform: translateY(0);
-  }
-  40%,
-  60% {
-    opacity: 0.8;
-    transform: translateY(-26px);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .canvas,
-  .pulse,
-  .active,
-  .ripple,
-  .badge,
-  .aura,
-  .particle {
-    animation: none !important;
-  }
-  .pulse,
-  .ripple,
-  .particle {
-    display: none;
-  }
-}
-
-/* Captions in the panning scene sit on the lighter aura, so they use the secondary text tier. */
-.flow:not([data-static]) .sub {
-  fill: var(--text-secondary);
-}
-
-/* Phones (animated scene): scale the canvas down (0.62) so more of the chain is in view at once (about 550
-   canvas px: trigger through the checks, with rules and action arriving as it pans), trim the dead space
-   around it, and fade both edges so cropped captions dissolve instead of being cut. The SVG text is enlarged by
-   the inverse of the scale so captions still render at 12px or more. */
-@media (max-width: 767px) {
-  .flow:not([data-static]) {
-    height: 288px;
-    margin-top: 24px;
-    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 12%, #000 86%, transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0, #000 12%, #000 86%, transparent 100%);
-  }
-  .flow:not([data-static]) .stage {
-    width: 161%; /* 100% / 0.62 */
-    height: 580px;
-    transform: translateY(-44px) scale(0.62);
-    transform-origin: 0 0;
-  }
-  .flow:not([data-static]) .label {
-    font-size: 19px;
-  }
-  .flow:not([data-static]) .cardTitle {
-    font-size: 20px;
-  }
-  .flow:not([data-static]) .sub {
-    font-size: 19px;
-    /* The label/sub baselines are 18px apart in the SVG, too tight for the larger text. */
-    transform: translateY(7px);
-  }
-}
-
-/* Desktop: the canvas fills the right of the hero and runs off the page's right edge. */
-@media (min-width: 1024px) {
-  .flow:not([data-static]) {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    width: min(48vw, 800px);
-    margin: 0;
-    transform: translateY(-50%);
-  }
-}
-
-/* Static scene (data-static): the canvas does not move; only the light pulses run, one stage after another. */
-.flow[data-static] {
-  height: auto;
-  width: auto;
-  position: relative;
-  overflow: visible;
-  -webkit-mask-image: none;
-  mask-image: none;
-}
-.flow[data-static] .stage {
-  position: relative;
-  inset: auto;
-  transform: none;
-}
-.flow[data-static] .canvas {
-  animation: none;
-  width: 100%;
-  height: auto;
-}
-.flow[data-static] .label,
-.flow[data-static] .cardTitle {
+  color: #fff;
   font-size: 21px;
+  font-weight: 600;
+  line-height: 1.1;
+  text-align: center;
 }
-.flow[data-static] .sub {
-  font-size: 18px;
+.cardLine { display: block; white-space: nowrap; }
+@keyframes run {
+  0% { stroke-dashoffset: 14; opacity: 1; }
+  18% { stroke-dashoffset: -100; opacity: 1; }
+  18.1%, 100% { stroke-dashoffset: -100; opacity: 0; }
 }
-.flow[data-static] .ripple,
-.flow[data-static] .active,
-.flow[data-static] .badge,
-.flow[data-static] .particle {
-  display: none;
+@media (min-width: 1440px) {
+  .flow { position: absolute; top: 50%; right: 0; width: min(48vw, 800px); margin: 0; transform: translateY(-50%); }
 }
-.flow[data-static] .pulse {
-  animation: runStatic 7s linear infinite;
-  animation-delay: var(--sdelay);
+@media (max-width: 639px) {
+  .flow { width: min(calc(100% - 32px), 450px); margin-top: 28px; }
+  .wide { display: none; }
+  .tall { display: block; }
+  .label { font-size: 16px; }
+  .sub { font-size: 15px; }
+  .cardTitle { font-size: 20px; }
 }
-@keyframes runStatic {
-  0% {
-    stroke-dashoffset: 14;
-    opacity: 1;
-  }
-  18% {
-    stroke-dashoffset: -100;
-    opacity: 1;
-  }
-  18.1%,
-  100% {
-    stroke-dashoffset: -100;
-    opacity: 0;
-  }
-}
-
-/* Phones: the picture is small, so the captions under the tiles go; icons and wires carry it. The canvas is
-   slightly wider than its box so the tiles stay as large as possible. */
-@media (max-width: 767px) {
-  .flow[data-static] {
-    overflow: hidden;
-  }
-  .flow[data-static] .label,
-  .flow[data-static] .sub {
-    display: none;
-  }
-  .flow[data-static] .cardTitle {
-    font-size: 23px;
-  }
-  .flow[data-static] .canvas {
-    width: 106%;
-    max-width: none;
-    margin: 0 0 -3% -3%;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .flow[data-static] .pulse {
-    display: none;
-  }
-}
+@media (prefers-reduced-motion: reduce) { .pulse { display: none; animation: none; } }

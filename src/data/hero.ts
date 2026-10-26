@@ -5,5 +5,6 @@ export const hero = {
   lead: "We build, integrate and modernize complex software, from custom platforms and Java/Spring services to SAP Commerce and AI integration.",
   /** The second paragraph of the lead. */
   leadMore: "Work directly with the engineers responsible for delivery, with specialists brought in to fit the project.",
+  aiLink: "Adding AI to an existing product? Explore AI integration",
   facts: ["Direct technical ownership", "Teams shaped around the work"],
 };

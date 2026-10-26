@@ -55,6 +55,12 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
         <div className="eyebrow mt-4">{pages.serviceNumber.replace("{number}", service.number)}</div>
         <h1 className="mt-3 text-[36px] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[52px]">{service.title}</h1>
         <p className="mt-6 text-[17px] leading-[1.75] text-muted">{service.intro}</p>
+        {service.id === "ai" && (
+          <div className="actions mt-6">
+            <Button href={localizedPath(lang, contactHref(service.cta.type))}>{service.cta.label} →</Button>
+            <Link href="#related-projects" className="link-quiet">{pages.exploreAiCases} <span aria-hidden="true">↓</span></Link>
+          </div>
+        )}
 
         <section aria-labelledby="problems-title" className="mt-10">
           <h2 id="problems-title" className="text-2xl font-bold tracking-[-0.03em]">{pages.whenToContact}</h2>
@@ -99,6 +105,19 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
             </Link>
             .
           </p>
+          {service.startSteps && (
+            <ol className="mt-5 grid gap-4 border-t border-line pt-5">
+              {service.startSteps.map((step, index) => (
+                <li key={step.title} className="flex gap-3">
+                  <span className="pt-0.5 font-mono text-caption text-label">{String(index + 1).padStart(2, "0")}</span>
+                  <div>
+                    <h3 className="text-body font-semibold">{step.title}</h3>
+                    <p className="mt-1 text-small leading-[1.7] text-muted">{step.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          )}
           <div className="actions mt-6">
             <Button href={localizedPath(lang, contactHref(service.cta.type))}>{service.cta.label} →</Button>
             <Button href={localizedPath(lang, contactHref("technical-review"))} variant="secondary">

@@ -463,7 +463,7 @@ export const caseStudies: CaseStudy[] = [
       },
     ],
     result:
-      "In the demo a request becomes a priced, audited quote in seconds, and every risky case waits for a person. Fifteen sample emails run end to end, and 40 labelled eval cases score intent, fields, routing and injection recall.",
+      "In the demo, a request becomes a priced, audited quote. Quotes that trigger policy rules or injection checks are held for human approval. The sample suite contains fifteen end-to-end emails and 40 labelled evaluation cases covering intent, extracted fields, routing and injection recall.",
     stack: ["Java 25", "Spring Boot 4", "Spring AI", "MCP", "PostgreSQL", "Keycloak", "Next.js"],
     duration: "TODO(owner): duration, e.g. N months",
     role: "",
@@ -565,7 +565,7 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         title: "PostgreSQL and pgvector",
-        text: "Documents, access lists and embeddings live in one database, so they can never drift apart.",
+        text: "Documents, access lists and embeddings are stored in PostgreSQL to simplify consistency management.",
       },
       {
         title: "Model provider",

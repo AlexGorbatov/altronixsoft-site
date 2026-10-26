@@ -8,7 +8,7 @@ for (const locale of locales) for (const width of [320, 360, 375, 390, 414, 430,
     await page.goto(`/${locale}`, { waitUntil: "networkidle" });
     await ready(page);
     // Compare content with its own frame; the shared pan does not affect relative alignment.
-    const labels = await page.locator('#hero [class*="cardTitle"]').evaluateAll(elements => elements.map(element => {
+    const labels = await page.locator('#hero [class*="cardTitle"]:visible').evaluateAll(elements => elements.map(element => {
       const group = element.closest("foreignObject")?.parentElement ?? element.parentElement!;
       const tile = group.querySelector('rect[class*="tile"]')!;
       const icon = group.querySelector('foreignObject svg,g[class*="icon"]')!;

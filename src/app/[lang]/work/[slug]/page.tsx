@@ -170,6 +170,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
   warnIfIncomplete([study]);
 
   const others = caseStudies.filter((item) => item.slug !== study.slug);
+  const isAi = study.relatedService === "ai";
 
   const path = `/work/${study.slug}`;
   const graph = [
@@ -233,15 +234,25 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
           <p className="mt-2 text-body leading-[1.75] text-muted">{study.focus}.</p>
         </section>
         <Story title={copy.casePage.challenge} text={study.challenge} />
+        {isAi && <Story title={copy.casePage.demonstrated} text={study.result} />}
         {study.workItems ? (
           <BlockGrid id="work-title" title={copy.casePage.whatWeDid} intro={study.whatWeDid} items={study.workItems} />
         ) : (
           <Story title={copy.casePage.whatWeDid} text={study.whatWeDid} />
         )}
-        {study.architecture && (
+        {study.architecture && (isAi ? (
+          <details data-case-architecture className="mt-8 rounded-2xl border border-line bg-white/[.02] p-5 sm:p-6">
+            <summary className="cursor-pointer py-2 text-body font-semibold text-strong marker:text-label">
+              {copy.casePage.architectureDetails}
+            </summary>
+            <BlockGrid id="architecture-title" title={copy.casePage.architecture} items={study.architecture} />
+          </details>
+        ) : (
           <BlockGrid id="architecture-title" title={copy.casePage.architecture} items={study.architecture} />
+        ))}
+        {!isAi && (
+          <Story title={copy.casePage.result} text={study.result} />
         )}
-        <Story title={copy.casePage.result} text={study.result} />
 
         {related && (
           <p className="mt-10 text-body text-muted">

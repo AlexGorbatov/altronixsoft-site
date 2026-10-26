@@ -1,4 +1,5 @@
 import { CONTACT_HREF } from "@/data/site";
+import Link from "next/link";
 import { localizedPath } from "@/i18n/config";
 import { getContent } from "@/i18n/server";
 import { Button } from "@/components/ui/Button";
@@ -27,6 +28,9 @@ export async function Hero() {
             <p className={styles.lead}>{hero.lead}</p>
             <p className={styles.lead}>{hero.leadMore}</p>
           </div>
+          <Link href={localizedPath(lang, "/services/ai")} className="mb-6 inline-flex min-h-11 max-w-[52ch] items-center gap-2 text-small leading-relaxed text-label underline decoration-white/20 underline-offset-4 hover:text-white">
+            {hero.aiLink} <span aria-hidden="true">→</span>
+          </Link>
           <div className={styles.actions}>
             <Button href={localizedPath(lang, CONTACT_HREF)}>
               <CtaLabel label={copy.ui.cta} />
@@ -45,7 +49,7 @@ export async function Hero() {
           </ul>
         </div>
       </Container>
-      <WorkflowFlow animated />
+      <WorkflowFlow />
     </section>
   );
 }
