@@ -6,7 +6,7 @@ import { localizedPath } from "@/i18n/config";
 import { getContent } from "@/i18n/server";
 import { Labs } from "./Labs";
 
-/** The home page's featured portfolio, in the order of `projects` (AI work first). */
+/** The home page's featured portfolio, in the order of `projects` (commercial work first). */
 export async function SelectedProjects() {
   const { lang, copy, projects } = await getContent();
   const { home } = copy.portfolio;

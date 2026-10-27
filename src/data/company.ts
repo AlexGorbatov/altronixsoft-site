@@ -28,8 +28,8 @@ export const about = {
   operateTitle: "How we operate",
   operate: [
     {
-      title: "Direct technical ownership.",
-      text: "The initial conversation covers who would handle your project and the relevant engineering experience. You work directly with the engineer responsible for scope and delivery decisions.",
+      title: "Defined roles.",
+      text: "After the scoping call, a project lead manages delivery and engineers handle the technical work. You always know who to ask.",
     },
     {
       title: "Specialists when the work needs them.",

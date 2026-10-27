@@ -37,7 +37,7 @@ export const privacy = {
       id: "data",
       title: "What data we collect",
       body: ["Only what you send us through the contact form or by email:"],
-      bullets: ["Your name and email address", "Your company (optional)", "The type of request and your message"],
+      bullets: ["Your name and email address", "Your company (optional)", "Your budget range and timeline (optional)", "The type of request and your message"],
     },
     {
       id: "technical",

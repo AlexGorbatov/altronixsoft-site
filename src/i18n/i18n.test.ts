@@ -55,7 +55,7 @@ describe("overlay", () => {
 
 /** Strings that are the same in every language on purpose: names, technologies, terms of art, units. */
 const SAME_EVERYWHERE = new Set([
-  "Java", "Spring", "Azure", "AWS", "PostgreSQL", "Docker", "Kubernetes", "Enterprise APIs", "SAP Commerce Cloud",
+  "Java", "Spring", "Azure", "AWS", "PostgreSQL", "Docker", "Kubernetes", "Enterprise APIs", "SAP Commerce", "SAP Commerce Cloud",
   "SAP Commerce Cloud (Hybris)", "Altronix Labs", "RAG", "PIM", "API", "APIs", "Repository", "Stack", "Team",
   "ERP · PIM", "Cloud", "Proof of Value", "Proof of value", "Data Hub", "CI/CD", "OCC", "Solr", "Spartacus", "SAP Hybris 2011", "SAP Commerce (Hybris) 2011", "Java 11",
   "Migration", "Hybris", "Nexus", "Lobby9", "Stripe", "Kafka", "PostgreSQL", "OpenAPI", "CRM", "Amazon S3", "MySQL",
@@ -109,6 +109,15 @@ describe.each(locales.filter((code): code is Exclude<Locale, "en"> => code !== "
     expect(other.requestTypes.map((r) => r.value)).toEqual(en.requestTypes.map((r) => r.value));
     expect(other.sapCommerce.path).toBe(en.sapCommerce.path);
     expect(other.sapCommerce.caseSlugs).toEqual(en.sapCommerce.caseSlugs);
+  });
+
+  it("gives every portfolio tile the title of its own case study", () => {
+    // The overlay merges tiles by position, so a translation listed in another order puts names on the wrong tiles.
+    const other = contentFor(locale);
+    for (const project of other.projects) {
+      const study = other.caseStudies.find((c) => c.slug === project.slug);
+      if (study) expect(project.title).toBe(study.title);
+    }
   });
 
   it("keeps the placeholders that are still open hidden", () => {

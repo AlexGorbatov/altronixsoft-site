@@ -1,7 +1,9 @@
 import { z } from "zod";
-import { requestTypes } from "@/data/contact";
+import { budgetRanges, requestTypes, timelines } from "@/data/contact";
 
 const typeValues = requestTypes.map((type) => type.value) as [string, ...string[]];
+const budgetValues = budgetRanges.map((option) => option.value) as [string, ...string[]];
+const timelineValues = timelines.map((option) => option.value) as [string, ...string[]];
 
 /** Shared by the form (client-side hints) and the route handler (the real check). */
 export const contactSchema = z.object({
@@ -9,6 +11,8 @@ export const contactSchema = z.object({
   email: z.string().trim().max(200, "email_too_long").pipe(z.email("email_invalid")),
   company: z.string().trim().max(160, "company_too_long").optional().default(""),
   type: z.enum(typeValues, "type_invalid"),
+  budget: z.enum(budgetValues, "budget_invalid").optional().default(""),
+  timeline: z.enum(timelineValues, "timeline_invalid").optional().default(""),
   message: z
     .string()
     .trim()
@@ -22,7 +26,7 @@ export const contactSchema = z.object({
 
 export type ContactInput = z.infer<typeof contactSchema>;
 
-export type ContactField = "name" | "email" | "company" | "type" | "message" | "consent";
+export type ContactField = "name" | "email" | "company" | "type" | "budget" | "timeline" | "message" | "consent";
 
 /** Flatten zod issues into one message per field. */
 export function fieldErrors(error: z.ZodError): Partial<Record<ContactField, string>> {

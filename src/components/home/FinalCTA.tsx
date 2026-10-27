@@ -7,7 +7,7 @@ import { CopyEmail } from "@/components/ui/CopyEmail";
 import { Section } from "@/components/ui/Section";
 
 export async function FinalCTA() {
-  const { lang, copy, requestTypes } = await getContent();
+  const { lang, copy, requestTypes, budgetRanges, timelines } = await getContent();
   const section = copy.contactSection;
   return (
     <Section id="contact" tone="alt" labelledBy="cta-title" compact>
@@ -23,7 +23,7 @@ export async function FinalCTA() {
           </div>
 
           <div className="min-w-0 lg:col-start-2 lg:row-span-2 lg:row-start-1">
-            <ContactForm lang={lang} form={copy.form} requestTypes={requestTypes} />
+            <ContactForm lang={lang} form={copy.form} requestTypes={requestTypes} budgetRanges={budgetRanges} timelines={timelines} />
           </div>
 
           <div className="min-w-0 lg:col-start-1 lg:row-start-2">

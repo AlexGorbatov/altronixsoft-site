@@ -7,7 +7,7 @@ export const siteConfig = {
   tagline: "Complex problems. Clear solutions.",
   title: "AI integration, Java/Spring and SAP Commerce | AltronixSoft",
   description:
-    "Independent software engineering studio for custom software, Java/Spring, integrations, modernization, SAP Commerce and AI. Direct technical ownership.",
+    "Independent software engineering studio for custom software, Java/Spring, integrations, modernization, SAP Commerce and AI. Senior engineering, managed delivery.",
   // Canonical placeholder — replace once the production domain is confirmed.
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://altronixsoft.com",
   email: "info@altronixsoft.com",

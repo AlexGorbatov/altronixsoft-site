@@ -8,7 +8,7 @@ export interface NavItem {
 export const navigation: NavItem[] = [
   { label: "Services", href: "/#services" },
   { label: "AI integration", href: "/services/ai" },
-  { label: "Industries", href: "/#industries" },
+  { label: "SAP Commerce", href: "/services/sap-commerce" },
   { label: "Work", href: "/work" },
   { label: "Process", href: "/#approach" },
   { label: "About", href: "/#about" },

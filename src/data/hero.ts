@@ -4,6 +4,6 @@ export const hero = {
   title: ["Complex problems.", "Clear solutions."] as [string, string],
   lead: "We build, integrate and modernize complex software, from custom platforms and Java/Spring services to SAP Commerce and AI integration.",
   /** The second paragraph of the lead. */
-  leadMore: "Work directly with the engineers responsible for delivery, with specialists brought in to fit the project.",
-  facts: ["Direct technical ownership", "Teams shaped around the work"],
+  leadMore: "Each project starts with a scoping call, followed by a project lead and an engineering team.",
+  facts: ["Scoping call first", "Project lead and engineering team"],
 };

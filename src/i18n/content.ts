@@ -1,6 +1,6 @@
 import { checkup } from "@/data/checkup";
 import { about } from "@/data/company";
-import { requestTypes } from "@/data/contact";
+import { budgetRanges, requestTypes, timelines } from "@/data/contact";
 import { copy } from "@/data/copy";
 import { engagementModels } from "@/data/engagement";
 import { flowNodes } from "@/data/flow";
@@ -38,6 +38,8 @@ const en = {
   trust,
   privacy,
   requestTypes,
+  budgetRanges,
+  timelines,
   flowNodes,
   site: { title: siteConfig.title, description: siteConfig.description, tagline: siteConfig.tagline },
 };

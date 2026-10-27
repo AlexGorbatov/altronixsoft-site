@@ -709,11 +709,24 @@ export interface Project {
 const [hybris, pim, logistics, nexus, lobby9, agent, rag, payments] = caseStudies;
 
 /**
- * The portfolio, in display order. The first eight projects take their text from the case studies above, so
+ * The portfolio, in display order: commercial work first, then the AI reference projects, partner projects last. The first eight projects take their text from the case studies above, so
  * a case and its tile never say different things. Everything marked `TODO(owner)` is a draft or a missing
  * link: a tile without a real link is shown without a way through, only with its status.
  */
 export const projects: Project[] = [
+  {
+    slug: hybris.slug,
+    title: hybris.title,
+    category: hybris.industry,
+    summary: hybris.summary,
+    kind: "client",
+    status: "nda",
+    visual: "shop",
+    href: `/work/${hybris.slug}`,
+    isExternal: false,
+    stack: hybris.stack,
+    featured: true,
+  },
   {
     slug: agent.slug,
     title: agent.title,
@@ -741,44 +754,6 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    slug: hybris.slug,
-    title: hybris.title,
-    category: hybris.industry,
-    summary: hybris.summary,
-    kind: "client",
-    status: "nda",
-    visual: "shop",
-    href: `/work/${hybris.slug}`,
-    isExternal: false,
-    stack: hybris.stack,
-    featured: true,
-  },
-  {
-    slug: nexus.slug,
-    title: nexus.title,
-    category: nexus.industry,
-    summary: nexus.summary,
-    kind: "client",
-    status: "partner",
-    visual: "chain",
-    href: `/work/${nexus.slug}`,
-    isExternal: false,
-    stack: nexus.stack,
-    featured: true,
-  },
-  {
-    slug: lobby9.slug,
-    title: lobby9.title,
-    category: lobby9.industry,
-    summary: lobby9.summary,
-    kind: "client",
-    status: "partner",
-    visual: "lobby",
-    href: `/work/${lobby9.slug}`,
-    isExternal: false,
-    stack: lobby9.stack,
-  },
-  {
     slug: pim.slug,
     title: pim.title,
     category: pim.industry,
@@ -789,6 +764,7 @@ export const projects: Project[] = [
     href: `/work/${pim.slug}`,
     isExternal: false,
     stack: pim.stack,
+    featured: true,
   },
   {
     slug: logistics.slug,
@@ -813,6 +789,30 @@ export const projects: Project[] = [
     href: `/work/${payments.slug}`,
     isExternal: false,
     stack: payments.stack,
+  },
+  {
+    slug: nexus.slug,
+    title: nexus.title,
+    category: nexus.industry,
+    summary: nexus.summary,
+    kind: "client",
+    status: "partner",
+    visual: "chain",
+    href: `/work/${nexus.slug}`,
+    isExternal: false,
+    stack: nexus.stack,
+  },
+  {
+    slug: lobby9.slug,
+    title: lobby9.title,
+    category: lobby9.industry,
+    summary: lobby9.summary,
+    kind: "client",
+    status: "partner",
+    visual: "lobby",
+    href: `/work/${lobby9.slug}`,
+    isExternal: false,
+    stack: lobby9.stack,
   },
 ];
 

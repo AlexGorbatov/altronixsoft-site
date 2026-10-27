@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { requestTypeLabel } from "@/data/contact";
+import { budgetRanges, optionLabel, requestTypeLabel, timelines } from "@/data/contact";
 import { siteConfig, type RequestType } from "@/data/site";
 import { contactSchema, fieldErrors, type ContactInput } from "@/lib/contact-schema";
 
@@ -117,6 +117,8 @@ function buildMessage(input: ContactInput) {
       `Name: ${oneLine(input.name)}`,
       `Email: ${input.email}`,
       `Company: ${input.company ? oneLine(input.company) : "—"}`,
+      `Budget: ${optionLabel(budgetRanges, input.budget)}`,
+      `Timeline: ${optionLabel(timelines, input.timeline)}`,
       "",
       input.message,
     ].join("\n"),

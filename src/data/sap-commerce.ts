@@ -63,8 +63,8 @@ export const sapCommerce = {
   ],
   relevant: ["Java", "Spring", "SAP Commerce Cloud (Hybris)", "Enterprise APIs", "PIM", "Cloud"],
   start: [
-    { title: "Architecture check-up", text: "A call to look at your platform and decide what makes sense next." },
-    { title: "Technical review", text: "A short review of your code, architecture and integrations, with a written report." },
-    { title: "Delivery", text: "A defined scope and a project team shaped around the required skills, with direct technical ownership." },
+    { title: "Scoping call", text: "A call to understand your platform and agree the next step." },
+    { title: "Technical review", text: "A paid review of your code, architecture and integrations, with a written report." },
+    { title: "Delivery", text: "A defined scope with a project lead and an engineering team chosen for the required skills." },
   ],
 };

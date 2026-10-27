@@ -14,7 +14,7 @@ type Status = "idle" | "submitting" | "success" | "error" | "unavailable";
 type FieldErrors = Partial<Record<ContactField, string>>;
 
 /** Visual order of the fields, used to find the first one with an error. */
-const FIELD_ORDER: ContactField[] = ["name", "email", "company", "type", "message", "consent"];
+const FIELD_ORDER: ContactField[] = ["name", "email", "company", "type", "budget", "timeline", "message", "consent"];
 
 function Field({
   id,
@@ -51,9 +51,11 @@ interface ContactFormProps {
   lang: Locale;
   form: Content["copy"]["form"];
   requestTypes: Content["requestTypes"];
+  budgetRanges: Content["budgetRanges"];
+  timelines: Content["timelines"];
 }
 
-function ContactFormView({ lang, form, requestTypes }: ContactFormProps) {
+function ContactFormView({ lang, form, requestTypes, budgetRanges, timelines }: ContactFormProps) {
   const uid = useId();
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -86,6 +88,8 @@ function ContactFormView({ lang, form, requestTypes }: ContactFormProps) {
       email: String(data.get("email") ?? ""),
       company: String(data.get("company") ?? ""),
       type: String(data.get("type") ?? ""),
+      budget: String(data.get("budget") ?? ""),
+      timeline: String(data.get("timeline") ?? ""),
       message: String(data.get("message") ?? ""),
       consent: data.get("consent") === "on",
       website: String(data.get("website") ?? ""),
@@ -194,6 +198,39 @@ function ContactFormView({ lang, form, requestTypes }: ContactFormProps) {
               className="field appearance-none pr-10"
             >
               {requestTypes.map((option) => (
+                <option key={option.value} value={option.value} className="bg-[#0b1426]">
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <ChevronDown
+              aria-hidden="true"
+              className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-label"
+            />
+          </div>
+        </Field>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Field optionalLabel={form.optional} id={id("budget")} label={form.budget} error={errors.budget} optional>
+          <div className="relative">
+            <select {...fieldProps("budget")} name="budget" defaultValue="" className="field appearance-none pr-10">
+              {budgetRanges.map((option) => (
+                <option key={option.value} value={option.value} className="bg-[#0b1426]">
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <ChevronDown
+              aria-hidden="true"
+              className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-label"
+            />
+          </div>
+        </Field>
+        <Field optionalLabel={form.optional} id={id("timeline")} label={form.timeline} error={errors.timeline} optional>
+          <div className="relative">
+            <select {...fieldProps("timeline")} name="timeline" defaultValue="" className="field appearance-none pr-10">
+              {timelines.map((option) => (
                 <option key={option.value} value={option.value} className="bg-[#0b1426]">
                   {option.label}
                 </option>

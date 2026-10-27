@@ -36,6 +36,14 @@ describe("contactSchema", () => {
     }
   });
 
+  it("accepts the optional budget and timeline and rejects unknown values", () => {
+    const parsed = contactSchema.parse(valid);
+    expect(parsed.budget).toBe("");
+    expect(parsed.timeline).toBe("");
+    expect(contactSchema.safeParse({ ...valid, budget: "30k-60k", timeline: "within-month" }).success).toBe(true);
+    expect(contactSchema.safeParse({ ...valid, budget: "1m" }).success).toBe(false);
+  });
+
   it("requires consent", () => {
     expect(contactSchema.safeParse({ ...valid, consent: false }).success).toBe(false);
   });

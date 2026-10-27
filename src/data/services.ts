@@ -35,7 +35,7 @@ export const services: Service[] = [
     intro:
       "We design and build custom software around your business processes, from the first MVP to production: web applications, internal platforms, APIs and integrations.",
     metaDescription:
-      "Custom software built around your business processes, from MVP to production: web apps, internal platforms, APIs and integrations. Direct engineering ownership.",
+      "Custom software built around your business processes, from MVP to production: web apps, internal platforms, APIs and integrations. Senior engineering, managed delivery.",
     problems: [
       "A product or internal workflow needs a purpose-built application, backend or API.",
       "Business data is split between tools that need to work together.",
@@ -55,7 +55,7 @@ export const services: Service[] = [
         text: "Connections to existing systems, automated tests, deployment workflows and documentation for handover."
       }
     ],
-    start: "Start with the business workflow, current systems and success criteria. A check-up or scoped technical review identifies the smallest useful release, integration boundaries and the next delivery step.",
+    start: "Start with the business workflow, current systems and success criteria. A scoping call and, where needed, a paid technical review identify the smallest useful release, integration boundaries and the next delivery step.",
     caseSlugs: [
       "lobby9",
       "nexus",
@@ -82,7 +82,7 @@ export const services: Service[] = [
     intro:
       "We improve the systems that already run your business, without unnecessary rewrites: Java / Spring modernization, SAP Commerce Cloud development and support, cloud migration and enterprise integrations.",
     metaDescription:
-      "Modernize existing systems without full rewrites: Java/Spring, SAP Commerce Cloud support, cloud migration, integrations. Direct engineering ownership.",
+      "Modernize existing systems without full rewrites: Java/Spring, SAP Commerce Cloud support, cloud migration, integrations. Senior engineering, managed delivery.",
     problems: [
       "Changes are slow because dependencies, application boundaries or integrations are difficult to maintain.",
       "A Java/Spring or SAP Commerce system needs to evolve without replacing everything at once.",
@@ -127,7 +127,7 @@ export const services: Service[] = [
     intro:
       "AI integration for existing SaaS products and business systems: agents, knowledge search and document automation connected to your APIs, permissions and approval workflows.",
     metaDescription:
-      "AI agents, retrieval over internal knowledge, document and workflow automation, connected to your systems with controls. Direct engineering ownership.",
+      "AI agents, retrieval over internal knowledge, document and workflow automation, connected to your systems with controls. Senior engineering, managed delivery.",
     problems: [
       "Employees need answers from internal documents without widening their access to information.",
       "A repeated email or document workflow needs extraction, validation and a controlled next action.",
@@ -149,7 +149,7 @@ export const services: Service[] = [
     ],
     start: "Start with a conversation about one workflow in your existing product. Scope, fee, timeline and deliverables are agreed before any paid work begins. Where the system runs and which model provider it uses follow your data and compliance requirements.",
     startSteps: [
-      { title: "Initial conversation", text: "We discuss your system, the intended outcome, our relevant project experience and who would handle delivery." },
+      { title: "Initial conversation", text: "We discuss your system, the intended outcome and how the project would be staffed." },
       { title: "Scoped review or proof of value", text: "Define the APIs, representative data, access controls and acceptance checks. The agreed output is a written review or a working prototype with findings." },
       { title: "Delivery decision", text: "Review the findings together and decide whether to proceed, adjust the scope or stop before a larger implementation." },
     ],

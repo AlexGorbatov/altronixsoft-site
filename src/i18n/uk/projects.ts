@@ -396,14 +396,15 @@ export const caseStudies: Part<"caseStudies"> = [
 
 /** The portfolio tiles, in the order of the English source. Tiles 1–8 are the case studies above. */
 export const projects: Part<"projects"> = [
+  // Same order as src/data/projects.ts: the overlay merges the tiles by position.
   { title: hybris.title, category: hybris.industry, summary: hybris.summary },
-  { title: pim.title, category: pim.industry, summary: pim.summary },
-  { title: logistics.title, category: logistics.industry, summary: logistics.summary },
-  { title: nexus.title, category: nexus.industry, summary: nexus.summary },
-  { title: lobby9.title, category: lobby9.industry, summary: lobby9.summary },
   { title: agent.title, category: agent.industry, summary: agent.summary },
   { title: rag.title, category: rag.industry, summary: rag.summary },
+  { title: pim.title, category: pim.industry, summary: pim.summary },
+  { title: logistics.title, category: logistics.industry, summary: logistics.summary },
   { title: payments.title, category: payments.industry, summary: payments.summary },
+  { title: nexus.title, category: nexus.industry, summary: nexus.summary },
+  { title: lobby9.title, category: lobby9.industry, summary: lobby9.summary },
 ];
 
 export const labs: Part<"labs"> = {
@@ -464,16 +465,16 @@ export const sapCommerce: Part<"sapCommerce"> = {
   ],
   start: [
     {
-      title: "Архітектурний чекап",
-      text: "Розмова про вашу платформу, щоб вирішити, що має сенс робити далі.",
+      title: "Розмова про обсяг робіт",
+      text: "Розмова, щоб зрозуміти вашу платформу й узгодити наступний крок.",
     },
     {
       title: "Технічний огляд",
-      text: "Короткий огляд вашого коду, архітектури та інтеграцій із письмовим звітом.",
+      text: "Платний огляд вашого коду, архітектури та інтеграцій із письмовим звітом.",
     },
     {
       title: "Реалізація",
-      text: "Узгоджений обсяг і проєктна команда під потрібні компетенції, з безпосередньою технічною відповідальністю.",
+      text: "Узгоджений обсяг, керівник проєкту та команда інженерів під потрібні компетенції.",
     },
   ],
 };

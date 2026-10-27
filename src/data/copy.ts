@@ -10,8 +10,8 @@ import { siteConfig } from "@/data/site";
 export const copy = {
   /** One wording for how engagements start; reused by the contact block, service pages and the SAP page. */
   shared: {
-    typicalStart: "Typical start: an architecture check-up, then a technical review.",
-    startParagraph: "Most engagements begin with an architecture check-up and a short technical review, before a larger scope.",
+    typicalStart: "Typical start: a scoping call, then a technical review.",
+    startParagraph: "Most engagements begin with a scoping call and a paid technical review, before a larger scope.",
     allFormsLink: "See all engagement formats",
   },
   /** Next to the contact form: what makes a first message easy to answer. */
@@ -70,8 +70,8 @@ export const copy = {
     eyebrow: "Contact",
     title: "Tell us what needs to change.",
     text: "Describe the system, the problem and the outcome you need.",
-    nextTitle: "Start with a technical conversation",
-    nextText: "On the first call we cover your system, our relevant project experience and who would handle delivery. Any paid review or proof of value is scoped and priced with you before work starts.",
+    nextTitle: "Start with a scoping call",
+    nextText: "The first call covers your system, the outcome you need and how the project would be staffed. A technical review or proof of value is paid work, scoped and priced with you before it starts. We reply within one business day.",
     orEmail: "Or email",
     booking: "Book a call",
   },
@@ -129,7 +129,7 @@ export const copy = {
     rowLabel: "Services",
     capabilitiesLabel: "Capabilities",
     detailsLink: "Service details",
-    sapCta: "Request a check-up",
+    sapCta: "Book a scoping call",
     sapLink: "SAP services",
     aiCases: {
       eyebrow: "AI use cases",
@@ -433,7 +433,7 @@ export const copy = {
     /** Read out after a link that opens another site in a new tab. */
     newTab: "(opens in a new tab)",
     similarTitle: "Working on something similar?",
-    similarText: "Discuss the system and the outcome with an engineer and agree the next step.",
+    similarText: "Discuss the system and the outcome you need and agree the next step.",
     more: "More work",
     relatedService: "Related service",
     /** Appended to the case title in the page title: "<title>: case study". */
@@ -446,6 +446,8 @@ export const copy = {
     company: "Company",
     optional: "(optional)",
     topic: "What do you want to discuss?",
+    budget: "Budget",
+    timeline: "Timeline",
     message: "Describe the system and the problem",
     placeholder: "e.g. We want an AI assistant inside our SaaS, connected to our APIs and existing access rules. Our main constraint is…",
     honeypot: "Leave this field empty",
@@ -471,6 +473,8 @@ export const copy = {
       email_too_long: "That email is too long.",
       company_too_long: "That company name is too long.",
       type_invalid: "Please choose what you want to discuss.",
+      budget_invalid: "Please choose a budget range from the list.",
+      timeline_invalid: "Please choose a timeline from the list.",
       message_too_short: "Please tell us a little more (at least 10 characters).",
       message_too_long: "The message is too long (4000 characters maximum).",
       consent_required: "Please tick the box to confirm you understand how we use your details.",
