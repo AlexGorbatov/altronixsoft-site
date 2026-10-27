@@ -385,3 +385,19 @@
     display: none;
   }
 }
+
+/* Caption over the wire from production back to the next business need. The static scene is one pass of the
+   chain, not a loop, so it has no caption there. */
+.loop {
+  fill: var(--text-secondary);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+@media (max-width: 767px) {
+  .flow:not([data-static]) .loop {
+    font-size: 17px;
+  }
+}
+.flow[data-static] .loop {
+  display: none;
+}

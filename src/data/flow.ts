@@ -1,7 +1,8 @@
 /**
  * Hero background: an automation canvas that pans sideways. One segment (SEGMENT_W wide) is a trigger that
  * fans out to three parallel checks, merges into a rules step and ends in an action, then the next segment
- * begins. Generic and illustrative only: no client names, no real data.
+ * begins. Nodes name the kinds of systems the studio works on; no client names, no real data. A short
+ * "next iteration" wire closes the loop from production back to the next business need.
  */
 export type NodeKind = "square" | "card";
 
@@ -23,7 +24,7 @@ export interface FlowLink {
   to: string;
 }
 
-export const SEGMENT_W = 1200;
+export const SEGMENT_W = 1120;
 export const FRAME_H = 560;
 /** Room for the icon and full translated labels, including the enlarged mobile text. */
 export const FLOW_CARD_WIDTH = 250;
@@ -31,7 +32,7 @@ export const FLOW_CARD_WIDTH = 250;
 const CARD_X = 336 - FLOW_CARD_WIDTH / 2;
 const CARD_RIGHT = CARD_X + FLOW_CARD_WIDTH;
 /** Seconds for the camera to pan one full segment; also the loop length of every pulse and glow. */
-export const CYCLE_S = 28;
+export const CYCLE_S = 26;
 /** Window x (in canvas px) where a source node is when its pulse leaves. Tuned for a ~560px frame. */
 export const LAUNCH_X = 330;
 export const PULSE_S = CYCLE_S * 0.08;
@@ -42,23 +43,23 @@ const INPUT_GAP = CARD_X - 132;
 const INPUT_CENTER_HANDLE = 132 + INPUT_GAP * (60 / 146);
 const INPUT_ROW_HANDLE = CARD_X - INPUT_GAP * (76 / 146);
 const checks = [
-  { id: "erp", icon: "data", label: "ERP and commerce", sub: "Orders and stock" },
-  { id: "crm", icon: "people", label: "CRM and APIs", sub: "Customer data" },
-  { id: "docs", icon: "docs", label: "Data and documents", sub: "Knowledge and policies" },
+  { id: "erp", icon: "data", label: "SAP Commerce", sub: "Orders and catalog" },
+  { id: "crm", icon: "people", label: "ERP and CRM", sub: "Customers and stock" },
+  { id: "docs", icon: "docs", label: "Documents", sub: "Knowledge and policies" },
 ] as const;
 
 const engineeringSteps = [
-  { icon: "action", label: "Custom software", sub: "Business logic" },
-  { icon: "data", label: "Integrations", sub: "APIs and data" },
-  { icon: "rules", label: "Automation", sub: "Rules and AI" },
+  { icon: "action", label: "Custom software", sub: "Java and Spring" },
+  { icon: "data", label: "Integrations", sub: "REST, SOAP, events" },
+  { icon: "rules", label: "AI automation", sub: "Agents and RAG" },
 ] as const;
 
 export const flowNodes: FlowNode[] = [
-  { id: "trigger", kind: "square", icon: "request", x: 68, cy: 276, label: "Business need", sub: "System input" },
+  { id: "trigger", kind: "square", icon: "request", x: 68, cy: 276, label: "Business need", sub: "Goal and constraints" },
   ...ROWS.map((cy, i): FlowNode => ({ id: `agent${i}`, kind: "card", x: CARD_X, cy, ...engineeringSteps[i] })),
   ...ROWS.map((cy, i): FlowNode => ({ id: checks[i].id, kind: "square", icon: checks[i].icon, x: 500, cy, label: checks[i].label, sub: checks[i].sub })),
-  { id: "rules", kind: "square", icon: "rules", x: 710, cy: 276, label: "Delivery controls", sub: "Tests and approvals" },
-  { id: "action", kind: "square", icon: "action", x: 900, cy: 276, label: "Working software", sub: "Deployed and monitored" },
+  { id: "rules", kind: "square", icon: "rules", x: 710, cy: 276, label: "CI/CD", sub: "Tests and reviews" },
+  { id: "action", kind: "square", icon: "action", x: 900, cy: 276, label: "Production", sub: "Live and monitored" },
 ];
 
 export const flowLinks: FlowLink[] = [
@@ -66,9 +67,14 @@ export const flowLinks: FlowLink[] = [
   ...ROWS.map((cy, i): FlowLink => ({ d: `M${CARD_RIGHT} ${cy} H 500`, srcX: CARD_RIGHT, to: checks[i].id })),
   ...ROWS.map((cy): FlowLink => ({ d: `M564 ${cy} C 640 ${cy}, 650 276, 710 276`, srcX: 564, to: "rules" })),
   { d: "M774 276 H 900", srcX: 774, to: "action" },
-  { d: "M964 276 H 1200", srcX: 964, to: "trigger" },
+  { d: `M964 276 H ${SEGMENT_W}`, srcX: 964, to: "trigger" },
   { d: "M0 276 H 68", srcX: 0, to: "trigger" },
 ];
+
+/** The caption over the wire from production back to the next business need, centred in its gap. */
+export const flowLoop = { label: "Next iteration" };
+export const LOOP_LABEL_X = (964 + SEGMENT_W) / 2;
+export const LOOP_LABEL_Y = 262;
 
 const SPEED = SEGMENT_W / CYCLE_S;
 /** Delay (s) at which a pulse leaving `srcX` should start so it runs while that node is inside the frame. */

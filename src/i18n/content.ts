@@ -3,7 +3,7 @@ import { about } from "@/data/company";
 import { budgetRanges, requestTypes, timelines } from "@/data/contact";
 import { copy } from "@/data/copy";
 import { engagementModels } from "@/data/engagement";
-import { flowNodes } from "@/data/flow";
+import { flowLoop, flowNodes } from "@/data/flow";
 import { hero } from "@/data/hero";
 import { industries } from "@/data/industries";
 import { navigation } from "@/data/navigation";
@@ -41,6 +41,7 @@ const en = {
   budgetRanges,
   timelines,
   flowNodes,
+  flowLoop,
   site: { title: siteConfig.title, description: siteConfig.description, tagline: siteConfig.tagline },
 };
 

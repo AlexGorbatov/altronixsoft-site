@@ -1,7 +1,7 @@
 import type { Translation } from "../content";
 import { caseStudies, labs, projects, sapCommerce } from "./projects";
 import { privacy, trust } from "./legal";
-import { aiUseCases, about, budgetRanges, checkup, engagementModels, flowNodes, hero, industries, navigation, processPhases, requestTypes, services, site, timelines } from "./site";
+import { aiUseCases, about, budgetRanges, checkup, engagementModels, flowLoop, flowNodes, hero, industries, navigation, processPhases, requestTypes, services, site, timelines } from "./site";
 import { copy } from "./ui";
 
 export const uk: Translation = {
@@ -25,5 +25,6 @@ export const uk: Translation = {
   budgetRanges,
   timelines,
   flowNodes,
+  flowLoop,
   site,
 };

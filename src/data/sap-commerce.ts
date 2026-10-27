@@ -61,7 +61,7 @@ export const sapCommerce = {
     { label: "Certifications", value: "TODO(owner): SAP certifications held by the team, if any" },
     { label: "Typical engagement", value: "TODO(owner): e.g. team size and duration of a typical SAP Commerce project" },
   ],
-  relevant: ["Java", "Spring", "SAP Commerce Cloud (Hybris)", "Enterprise APIs", "PIM", "Cloud"],
+  relevant: ["Java", "Spring", "SAP Commerce Cloud (Hybris)", "Backoffice", "ImpEx", "Data Hub", "Solr Search", "Enterprise APIs", "PIM", "Cloud"],
   start: [
     { title: "Scoping call", text: "A call to understand your platform and agree the next step." },
     { title: "Technical review", text: "A paid review of your code, architecture and integrations, with a written report." },

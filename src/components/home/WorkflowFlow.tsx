@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import { CYCLE_S, FLOW_CARD_WIDTH, FRAME_H, PULSE_S, SEGMENT_W, STATIC_STAGES, STATIC_STEP_S, flowLinks, pulseDelay, type FlowNode } from "@/data/flow";
+import { CYCLE_S, FLOW_CARD_WIDTH, FRAME_H, LOOP_LABEL_X, LOOP_LABEL_Y, PULSE_S, SEGMENT_W, STATIC_STAGES, STATIC_STEP_S, flowLinks, pulseDelay, type FlowNode } from "@/data/flow";
 import { getContent } from "@/i18n/server";
 import styles from "./WorkflowFlow.module.css";
 
@@ -65,7 +65,7 @@ function Defs() {
 }
 
 /** One repeating segment of the canvas. Rendered twice (side by side) so the pan loops seamlessly. */
-function Segment({ copy, nodes }: { copy: number; nodes: FlowNode[] }) {
+function Segment({ copy, nodes, loopLabel }: { copy: number; nodes: FlowNode[]; loopLabel: string }) {
   return (
     <g transform={`translate(${copy * SEGMENT_W} 0)`}>
       {flowLinks.map((link, i) => (
@@ -80,6 +80,9 @@ function Segment({ copy, nodes }: { copy: number; nodes: FlowNode[] }) {
           />
         </g>
       ))}
+      <text x={LOOP_LABEL_X} y={LOOP_LABEL_Y} textAnchor="middle" className={styles.loop}>
+        {loopLabel}
+      </text>
       {nodes.map((node) => {
         const w = node.kind === "card" ? FLOW_CARD_WIDTH : 64;
         const titleLines = node.label.split(" ");
@@ -157,7 +160,7 @@ const particles = Array.from({ length: 16 }, (_, i) => ({
 const STATIC_VIEW = { x: 14, y: 50, w: 1022, h: 470 };
 
 export async function WorkflowFlow({ animated = false }: { animated?: boolean }) {
-  const { flowNodes } = await getContent();
+  const { flowNodes, flowLoop } = await getContent();
   const vars = { "--cycle": `${CYCLE_S}s`, "--seg": `${SEGMENT_W}px`, "--pulse": `${PULSE_S}s` } as CSSProperties;
 
   if (!animated) {
@@ -168,7 +171,7 @@ export async function WorkflowFlow({ animated = false }: { animated?: boolean })
         <div className={styles.stage}>
           <svg className={styles.canvas} viewBox={`${x} ${y} ${w} ${h}`} width="100%" role="presentation">
             <Defs />
-            <Segment copy={0} nodes={flowNodes} />
+            <Segment copy={0} nodes={flowNodes} loopLabel={flowLoop.label} />
           </svg>
         </div>
       </div>
@@ -188,8 +191,8 @@ export async function WorkflowFlow({ animated = false }: { animated?: boolean })
       <div className={styles.stage}>
         <svg className={styles.canvas} viewBox={`0 0 ${SEGMENT_W * 2} ${FRAME_H}`} width={SEGMENT_W * 2} height={FRAME_H}>
           <Defs />
-          <Segment copy={0} nodes={flowNodes} />
-          <Segment copy={1} nodes={flowNodes} />
+          <Segment copy={0} nodes={flowNodes} loopLabel={flowLoop.label} />
+          <Segment copy={1} nodes={flowNodes} loopLabel={flowLoop.label} />
         </svg>
       </div>
     </div>
