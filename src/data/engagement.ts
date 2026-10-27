@@ -20,7 +20,7 @@ export const engagementModels: EngagementModel[] = [
   {
     id: "review",
     title: "Technical review",
-    description: "A paid review of one workflow, its code and integrations. Scope, fee and timeline are agreed after an initial conversation.",
+    description: "A paid review of one workflow, its code and integrations, scoped after an initial conversation.",
     outcome: "Clear findings, a written report and a walkthrough call.",
     priceFrom: "TODO(owner): price, e.g. from €X",
     duration: "TODO(owner): duration, e.g. N working days",

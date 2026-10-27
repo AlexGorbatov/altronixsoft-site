@@ -147,7 +147,7 @@ export const services: Service[] = [
         text: "Representative evaluation cases, audit trails, deterministic business calculations and checks around untrusted input."
       }
     ],
-    start: "Start with a conversation about one workflow in your existing product. Agree the scope, fee, timeline and deliverables before any paid work begins.",
+    start: "Start with a conversation about one workflow in your existing product. Scope, fee, timeline and deliverables are agreed before any paid work begins. Where the system runs and which model provider it uses follow your data and compliance requirements.",
     startSteps: [
       { title: "Initial conversation", text: "Discuss your system, the intended outcome, relevant project experience and who would handle delivery." },
       { title: "Scoped review or proof of value", text: "Define the APIs, representative data, access controls and acceptance checks. The agreed output is a written review or a working prototype with findings." },

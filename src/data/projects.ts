@@ -44,6 +44,8 @@ export interface CaseStudy {
   architecture?: { title: string; text: string }[];
   /** The public product, when there is one: linked from the case page. */
   liveUrl?: string;
+  /** The public source code, when the project is open for inspection: linked from the case page. */
+  repoUrl?: string;
 }
 
 /**
@@ -427,6 +429,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: "ai-business-workflow-agent",
+    repoUrl: "https://github.com/AlexGorbatov/ai-workflow-agent",
     compactIntro: true,
     title: "AI Business Workflow Agent",
     visual: "agent",
@@ -503,6 +506,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: "ai-document-processing",
+    repoUrl: "https://github.com/AlexGorbatov/secure-rag-java",
     compactIntro: true,
     title: "Permission-aware RAG assistant",
     visual: "documents",
@@ -693,6 +697,32 @@ const [hybris, pim, logistics, nexus, lobby9, agent, rag, payments] = caseStudie
  */
 export const projects: Project[] = [
   {
+    slug: agent.slug,
+    title: agent.title,
+    category: agent.industry,
+    summary: agent.summary,
+    kind: "ai",
+    status: "own",
+    visual: "agent",
+    href: `/work/${agent.slug}`,
+    isExternal: false,
+    stack: agent.stack,
+    featured: true,
+  },
+  {
+    slug: rag.slug,
+    title: rag.title,
+    category: rag.industry,
+    summary: rag.summary,
+    kind: "ai",
+    status: "own",
+    visual: "documents",
+    href: `/work/${rag.slug}`,
+    isExternal: false,
+    stack: rag.stack,
+    featured: true,
+  },
+  {
     slug: hybris.slug,
     title: hybris.title,
     category: hybris.industry,
@@ -704,30 +734,6 @@ export const projects: Project[] = [
     isExternal: false,
     stack: hybris.stack,
     featured: true,
-  },
-  {
-    slug: pim.slug,
-    title: pim.title,
-    category: pim.industry,
-    summary: pim.summary,
-    kind: "product",
-    status: "own",
-    visual: "pim",
-    href: `/work/${pim.slug}`,
-    isExternal: false,
-    stack: pim.stack,
-  },
-  {
-    slug: logistics.slug,
-    title: logistics.title,
-    category: logistics.industry,
-    summary: logistics.summary,
-    kind: "product",
-    status: "own",
-    visual: "logistics",
-    href: `/work/${logistics.slug}`,
-    isExternal: false,
-    stack: logistics.stack,
   },
   {
     slug: nexus.slug,
@@ -753,32 +759,30 @@ export const projects: Project[] = [
     href: `/work/${lobby9.slug}`,
     isExternal: false,
     stack: lobby9.stack,
-    featured: true,
   },
   {
-    slug: agent.slug,
-    title: agent.title,
-    category: agent.industry,
-    summary: agent.summary,
-    kind: "ai",
+    slug: pim.slug,
+    title: pim.title,
+    category: pim.industry,
+    summary: pim.summary,
+    kind: "product",
     status: "own",
-    visual: "agent",
-    href: `/work/${agent.slug}`,
+    visual: "pim",
+    href: `/work/${pim.slug}`,
     isExternal: false,
-    stack: agent.stack,
-    featured: true,
+    stack: pim.stack,
   },
   {
-    slug: rag.slug,
-    title: rag.title,
-    category: rag.industry,
-    summary: rag.summary,
-    kind: "ai",
+    slug: logistics.slug,
+    title: logistics.title,
+    category: logistics.industry,
+    summary: logistics.summary,
+    kind: "product",
     status: "own",
-    visual: "documents",
-    href: `/work/${rag.slug}`,
+    visual: "logistics",
+    href: `/work/${logistics.slug}`,
     isExternal: false,
-    stack: rag.stack,
+    stack: logistics.stack,
   },
   {
     slug: payments.slug,

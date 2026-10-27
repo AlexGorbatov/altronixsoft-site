@@ -418,10 +418,12 @@ export const copy = {
     demonstrated: "Demonstrated behaviour",
     /** The button to the live product; {site} is its domain. */
     visit: "Visit {site}",
+    /** The button to a project's public source code. */
+    sourceCode: "View source on GitHub",
     /** Read out after a link that opens another site in a new tab. */
     newTab: "(opens in a new tab)",
     similarTitle: "Working on something similar?",
-    similarText: "Discuss the system and the outcome with an engineer. Agree the next step, scope and fee before any paid work begins.",
+    similarText: "Discuss the system and the outcome with an engineer and agree the next step.",
     more: "More work",
     relatedService: "Related service",
     /** Appended to the case title in the page title: "<title>: case study". */

@@ -124,7 +124,7 @@ export function Header({ lang, navigation, labels }: HeaderProps) {
           <span className="sr-only"> — {labels.home}</span>
         </Link>
 
-        <nav aria-label={labels.navPrimary} className="hidden gap-[30px] text-sm font-semibold text-strong lg:flex">
+        <nav aria-label={labels.navPrimary} className="hidden gap-5 text-sm font-semibold whitespace-nowrap text-strong lg:flex xl:gap-[30px]">
           {navigation.map((item) => (
             <NavLink key={item.href} lang={lang} href={item.href}>
               {item.label}
@@ -135,7 +135,7 @@ export function Header({ lang, navigation, labels }: HeaderProps) {
         <div className="flex items-center gap-2 min-[360px]:gap-3">
           <LanguageSwitcher lang={lang} label={labels.language} />
 
-          <Button href={contactHref} data-quiet={onHome && heroInView} className="hidden lg:inline-flex">
+          <Button href={contactHref} data-quiet={onHome && heroInView} className="hidden whitespace-nowrap lg:inline-flex">
             <CtaLabel label={labels.cta} />
           </Button>
 

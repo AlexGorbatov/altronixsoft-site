@@ -230,6 +230,13 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
           </FramedCard>
         )}
 
+        {study.repoUrl && filled(study.repoUrl) && (
+          <a href={study.repoUrl} target="_blank" rel="noopener" className="btn btn-secondary mt-6 sm:w-fit">
+            {copy.casePage.sourceCode} <span aria-hidden="true">↗</span>
+            <span className="sr-only"> {copy.casePage.newTab}</span>
+          </a>
+        )}
+
         <ScenePanel variant={study.visual} labels={copy.portfolio.scene} accent="violet" className="mt-8" />
 
         <Facts study={study} copy={copy} />

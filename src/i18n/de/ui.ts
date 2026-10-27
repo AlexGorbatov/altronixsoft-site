@@ -250,6 +250,7 @@ export const copy: Part<"copy"> = {
     result: "Ergebnis",
     architecture: "Architektur",
     visit: "{site} besuchen",
+    sourceCode: "Quellcode auf GitHub ansehen",
     similarTitle: "Arbeiten Sie an etwas Ähnlichem?",
     similarText:
       "Erzählen Sie uns, um welches System es geht und was sich ändern muss. Wir beginnen mit einem kurzen Technischen Review.",

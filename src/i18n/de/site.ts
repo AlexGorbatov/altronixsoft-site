@@ -11,6 +11,7 @@ export const hero: Part<"hero"> = {
 
 export const navigation: Part<"navigation"> = [
   { label: "Leistungen" },
+  { label: "KI-Integration" },
   { label: "Branchen" },
   { label: "Projekte" },
   { label: "Vorgehen" },
