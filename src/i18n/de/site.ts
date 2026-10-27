@@ -131,7 +131,7 @@ export const services: Part<"services"> = [
         text: "Repräsentative Evaluationsfälle, Audit-Protokolle, deterministische Geschäftsberechnungen und Prüfungen nicht vertrauenswürdiger Eingaben."
       }
     ],
-    start: "Ausgangspunkt sind ein begrenzter Ablauf, repräsentative Daten und ein Maßstab für Korrektheit. Das erste Review oder der Proof of Value legt Zugriffsrechte, Freigabepunkte und Fehlerfälle vor der größeren Umsetzung fest.",
+    start: "Ausgangspunkt sind ein begrenzter Ablauf, repräsentative Daten und ein Maßstab für Korrektheit. Das erste Review oder der Proof of value legt Zugriffsrechte, Freigabepunkte und Fehlerfälle vor der größeren Umsetzung fest.",
     capabilities: [
       "KI-Agenten",
       "RAG und Wissenssysteme",
@@ -151,11 +151,9 @@ export const aiUseCases: Part<"aiUseCases"> = [
 ];
 
 export const industries: Part<"industries"> = [
-  { title: "Retail & E-Commerce", line: "Commerce-Plattformen, Produktkataloge, SAP Commerce Cloud und Enterprise-Integrationen." },
-  { title: "Logistik & Lieferkette", line: "Operative Plattformen, Backend-Systeme, Workflow-Automatisierung und API-Integrationen." },
-  { title: "Technologie & SaaS", line: "Individuelle Softwareprodukte, Cloud-Plattformen und KI-gestützte Geschäftsanwendungen." },
-  { title: "Blockchain & Web3", line: "Blockchain-Infrastruktur, Multi-Chain-APIs, Datenaggregation und Integrationen dezentraler Anwendungen." },
-  { title: "Gaming & digitale Unterhaltung", line: "Integrationen von Gaming-Plattformen, Tracking der Spieleraktivität, Kampagnensysteme und Backend-Services." },
+  { title: "Technologie und SaaS", line: "Individuelle Softwareprodukte, Cloud-Plattformen und KI-gestützte Geschäftsanwendungen." },
+  { title: "Logistik und Lieferkette", line: "Operative Plattformen, Backend-Systeme, Workflow-Automatisierung und API-Integrationen." },
+  { title: "Retail und E-Commerce", line: "Commerce-Plattformen, Produktkataloge, SAP Commerce Cloud und Enterprise-Integrationen." },
 ];
 
 export const engagementModels: Part<"engagementModels"> = [
@@ -167,10 +165,10 @@ export const engagementModels: Part<"engagementModels"> = [
     cta: { label: "Review anfragen" },
   },
   {
-    title: "Proof of Value",
+    title: "Proof of value",
     description: "Ein kleiner funktionierender Prototyp auf Ihren eigenen Daten, bevor Sie größer investieren.",
     outcome: "Ein funktionierender Prototyp und eine Go-/No-go-Empfehlung.",
-    cta: { label: "Proof of Value planen" },
+    cta: { label: "Proof of value planen" },
   },
   {
     title: "Projekt mit festem Umfang",
@@ -233,9 +231,10 @@ export const processPhases: Part<"processPhases"> = [
 ];
 
 export const requestTypes: Part<"requestTypes"> = [
+  { label: "Noch unklar" },
   { label: "Architektur-Check-up" },
   { label: "Technisches Review" },
-  { label: "Proof of Value" },
+  { label: "Proof of value" },
   { label: "Projekt mit festem Umfang" },
   { label: "Dediziertes Team" },
   { label: "Sonstiges" },

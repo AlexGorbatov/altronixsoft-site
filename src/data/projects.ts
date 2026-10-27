@@ -46,6 +46,10 @@ export interface CaseStudy {
   liveUrl?: string;
   /** The public source code, when the project is open for inspection: linked from the case page. */
   repoUrl?: string;
+  /** The licence of the code behind `repoUrl`, named on the case page so nobody assumes it is free to reuse. */
+  repoLicense?: string;
+  /** Three or four figures already stated in the case text, shown as a strip under the diagram. Never add a number the text does not give. */
+  highlights?: { value: string; label: string }[];
 }
 
 /**
@@ -59,7 +63,7 @@ export const caseStudies: CaseStudy[] = [
     title: "SAP Commerce (Hybris) platform",
     visual: "shop",
     industry: "E-commerce",
-    summary: "Integrations, Solr search, promotions and checkout on a high-load SAP Hybris store for a German furniture retailer.",
+    summary: "Integrations, Solr search, promotions and checkout on a large SAP Hybris store for a German furniture retailer.",
     relationship: "Commercial project experience",
     contribution: "The recorded work covers backend and integrations within a five-person project team: third-party data exchange, storefront APIs, search, promotions, checkout and delivery tooling.",
     context: "Furniture and home decor retailer in Germany.",
@@ -98,9 +102,9 @@ export const caseStudies: CaseStudy[] = [
     duration: "5 months",
     team: "5 people",
     role: "",
-    focus: "Integrations, storefront APIs and search on a high-load store",
+    focus: "Integrations, storefront APIs and search on a large store",
     metaDescription:
-      "Integrations, OCC web services, Solr search and checkout enhancements for a high-load SAP Commerce (Hybris) store for a German furniture retailer.",
+      "Integrations, OCC web services, Solr search and checkout enhancements for a large SAP Commerce (Hybris) store for a German furniture retailer.",
     relatedService: "sap-commerce",
     architecture: [
       {
@@ -283,7 +287,7 @@ export const caseStudies: CaseStudy[] = [
     visual: "chain",
     industry: "Blockchain · Data API",
     summary: "Managed multi-chain data and transaction API for Cardano, Midnight and Bitcoin, with provider failover and OpenAPI 3.1.",
-    relationship: "Partner product · GeroWallet / A.D. Labs",
+    relationship: "Partner project · GeroWallet / A.D. Labs",
     contribution: "AltronixSoft participated in engineering work on this partner product. The API capabilities and architecture below describe the wider Nexus platform.",
     context: "Blockchain infrastructure for wallets, dApps, exchanges and AI agents on Cardano, Bitcoin and Midnight.",
     challenge:
@@ -300,7 +304,7 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         title: "Data and analytics",
-        text: "The API exposes chain data in ten endpoint groups, market data across 11 Cardano DEXes, wallet analytics and best-price swap routing."
+        text: "The API exposes chain data in 10 endpoint groups, market data across 11 Cardano DEXes, wallet analytics and best-price swap routing."
       },
       {
         title: "Non-custodial transactions",
@@ -430,6 +434,13 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "ai-business-workflow-agent",
     repoUrl: "https://github.com/AlexGorbatov/ai-workflow-agent",
+    repoLicense: "PolyForm Noncommercial 1.0.0",
+    highlights: [
+      { value: "5", label: "languages the agent reads" },
+      { value: "15", label: "end-to-end sample emails" },
+      { value: "40", label: "labeled evaluation cases" },
+      { value: "3", label: "steps that call a model" },
+    ],
     compactIntro: true,
     title: "AI Business Workflow Agent",
     visual: "agent",
@@ -453,7 +464,7 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         title: "Policy and approval",
-        text: "YAML rules decide: a quote under the limits goes out on its own, while large orders, new customers, dangerous goods or overdue credit wait for an approver, who gets a short briefing and the price breakdown.",
+        text: "YAML rules decide whether a quote goes out on its own or waits for an approver. A quote under the limits is sent automatically; large orders, new customers, dangerous goods or overdue credit wait for an approver, who gets a short briefing and the price breakdown.",
       },
       {
         title: "Security and guardrails",
@@ -461,15 +472,15 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         title: "Durable workflow",
-        text: "State in PostgreSQL, every step audited and replayable, timers instead of waiting threads, retries with backoff, and idempotent writes through an outbox.",
+        text: "State lives in PostgreSQL, and every step is audited and replayable. Timers replace waiting threads, retries use backoff, and writes are idempotent through an outbox.",
       },
       {
         title: "Operator console",
-        text: "A Next.js console shows the requests, the approvals and what the agent did, next to Grafana dashboards and traces.",
+        text: "A Next.js console shows the requests, the approvals and what the agent did. Grafana dashboards and traces sit next to it.",
       },
     ],
     result:
-      "In the demo, a request becomes a priced, audited quote. Quotes that trigger policy rules or injection checks are held for human approval. The sample suite contains fifteen end-to-end emails and 40 labelled evaluation cases covering intent, extracted fields, routing and injection recall.",
+      "In the demo, a request becomes a priced, audited quote. Quotes that trigger policy rules or injection checks are held for human approval. The sample suite contains 15 end-to-end emails and 40 labeled evaluation cases covering intent, extracted fields, routing and injection recall.",
     stack: ["Java 25", "Spring Boot 4", "Spring AI", "MCP", "PostgreSQL", "Keycloak", "Next.js"],
     duration: "TODO(owner): duration, e.g. N months",
     role: "",
@@ -507,6 +518,13 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "ai-document-processing",
     repoUrl: "https://github.com/AlexGorbatov/secure-rag-java",
+    repoLicense: "PolyForm Noncommercial 1.0.0",
+    highlights: [
+      { value: "4", label: "access paths covered by tests" },
+      { value: "1", label: "SQL query for search and access filter" },
+      { value: "404", label: "for documents you may not read" },
+      { value: "2", label: "identity providers: Keycloak, Entra ID" },
+    ],
     compactIntro: true,
     title: "Permission-aware RAG assistant",
     visual: "documents",
@@ -534,7 +552,7 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         title: "Answers with citations",
-        text: "The model answers from the permitted chunks, and the citations are built from the chunks actually retrieved, never from what the model writes.",
+        text: "The model answers from the permitted chunks. The citations are built from the chunks actually retrieved, never from what the model writes.",
       },
       {
         title: "Hidden documents, untrusted text",

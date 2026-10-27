@@ -47,7 +47,7 @@ for (const locale of locales) for (const width of [320, 390, 768, 1024, 1440]) {
     await page.goto(`/${locale}/services/software`, { waitUntil: "networkidle" });
     await page.locator("main .btn").first().click();
     await expect(page).toHaveURL(/#contact$/);
-    await expect(page.locator("select[name=type]")).toHaveValue("project");
+    await expect(page.locator("select[name=type]")).toHaveValue("exploring");
     await page.locator('header button[aria-controls]:not([aria-controls="mobile-navigation"])').click();
     const other = locale === "en" ? "uk" : "en";
     await page.locator(`header a[hreflang='${other}']`).click();

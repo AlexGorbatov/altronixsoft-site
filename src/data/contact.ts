@@ -1,6 +1,7 @@
 import type { RequestType } from "@/data/site";
 
 export const requestTypes: { value: RequestType; label: string }[] = [
+  { value: "exploring", label: "Not sure yet" },
   { value: "architecture-checkup", label: "Architecture check-up" },
   { value: "technical-review", label: "Technical review" },
   { value: "proof-of-value", label: "Proof of value" },
@@ -9,7 +10,8 @@ export const requestTypes: { value: RequestType; label: string }[] = [
   { value: "other", label: "Other" },
 ];
 
-export const DEFAULT_REQUEST_TYPE: RequestType = "project";
+/** The general "Discuss a project" buttons land here, so nobody starts in a format they did not choose. */
+export const DEFAULT_REQUEST_TYPE: RequestType = "exploring";
 
 /** Narrow an arbitrary string (e.g. a query parameter) to a known request type. */
 export function parseRequestType(value: string | null | undefined): RequestType | undefined {

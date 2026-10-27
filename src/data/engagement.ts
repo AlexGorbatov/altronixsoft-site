@@ -20,13 +20,12 @@ export const engagementModels: EngagementModel[] = [
   {
     id: "review",
     title: "Technical review",
-    description: "A paid review of one workflow, its code and integrations, scoped after an initial conversation.",
+    description: "A paid review of one workflow, its code and integrations: systems, access requirements and delivery risks, with a recommended scope and acceptance checks.",
     outcome: "Clear findings, a written report and a walkthrough call.",
     priceFrom: "TODO(owner): price, e.g. from €X",
     duration: "TODO(owner): duration, e.g. N working days",
     deliverable: "TODO(owner): deliverable, e.g. written report and walkthrough call",
-    includes: ["Current systems and integration boundaries", "Access requirements and delivery risks", "Recommended scope and acceptance checks"],
-    cta: { label: "Request a review", type: "technical-review" },
+    cta: { label: "Request a technical review", type: "technical-review" },
   },
   {
     id: "proof",
@@ -36,7 +35,7 @@ export const engagementModels: EngagementModel[] = [
     priceFrom: "TODO(owner): price, e.g. from €X",
     duration: "TODO(owner): duration",
     deliverable: "TODO(owner): deliverable, e.g. working prototype and findings",
-    cta: { label: "Scope a proof of value", type: "proof-of-value" },
+    cta: { label: "Request a proof of value", type: "proof-of-value" },
   },
   {
     id: "fixed",
@@ -46,7 +45,7 @@ export const engagementModels: EngagementModel[] = [
     priceFrom: "TODO(owner): price, e.g. from €X",
     duration: "TODO(owner): duration",
     deliverable: "TODO(owner): deliverable",
-    cta: { label: "Scope a project", type: "project" },
+    cta: { label: "Discuss a fixed-scope project", type: "project" },
   },
   {
     id: "team",

@@ -3,7 +3,9 @@ import { siteConfig } from "@/data/site";
 /**
  * Section headings, labels and UI messages that used to live inside components.
  * Body content (services, cases, formats, company) stays in its own `src/data/*` file.
- * Style: sentence case, "and" instead of "&" in prose, no slogans.
+ * Style: sentence case, "and" instead of "&" in prose, no Oxford comma, no contractions, US spelling
+ * (behavior, labeled, modernize), numerals from 10 and words up to nine. No slogans in UI strings; the hero
+ * tagline is the one exception. Home section headings end with a period, page titles do not.
  */
 export const copy = {
   /** One wording for how engagements start; reused by the contact block, service pages and the SAP page. */
@@ -42,13 +44,14 @@ export const copy = {
     copyEmail: "Copy email address",
     emailCopied: "Email address copied",
     copied: "Copied",
-    motionPause: "Pause motion",
-    motionPlay: "Play motion",
+    motionPause: "Pause animations",
+    motionPlay: "Play animations",
     language: "Language",
     technologies: "Technologies",
     experienceAria: "Experience and technologies",
     heroAria: "About AltronixSoft",
     seeOurWork: "See our work",
+    trademarks: "Product and company names are trademarks of their respective owners. Their use here does not imply affiliation or endorsement.",
     registryCode: "Registry code",
     vat: "VAT",
     /** The registered country as shown in the footer and in /llms.txt. */
@@ -68,7 +71,7 @@ export const copy = {
     title: "Tell us what needs to change.",
     text: "Describe the system, the problem and the outcome you need.",
     nextTitle: "Start with a technical conversation",
-    nextText: "On the first call, discuss your system, relevant project experience and who would handle delivery. Any paid review or proof of value is scoped and priced with you before work starts.",
+    nextText: "On the first call we cover your system, our relevant project experience and who would handle delivery. Any paid review or proof of value is scoped and priced with you before work starts.",
     orEmail: "Or email",
     booking: "Book a call",
   },
@@ -131,7 +134,7 @@ export const copy = {
     aiCases: {
       eyebrow: "AI use cases",
       title: "Where AI pays off first",
-      link: "All AI services",
+      link: "AI integration",
     },
   },
   work: {
@@ -415,11 +418,15 @@ export const copy = {
     result: "Result",
     architecture: "Architecture",
     architectureDetails: "Architecture and implementation details",
-    demonstrated: "Demonstrated behaviour",
+    demonstrated: "Demonstrated behavior",
     /** The button to the live product; {site} is its domain. */
     visit: "Visit {site}",
     /** The button to a project's public source code. */
     sourceCode: "View source on GitHub",
+    /** Under the source button; `{license}` is the licence name. */
+    sourceLicense: "The source code is shared under the {license} license.",
+    /** Accessible name of the strip of figures under the diagram. */
+    keyFigures: "Key figures",
     /** Read out after a link that opens another site in a new tab. */
     newTab: "(opens in a new tab)",
     similarTitle: "Working on something similar?",
@@ -445,7 +452,7 @@ export const copy = {
     sending: "Sending…",
     successTitle: "Message received.",
     /** `{name}` is replaced with the sender's first name. */
-    successText: "Thanks, {name}. We will reply to the email you gave.",
+    successText: "Thanks, {name}. We have your message and will reply to the email you gave. If you do not see our reply, check your spam folder.",
     rateLimited: "You have sent several messages in a short time. Please try again in a few minutes, or email us at",
     unavailable: "We could not send your message. Your text is still here, so you can try again, or",
     emailUs: "email us instead",
@@ -463,7 +470,7 @@ export const copy = {
       type_invalid: "Please choose what you want to discuss.",
       message_too_short: "Please tell us a little more (at least 10 characters).",
       message_too_long: "The message is too long (4000 characters maximum).",
-      consent_required: "Please confirm that you have read the Privacy Policy to send your message.",
+      consent_required: "Please tick the box to confirm you understand how we use your details.",
     },
   },
 };

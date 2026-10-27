@@ -8,7 +8,7 @@ import { CopyEmail } from "@/components/ui/CopyEmail";
 import { MotionToggle } from "@/components/ui/MotionToggle";
 import { Logo } from "./Logo";
 
-const linkClass = "inline-flex min-h-11 items-center transition-colors hover:text-white";
+const linkClass = "inline-flex min-h-11 min-w-11 items-center justify-center transition-colors hover:text-white";
 
 export async function Footer() {
   const { lang, navigation, services, sapCommerce, copy } = await getContent();
@@ -60,6 +60,7 @@ export async function Footer() {
           {/* On every page: the diagrams and the hero keep moving, so the pause control cannot live on the home page only. */}
           <MotionToggle labels={{ pause: ui.motionPause, play: ui.motionPlay }} />
         </div>
+        <p className="mt-2 border-t border-white/[.06] pt-4 text-xs leading-[1.6] text-subtle">{ui.trademarks}</p>
         <div className="mt-2 flex flex-col justify-between gap-2 pt-3 text-xs text-subtle lg:flex-row lg:gap-5">
           <span>
             © {new Date().getFullYear()} {siteConfig.name} · {legalParts.join(" · ")}

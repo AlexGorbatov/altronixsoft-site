@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { PageShell } from "@/components/layout/PageShell";
 import { ScenePanel } from "@/components/projects/ProjectScene";
 import { Button } from "@/components/ui/Button";
@@ -12,6 +13,7 @@ import { hasLocale, localizedPath } from "@/i18n/config";
 import { contentFor, type Content } from "@/i18n/content";
 import { getContent } from "@/i18n/server";
 import { isIndexable, warnIfIncomplete } from "@/lib/cases";
+import { splitLead } from "@/lib/lead";
 import { JsonLdScript } from "@/components/JsonLdScript";
 import { breadcrumbSchema, caseStudySchema } from "@/lib/jsonld";
 import { pageMetadata } from "@/lib/metadata";
@@ -56,7 +58,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/work/[slug
   if (!hasLocale(lang)) return {};
   const { caseStudies, copy } = contentFor(lang);
   const study = caseStudies.find((item) => item.slug === slug);
-  if (!study) return {};
+  if (!study) return { title: copy.notFound.title };
   return pageMetadata({
     lang,
     title: `${study.metaTitle ?? study.title}: ${copy.casePage.metaSuffix}`,
@@ -65,6 +67,23 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/work/[slug
     // A case whose story is not written yet is not ready to be indexed.
     noindex: !isIndexable(study),
   });
+}
+
+/** Figures the case text already states, so a skimming reader gets them without reading the paragraphs. */
+function Highlights({ items, label }: { items: { value: string; label: string }[]; label: string }) {
+  return (
+    <ul
+      aria-label={label}
+      className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-4"
+    >
+      {items.map((item) => (
+        <li key={item.label} className="bg-[#0b1527] p-4 sm:p-5">
+          <span className="block font-mono text-[28px] leading-none font-medium text-cyan sm:text-[32px]">{item.value}</span>
+          <span className="mt-2 block text-small leading-[1.4] text-muted">{item.label}</span>
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 /** A narrative block only renders verified, filled content. */
@@ -87,13 +106,15 @@ interface BlockGridProps {
   /** A sentence above the blocks; hidden while it is empty or an open TODO. */
   intro?: string;
   items: { title: string; text: string }[];
+  /** Set the first sentence of each block apart from the detail that follows it. */
+  lead?: boolean;
 }
 
 /**
  * Numbered blocks, each in the frame of light of the project cards: the layers of an architecture, or the areas
  * of the work.
  */
-function BlockGrid({ id, title, intro, items }: BlockGridProps) {
+function BlockGrid({ id, title, intro, items, lead }: BlockGridProps) {
   return (
     <section aria-labelledby={id} className="mt-8">
       <h2 id={id} className="text-xl font-bold tracking-[-0.03em]">
@@ -113,7 +134,17 @@ function BlockGrid({ id, title, intro, items }: BlockGridProps) {
                 {String(i + 1).padStart(2, "0")}
               </span>
               <h3 className="relative mt-1 text-body font-semibold text-[#dbe4f1]">{layer.title}</h3>
-              <p className="relative mt-1.5 text-body leading-[1.7] text-muted">{layer.text}</p>
+              {(() => {
+                const [point, detail] = lead ? splitLead(layer.text) : [layer.text, null];
+                return detail ? (
+                  <>
+                    <p className="relative mt-2 text-body leading-[1.6] font-medium text-[#dbe4f1]">{point}</p>
+                    <p className="relative mt-2 text-small leading-[1.65] text-muted">{detail}</p>
+                  </>
+                ) : (
+                  <p className="relative mt-1.5 text-body leading-[1.7] text-muted">{layer.text}</p>
+                );
+              })()}
             </FramedCard>
           </li>
         ))}
@@ -164,7 +195,7 @@ function Facts({ study, copy }: { study: CaseStudy; copy: Content["copy"] }) {
 
 export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/[slug]">) {
   const { slug } = await params;
-  const { lang, copy, caseStudies, services, sapCommerce } = await getContent();
+  const { lang, copy, caseStudies, services, sapCommerce, navigation } = await getContent();
   const study = caseStudies.find((item) => item.slug === slug);
   if (!study) notFound();
   warnIfIncomplete([study]);
@@ -173,8 +204,10 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
   const isAi = study.relatedService === "ai";
 
   const path = `/work/${study.slug}`;
+  // The same label in the visible trail and in the structured data.
+  const workLabel = navigation.find((item) => item.href === "/work")?.label ?? copy.casePage.back;
   const graph = [
-    breadcrumbSchema(lang, [{ name: copy.casePage.back, path: "/work" }, { name: study.title, path }]),
+    breadcrumbSchema(lang, [{ name: workLabel, path: "/work" }, { name: study.title, path }]),
     caseStudySchema({
       lang,
       path,
@@ -196,10 +229,14 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
     <PageShell>
       <JsonLdScript graph={graph} />
       <article className="mx-auto max-w-[820px]">
-        <Link href={localizedPath(lang, "/work")} className="link-quiet">
-          <span aria-hidden="true">←</span> {copy.casePage.back}
-        </Link>
-        <div className="eyebrow mt-4 flex w-fit">{study.industry}</div>
+        <Breadcrumb
+          lang={lang}
+          label={copy.pages.breadcrumbAria}
+          home={copy.pages.home}
+          parent={{ label: workLabel, href: "/work" }}
+          current={study.title}
+        />
+        <div className="eyebrow mt-6 flex w-fit">{study.industry}</div>
         <h1
           className={cn(
             "mt-3 text-[36px] leading-[1.1] font-bold tracking-[-0.04em]",
@@ -231,13 +268,20 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
         )}
 
         {study.repoUrl && filled(study.repoUrl) && (
-          <a href={study.repoUrl} target="_blank" rel="noopener" className="btn btn-secondary mt-6 sm:w-fit">
-            {copy.casePage.sourceCode} <span aria-hidden="true">↗</span>
-            <span className="sr-only"> {copy.casePage.newTab}</span>
-          </a>
+          <div className="mt-6">
+            <a href={study.repoUrl} target="_blank" rel="noopener" className="btn btn-secondary sm:w-fit">
+              {copy.casePage.sourceCode} <span aria-hidden="true">↗</span>
+              <span className="sr-only"> {copy.casePage.newTab}</span>
+            </a>
+            {study.repoLicense && (
+              <p className="mt-2 text-caption text-subtle">{copy.casePage.sourceLicense.replace("{license}", study.repoLicense)}</p>
+            )}
+          </div>
         )}
 
         <ScenePanel variant={study.visual} labels={copy.portfolio.scene} accent="violet" className="mt-8" />
+
+        {study.highlights && study.highlights.length > 0 && <Highlights items={study.highlights} label={copy.casePage.keyFigures} />}
 
         <Facts study={study} copy={copy} />
 
@@ -248,9 +292,14 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
         <Story title={copy.casePage.challenge} text={study.challenge} />
         {isAi && <Story title={copy.casePage.demonstrated} text={study.result} />}
         {study.workItems ? (
-          <BlockGrid id="work-title" title={copy.casePage.whatWeDid} intro={study.whatWeDid} items={study.workItems} />
+          <BlockGrid id="work-title" title={copy.casePage.whatWeDid} intro={study.whatWeDid} items={study.workItems} lead={isAi} />
         ) : (
           <Story title={copy.casePage.whatWeDid} text={study.whatWeDid} />
+        )}
+        {isAi && (
+          <div className="actions mt-8">
+            <Button href={localizedPath(lang, contactHref("exploring"))}>{copy.pages.discussProject} →</Button>
+          </div>
         )}
         {study.architecture && (isAi ? (
           <details data-case-architecture className="mt-8 rounded-2xl border border-line bg-white/[.02] p-5 sm:p-6">
@@ -283,7 +332,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
             {copy.casePage.similarText}
           </p>
           <div className="actions mt-6">
-            <Button href={localizedPath(lang, contactHref("project"))}>{copy.pages.discussProject} →</Button>
+            <Button href={localizedPath(lang, contactHref("exploring"))}>{copy.pages.discussProject} →</Button>
             <Button href={localizedPath(lang, contactHref("technical-review"))} variant="secondary">
               {copy.pages.requestReview}
             </Button>

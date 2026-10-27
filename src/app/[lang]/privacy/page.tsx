@@ -35,6 +35,7 @@ export default async function PrivacyPage() {
           </p>
         )}
         <p className="mt-6 text-[16px] leading-[1.75] text-muted">{privacy.intro}</p>
+        <p className="mt-3 text-sm leading-[1.7] text-subtle">{privacy.languageNote}</p>
 
         {privacy.sections.map((section) => (
           <section key={section.id} aria-labelledby={`${section.id}-title`} className="mt-10">

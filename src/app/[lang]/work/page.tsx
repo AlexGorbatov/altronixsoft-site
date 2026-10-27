@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { JsonLdScript } from "@/components/JsonLdScript";
 import { PageShell } from "@/components/layout/PageShell";
 import { ProjectList, ViewToggle } from "@/components/projects/PortfolioView";
 import { ProjectCard } from "@/components/projects/ProjectCard";
@@ -8,6 +9,7 @@ import { hasLocale, localizedPath } from "@/i18n/config";
 import { contentFor } from "@/i18n/content";
 import { getContent } from "@/i18n/server";
 import { warnIfDraft } from "@/lib/cases";
+import { breadcrumbSchema, collectionSchema } from "@/lib/jsonld";
 import { pageMetadata } from "@/lib/metadata";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/work">): Promise<Metadata> {
@@ -35,6 +37,18 @@ export default async function PortfolioPage() {
 
   return (
     <PageShell backdrop>
+      <JsonLdScript
+        graph={[
+          collectionSchema({
+            lang,
+            path: "/work",
+            name: page.metaTitle,
+            description: page.metaDescription,
+            items: projects.filter((project) => !project.isExternal && project.href.startsWith("/")).map((project) => ({ name: project.title, path: project.href })),
+          }),
+          breadcrumbSchema(lang, [{ name: page.title.replace(/\.$/, ""), path: "/work" }]),
+        ]}
+      />
       <header className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div className="flex flex-col gap-4">
           <p className="mono-label flex items-center gap-[10px] text-label">
@@ -67,7 +81,7 @@ export default async function PortfolioPage() {
               <span className="block lg:max-w-[640px] lg:flex-1">
                 <span className="mb-[10px] block text-[22px] leading-[1.2] font-bold tracking-[-0.03em]">{next.title}</span>
                 <span className="mb-4 block text-small leading-[1.55] text-muted">{next.text}</span>
-                <span className="inline-flex items-center gap-2 text-small font-bold text-cyan">
+                <span className="btn btn-primary pointer-events-none">
                   {copy.ui.cta}
                   <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
                     →

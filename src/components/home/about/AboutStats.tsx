@@ -14,7 +14,7 @@ export async function AboutStats() {
         <div key={stat.label} className="flex flex-col-reverse">
           <dt className="mt-2 text-small leading-[1.45] text-muted">{stat.label}</dt>
           {filled(stat.value) ? (
-            <dd className="bg-[image:var(--brand-gradient)] bg-clip-text text-[36px] leading-[1.1] font-extrabold tracking-[-0.04em] text-transparent sm:text-[44px]">
+            <dd className="bg-[image:var(--brand-gradient)] bg-clip-text text-[28px] leading-[1.1] font-extrabold tracking-[-0.04em] text-transparent sm:text-[44px]">
               {stat.value}
             </dd>
           ) : (

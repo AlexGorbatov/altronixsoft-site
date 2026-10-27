@@ -57,7 +57,7 @@ describe("overlay", () => {
 const SAME_EVERYWHERE = new Set([
   "Java", "Spring", "Azure", "AWS", "PostgreSQL", "Docker", "Kubernetes", "Enterprise APIs", "SAP Commerce Cloud",
   "SAP Commerce Cloud (Hybris)", "Altronix Labs", "RAG", "PIM", "API", "APIs", "Repository", "Stack", "Team",
-  "ERP · PIM", "Cloud", "Proof of Value", "Data Hub", "CI/CD", "OCC", "Solr", "Spartacus", "SAP Hybris 2011", "SAP Commerce (Hybris) 2011", "Java 11",
+  "ERP · PIM", "Cloud", "Proof of Value", "Proof of value", "Data Hub", "CI/CD", "OCC", "Solr", "Spartacus", "SAP Hybris 2011", "SAP Commerce (Hybris) 2011", "Java 11",
   "Migration", "Hybris", "Nexus", "Lobby9", "Stripe", "Kafka", "PostgreSQL", "OpenAPI", "CRM", "Amazon S3", "MySQL",
   // Names on the architecture pictures that are the same in every language.
   "SAP Hybris", "OCC API", "Spring Modulith", "Next.js", "Workflows", "PIM · Workflows", "Agent", "System",
@@ -67,7 +67,7 @@ const SAME_EVERYWHERE = new Set([
 ]);
 /** Keys that hold identifiers, links or numbers rather than words. */
 const NOT_TEXT_KEYS = new Set([
-  "id", "slug", "number", "type", "icon", "visual", "value", "href", "path", "demoUrl", "repoUrl", "liveUrl", "screenshot",
+  "id", "slug", "number", "type", "icon", "visual", "value", "href", "path", "demoUrl", "repoUrl", "repoLicense", "liveUrl", "screenshot",
   "tag", "stack", "relevant", "technologies", "showLabs", "name", "kind", "status", "featured", "relatedService",
 ]);
 

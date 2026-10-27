@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLdScript } from "@/components/JsonLdScript";
 import { PageShell } from "@/components/layout/PageShell";
+import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { Button } from "@/components/ui/Button";
 import { RelatedProjects } from "@/components/projects/RelatedProjects";
 import { Tag } from "@/components/ui/Tag";
@@ -36,7 +37,7 @@ export default async function SapCommercePage() {
       description: sapCommerce.metaDescription,
       serviceType: sapCommerce.h1,
     }),
-    breadcrumbSchema(lang, [{ name: sapCommerce.title, path: sapCommerce.path }]),
+    breadcrumbSchema(lang, [{ name: copy.ui.navServices, path: "/#services" }, { name: sapCommerce.title, path: sapCommerce.path }]),
   ];
   const details = sapCommerce.details.filter((row) => filled(row.value));
 
@@ -44,13 +45,14 @@ export default async function SapCommercePage() {
     <PageShell>
       <JsonLdScript graph={graph} />
       <article className="mx-auto max-w-[900px]">
-        <nav aria-label={pages.breadcrumbAria} className="text-small text-subtle">
-          <Link href={localizedPath(lang, "/")} className="hover:text-white">
-            {pages.home}
-          </Link>{" "}
-          / <span aria-current="page">{sapCommerce.title}</span>
-        </nav>
-        <div className="eyebrow mt-6">{pages.serviceEyebrow}</div>
+        <Breadcrumb
+          lang={lang}
+          label={pages.breadcrumbAria}
+          home={pages.home}
+          parent={{ label: copy.ui.navServices, href: "/#services" }}
+          current={sapCommerce.title}
+        />
+        <div className="eyebrow mt-6">{pages.serviceNumber.replace("{number}", sapCommerce.number)}</div>
         <h1 className="mt-3 text-[36px] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[52px]">{sapCommerce.h1}</h1>
         <p className="mt-6 max-w-[68ch] text-[17px] leading-[1.75] text-muted">{sapCommerce.intro}</p>
         <div className="actions mt-8">

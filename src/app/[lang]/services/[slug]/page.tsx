@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JsonLdScript } from "@/components/JsonLdScript";
 import { PageShell } from "@/components/layout/PageShell";
+import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { RelatedProjects } from "@/components/projects/RelatedProjects";
 import { Button } from "@/components/ui/Button";
 import { Tag } from "@/components/ui/Tag";
@@ -20,8 +21,9 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/[lang]/services/[slug]">): Promise<Metadata> {
   const { lang, slug } = await params;
   if (!hasLocale(lang)) return {};
-  const service = contentFor(lang).services.find((item) => item.id === slug);
-  if (!service) return {};
+  const { services, copy } = contentFor(lang);
+  const service = services.find((item) => item.id === slug);
+  if (!service) return { title: copy.notFound.title };
   return pageMetadata({
     lang,
     title: service.metaTitle ?? service.title,
@@ -39,7 +41,7 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
   const path = `/services/${service.id}`;
   const graph = [
     serviceSchema({ lang, path, name: service.title, description: service.metaDescription, serviceType: service.title }),
-    breadcrumbSchema(lang, [{ name: service.title, path }]),
+    breadcrumbSchema(lang, [{ name: copy.ui.navServices, path: "/#services" }, { name: service.title, path }]),
   ];
   const { pages } = copy;
 
@@ -47,12 +49,14 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
     <PageShell>
       <JsonLdScript graph={graph} />
       <article className="mx-auto max-w-[820px]">
-        <nav aria-label={pages.breadcrumbAria}>
-          <Link href={localizedPath(lang, "/#services")} className="link-quiet">
-            <span aria-hidden="true">←</span> {pages.allServices}
-          </Link>
-        </nav>
-        <div className="eyebrow mt-4">{pages.serviceNumber.replace("{number}", service.number)}</div>
+        <Breadcrumb
+          lang={lang}
+          label={pages.breadcrumbAria}
+          home={pages.home}
+          parent={{ label: copy.ui.navServices, href: "/#services" }}
+          current={service.title}
+        />
+        <div className="eyebrow mt-6">{pages.serviceNumber.replace("{number}", service.number)}</div>
         <h1 className="mt-3 text-[36px] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[52px]">{service.title}</h1>
         <p className="mt-6 text-[17px] leading-[1.75] text-muted">{service.intro}</p>
         {service.id === "ai" && (

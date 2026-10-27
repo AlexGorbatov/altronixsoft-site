@@ -27,6 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ...Object.fromEntries(locales.map((code) => [code, url(code, path)])),
       "x-default": url("en", path),
     };
-    return locales.map((locale) => ({ url: url(locale, path), changeFrequency, priority, alternates: { languages } }));
+    return locales.map((locale) => ({
+      url: url(locale, path),
+      lastModified: siteConfig.contentUpdated,
+      changeFrequency,
+      priority,
+      alternates: { languages },
+    }));
   });
 }

@@ -15,8 +15,10 @@ export interface PolicySection {
  */
 export const privacy = {
   title: "Privacy Policy",
-  intro: `This policy explains what personal data ${siteConfig.legalName} ("we") collects through this website, why, and what your rights are.`,
-  updated: "21 October 2026",
+  intro: `This policy explains what personal data ${siteConfig.legalName} ("we") collects through this website, why and what your rights are.`,
+  updated: "27 October 2026",
+  /** Shown under the intro: the policy exists in more than one language. */
+  languageNote: "This policy is published in English and Ukrainian. If the versions differ, the English version applies.",
   updatedLabel: "Last updated",
   backHome: "Back to home",
   metaDescription: `How ${siteConfig.legalName} handles personal data sent through the contact form.`,
@@ -49,8 +51,9 @@ export const privacy = {
       id: "purpose",
       title: "Why we use it and on what basis",
       body: [
-        "We use these details only to read and answer your inquiry and, if you ask for it, to prepare a proposal. The legal basis is taking steps at your request before a possible contract and our legitimate interest in answering business inquiries (GDPR Art. 6(1)(b) and (f)). The checkbox on the form only confirms that you have read this policy.",
+        "We use these details only to read and answer your inquiry and, if you ask for it, to prepare a proposal. The legal basis is taking steps at your request before a possible contract and our legitimate interest in answering business inquiries (GDPR Art. 6(1)(b) and (f)). The checkbox on the form only confirms that you have read and understood this policy; it is not a request for your consent.",
         "We do not use your details for newsletters or marketing, and we do not sell them.",
+        "Giving us your name, email address and message is voluntary, but without them we cannot reply. We do not use automated decision-making or profiling.",
       ],
     },
     {
@@ -66,6 +69,7 @@ export const privacy = {
       title: "Who receives it",
       body: [
         "Your message is delivered to our mailbox by an email delivery provider acting on our behalf. We do not share it with anyone else unless the law requires it.",
+        "TODO(owner): name the provider of the info@ mailbox and the hosting provider, and where each processes data.",
         "TODO(owner): name the email provider and where it processes data, e.g. the provider configured in .env (Resend or your SMTP host).",
       ],
     },
@@ -74,6 +78,7 @@ export const privacy = {
       title: "Transfers outside the EEA",
       body: [
         "We transfer personal data outside the European Economic Area only where an appropriate safeguard is in place, such as an adequacy decision by the European Commission or the EU Standard Contractual Clauses.",
+        "TODO(owner): name the providers that process data outside the EEA (hosting, email delivery) and the safeguard used for each (EU Standard Contractual Clauses or the EU-US Data Privacy Framework).",
       ],
     },
     {
@@ -81,6 +86,13 @@ export const privacy = {
       title: "Cookies and analytics",
       body: [
         "This website does not set cookies and does not use analytics or advertising trackers. If that changes, we will update this policy and ask for your consent where the law requires it.",
+      ],
+    },
+    {
+      id: "links",
+      title: "Links to other websites",
+      body: [
+        "This website links to other sites, for example LinkedIn, GitHub and the websites of partner projects. They have their own privacy policies, and we are not responsible for how they handle data.",
       ],
     },
     {

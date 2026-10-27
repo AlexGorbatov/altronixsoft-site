@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { localizedPath } from "@/i18n/config";
 import { getContent } from "@/i18n/server";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { copy } = await getContent();
+  return { title: copy.notFound.title };
+}
 
 export default async function NotFound() {
   const { lang, copy } = await getContent();

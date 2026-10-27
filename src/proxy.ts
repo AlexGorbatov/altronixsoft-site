@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { siteConfig } from "@/data/site";
 import { hasLocale, negotiateLocale } from "@/i18n/config";
 
 /** Languages the site no longer offers: their addresses go to the same page in English. */
@@ -10,6 +11,14 @@ const RETIRED = new Set(["de"]);
  * the language a visitor picks is carried by the address itself, so the site stays free of cookies.
  */
 export function proxy(request: NextRequest) {
+  const response = route(request);
+  // The platform address (*.vercel.app) serves the same pages as the real domain; it must not compete with it.
+  const host = request.headers.get("host") ?? "";
+  if (host.endsWith(".vercel.app") && host !== new URL(siteConfig.url).host) response.headers.set("X-Robots-Tag", "noindex");
+  return response;
+}
+
+function route(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const first = pathname.split("/")[1];
   if (hasLocale(first)) return NextResponse.next();

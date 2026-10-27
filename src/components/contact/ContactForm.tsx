@@ -3,7 +3,7 @@
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useCallback, useEffect, useId, useState, type FormEvent, type ReactNode } from "react";
+import { Suspense, useCallback, useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { DEFAULT_REQUEST_TYPE, parseRequestType } from "@/data/contact";
 import { mailto, siteConfig, type RequestType } from "@/data/site";
 import { localizedPath, type Locale } from "@/i18n/config";
@@ -63,6 +63,12 @@ function ContactFormView({ lang, form, requestTypes }: ContactFormProps) {
 
   const onRequestedType = useCallback((next: RequestType) => setType(next), []);
 
+  // The form disappears once the message is sent; move focus to the confirmation so it is not lost.
+  const confirmation = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (status === "success") confirmation.current?.focus();
+  }, [status]);
+
   const id = (field: string) => `${uid}-${field}`;
   const fieldProps = (field: ContactField) => ({
     id: id(field),
@@ -121,7 +127,7 @@ function ContactFormView({ lang, form, requestTypes }: ContactFormProps) {
 
   if (status === "success") {
     return (
-      <div role="status" className="rounded-2xl border border-[rgba(121,219,231,.35)] bg-[rgba(5,12,25,.45)] p-6">
+      <div ref={confirmation} tabIndex={-1} role="status" className="rounded-2xl border border-[rgba(121,219,231,.35)] bg-[rgba(5,12,25,.45)] p-6">
         <h3 className="text-xl font-bold">{form.successTitle}</h3>
         <p className="mt-2 text-body leading-[1.65] text-muted">
           {form.successText.replace("{name}", name.trim().split(/\s+/)[0])}

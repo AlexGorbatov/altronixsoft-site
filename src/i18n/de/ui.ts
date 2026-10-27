@@ -43,6 +43,7 @@ export const copy: Part<"copy"> = {
     experienceAria: "Erfahrung und Technologien",
     heroAria: "Über AltronixSoft",
     seeOurWork: "Unsere Projekte ansehen",
+    trademarks: "Produkt- und Firmennamen sind Marken ihrer jeweiligen Inhaber. Ihre Verwendung hier bedeutet keine Verbindung und keine Empfehlung.",
     registryCode: "Registernummer",
     vat: "USt-IdNr.",
     country: "Estland",
@@ -60,7 +61,7 @@ export const copy: Part<"copy"> = {
     title: "Was soll sich verändern?",
     text: "Beschreiben Sie das System, das Problem und das gewünschte Ergebnis.",
     nextTitle: "Wie es weitergeht",
-    nextText: "Das Studio prüft den Kontext, klärt den Umfang mit Ihnen und vereinbart den nächsten Schritt: ein technisches Review, einen Proof of Value oder ein Umsetzungsprojekt.",
+    nextText: "Das Studio prüft den Kontext, klärt den Umfang mit Ihnen und vereinbart den nächsten Schritt: ein technisches Review, einen Proof of value oder ein Umsetzungsprojekt.",
     orEmail: "Oder schreiben Sie an",
     booking: "Gespräch buchen",
   },
@@ -235,7 +236,7 @@ export const copy: Part<"copy"> = {
       coreNodes: ["Problem", "Architektur"],
       outputZone: "Was wir liefern",
       outputs: [
-        { title: "Proof of Value", text: "Klar abgegrenzter Umfang, lauffähige Software, echtes Feedback." },
+        { title: "Proof of value", text: "Klar abgegrenzter Umfang, lauffähige Software, echtes Feedback." },
         { title: "Produktivsystem", text: "Zuverlässige Umsetzung, Monitoring und Support." },
       ],
       badge: { title: "Messen → verbessern", text: "Behalten, was funktioniert. Weiterentwickeln, wo der Nutzen belegt ist." },
@@ -251,6 +252,8 @@ export const copy: Part<"copy"> = {
     architecture: "Architektur",
     visit: "{site} besuchen",
     sourceCode: "Quellcode auf GitHub ansehen",
+    sourceLicense: "Der Quellcode steht unter der Lizenz {license}.",
+    keyFigures: "Kennzahlen",
     similarTitle: "Arbeiten Sie an etwas Ähnlichem?",
     similarText:
       "Erzählen Sie uns, um welches System es geht und was sich ändern muss. Wir beginnen mit einem kurzen Technischen Review.",
@@ -273,7 +276,7 @@ export const copy: Part<"copy"> = {
     submit: "Nachricht senden",
     sending: "Wird gesendet…",
     successTitle: "Nachricht erhalten.",
-    successText: "Vielen Dank, {name}. Wir antworten an die angegebene E-Mail-Adresse.",
+    successText: "Vielen Dank, {name}. Wir haben Ihre Nachricht erhalten und antworten an die angegebene E-Mail-Adresse. Falls Sie keine Antwort sehen, prüfen Sie bitte Ihren Spam-Ordner.",
     rateLimited:
       "Sie haben in kurzer Zeit mehrere Nachrichten gesendet. Bitte versuchen Sie es in einigen Minuten erneut oder schreiben Sie uns an",
     unavailable:
@@ -291,7 +294,7 @@ export const copy: Part<"copy"> = {
       type_invalid: "Bitte wählen Sie, worüber Sie sprechen möchten.",
       message_too_short: "Bitte schreiben Sie etwas mehr (mindestens 10 Zeichen).",
       message_too_long: "Die Nachricht ist zu lang (höchstens 4000 Zeichen).",
-      consent_required: "Bitte bestätigen Sie, dass Sie die Datenschutzerklärung gelesen haben, um Ihre Nachricht zu senden.",
+      consent_required: "Bitte setzen Sie das Häkchen, um zu bestätigen, dass Sie verstehen, wie wir Ihre Angaben verwenden.",
     },
   },
 };

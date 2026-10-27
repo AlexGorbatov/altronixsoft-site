@@ -9,7 +9,8 @@ import type { Part } from "../content";
 export const privacy: Part<"privacy"> = {
   title: "Datenschutzerklärung",
   intro: `Diese Erklärung beschreibt, welche personenbezogenen Daten ${siteConfig.legalName} („wir“) über diese Website erhebt, warum wir sie verarbeiten und welche Rechte Sie haben.`,
-  updated: "21. Oktober 2026",
+  updated: "27. Oktober 2026",
+  languageNote: "Diese Richtlinie wird auf Englisch und Ukrainisch veröffentlicht. Bei Abweichungen gilt die englische Fassung.",
   updatedLabel: "Zuletzt aktualisiert",
   backHome: "Zurück zur Startseite",
   metaDescription: `Wie ${siteConfig.legalName} personenbezogene Daten verarbeitet, die über das Kontaktformular gesendet werden.`,
@@ -38,8 +39,9 @@ export const privacy: Part<"privacy"> = {
     {
       title: "Wozu wir die Daten nutzen und auf welcher Grundlage",
       body: [
-        "Wir nutzen diese Angaben ausschließlich, um Ihre Anfrage zu lesen und zu beantworten und, wenn Sie es wünschen, ein Angebot vorzubereiten. Rechtsgrundlage sind Maßnahmen auf Ihre Anfrage vor einem möglichen Vertragsschluss und unser berechtigtes Interesse an der Beantwortung geschäftlicher Anfragen (Art. 6 Abs. 1 lit. b und f DSGVO). Das Kästchen im Formular bestätigt nur, dass Sie diese Erklärung gelesen haben.",
+        "Wir nutzen diese Angaben ausschließlich, um Ihre Anfrage zu lesen und zu beantworten und, wenn Sie es wünschen, ein Angebot vorzubereiten. Rechtsgrundlage sind Maßnahmen auf Ihre Anfrage vor einem möglichen Vertragsschluss und unser berechtigtes Interesse an der Beantwortung geschäftlicher Anfragen (Art. 6 Abs. 1 lit. b und f DSGVO). Das Kästchen im Formular bestätigt nur, dass Sie diese Erklärung gelesen und verstanden haben; es ist keine Bitte um Ihre Einwilligung.",
         "Wir verwenden Ihre Angaben nicht für Newsletter oder Werbung und verkaufen sie nicht.",
+        "Die Angabe von Name, E-Mail-Adresse und Nachricht ist freiwillig, ohne sie können wir jedoch nicht antworten. Wir nutzen keine automatisierte Entscheidungsfindung und kein Profiling.",
       ],
     },
     {
@@ -64,6 +66,12 @@ export const privacy: Part<"privacy"> = {
       title: "Cookies und Analyse",
       body: [
         "Diese Website setzt keine Cookies und nutzt keine Analyse- oder Werbe-Tracker. Sollte sich das ändern, aktualisieren wir diese Erklärung und holen Ihre Einwilligung ein, wo das Gesetz es verlangt.",
+      ],
+    },
+    {
+      title: "Links zu anderen Websites",
+      body: [
+        "Diese Website verlinkt auf andere Seiten, zum Beispiel LinkedIn, GitHub und die Websites von Partnerprojekten. Sie haben eigene Datenschutzerklärungen, und wir sind nicht dafür verantwortlich, wie sie mit Daten umgehen.",
       ],
     },
     {

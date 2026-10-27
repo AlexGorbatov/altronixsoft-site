@@ -5,6 +5,8 @@
  */
 export const sapCommerce = {
   path: "/services/sap-commerce",
+  /** Fourth of the services, after the three in `services.ts`. */
+  number: "04",
   title: "SAP Commerce Cloud services",
   /** Search and sharing title: "development" and "Hybris" are the terms people search for. `title` stays for the breadcrumb. */
   metaTitle: "SAP Commerce Cloud (Hybris) development",
@@ -22,7 +24,7 @@ export const sapCommerce = {
     title: "SAP Commerce Cloud",
     text: "Development, production support, integrations and upgrades for SAP Commerce Cloud (Hybris) platforms.",
     stats: [
-      { value: "10+", label: "projects" },
+      { value: "10+", label: "SAP Commerce projects" },
       { value: "ERP · PIM", label: "integrations" },
     ],
   },

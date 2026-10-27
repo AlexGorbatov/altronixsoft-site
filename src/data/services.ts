@@ -70,7 +70,7 @@ export const services: Service[] = [
       "Integrations",
       "MVP to production",
     ],
-    cta: { label: "Discuss software development", type: "project" },
+    cta: { label: "Discuss software development", type: "exploring" },
   },
   {
     id: "modernization",
@@ -115,14 +115,14 @@ export const services: Service[] = [
       "API architecture",
       "AI enablement",
     ],
-    cta: { label: "Discuss modernization", type: "project" },
+    cta: { label: "Discuss modernization", type: "exploring" },
   },
   {
     id: "ai",
     number: "03",
     title: "AI integration and automation",
     metaTitle: "AI agents, RAG and workflow automation",
-    shortTitle: "AI and automation",
+    shortTitle: "AI integration",
     description: "AI agents, search and document automation inside your systems.",
     intro:
       "AI integration for existing SaaS products and business systems: agents, knowledge search and document automation connected to your APIs, permissions and approval workflows.",
@@ -149,7 +149,7 @@ export const services: Service[] = [
     ],
     start: "Start with a conversation about one workflow in your existing product. Scope, fee, timeline and deliverables are agreed before any paid work begins. Where the system runs and which model provider it uses follow your data and compliance requirements.",
     startSteps: [
-      { title: "Initial conversation", text: "Discuss your system, the intended outcome, relevant project experience and who would handle delivery." },
+      { title: "Initial conversation", text: "We discuss your system, the intended outcome, our relevant project experience and who would handle delivery." },
       { title: "Scoped review or proof of value", text: "Define the APIs, representative data, access controls and acceptance checks. The agreed output is a written review or a working prototype with findings." },
       { title: "Delivery decision", text: "Review the findings together and decide whether to proceed, adjust the scope or stop before a larger implementation." },
     ],
@@ -164,7 +164,7 @@ export const services: Service[] = [
       "Workflow automation",
       "LLM integrations",
     ],
-    cta: { label: "Discuss AI solutions", type: "project" },
+    cta: { label: "Discuss AI integration", type: "exploring" },
   },
 ];
 
