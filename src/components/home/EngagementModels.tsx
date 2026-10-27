@@ -83,7 +83,7 @@ export async function EngagementModels() {
             <StartHere label={copy.engagement.startHere} />
             <div className="mt-1 flex flex-wrap items-baseline gap-x-3">
               <h3 className="text-[18px] font-bold">{checkup.title}</h3>
-              <span className="mono-label text-caption text-label">{checkup.meta}</span>
+              {checkup.meta && <span className="mono-label text-caption text-label">{checkup.meta}</span>}
             </div>
             <p className="mt-1 max-w-[62ch] text-body leading-[1.6] text-muted">{checkup.text}</p>
           </div>
@@ -108,7 +108,7 @@ export async function EngagementModels() {
             <span aria-hidden="true" className="draw-line absolute inset-x-0 top-0 h-[2px] bg-[var(--c)]" />
             <StartHere label={copy.engagement.startHere} />
             <h3 className="mt-3 text-[22px] leading-[1.2] font-bold tracking-[-0.03em]">{checkup.title}</h3>
-            <span className="mono-label mt-1 text-caption text-label">{checkup.meta}</span>
+            {checkup.meta && <span className="mono-label mt-1 text-caption text-label">{checkup.meta}</span>}
             <p className="mt-3 text-small leading-[1.55] text-muted">{checkup.text}</p>
             <div className="mt-auto flex flex-col items-stretch pt-5">
               <Button

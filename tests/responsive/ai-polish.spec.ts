@@ -11,9 +11,9 @@ for (const lang of locales) for (const width of [320, 390, 768, 1440]) {
     await page.goto(`/${lang}`, { waitUntil: "networkidle" });
     await ready(page);
     await page.getByRole('link', { name: copy.ui.cta, exact: true }).first().click();
-    await expect(page.getByRole('combobox')).toHaveValue('exploring');
+    await expect(page.getByRole('combobox', { name: copy.form.topic })).toHaveValue('exploring');
     await page.goto(`/${lang}`, { waitUntil: 'networkidle' });
-    // AI integration is a top-level menu item: in the header on desktop, in the drawer below 1024px.
+    // AI integration is in the Services menu: in the header on desktop, in the drawer below 1024px.
     if (width < 1024) {
       await page.getByRole('button', { name: copy.ui.menuOpen, exact: true }).click();
       const menu = page.locator('#mobile-navigation');
@@ -23,6 +23,8 @@ for (const lang of locales) for (const width of [320, 390, 768, 1440]) {
       await ai.click();
       await expect(menu).toBeHidden();
     } else {
+      // On desktop AI integration sits in the Services menu with the other three service areas.
+      await page.getByRole('button', { name: copy.ui.servicesMenu, exact: true }).click();
       await page.locator(`header nav:visible a[href$='/${lang}/services/ai']`).first().click();
     }
     await expect(page).toHaveURL(new RegExp(`/${lang}/services/ai$`));
@@ -33,7 +35,7 @@ for (const lang of locales) for (const width of [320, 390, 768, 1440]) {
       await ready(page);
       await expect(page.getByText(study.relationship!, { exact: true })).toBeVisible();
       await expect(page.getByRole('heading', { name: copy.casePage.contribution, exact: true })).toHaveCount(0);
-      await expect(page.getByRole('heading', { name: copy.casePage.focus, exact: true })).toHaveCount(0);
+      await expect(page.getByRole('heading', { name: copy.casePage.overview, exact: true })).toHaveCount(0);
       await expect(page.getByText(`${study.focus}.`, { exact: true })).toBeVisible();
       // The figures strip and the source link sit with the diagram; each block of the work shows its point first.
       await expect(page.getByRole('list', { name: copy.casePage.keyFigures, exact: true }).locator('li')).toHaveCount(study.highlights!.length);
@@ -69,11 +71,11 @@ for (const lang of locales) for (const width of [320, 390, 768, 1440]) {
       }
     }
     await page.getByRole('link', { name: copy.pages.requestReview, exact: true }).click();
-    await expect(page.getByRole('combobox')).toHaveValue('technical-review');
+    await expect(page.getByRole('combobox', { name: copy.form.topic })).toHaveValue('technical-review');
     await expect(page.getByRole('textbox', { name: copy.form.message, exact: true })).toHaveAttribute('placeholder', copy.form.placeholder);
     await page.getByRole('textbox', { name: copy.form.message, exact: true }).fill('Keep this inquiry while changing the request topic.');
     await page.getByRole('link', { name: copy.ui.cta, exact: true }).first().click();
-    await expect(page.getByRole('combobox')).toHaveValue('exploring');
+    await expect(page.getByRole('combobox', { name: copy.form.topic })).toHaveValue('exploring');
     await expect(page.getByRole('textbox', { name: copy.form.message, exact: true })).toHaveValue('Keep this inquiry while changing the request topic.');
   });
 }

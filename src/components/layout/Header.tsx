@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Logo } from "./Logo";
+import { NavDropdown } from "./NavDropdown";
 import { NavLink } from "./NavLink";
 
 const DRAWER_ID = "mobile-navigation";
@@ -28,6 +29,8 @@ interface HeaderProps {
     navMobile: string;
     cta: string;
     language: string;
+    servicesMenu: string;
+    allServices: string;
   };
 }
 
@@ -125,11 +128,15 @@ export function Header({ lang, navigation, labels }: HeaderProps) {
         </Link>
 
         <nav aria-label={labels.navPrimary} className="hidden gap-5 text-sm font-semibold whitespace-nowrap text-strong lg:flex xl:gap-[30px]">
-          {navigation.map((item) => (
-            <NavLink key={item.href} lang={lang} href={item.href}>
-              {item.label}
-            </NavLink>
-          ))}
+          {navigation.map((item) =>
+            item.children ? (
+              <NavDropdown key={item.href} lang={lang} item={item} toggleLabel={labels.servicesMenu} allLabel={labels.allServices} />
+            ) : (
+              <NavLink key={item.href} lang={lang} href={item.href}>
+                {item.label}
+              </NavLink>
+            ),
+          )}
         </nav>
 
         <div className="flex items-center gap-2 min-[360px]:gap-3">

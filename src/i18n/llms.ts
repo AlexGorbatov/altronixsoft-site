@@ -27,7 +27,7 @@ export function buildLlmsTxt(locale: Locale): string {
   lines.push("");
 
   lines.push(`## ${llms.start}`);
-  lines.push(`- ${checkup.title} (${checkup.meta}): ${checkup.text}`);
+  lines.push(`- ${checkup.title}${checkup.meta ? ` (${checkup.meta})` : ""}: ${checkup.text}`);
   for (const model of engagementModels) lines.push(`- ${model.title}: ${model.description}`);
   lines.push("");
 

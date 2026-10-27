@@ -17,7 +17,7 @@ export interface AboutPerson {
 export const about = {
   eyebrow: "About",
   title: "A focused studio for complex software.",
-  lead: "AltronixSoft is a small, independent software engineering studio. Hands-on Java/Spring and enterprise systems experience supports custom products, integrations and modernization. The team is shaped around the scope, with additional engineering specialists brought in when required.",
+  lead: "AltronixSoft is a small, independent software engineering company based in Estonia. Our engineers bring hands-on Java/Spring and enterprise systems experience to custom products, integrations and modernization. We bring in additional specialists when a project needs them.",
 
   /** Key numbers. Only filled values are rendered. */
   stats: [
@@ -28,8 +28,8 @@ export const about = {
   operateTitle: "How we operate",
   operate: [
     {
-      title: "Defined roles.",
-      text: "After the scoping call, a project lead manages delivery and engineers handle the technical work. You always know who to ask.",
+      title: "Direct communication.",
+      text: "You work directly with the engineers doing the work, and you always know who to ask.",
     },
     {
       title: "Specialists when the work needs them.",

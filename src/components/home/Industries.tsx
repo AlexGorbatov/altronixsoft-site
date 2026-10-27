@@ -3,8 +3,8 @@ import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
 import { Section } from "@/components/ui/Section";
 
 /**
- * A slim band, not a full section: supporting context for the work below. On desktop it is one row, the heading
- * first and the three industries after it; on phones and tablets it is a plain list under the heading.
+ * A slim band, not a full section: supporting context for the work below. On desktop the heading comes first and the
+ * industries wrap in three columns after it; on phones and tablets it is a plain list under the heading.
  */
 export async function Industries() {
   const { industries, copy } = await getContent();
@@ -18,9 +18,12 @@ export async function Industries() {
               {copy.industries.title}
             </h2>
           </div>
-          <ul className="grid divide-y divide-line lg:grid-cols-3 lg:divide-x lg:divide-y-0">
+          <ul className="grid divide-y divide-line lg:grid-cols-3 lg:divide-y-0">
             {industries.map((industry) => (
-              <li key={industry.id} className="py-5 lg:px-6 lg:py-6 lg:last:pr-0">
+              <li
+                key={industry.id}
+                className="py-5 lg:border-l lg:border-line lg:px-6 lg:py-6 lg:nth-[3n+1]:border-l-0 lg:nth-[n+4]:border-t"
+              >
                 <h3 className="text-base leading-[1.3] font-bold">{industry.title}</h3>
                 <p className="mt-2 text-small leading-[1.6] text-muted">{industry.line}</p>
               </li>

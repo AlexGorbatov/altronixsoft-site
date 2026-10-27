@@ -61,6 +61,6 @@ for (const lang of locales) for (const width of [390, 768, 1024, 1440]) {
     }
     await page.getByRole('link', { name: copy.pages.requestReview, exact: true }).click();
     await expect(page).toHaveURL(new RegExp(`/${lang}\\?type=technical-review#contact$`));
-    await expect(page.getByRole('combobox')).toHaveValue('technical-review');
+    await expect(page.getByRole('combobox', { name: copy.form.topic })).toHaveValue('technical-review');
   });
 }

@@ -172,7 +172,8 @@ export const caseStudies: CaseStudy[] = [
         text: "Unit and integration tests for the import logic, the business rules and the sync mechanisms.",
       },
     ],
-    result: "",
+    result:
+      "A working import pipeline: vendor catalogs in four formats become one product model, large batches run in the background, and products and stock reach the storefront over REST.",
     stack: ["Java 17", "Spring Boot", "Spring REST", "Apache Kafka", "MySQL", "Apache POI", "OpenCSV", "Lombok"],
     duration: "TODO(owner): duration, e.g. N months",
     role: "Backend and integration engineering",
@@ -246,7 +247,8 @@ export const caseStudies: CaseStudy[] = [
         text: "Unit and integration tests with JUnit and Mockito, for high code quality.",
       },
     ],
-    result: "",
+    result:
+      "A working microservice backend: secure REST APIs, image storage in Amazon S3 and scheduled email and report jobs, covered by unit and integration tests.",
     stack: ["Java 17", "Spring Boot", "Spring REST", "MySQL", "Amazon S3", "Quartz", "Apache POI", "OpenCSV", "Lombok"],
     duration: "TODO(owner): duration, e.g. N months",
     role: "Backend engineering",
@@ -316,7 +318,7 @@ export const caseStudies: CaseStudy[] = [
       }
     ],
     result:
-      "The client's own non-custodial wallet runs on the platform in production: its swap routing, market data and transaction building go through the same API that external developers use.",
+      "GeroWallet's own non-custodial wallet runs on the platform in production: its swap routing, market data and transaction building go through the same API that external developers use.",
     stack: ["Cardano", "Bitcoin", "Midnight", "REST", "WebSocket", "MCP", "OpenAPI 3.1", "TypeScript SDK", "Kubernetes", "PostgreSQL"],
     duration: "TODO(owner): duration, e.g. N months",
     role: "",

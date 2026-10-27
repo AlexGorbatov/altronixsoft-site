@@ -127,7 +127,6 @@ export const copy: Part<"copy"> = {
     stackLabel: "Technologien und Integrationen",
     stackAria: "Technologie-Stack",
     industryLabel: "Branche",
-    contextLabel: "Kontext",
     roleLabel: "Rolle",
     teamLabel: "Team",
     durationLabel: "Dauer",
@@ -246,7 +245,7 @@ export const copy: Part<"copy"> = {
   },
   casePage: {
     back: "Alle Projekte",
-    focus: "Schwerpunkt",
+    overview: "Überblick",
     challenge: "Herausforderung",
     contribution: "Projektkontext und Beitrag",
     whatWeDid: "Engineering-Ansatz",

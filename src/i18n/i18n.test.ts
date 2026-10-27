@@ -63,7 +63,7 @@ const SAME_EVERYWHERE = new Set([
   "SAP Hybris", "OCC API", "Spring Modulith", "Next.js", "Workflows", "PIM · Workflows", "Agent", "System",
   "Retrieval", "Cardano", "Midnight", "Bitcoin", "Yaci · Koios · Blockfrost", "Clients", "Upstreams", "Chains", "Wallets & dApps", "HR · all-staff", "Keycloak", "login · PKCE · JWT", "OAuth2 resource server", "JWT", "PostgreSQL + pgvector", "Cache", "Checkout", "Storefront", "REST · WebSocket · MCP", "OpenAPI 3.1", "Clients", "Gateway · Routing · Limits", "Blockchain & Web3",
   // Loanwords and terms that are the same in German as in English.
-  "Workflow", "Website", "Problem", "(optional)", "Support", "Compliance",
+  "Backoffice", "ImpEx", "Solr Search", "Workflow", "Website", "Problem", "(optional)", "Support", "Compliance",
 ]);
 /** Keys that hold identifiers, links or numbers rather than words. */
 const NOT_TEXT_KEYS = new Set([
@@ -106,6 +106,7 @@ describe.each(locales.filter((code): code is Exclude<Locale, "en"> => code !== "
       en.projects.map((p) => [p.slug, p.kind, p.status, p.href, p.visual, p.isExternal, p.featured]),
     );
     expect(other.navigation.map((n) => n.href)).toEqual(en.navigation.map((n) => n.href));
+    expect(other.navigation.map((n) => n.children?.map((c) => c.href))).toEqual(en.navigation.map((n) => n.children?.map((c) => c.href)));
     expect(other.requestTypes.map((r) => r.value)).toEqual(en.requestTypes.map((r) => r.value));
     expect(other.sapCommerce.path).toBe(en.sapCommerce.path);
     expect(other.sapCommerce.caseSlugs).toEqual(en.sapCommerce.caseSlugs);

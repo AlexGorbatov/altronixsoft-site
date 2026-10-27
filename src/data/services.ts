@@ -35,7 +35,7 @@ export const services: Service[] = [
     intro:
       "We design and build custom software around your business processes, from the first MVP to production: web applications, internal platforms, APIs and integrations.",
     metaDescription:
-      "Custom software built around your business processes, from MVP to production: web apps, internal platforms, APIs and integrations. Senior engineering, managed delivery.",
+      "Custom software built around your business processes, from MVP to production: web apps, internal platforms, APIs and integrations.",
     problems: [
       "A product or internal workflow needs a purpose-built application, backend or API.",
       "Business data is split between tools that need to work together.",
@@ -80,9 +80,9 @@ export const services: Service[] = [
     shortTitle: "Modernization and integrations",
     description: "Modernize existing systems without full rewrites.",
     intro:
-      "We improve the systems that already run your business, without unnecessary rewrites: Java / Spring modernization, SAP Commerce Cloud development and support, cloud migration and enterprise integrations.",
+      "We improve the systems that already run your business, without unnecessary rewrites: Java/Spring modernization, SAP Commerce Cloud development and support, cloud migration and enterprise integrations.",
     metaDescription:
-      "Modernize existing systems without full rewrites: Java/Spring, SAP Commerce Cloud support, cloud migration, integrations. Senior engineering, managed delivery.",
+      "Modernize existing systems without full rewrites: Java/Spring, SAP Commerce Cloud support, cloud migration, integrations.",
     problems: [
       "Changes are slow because dependencies, application boundaries or integrations are difficult to maintain.",
       "A Java/Spring or SAP Commerce system needs to evolve without replacing everything at once.",
@@ -108,12 +108,11 @@ export const services: Service[] = [
       "product-information-platform"
     ],
     capabilities: [
-      "Java / Spring modernization",
+      "Java/Spring modernization",
       "SAP Commerce Cloud development and support",
       "Cloud migration",
       "Enterprise integrations",
       "API architecture",
-      "AI enablement",
     ],
     cta: { label: "Discuss modernization", type: "exploring" },
   },
@@ -127,7 +126,7 @@ export const services: Service[] = [
     intro:
       "AI integration for existing SaaS products and business systems: agents, knowledge search and document automation connected to your APIs, permissions and approval workflows.",
     metaDescription:
-      "AI agents, retrieval over internal knowledge, document and workflow automation, connected to your systems with controls. Senior engineering, managed delivery.",
+      "AI agents, retrieval over internal knowledge, document and workflow automation, connected to your systems with controls.",
     problems: [
       "Employees need answers from internal documents without widening their access to information.",
       "A repeated email or document workflow needs extraction, validation and a controlled next action.",

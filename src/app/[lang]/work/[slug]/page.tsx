@@ -165,7 +165,6 @@ function Facts({ study, copy }: { study: CaseStudy; copy: Content["copy"] }) {
     ]);
   }
   if (filled(study.role)) facts.push([work.roleLabel, study.role]);
-  if (!study.compactIntro && filled(study.context)) facts.push([work.contextLabel, study.context]);
   if (filled(study.team)) facts.push([work.teamLabel, study.team]);
   if (filled(study.duration)) facts.push([work.durationLabel, study.duration]);
 
@@ -285,10 +284,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
 
         <Facts study={study} copy={copy} />
 
-        {!study.compactIntro && <section aria-label={copy.casePage.focus} className="mt-8">
-          <h2 className="text-xl font-bold tracking-[-0.03em]">{copy.casePage.focus}</h2>
-          <p className="mt-2 text-body leading-[1.75] text-muted">{study.focus}.</p>
-        </section>}
+        {!study.compactIntro && <Story title={copy.casePage.overview} text={study.context} />}
         <Story title={copy.casePage.challenge} text={study.challenge} />
         {isAi && <Story title={copy.casePage.demonstrated} text={study.result} />}
         {study.workItems ? (

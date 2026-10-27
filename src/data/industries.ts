@@ -5,21 +5,34 @@ export interface Industry {
   line: string;
 }
 
-/** The industries shown in the band under the services: the ones closest to AI integration in existing products. */
+/**
+ * The sectors of the projects shown under "Work", one line each. A sector is where a project was used, not a
+ * technology (SAP Commerce, AI) or a type of system (PIM): those appear in the line, never as the title.
+ */
 export const industries: Industry[] = [
+  {
+    id: "retail",
+    title: "Retail and e-commerce",
+    line: "Commerce platforms, product catalogs and enterprise integrations, including SAP Commerce.",
+  },
   {
     id: "technology",
     title: "Technology and SaaS",
-    line: "Custom software products, cloud-based platforms, and AI-enabled business applications.",
+    line: "Custom software products, cloud platforms and AI features inside existing applications.",
   },
   {
     id: "logistics",
     title: "Logistics and supply chain",
-    line: "Operational platforms, backend systems, workflow automation, and API integrations.",
+    line: "Operational platforms, backend services, workflow automation and API integrations.",
   },
   {
-    id: "retail",
-    title: "Retail and e-commerce",
-    line: "Commerce platforms, product catalogs, SAP Commerce Cloud, and enterprise integrations.",
+    id: "blockchain",
+    title: "Blockchain and Web3",
+    line: "Multi-chain data and transaction APIs for wallets, dApps and AI agents.",
+  },
+  {
+    id: "gaming",
+    title: "Gaming",
+    line: "Community platforms that bring a player's PlayStation and Steam activity into one profile.",
   },
 ];

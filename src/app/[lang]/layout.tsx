@@ -84,6 +84,8 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
             navMobile: copy.ui.navMobile,
             cta: copy.ui.cta,
             language: copy.ui.language,
+            servicesMenu: copy.ui.servicesMenu,
+            allServices: copy.pages.allServices,
           }}
         />
         {children}
