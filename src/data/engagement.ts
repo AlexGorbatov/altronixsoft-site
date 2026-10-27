@@ -3,7 +3,9 @@ import type { RequestType } from "@/data/site";
 export interface EngagementModel {
   id: string;
   title: string;
+  /** The visitor's situation as a question: the line that tells them whether this format is theirs. */
   description: string;
+  /** What they get, in one line. */
   outcome: string;
   /** Package facts. `TODO(owner)` values are hidden until the owner fills them in (see `filled()`). */
   priceFrom: string;
@@ -20,8 +22,8 @@ export const engagementModels: EngagementModel[] = [
   {
     id: "review",
     title: "Technical review",
-    description: "A paid review of one workflow, its code and integrations: systems, access requirements and delivery risks, with a recommended scope and acceptance checks.",
-    outcome: "Clear findings, a written report and a walkthrough call.",
+    description: "Need an expert opinion on your system?",
+    outcome: "Written findings and a recommended scope.",
     priceFrom: "TODO(owner): price, e.g. from €X",
     duration: "TODO(owner): duration, e.g. N working days",
     deliverable: "TODO(owner): deliverable, e.g. written report and walkthrough call",
@@ -30,8 +32,8 @@ export const engagementModels: EngagementModel[] = [
   {
     id: "proof",
     title: "Proof of value",
-    description: "One bounded workflow tested on representative data, with agreed acceptance checks, fee and timeline.",
-    outcome: "A working prototype and a go / no-go recommendation.",
+    description: "Want to test an AI idea on real data?",
+    outcome: "A working prototype and a go / no-go call.",
     priceFrom: "TODO(owner): price, e.g. from €X",
     duration: "TODO(owner): duration",
     deliverable: "TODO(owner): deliverable, e.g. working prototype and findings",
@@ -40,8 +42,8 @@ export const engagementModels: EngagementModel[] = [
   {
     id: "fixed",
     title: "Fixed-scope project",
-    description: "Agreed scope, timeline and result. Code and documentation are handed over at the end.",
-    outcome: "A release running in production.",
+    description: "Know what you need built?",
+    outcome: "Agreed scope and timeline, released to production.",
     priceFrom: "TODO(owner): price, e.g. from €X",
     duration: "TODO(owner): duration",
     deliverable: "TODO(owner): deliverable",
@@ -50,8 +52,8 @@ export const engagementModels: EngagementModel[] = [
   {
     id: "team",
     title: "Dedicated team",
-    description: "Senior engineers embedded in your product team, long-term or for a defined period.",
-    outcome: "Engineers working inside your team.",
+    description: "Need engineers inside your team?",
+    outcome: "Senior engineers, long-term or for a set period.",
     priceFrom: "TODO(owner): rate, e.g. from €X per month",
     duration: "TODO(owner): minimum term",
     deliverable: "TODO(owner): deliverable",

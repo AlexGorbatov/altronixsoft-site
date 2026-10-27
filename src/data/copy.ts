@@ -384,7 +384,10 @@ export const copy = {
   engagement: {
     eyebrow: "Engagement",
     title: "Engagement formats.",
-    description: "Four formats, from a short technical review to a dedicated engineering team.",
+    description: "Start with a call. Pick the format that fits after.",
+    startHere: "Start here",
+    /** Arrows and dots of the row on tablet and phone; `{n}` is the number of the card. */
+    carousel: { prev: "Previous card", next: "Next card", goTo: "Go to card {n}" },
     rowLabel: "Engagement formats",
     includedLabel: "What is included",
     priceLabel: "Price",

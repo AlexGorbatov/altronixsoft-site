@@ -38,7 +38,8 @@ for (const locale of locales) for (const width of [320, 390, 768, 1024, 1440]) {
     }
     // Visit every card, including content initially outside the carousel viewport.
     for (const section of ["services", "engagement"]) {
-      const cards = page.locator(`#${section} [role='region'] > *`);
+      // The check-up card of the row is hidden on desktop, where the check-up is a banner above the row.
+      const cards = page.locator(`#${section} [role='region'] > *:visible`);
       for (let index = 0; index < await cards.count(); index++) {
         await cards.nth(index).scrollIntoViewIfNeeded();
         expect(await layoutProblems(page)).toEqual([]);

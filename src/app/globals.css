@@ -403,6 +403,45 @@ h3 {
   .reveal[data-delay="3"] { transition-delay: 0.09s; }
   .reveal[data-delay="4"] { transition-delay: 0.12s; }
 
+  /* A row of cards that scrolls sideways (CardRow `emphasis`): the card in front is full size with a soft glow, the
+     others step back a little. Only below the desktop grid, where the row scrolls. `scale` is its own property, so
+     it never fights the reveal's `transform`. */
+  @media (max-width: 1023px) {
+    .card-row-emphasis > * {
+      scale: 0.965;
+      transition:
+        scale 0.4s var(--ease-out),
+        filter 0.4s;
+    }
+    .card-row-emphasis > [data-current] {
+      scale: 1;
+      filter: drop-shadow(0 12px 22px rgba(34, 214, 244, 0.14));
+    }
+  }
+
+  /* A line along the top of a card that draws in from the left when the card is revealed. */
+  .draw-line {
+    transform-origin: left center;
+    transition: transform 0.9s var(--ease-out) 0.2s;
+  }
+  .reveal[data-reveal="pending"] .draw-line {
+    transform: scaleX(0);
+  }
+
+  /* A small dot that pulses quietly beside "Start here". Paused by the motion toggle like every animation. */
+  .pulse-dot {
+    animation: pulse-dot 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(34, 214, 244, 0.5);
+    }
+    60% {
+      box-shadow: 0 0 0 7px rgba(34, 214, 244, 0);
+    }
+  }
+
   /* Card with pointer-following ambient glow (see SpotlightCard) */
   .spotlight {
     position: relative;

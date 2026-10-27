@@ -8,6 +8,7 @@ import { AnimatedReveal } from "@/components/ui/AnimatedReveal";
 import { CardRow } from "@/components/ui/CardRow";
 import { CARD_ITEM } from "@/components/ui/cardItem";
 import { Section } from "@/components/ui/Section";
+import { cn } from "@/lib/utils";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { FACT_LABEL } from "@/components/ui/factLabel";
@@ -54,6 +55,16 @@ function PackageFacts({ model, copy }: { model: EngagementModel; copy: Content["
 /** One colour per format, running from cyan to violet along the row, like the timeline of the process below. */
 const ACCENTS: FrameAccent[] = ["cyan", "blue", "indigo", "violet"];
 
+/** "Start here" with a small pulsing dot: the first step of the path. */
+function StartHere({ label }: { label: string }) {
+  return (
+    <div className="mono-label flex items-center gap-2 text-caption text-label">
+      <span aria-hidden="true" className="pulse-dot size-[7px] rounded-full bg-[var(--cyan)]" />
+      {label}
+    </div>
+  );
+}
+
 export async function EngagementModels() {
   const { lang, copy, engagementModels, checkup } = await getContent();
   return (
@@ -65,14 +76,58 @@ export async function EngagementModels() {
         description={copy.engagement.description}
       />
 
+      {/* Desktop: the check-up is a banner above the four formats. */}
+      <AnimatedReveal className="relative z-[1] mb-5 max-lg:hidden">
+        <FramedCard accent="cyan" innerClassName="flex flex-col gap-4 p-6 md:flex-row md:items-center md:justify-between">
+          <div>
+            <StartHere label={copy.engagement.startHere} />
+            <div className="mt-1 flex flex-wrap items-baseline gap-x-3">
+              <h3 className="text-[18px] font-bold">{checkup.title}</h3>
+              <span className="mono-label text-caption text-label">{checkup.meta}</span>
+            </div>
+            <p className="mt-1 max-w-[62ch] text-body leading-[1.6] text-muted">{checkup.text}</p>
+          </div>
+          <Button href={siteConfig.bookingUrl ?? localizedPath(lang, contactHref(checkup.cta.type))} variant="secondary" className="shrink-0">
+            {checkup.cta.label}
+          </Button>
+        </FramedCard>
+      </AnimatedReveal>
+
       {/* The padding gives the corner marks of the frames room inside the scrolling row on phones. */}
-      <CardRow label={copy.engagement.rowLabel} columns={4} className="max-lg:-mt-2 max-lg:pt-2">
+      <CardRow
+        label={copy.engagement.rowLabel}
+        columns={4}
+        controls={copy.engagement.carousel}
+        emphasis
+        hint
+        className="max-lg:-mt-2 max-lg:pt-2"
+      >
+        {/* Tablet and phone: the check-up is the first card of the row. */}
+        <AnimatedReveal className={cn(CARD_ITEM, "lg:hidden")}>
+          <FramedCard accent="cyan" innerClassName="flex h-full flex-col p-6">
+            <span aria-hidden="true" className="draw-line absolute inset-x-0 top-0 h-[2px] bg-[var(--c)]" />
+            <StartHere label={copy.engagement.startHere} />
+            <h3 className="mt-3 text-[22px] leading-[1.2] font-bold tracking-[-0.03em]">{checkup.title}</h3>
+            <span className="mono-label mt-1 text-caption text-label">{checkup.meta}</span>
+            <p className="mt-3 text-small leading-[1.55] text-muted">{checkup.text}</p>
+            <div className="mt-auto flex flex-col items-stretch pt-5">
+              <Button
+                href={siteConfig.bookingUrl ?? localizedPath(lang, contactHref(checkup.cta.type))}
+                variant="secondary"
+                className="h-auto min-h-14 px-3 py-2 text-center whitespace-normal"
+              >
+                {checkup.cta.label}
+              </Button>
+            </div>
+          </FramedCard>
+        </AnimatedReveal>
         {engagementModels.map((model, i) => (
           <AnimatedReveal key={model.id} delay={((i % 4) + 1) as 1 | 2 | 3 | 4} className={CARD_ITEM}>
             <FramedCard accent={ACCENTS[i % ACCENTS.length]} innerClassName="flex h-full flex-col p-6">
+              <span aria-hidden="true" className="draw-line absolute inset-x-0 top-0 h-[2px] bg-[var(--c)]" />
               <h3 className="mb-3 text-[22px] leading-[1.2] font-bold tracking-[-0.03em]">{model.title}</h3>
-              <p className="text-body leading-[1.65] text-muted lg:min-h-[4.95rem]">{model.description}</p>
-              <p className="mt-4 border-t border-line pt-4 text-small leading-[1.55] text-strong">{model.outcome}</p>
+              <p className="text-body leading-[1.5] font-medium text-strong lg:min-h-[3.1rem]">{model.description}</p>
+              <p className="mt-3 text-small leading-[1.55] text-muted">{model.outcome}</p>
               <PackageFacts model={model} copy={copy} />
               <div className="mt-auto flex flex-col items-stretch pt-5">
                 <Button
@@ -87,21 +142,6 @@ export async function EngagementModels() {
           </AnimatedReveal>
         ))}
       </CardRow>
-
-      <AnimatedReveal className="relative z-[1] mt-5">
-        <FramedCard accent="cyan" innerClassName="flex flex-col gap-4 p-6 md:flex-row md:items-center md:justify-between">
-          <div>
-            <div className="flex flex-wrap items-baseline gap-x-3">
-              <h3 className="text-[18px] font-bold">{checkup.title}</h3>
-              <span className="mono-label text-caption text-label">{checkup.meta}</span>
-            </div>
-            <p className="mt-1 max-w-[62ch] text-body leading-[1.6] text-muted">{checkup.text}</p>
-          </div>
-          <Button href={siteConfig.bookingUrl ?? localizedPath(lang, contactHref(checkup.cta.type))} variant="secondary" className="shrink-0">
-            {checkup.cta.label}
-          </Button>
-        </FramedCard>
-      </AnimatedReveal>
     </Section>
   );
 }

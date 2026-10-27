@@ -217,7 +217,9 @@ export const copy: Part<"copy"> = {
   engagement: {
     eyebrow: "Zusammenarbeit",
     title: "Formen der Zusammenarbeit.",
-    description: "Vier Formate, vom kurzen Technischen Review bis zum dedizierten Entwicklungsteam.",
+    description: "Beginnen Sie mit einem Gespräch. Das passende Format wählen Sie danach.",
+    startHere: "Hier starten",
+    carousel: { prev: "Vorherige Karte", next: "Nächste Karte", goTo: "Zu Karte {n}" },
     rowLabel: "Formen der Zusammenarbeit",
     includedLabel: "Das ist enthalten",
     priceLabel: "Preis",

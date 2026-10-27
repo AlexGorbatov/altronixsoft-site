@@ -160,28 +160,28 @@ export const engagementModels: Part<"engagementModels"> = [
   {
     title: "Technisches Review",
     description:
-      "Eine kurze, fokussierte Prüfung Ihrer Architektur, Ihres Codes oder Ihrer Idee. Der erste kostenpflichtige Schritt.",
-    outcome: "Klare Erkenntnisse, ein schriftlicher Bericht und ein Gespräch zur Erläuterung.",
+      "Brauchen Sie eine fachliche Einschätzung Ihres Systems?",
+    outcome: "Schriftliche Ergebnisse und ein empfohlener Umfang.",
     cta: { label: "Review anfragen" },
   },
   {
     title: "Proof of value",
-    description: "Ein kleiner funktionierender Prototyp auf Ihren eigenen Daten, bevor Sie größer investieren.",
-    outcome: "Ein funktionierender Prototyp und eine Go-/No-go-Empfehlung.",
+    description: "Möchten Sie eine KI-Idee mit echten Daten testen?",
+    outcome: "Ein lauffähiger Prototyp und eine Go-/No-go-Empfehlung.",
     cta: { label: "Proof of value planen" },
   },
   {
     title: "Projekt mit festem Umfang",
     description:
-      "Vereinbarter Umfang, Zeitplan und Ergebnis. Code und Dokumentation werden am Ende übergeben.",
-    outcome: "Ein Release im Produktivbetrieb.",
+      "Wissen Sie, was gebaut werden soll?",
+    outcome: "Vereinbarter Umfang und Zeitplan, Release in Produktion.",
     cta: { label: "Projekt planen" },
   },
   {
     title: "Dediziertes Team",
     description:
-      "Senior Engineers, eingebettet in Ihr Produktteam, langfristig oder für einen festgelegten Zeitraum.",
-    outcome: "Engineers, die in Ihrem Team arbeiten.",
+      "Brauchen Sie Entwickler in Ihrem Team?",
+    outcome: "Senior Engineers, langfristig oder für einen festen Zeitraum.",
     cta: { label: "Dediziertes Team besprechen" },
   },
 ];
@@ -189,7 +189,7 @@ export const engagementModels: Part<"engagementModels"> = [
 export const checkup: Part<"checkup"> = {
   title: "Architektur-Check-up",
   meta: "Unverbindlich",
-  text: "Ein Gespräch, in dem wir Ihr System ansehen und entscheiden, ob ein Technisches Review sinnvoll ist. Keine Vorbereitung nötig.",
+  text: "Ein Gespräch, um Ihr System anzuschauen. Keine Vorbereitung nötig.",
   cta: { label: "Check-up anfragen" },
 };
 
