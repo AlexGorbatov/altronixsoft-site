@@ -18,8 +18,10 @@ export interface CaseStudy {
   whatWeDid: string;
   /** Verified project relationship, separate from product ownership or sole delivery. */
   relationship?: string;
-  /** The recorded level of participation; never infer an unverified personal/company history. */
+  /** The engineering work, stated plainly; never infer an unverified personal/company history. */
   contribution?: string;
+  /** Who owns the product and under what terms the case is published: one short paragraph under `contribution`. */
+  attribution?: string;
   /** Present reference status and focus once, without the extended participation panel. */
   compactIntro?: boolean;
   /** Search and sharing title (without the site name). Defaults to `title`. */
@@ -53,7 +55,7 @@ export interface CaseStudy {
 }
 
 /**
- * Commercial, partner and reference project experience. Confidential client details are generalized; public product links and existing technical facts are retained.
+ * Commercial work, engineering experience from previous engagements, and our own reference implementations. Confidential client details are generalized; public product links and existing technical facts are retained.
  * Every `TODO(owner)` value is hidden on the site until it is replaced with a real fact
  * (see `filled()` in `src/lib/todo.ts`).
  */
@@ -289,8 +291,9 @@ export const caseStudies: CaseStudy[] = [
     visual: "chain",
     industry: "Blockchain · Data API",
     summary: "Managed multi-chain data and transaction API for Cardano, Midnight and Bitcoin, with provider failover and OpenAPI 3.1.",
-    relationship: "Partner project · GeroWallet / A.D. Labs",
-    contribution: "AltronixSoft participated in engineering work on this partner product. The API capabilities and architecture below describe the wider Nexus platform.",
+    relationship: "Selected engineering experience",
+    contribution: "End-to-end technical implementation of Nexus, including backend development, blockchain integrations, multi-provider infrastructure and APIs.",
+    attribution: "This project reflects engineering experience gained during a previous engagement with Gero Labs. Nexus is a GeroWallet product and is featured with permission.",
     context: "Blockchain infrastructure for wallets, dApps, exchanges and AI agents on Cardano, Bitcoin and Midnight.",
     challenge:
       "Give wallets, dApps and AI agents one dependable way into three different blockchains: chain data, market data and transactions behind one base URL and one authentication header, with keys scoped by chain and network, without depending on a single upstream provider and without ever holding a user's private keys.",
@@ -361,8 +364,9 @@ export const caseStudies: CaseStudy[] = [
     visual: "lobby",
     industry: "Gaming · Social platform",
     summary: "One gamer profile from linked PlayStation and Steam accounts, with stats, achievements, guides and campaigns.",
-    relationship: "Partner project · Lobby9",
-    contribution: "AltronixSoft participated in engineering work on the platform. The gamer profile, integrations and community capabilities below describe Lobby9 as a whole.",
+    relationship: "Selected engineering experience",
+    contribution: "End-to-end technical development of the platform, covering software architecture, backend services, external gaming integrations and core product functionality.",
+    attribution: "This project reflects engineering experience gained during a previous engagement with the Lobby9 team. Lobby9 retains ownership of the product, and the case is published with permission.",
     context: "A web platform for gamers who play across PlayStation, Steam and Xbox.",
     challenge:
       "A player's history is split across consoles and apps: each platform shows only its own part. The platform had to bring it into one profile that fills itself from the linked accounts, and build a community around it.",
@@ -711,7 +715,7 @@ export interface Project {
 const [hybris, pim, logistics, nexus, lobby9, agent, rag, payments] = caseStudies;
 
 /**
- * The portfolio, in display order: commercial work first, then the AI reference projects, partner projects last. The first eight projects take their text from the case studies above, so
+ * The portfolio, in display order: commercial work first, then the AI reference projects, projects from previous engagements last. The first eight projects take their text from the case studies above, so
  * a case and its tile never say different things. Everything marked `TODO(owner)` is a draft or a missing
  * link: a tile without a real link is shown without a way through, only with its status.
  */

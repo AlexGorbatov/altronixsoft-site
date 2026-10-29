@@ -68,13 +68,28 @@
 
 .frame:hover,
 .frame:focus-within {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px -16px rgba(0, 0, 0, 0.45);
+  transform: translateY(-4px);
+  /* The card lights its own colour onto the page behind it. */
+  box-shadow: 0 22px 44px -18px color-mix(in srgb, var(--c) 42%, transparent);
 }
 .frame:hover::before,
 .frame:focus-within::before {
   inset: -4px;
   opacity: 0.55;
+}
+
+/* One soft light sweep across the card as the pointer arrives. */
+.inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, 0.06) 50%, transparent 62%);
+  transform: translateX(-130%);
+}
+.frame:hover > .inner::after {
+  transform: translateX(130%);
+  transition: transform 1s var(--ease-out);
 }
 
 /* Around one control: the radius follows the button's, and the control lifts itself, so the frame stays put. */
@@ -92,6 +107,10 @@
 .compact:hover,
 .compact:focus-within {
   transform: none;
+  box-shadow: 0 8px 24px -16px rgba(0, 0, 0, 0.4);
+}
+.compact > .inner::after {
+  display: none;
 }
 .compact:hover::before,
 .compact:focus-within::before {

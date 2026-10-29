@@ -1,4 +1,5 @@
 import { getContent } from "@/i18n/server";
+import { CountUp } from "@/components/ui/CountUp";
 import { DevTodo } from "@/components/ui/DevTodo";
 import { filled, todoLabel } from "@/lib/todo";
 
@@ -15,7 +16,7 @@ export async function AboutStats() {
           <dt className="mt-2 text-small leading-[1.45] text-muted">{stat.label}</dt>
           {filled(stat.value) ? (
             <dd className="bg-[image:var(--brand-gradient)] bg-clip-text text-[28px] leading-[1.1] font-extrabold tracking-[-0.04em] text-transparent sm:text-[44px]">
-              {stat.value}
+              <CountUp value={stat.value} />
             </dd>
           ) : (
             <dd>

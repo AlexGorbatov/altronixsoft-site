@@ -256,6 +256,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
             {study.relationship && <p className="text-small font-medium leading-relaxed text-label">{study.relationship}</p>}
             <h2 id="contribution-title" className="mt-2 text-xl font-bold tracking-[-0.03em]">{copy.casePage.contribution}</h2>
             <p className="mt-2 text-body leading-[1.75] text-muted">{study.contribution}</p>
+            {study.attribution && <p className="mt-4 border-t border-line pt-4 text-small leading-[1.7] text-subtle">{study.attribution}</p>}
           </section>
         )}
         {study.liveUrl && filled(study.liveUrl) && (

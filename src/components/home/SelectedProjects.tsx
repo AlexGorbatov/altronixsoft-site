@@ -30,7 +30,8 @@ export async function SelectedProjects() {
             >
               {home.title}
             </h2>
-            <p className="max-w-[560px] text-base leading-[1.5] text-muted lg:text-lg">{home.description}</p>
+            {/* The key statement of the section (how the projects are classified): stronger than body text, marked by an accent rule. */}
+            <p className="max-w-[600px] border-l-2 border-cyan pl-4 text-base leading-[1.55] font-medium text-strong lg:text-lg">{home.description}</p>
           </div>
           <Link href={localizedPath(lang, "/work")} className="group inline-flex items-center gap-[10px]">
             <span className="inline-flex h-12 items-center rounded-full border border-white/[.28] px-[22px] text-small font-bold transition-colors group-hover:border-white/60">

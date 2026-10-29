@@ -24,7 +24,7 @@ export const sapCommerce = {
     title: "SAP Commerce Cloud",
     text: "Development, production support, integrations and upgrades for SAP Commerce Cloud (Hybris) platforms.",
     stats: [
-      { value: "10+", label: "SAP Commerce projects" },
+      { value: "10+", label: "SAP Commerce projects — engineering experience" },
       { value: "ERP · PIM", label: "integrations" },
     ],
   },
@@ -57,6 +57,8 @@ export const sapCommerce = {
   ],
   /** Specifics. Each row is shown only once its value is real. */
   details: [
+    { label: "Experience", value: "Hands-on SAP Commerce experience across more than 10 projects, gained through previous engineering engagements." },
+    { label: "Additional expertise", value: "We work with a professional network of experienced SAP Commerce engineers and can bring in additional expertise according to project requirements." },
     { label: "Versions and storefronts", value: "TODO(owner): e.g. SAP Commerce Cloud versions and storefront stacks you work with" },
     { label: "Certifications", value: "TODO(owner): SAP certifications held by the team, if any" },
     { label: "Typical engagement", value: "TODO(owner): e.g. team size and duration of a typical SAP Commerce project" },

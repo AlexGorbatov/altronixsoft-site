@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono, Manrope } from "next/font/google";
+import { JetBrains_Mono, Source_Sans_3, Source_Serif_4 } from "next/font/google";
 import { notFound } from "next/navigation";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
@@ -9,11 +9,20 @@ import { contentFor } from "@/i18n/content";
 import { getContent } from "@/i18n/server";
 import "../globals.css";
 
+// Body text: Source Sans 3 (humanist sans). Headings: Source Serif 4. Designed as a pair.
 // Latin is preloaded. The Cyrillic faces (Ukrainian) are declared as a fallback in the font stack and are
 // downloaded only when a page really uses Cyrillic text, so English and German visitors never pay for them.
-const manrope = Manrope({ variable: "--font-manrope", subsets: ["latin"], display: "swap" });
-const manropeCyrillic = Manrope({
-  variable: "--font-manrope-cyrillic",
+const sourceSans = Source_Sans_3({ variable: "--font-source-sans", subsets: ["latin"], display: "swap" });
+const sourceSansCyrillic = Source_Sans_3({
+  variable: "--font-source-sans-cyrillic",
+  subsets: ["cyrillic"],
+  display: "swap",
+  preload: false,
+});
+
+const sourceSerif = Source_Serif_4({ variable: "--font-source-serif", subsets: ["latin"], display: "swap" });
+const sourceSerifCyrillic = Source_Serif_4({
+  variable: "--font-source-serif-cyrillic",
   subsets: ["cyrillic"],
   display: "swap",
   preload: false,
@@ -56,8 +65,10 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
   if (!hasLocale(lang)) notFound();
 
   const fontVariables = [
-    manrope.variable,
-    manropeCyrillic.variable,
+    sourceSans.variable,
+    sourceSansCyrillic.variable,
+    sourceSerif.variable,
+    sourceSerifCyrillic.variable,
     jetbrainsMono.variable,
     jetbrainsMonoCyrillic.variable,
   ].join(" ");
@@ -67,6 +78,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
       {/* Browser extensions (e.g. ColorZilla's cz-shortcut-listen) inject attributes onto <body>
           before hydration; suppress only that element's attribute mismatch, not its children. */}
       <body suppressHydrationWarning>
+        <div className="scroll-progress" aria-hidden="true" />
         <a
           href="#top"
           className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-[#07101f]"

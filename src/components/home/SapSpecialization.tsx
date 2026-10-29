@@ -3,6 +3,7 @@ import { contactHref } from "@/data/site";
 import { localizedPath } from "@/i18n/config";
 import { getContent } from "@/i18n/server";
 import { Button } from "@/components/ui/Button";
+import { CountUp } from "@/components/ui/CountUp";
 import { FramedCard } from "@/components/ui/FramedCard";
 
 /** The SAP Commerce Cloud specialization card under the three service cards. Content: `sapCommerce.specialization`. */
@@ -21,7 +22,9 @@ export async function SapSpecialization() {
         {stats.map((stat) => (
           <div key={stat.label} className="flex items-baseline justify-start gap-3 px-4 py-3 text-left sm:flex-col sm:items-center sm:justify-center sm:gap-1 sm:py-4 sm:text-center">
             <dt className="text-small leading-[1.3] text-subtle">{stat.label}</dt>
-            <dd className="order-first text-[22px] leading-[1.15] font-bold sm:text-[24px]">{stat.value}</dd>
+            <dd className="order-first text-[22px] leading-[1.15] font-bold sm:text-[24px]">
+              <CountUp value={stat.value} />
+            </dd>
           </div>
         ))}
       </dl>

@@ -154,21 +154,21 @@ export const copy = {
     home: {
       eyebrow: "Selected work",
       title: "Selected projects.",
-      description: "Client and partner projects with contributions from AltronixSoft, alongside its own reference implementations. Shown with architecture diagrams; confidential details are generalized.",
+      description: "Commercial work, engineering experience from previous engagements and our own reference implementations. Shown with architecture diagrams; confidential details are generalized.",
       viewAll: "View all projects",
       listLabel: "Selected projects",
     },
     page: {
       eyebrow: "Work",
       title: "Projects.",
-      description: "Client and partner projects with contributions from AltronixSoft, plus its own reference implementations across e-commerce, logistics, AI and blockchain. Confidential details are generalized.",
+      description: "Commercial work, engineering experience from previous engagements and our own reference implementations across e-commerce, logistics, AI, gaming and blockchain. Confidential details are generalized.",
       metaTitle: "Projects: SAP Commerce, AI, payments, CRM",
       metaDescription:
         "Project case studies: SAP Commerce, PIM, logistics CRM, payments, AI agents and blockchain APIs. Architecture diagrams; client names generalized.",
       view: { label: "Layout", tiles: "Tiles", list: "List" },
       listLabel: "All projects",
     },
-    status: { nda: "Commercial · NDA", partner: "Partner project", own: "Reference project", "open-source": "Open source", "in-development": "In development" },
+    status: { nda: "Commercial · NDA", partner: "Engineering experience", own: "Reference project", "open-source": "Open source", "in-development": "In development" },
     /** aria-label of a project link; {title} is replaced by the project's name. */
     openProject: "Open project: {title}",
     /** Same, for a link that opens another site in a new tab. */
@@ -417,7 +417,7 @@ export const copy = {
     back: "All projects",
     overview: "Overview",
     challenge: "Challenge",
-    contribution: "Our contribution",
+    contribution: "Engineering work",
     whatWeDid: "Engineering approach",
     result: "Outcome",
     architecture: "Architecture",

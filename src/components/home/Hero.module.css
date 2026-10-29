@@ -74,11 +74,9 @@
   max-width: 760px;
   margin: 26px 0 24px;
   font-size: 72px;
-  font-weight: 800;
-  line-height: 1.12;
-  letter-spacing: -0.057em;
-  /* The tight letter spacing pulls words together; give the gap between them back. */
-  word-spacing: 0.16em;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 /* One light sweep on load, then the gradient rests (no perpetual motion on the biggest text). */
 .title span {
@@ -200,5 +198,31 @@
 @media (max-width: 380px) {
   .title {
     font-size: 38px;
+  }
+}
+
+/* Depth on scroll: as the hero leaves the screen the copy lifts and fades while the glows drift more slowly.
+   Scroll-driven, so it costs no script; browsers without support simply keep everything in place. */
+@supports (animation-timeline: view()) {
+  .copy {
+    animation: copyOut linear both;
+    animation-timeline: view();
+    animation-range: exit 5% exit 85%;
+  }
+  .glowLayer {
+    animation: glowDrift linear both;
+    animation-timeline: view();
+    animation-range: exit 0% exit 100%;
+  }
+}
+@keyframes copyOut {
+  to {
+    opacity: 0.1;
+    transform: translateY(-56px);
+  }
+}
+@keyframes glowDrift {
+  to {
+    transform: translateY(90px) scale(1.08);
   }
 }
