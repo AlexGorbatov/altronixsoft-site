@@ -33,7 +33,7 @@ export const engagementModels: EngagementModel[] = [
     id: "proof",
     title: "Proof of value",
     description: "Want to test an AI idea on real data?",
-    outcome: "A working prototype and a go / no-go call.",
+    outcome: "A working prototype and a clear go or no-go decision.",
     priceFrom: "TODO(owner): price, e.g. from €X",
     duration: "TODO(owner): duration",
     deliverable: "TODO(owner): deliverable, e.g. working prototype and findings",

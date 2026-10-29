@@ -68,8 +68,8 @@ export function ProjectCard({ project, index, size, lang, copy }: ProjectCardPro
           <div className="min-w-0">
             <h3 className={cn(styles.title, "text-xl leading-[1.2] font-bold tracking-[-0.03em] sm:text-2xl")}>{project.title}</h3>
             <p className="mt-2 min-h-[44px] text-small leading-[1.55] text-muted">{project.summary}</p>
-            {/* On a phone the names on the picture are hidden; the same architecture, as one line. */}
-            <p className="mt-1 break-words font-mono text-caption leading-[1.5] text-label sm:sr-only">
+            {/* The picture already names every step; the same chain stays in the page as text for screen readers. */}
+            <p className="sr-only">
               {sceneChain(project.visual, copy.scene).join(" → ")}
             </p>
             <div className="mt-[10px] flex items-center gap-3">

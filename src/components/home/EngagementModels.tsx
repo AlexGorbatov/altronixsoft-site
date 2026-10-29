@@ -87,7 +87,7 @@ export async function EngagementModels() {
             </div>
             <p className="mt-1 max-w-[62ch] text-body leading-[1.6] text-muted">{checkup.text}</p>
           </div>
-          <Button href={siteConfig.bookingUrl ?? localizedPath(lang, contactHref(checkup.cta.type))} variant="secondary" className="shrink-0">
+          <Button href={siteConfig.bookingUrl ?? localizedPath(lang, contactHref(checkup.cta.type))} className="shrink-0">
             {checkup.cta.label}
           </Button>
         </FramedCard>
@@ -113,7 +113,6 @@ export async function EngagementModels() {
             <div className="mt-auto flex flex-col items-stretch pt-5">
               <Button
                 href={siteConfig.bookingUrl ?? localizedPath(lang, contactHref(checkup.cta.type))}
-                variant="secondary"
                 className="h-auto min-h-14 px-3 py-2 text-center whitespace-normal"
               >
                 {checkup.cta.label}

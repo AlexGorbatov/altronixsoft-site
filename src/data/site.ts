@@ -13,7 +13,7 @@ export const siteConfig = {
   email: "info@altronixsoft.com",
   /** When the content of the site last changed in a way worth telling crawlers about (sitemap `lastmod`). Update it with real content changes only. */
   contentUpdated: "2026-10-27",
-  // Scheduling link (Cal.com / Calendly) from the environment. While empty, every "Book a call" button is hidden.
+  // Scheduling link (Cal.com / Calendly) from the environment. While empty, every "Book a scoping call" button is hidden.
   bookingUrl: process.env.NEXT_PUBLIC_BOOKING_URL || undefined,
   social: {
     linkedin: "https://www.linkedin.com/company/altronixsoft",

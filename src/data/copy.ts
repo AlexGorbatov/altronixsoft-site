@@ -75,7 +75,7 @@ export const copy = {
     nextTitle: "Start with a scoping call",
     nextText: "The first call covers your system, the outcome you need and the next step. A technical review or proof of value is paid work, scoped and priced with you before it starts.",
     orEmail: "Or email",
-    booking: "Book a call",
+    booking: "Book a scoping call",
   },
   /** Service, SAP and case study pages. */
   pages: {
@@ -478,7 +478,7 @@ export const copy = {
       timeline_invalid: "Please choose a timeline from the list.",
       message_too_short: "Please tell us a little more (at least 10 characters).",
       message_too_long: "The message is too long (4000 characters maximum).",
-      consent_required: "Please tick the box to confirm you understand how we use your details.",
+      consent_required: "Please check the box to confirm you understand how we use your details.",
     },
   },
 };
